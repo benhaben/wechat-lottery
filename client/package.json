@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "miniprogram-simulate": "^1.0.8"
+  },
+  "jest": {
+    "setupFiles": [
+      "./test/wx.js"
+    ]
+  }
+}
