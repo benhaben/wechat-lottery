@@ -2,5 +2,8 @@
 .idea
 .vscode
 
+# NPM
+node_modules
+
 # Other
 .DS_Store
