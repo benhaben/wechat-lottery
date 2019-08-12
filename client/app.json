@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/recycle-view-demo/index",
     "pages/index/index",
     "pages/addCgi/addCgi"
   ],
