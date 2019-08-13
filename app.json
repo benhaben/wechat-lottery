@@ -1,15 +1,38 @@
 {
   "pages": [
-    "pages/recycle-view-demo/index",
-    "pages/index/index",
-    "pages/addCgi/addCgi"
+    "pages/home/home",
+    "pages/lottery/start",
+    "pages/user/user"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "Wafer Quick Start",
+    "navigationBarTitleText": "抽奖助手",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "#d81e06",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "主页",
+        "iconPath": "pages/home.png",
+        "selectedIconPath": "pages/selected_home.png"
+      },
+      {
+        "pagePath": "pages/lottery/start",
+        "text": "发起抽奖",
+        "iconPath": "pages/lottery.png",
+        "selectedIconPath": "pages/selected_lottery.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "pages/user.png",
+        "selectedIconPath": "pages/selected_user.png"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json"
 }

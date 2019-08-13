@@ -1,0 +1,58 @@
+.home-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-area {
+    display: grid;
+    margin: auto 20rpx;
+    height: 100rpx;
+    grid-template-columns: 32rpx 15rpx auto auto 32rpx;
+    grid-column-gap: 15rpx;
+    align-items: center;
+}
+
+.top-area .icon-heart {
+    display: inline-block;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTY1NzE1MzU0Nzg1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjM4MDMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTc1NS4yIDY0Yy0xMDcuNjE2IDAtMjAwLjI1NiA4Ny41NTItMjQzLjE2OCAxNzkuMDA4LTQyLjk0NC05MS40NTYtMTM1LjU4NC0xNzkuMDA4LTI0My4yMzItMTc5LjAwOC0xNDguMzg0IDAtMjY4LjggMTIwLjQ0OC0yNjguOCAyNjguODMyIDAgMzAxLjg1NiAzMDQuNTEyIDM4MC45OTIgNTEyLjAzMiA2NzkuNDI0IDE5Ni4xNi0yOTYuNTc2IDUxMS45NjgtMzg3LjIgNTExLjk2OC02NzkuNDI0IDAtMTQ4LjM4NC0xMjAuNDE2LTI2OC44MzItMjY4LjgtMjY4LjgzMnoiIHAtaWQ9IjM4MDQiIGZpbGw9IiNkODFlMDYiPjwvcGF0aD48L3N2Zz4=");
+    background-size: cover;
+    width: 32rpx;
+    height: 32rpx;
+    justify-self: start;
+}
+
+.top-area .wishs-number {
+    justify-self: start;
+}
+
+.top-area .wishs-text {
+    justify-self: start;
+    font-size: 28rpx;
+    font-weight: 300;
+}
+
+.top-area .clock-in {
+    justify-self: end;
+    font-size: 28rpx;
+    font-weight: 300;
+}
+
+.top-area .icon-right {
+    display: inline-block;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA0UlEQVRYR83XwQ3DIAyFYWCiIhggo3SEjNIRMhCIjNIFgIpbbhj7WZQz0v/BAQtrNi+7uW/+G1BKebXWLufc4b3/atzW9AZyzm9jzKmFmALGqTURJIAmggzQQiwBNBDLADSCBUAi2AAUQgRAIMQAKQICkCBgAC4CChiIlNJlrb1DCB/K8IICxszovR8xxjHASAsG4MSHEALgxiEASVwMkMZFAEScDUDFWQBkfBmAji8BNOJkgFacBNCMTwHjZ1RrPVfedtIAeGyCPMWr0ef+7YAfHKakITGVLR4AAAAASUVORK5CYII=");
+    background-size: cover;
+    width: 32rpx;
+    height: 32rpx;
+    justify-self: end;
+}
+
+.welfare {
+
+}
+
+.welfare .daily {
+}
+
+.welfare .self-help {
+}
+

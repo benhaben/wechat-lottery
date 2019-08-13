@@ -1,0 +1,13 @@
+<scroll-view class="home-container">
+    <view class="top-area">
+        <view class="icon-heart"/>
+        <text class="wishs-number">5</text>
+        <text class="wishs-text">心愿</text>
+        <text class="clock-in">去签到</text>
+        <view class="icon-right"/>
+    </view>
+    <view class="welfare">
+        <view class="daily"></view>
+        <view class="self-help"></view>
+    </view>
+</scroll-view>
