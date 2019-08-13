@@ -1,12 +1,7 @@
 {
-	"client": "client/",
-	"svr": "server/",
-	"miniprogramRoot": "client/",
-	"qcloudRoot": "server/",
-	"setting": {},
+	"description": "抽奖助手",
+	"compileType": "miniprogram",
 	"appid": "wxb7fb2c1219817db3",
 	"projectname": "my-candy",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {}
+	"simulatorType": "wechat"
 }
