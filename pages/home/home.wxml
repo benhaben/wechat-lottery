@@ -8,57 +8,7 @@
     </view>
     <view class="hr"/>
     <view class="welfare">
-        <view class="daily">
-            <view class="top">
-                <text class="font-big color-red">每日福利</text>
-                <text class="font-sma">我要上首页</text>
-                <view class="divider"/>
-                <text class="font-sma">分享</text>
-            </view>
-            <view class="list">
-                <view class="item">
-                    <view class="pd-banner"/>
-                    <view class="pd-detail">
-                        <text class="color-red font-mid">DC 潮牌便利店 赞助</text>
-                        <text class="font-mid">一等奖：DC大力水手联名款印花T恤 X3</text>
-                        <text class="font-mid">二等奖：DC大力水手体验券</text>
-                        <text class="font-mid">X10000</text>
-                        <text class="time">08月15 10:00 自动开奖</text>
-                    </view>
-                </view>
-            </view>
-        </view>
-        <view class="self-help">
-            <view class="top">
-                <text class="font-big color-red">每日福利</text>
-            </view>
-            <view class="list">
-                <view class="item stick-item">
-                    <view class="pd-banner"/>
-                    <view class="pd-detail">
-                        <text class="font-mid">奖品：小米九号平衡车 X1</text>
-                        <text class="time">08月18日 14:04 自动开奖</text>
-                        <view class="vip">
-                            <view class="icon-vip"/>
-                            <text>星空下的童话</text>
-                        </view>
-                    </view>
-                </view>
-                <view class="item">
-                    <view class="pd-banner"/>
-                    <view class="pd-detail">
-                        <text class="font-mid">奖品：小米九号平衡车 X1</text>
-                        <text class="time">08月18日 14:04 自动开奖</text>
-                    </view>
-                </view>
-                <view class="item">
-                    <view class="pd-banner"/>
-                    <view class="pd-detail">
-                        <text class="font-mid">奖品：小米九号平衡车 X1</text>
-                        <text class="time">08月18日 14:04 自动开奖</text>
-                    </view>
-                </view>
-            </view>
-        </view>
+        <dayliy-lottery-list/>
+        <self-help-lottery-list/>
     </view>
 </scroll-view>

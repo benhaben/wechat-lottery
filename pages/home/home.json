@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "dayliy-lottery-list": "../../components/lottery-list/dayliy-lottery-list",
+    "self-help-lottery-list": "../../components/lottery-list/self-help-lottery-list"
+  },
   "navigationBarTitleText": "公共抽奖"
 }

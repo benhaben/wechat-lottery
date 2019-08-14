@@ -1,0 +1,32 @@
+<view class="self-help">
+    <view class="top">
+        <text class="font-big color-red">每日福利</text>
+    </view>
+    <view class="list">
+        <view class="item stick-item">
+            <view class="pd-banner"/>
+            <view class="pd-detail">
+                <text class="font-mid">奖品：小米九号平衡车 X1</text>
+                <text class="time">08月18日 14:04 自动开奖</text>
+                <view class="vip">
+                    <view class="icon-vip"/>
+                    <text>星空下的童话</text>
+                </view>
+            </view>
+        </view>
+        <view class="item">
+            <view class="pd-banner"/>
+            <view class="pd-detail">
+                <text class="font-mid">奖品：小米九号平衡车 X1</text>
+                <text class="time">08月18日 14:04 自动开奖</text>
+            </view>
+        </view>
+        <view class="item">
+            <view class="pd-banner"/>
+            <view class="pd-detail">
+                <text class="font-mid">奖品：小米九号平衡车 X1</text>
+                <text class="time">08月18日 14:04 自动开奖</text>
+            </view>
+        </view>
+    </view>
+</view>
