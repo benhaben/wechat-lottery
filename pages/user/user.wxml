@@ -1,1 +1,22 @@
-<view>{{message}}</view>
+<view>
+  <view class='candy-my-top'>
+    <view class='candy-my-title-div'>
+      <view class="candy-my-avatar">
+        <image src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqG1iaicFUUGjMMyQeZR9ka1drTxUwu4b7SM3y0UdlT6SgU8ZYSERu4r8oLzbibWzp5J6rEjUzJnXYLw/132" class="my-avatar"></image>
+        <text class="candy-my-name">dhzou</text>
+        <text class="candy-my-wishsr">心愿 4 ></text>
+      </view>
+    </view>
+
+    <view class='candy-my-top-info'>
+      <view class='candy-my-top-info-nav flex-wrp'>
+    <view class="flex-item bc_green">
+        <text>2</text>
+        <text>全部抽奖</text>
+    </view>
+    <view class="flex-item bc_red">2</view>
+    <view class="flex-item bc_blue">3</view>
+      </view>
+    </view>
+  </view>
+</view>

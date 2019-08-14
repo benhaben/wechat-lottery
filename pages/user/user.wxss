@@ -1,0 +1,64 @@
+@import "../../styles/weui.wxss";
+page {
+  background: #f3f3f3;
+  overflow-y: scroll !important;
+}
+
+.candy-my-title-div {
+  background: #fff;
+  position: relative;
+  line-height: 200rpx;
+  height: 200rpx;
+  overflow: hidden;
+  padding: 0 32rpx 0 32rpx;
+  box-sizing: border-box;
+  font-weight: bold;
+  border-bottom: 2rpx solid #eee;
+}
+
+.candy-my-avatar {
+  position: absolute;
+  top: 50%;
+  width: 90%;
+  transform: translateY(-50%);
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.my-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  float: left;
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.candy-my-name {
+  font-size: 28rpx;
+  color: #4a4a4a;
+  float: left;
+  font-weight: bold;
+  margin-top: 3rpx;
+}
+
+.candy-my-wishsr {
+  font-size: 28rpx;
+  color: #4a4a4a;
+  float: right;
+  font-weight: bold;
+  margin-top: 3rpx;
+}
+
+.candy-my-top-info {
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  padding:  32rpx 0  32rpx 0;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.flex-wrp {display: flex;}
+.bc_green {background: green;flex: 1; }
+.bc_red {background: red; flex: 1; }
+.bc_blue {background: blue; flex:1;}
