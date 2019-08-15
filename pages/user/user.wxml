@@ -7,16 +7,43 @@
         <text class="candy-my-wishsr">心愿 4 ></text>
       </view>
     </view>
-
     <view class='candy-my-top-info'>
       <view class='candy-my-top-info-nav flex-wrp'>
-    <view class="flex-item bc_green">
-        <text>2</text>
-        <text>全部抽奖</text>
-    </view>
-    <view class="flex-item bc_red">2</view>
-    <view class="flex-item bc_blue">3</view>
+        <view class="text-center flex-item">
+          <view class="flex-item-nums">17</view>
+          <view class='flex-item-txt'>全部抽奖</view>
+        </view>
+        <view class="text-center flex-item">
+          <view class="flex-item-nums">6</view>
+          <view class='flex-item-txt'>发起抽奖</view>
+        </view>
+        <view class="text-center flex-item">
+          <view class="flex-item-nums">2</view>
+          <view class='flex-item-txt'>中奖记录</view>
+        </view>
       </view>
     </view>
+  </view>
+
+  <view class='candy-my-list'>
+    <navigator url="1122" class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">发起人认证</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+    <navigator url="1122" class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">推广合作</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+    <navigator url="1122" class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">更多</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+  </view>
+
+  <view class='cand-my-copy-right text-center'>
+    <text>
+      —— 九扩科技出品 ——
+    </text>
+    <text>抽奖超过500,000,000人次</text>
   </view>
 </view>

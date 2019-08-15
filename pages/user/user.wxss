@@ -1,16 +1,21 @@
 @import "../../styles/weui.wxss";
+
 page {
   background: #f3f3f3;
   overflow-y: scroll !important;
 }
 
+.candy-my-top {
+ margin: 20rpx 0;
+}
 .candy-my-title-div {
   background: #fff;
   position: relative;
   line-height: 200rpx;
   height: 200rpx;
   overflow: hidden;
-  padding: 0 32rpx 0 32rpx;
+ 
+  padding: 0 32rpx;
   box-sizing: border-box;
   font-weight: bold;
   border-bottom: 2rpx solid #eee;
@@ -53,12 +58,36 @@ page {
   background: #fff;
   position: relative;
   overflow: hidden;
-  padding:  32rpx 0  32rpx 0;
+  padding: 32rpx 0 32rpx 0;
   box-sizing: border-box;
   font-weight: bold;
 }
 
-.flex-wrp {display: flex;}
-.bc_green {background: green;flex: 1; }
-.bc_red {background: red; flex: 1; }
-.bc_blue {background: blue; flex:1;}
+.candy-my-top-info-nav .flex-item {
+  flex: 1;
+  padding: 10rpx 0;
+  border-right: 2rpx solid #eee;
+}
+
+.candy-my-top-info-nav :last-child {
+  border-right: none
+}
+.flex-item-nums {
+  font-size: 14;
+  color: #4a4a4a;
+}
+
+.flex-item-txt {
+  font-size: 10;
+  color: #4a4a4a;
+}
+
+
+.candy-my-list{
+  background: #fff;
+}
+.cand-my-copy-right {
+  height: 200rpx;
+  padding: 40rpx 0;
+
+}
