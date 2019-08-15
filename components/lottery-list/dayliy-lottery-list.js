@@ -1,48 +1,30 @@
 Component({
 
-    behaviors: [],
-
-    properties: {},
-
-    data: {}, // 私有数据，可用于模板渲染
-
-    lifetimes: {
-        // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
-        attached: function () {
-        },
-        moved: function () {
-        },
-        detached: function () {
-        },
+    data: {
+        lotteries: []
     },
 
-    // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
-    attached: function () {
-    }, // 此处attached的声明会被lifetimes字段中的声明覆盖
     ready: function () {
-    },
-
-    pageLifetimes: {
-        // 组件所在页面的生命周期函数
-        show: function () {
-        },
-        hide: function () {
-        },
-        resize: function () {
-        },
-    },
-
-    methods: {
-        onMyButtonTap: function () {
-            this.setData({
-                // 更新属性和数据的方法与更新页面数据的方法类似
+        const list = []
+        for (let i = 0; i < 5; i++) {
+            list.push({
+                title: 'DC 潮牌便利店 赞助',
+                rewards: [{
+                    level: '一等奖',
+                    pdName: 'DC大力水手联名款印花T恤',
+                    count: `X${3}`
+                }, {
+                    _unique: `unique_${i}_1`,
+                    level: '二等奖',
+                    pdName: 'DC大力水手体验券',
+                    count: `X${1}`
+                }],
+                count: `X${1000}`,
+                openLetteryTime: '08月15 10:00 自动开奖',
+                bannerUrl: 'https://pub-musics.oss-cn-shanghai.aliyuncs.com/vinyl-pvc-banners-1.jpg'
             })
-        },
-        // 内部方法建议以下划线开头
-        _myPrivateMethod: function () {
-        },
-        _propertyChange: function (newVal, oldVal) {
         }
-    }
 
+        this.setData({lotteries: list})
+    },
 })

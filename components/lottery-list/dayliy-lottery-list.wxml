@@ -6,24 +6,15 @@
         <text class="font-sma">分享</text>
     </view>
     <view class="list">
-        <view class="item">
-            <view class="pd-banner"/>
+        <view class="item" wx:for="{{lotteries}}" wx:for-item="lottery" wx:key="{{index}}">
+            <view class="pd-banner" style="background-image: url('{{lottery.bannerUrl}}')"/>
             <view class="pd-detail">
-                <text class="color-red font-mid">DC 潮牌便利店 赞助</text>
-                <text class="font-mid">一等奖：DC大力水手联名款印花T恤 X3</text>
-                <text class="font-mid">二等奖：DC大力水手体验券</text>
-                <text class="font-mid">X10000</text>
-                <text class="time">08月15 10:00 自动开奖</text>
-            </view>
-        </view>
-        <view class="item">
-            <view class="pd-banner"/>
-            <view class="pd-detail">
-                <text class="color-red font-mid">DC 潮牌便利店 赞助</text>
-                <text class="font-mid">一等奖：DC大力水手联名款印花T恤 X3</text>
-                <text class="font-mid">二等奖：DC大力水手体验券</text>
-                <text class="font-mid">X10000</text>
-                <text class="time">08月15 10:00 自动开奖</text>
+                <text class="color-red font-mid">{{lottery.title}}</text>
+                <view wx:for="{{lottery.rewards}}" wx:for-item="reward" wx:key="{{index}}">
+                    <text class="font-mid">{{reward.level}}：{{reward.pdName}} {{reward.count}}</text>
+                </view>
+                <text class="font-mid">{{lottery.count}}</text>
+                <text class="time">{{lottery.openLetteryTime}}</text>
             </view>
         </view>
     </view>

@@ -1,14 +1,52 @@
-<scroll-view class="home-container" scroll-y="true">
+<recycle-view class="recycle-list" placeholder-image="{{placeholderImage}}" bindscrolltolower="scrollToLower" scroll-with-animation="{{true}}" scroll-to-index="{{index}}" scroll-top="{{scrollTop}}" batch="{{batchSetRecycleData}}" id="recycleId">
     <view class="top-area">
-        <view class="icon-heart"/>
+        <view class="icon-heart" />
         <text class="wishs-number">5</text>
         <text class="wishs-text">心愿</text>
         <text class="clock-in">去签到</text>
-        <view class="icon-right"/>
+        <view class="icon-right" />
     </view>
-    <view class="hr"/>
+    <view class="hr" />
     <view class="welfare">
-        <dayliy-lottery-list/>
-        <self-help-lottery-list/>
+        <dayliy-lottery-list />
+        <view class="self-help">
+            <view class="top">
+                <text class="font-big color-red">每日福利</text>
+            </view>
+            <view class="list">
+                <!-- <view slot="before">首部</view> -->
+                <view slot="itemsize">
+                    <template is="recycleItem" data="{{item: item, recycleList: recycleListItemSize}}"></template>
+                </view>
+                <template is="recycleItem" data="{{item: item, recycleList: recycleList}}"></template>
+                <!-- <view slot="after">底部</view> -->
+            </view>
+        </view>
     </view>
-</scroll-view>
+</recycle-view>
+<template name="recycleItem">
+    <block wx:for="{{recycleList}}" wx:key="{{id}}">
+        <view wx:if="{{index===0}}" class="item stick-item">
+            <view class="pd-banner" style="background-image: url('{{item.bannerUrl}}')" />
+            <view class="pd-detail">
+                <text class="font-mid">奖品：小米九号平衡车 X1</text>
+                <text class="time">08月18日 14:04 自动开奖</text>
+                <view class="vip">
+                    <view class="icon-vip" />
+                    <text>星空下的童话</text>
+                </view>
+            </view>
+        </view>
+        <view wx:else class="item">
+            <view class="pd-banner" style="background-image: url('{{item.bannerUrl}}')" />
+            <view class="pd-detail">
+                <text class="font-mid">奖品：小米九号平衡车 X1</text>
+                <text class="time">08月18日 14:04 自动开奖</text>
+                <view class="vip">
+                    <view class="icon-vip" />
+                    <text>星空下的童话</text>
+                </view>
+            </view>
+        </view>
+    </block>
+</template>

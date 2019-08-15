@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "recycle-view": "../../components/miniprogram-recycle-view/recycle-view",
+    "recycle-item": "../../components/miniprogram-recycle-view/recycle-item"
+  },
   "navigationBarTitleText": "发起抽奖"
 }

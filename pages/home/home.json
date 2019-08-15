@@ -1,7 +1,9 @@
 {
-  "usingComponents": {
-    "dayliy-lottery-list": "../../components/lottery-list/dayliy-lottery-list",
-    "self-help-lottery-list": "../../components/lottery-list/self-help-lottery-list"
-  },
-  "navigationBarTitleText": "公共抽奖"
+    "usingComponents":
+    {
+        "dayliy-lottery-list": "../../components/lottery-list/dayliy-lottery-list",
+        "recycle-view": "../../components/miniprogram-recycle-view/recycle-view",
+        "recycle-item": "../../components/miniprogram-recycle-view/recycle-item"
+    },
+    "navigationBarTitleText": "公共抽奖"
 }
