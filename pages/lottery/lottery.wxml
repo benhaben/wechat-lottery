@@ -1,0 +1,7 @@
+
+<view class="lottery">
+  <view class="lottery__image" style="background-image: url('{{url}}')" >
+      <view class="lottery__select-image"></view>
+  </view>
+  <van-button type="primary">按钮</van-button>
+</view>
