@@ -1,0 +1,11 @@
+.lottery__image {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    height: 450rpx;
+    width: 100%;
+}
+
+.lottery__select-image{
+  margin: 12rpx;
+}

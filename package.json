@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "jest": "^24.8.0",
-    "miniprogram-simulate": "^1.0.8"
+    "miniprogram-simulate": "^1.0.8",
+    "regenerator": "^0.14.2"
   },
   "jest": {
     "setupFiles": [
