@@ -6,4 +6,5 @@
   </view>
 
 
+  <van-dialog id="van-dialog" />
 </view>

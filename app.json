@@ -41,8 +41,8 @@
     }
   },
   "usingComponents": {
-    "van-button": "vant-weapp/button",
-    "van-dialog": "vant-weapp/dialog"
+    "van-button": "lib/van/button/index",
+    "van-dialog": "lib/van/dialog/index"
   },
   "sitemapLocation": "sitemap.json"
 }
