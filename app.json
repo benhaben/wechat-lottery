@@ -42,7 +42,9 @@
   },
   "usingComponents": {
     "van-button": "lib/van/button/index",
-    "van-dialog": "lib/van/dialog/index"
+    "van-dialog": "lib/van/dialog/index",
+    "van-field": "lib/van/field/index",
+    "van-icon": "lib/van/icon/index"
   },
   "sitemapLocation": "sitemap.json"
 }

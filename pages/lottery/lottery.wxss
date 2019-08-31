@@ -6,6 +6,7 @@
     width: 100%;
 }
 
-.lottery__select-image{
-  margin: 12rpx;
+.lottery__select-image {
+    height: 50rpx;
+    margin: 12rpx;
 }

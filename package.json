@@ -1,7 +1,18 @@
 {
+  "scripts": {
+    "eslint": "eslint ."
+  },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.4",
     "jest": "^24.8.0",
+    "lint-staged": "^9.2.5",
     "miniprogram-simulate": "^1.0.8",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "regenerator": "^0.14.2"
   },
   "jest": {
@@ -9,6 +20,18 @@
       "./test/wx.js"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
+    "debug": "^4.1.1"
   }
 }

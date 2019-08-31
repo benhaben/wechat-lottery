@@ -1,5 +1,5 @@
 Page({
-    data: {
-        message: 'Hello My!'
-    }
-})
+  data: {
+    message: "Hello My!"
+  }
+});

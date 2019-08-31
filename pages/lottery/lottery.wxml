@@ -1,8 +1,6 @@
 <view class="lottery">
   <view class="lottery__image" style="background-image: url('{{url}}')">
-
-    <van-button class="lottery__select-image" type="danger" size="mini" icon="add-o" bindtap="selectImage" round>图片</van-button>
-
+    <van-button class="lottery__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain round>选择图片</van-button>
   </view>
 
 
