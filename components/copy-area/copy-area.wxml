@@ -1,0 +1,37 @@
+<view class="container-copy h-flex flex-col flex-align-center">
+
+  <view class="container-copy__title">
+    <input wx:if="{{isEdit && !isReadOnly}}"
+           maxlength="10"
+           bindblur="_outBlur"
+           bindinput='_inputCon'
+           placeholder="{{title_placeholder}}"
+           value="{{title}}"
+           focus='{{focusList[0].focus}}'
+           data-index='0'/>
+    <view wx:else
+          bindtap='_focusView'
+          data-index='0'>
+      {{title || title_placeholder}}
+    </view>
+  </view>
+
+  <view class="container-copy__content">
+    <input wx:if="{{isEdit && !isReadOnly}}"
+           maxlength="30"
+           value="{{content}}"
+           placeholder="{{content_placeholder}}"
+           bindblur="_outBlur"
+           bindinput='_inputCon'
+           focus='{{focusList[1].focus}}'
+           data-index='1'/>
+    <view wx:else
+          bindtap='_focusView'
+          data-index='1'>
+      {{ content || content_placeholder}}
+    </view>
+  </view>
+
+  <van-button class="container-copy__btn" color="gray" type="default" size="small" bindtap="_onCopy" round>点此一键复制
+  </van-button>
+</view>

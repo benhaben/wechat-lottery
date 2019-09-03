@@ -1,0 +1,29 @@
+/* components/copy-area/copy-area.wxss */
+
+.container-copy{
+  border: 5rpx gray solid;
+  color: gray;
+}
+
+.container-copy__title{
+  margin: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
+}
+
+.container-copy__content{
+  margin: 20rpx;
+  height: 100rpx;
+  width: 80%;
+  background: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
+}
+
+.container-copy__btn{
+  margin: 20rpx;
+}

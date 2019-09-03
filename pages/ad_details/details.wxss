@@ -1,0 +1,7 @@
+/* pages/details.wxss */
+
+.container-body {
+  height: 100%;
+  padding: 20rpx 0rpx;
+  background: white;
+}

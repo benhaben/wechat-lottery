@@ -1,8 +1,80 @@
-<view class="lottery">
-  <view class="lottery__image" style="background-image: url('{{url}}')">
-    <van-button class="lottery__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain round>选择图片</van-button>
+<view class="container">
+  <view class="container__image" style="background-image: url('{{url}}')">
+    <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
+                round>选择图片
+    </van-button>
   </view>
 
+  <view class="container__select-prize">
+    <view class="container__total-prize">
+      <view class="container__total-prize-title">总奖金额</view>
+      <view class="container__total-prize-num">{{total_prize}} 元</view>
+    </view>
 
-  <van-dialog id="van-dialog" />
+    <view class="container__lucky-num">发起奖励：{{lucky_num}} 运气值</view>
+    <view class="container__prize-list">
+      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-name='{{index}}'
+            class="{{prize_list_item}}" style="background:{{prize_colors_switch[prize_colors[index]]}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <view class="container__plan">
+    <van-cell-group>
+      <van-cell title="红包派发方案" value="{{plans[plan_index]}}" bind:click="onPlanSelect" use-label-slot="true" is-link
+                arrow-direction="down">
+        <view class="container__plan-label" slot="label">每个福袋有{{lucky_num_per}}运气值</view>
+      </van-cell>
+      <van-cell title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关"/>
+
+    </van-cell-group>
+
+    <van-popup show="{{ show_plan }}" position="bottom" bind:close="onClosePlan">
+      <van-picker columns="{{ plans }}" default-index="{{ default_plan }}" bind:change="onPlanChange"/>
+    </van-popup>
+  </view>
+
+  <view class="container__tag">
+    <view class="container__tag_bar">
+      <view class="container__tag_title">
+        发起人标签：
+      </view>
+      <van-icon class="container__tag_update" size="50rpx" name="add-o"/>
+    </view>
+    <view class="container__tag_items">
+      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}" bindtap='onSelectTag'>
+        {{item}}
+      </view>
+    </view>
+
+  </view>
+
+  <van-cell-group class="container__desc">
+    <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
+      <view class="container__desc-title" slot="title">发起人简介</view>
+    </van-switch-cell>
+    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" placeholder="请输入发起人简介" value="{{desc_value}}">
+    </textarea>
+  </van-cell-group>
+
+  <view class="container__ad">
+    <van-cell-group class="container__ad-group">
+      <van-switch-cell checked="{{ ad_checked }}" bind:change="onAdChange">
+        <view class="container__ad-title" slot="title">发起人广告</view>
+      </van-switch-cell>
+    </van-cell-group>
+
+    <view class="container__ad-button" wx:if="{{ad_checked}}">
+      <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="addDetails" plain
+                  round>添加图文介绍/一键复制
+      </van-button>
+    </view>
+  </view>
+
+  <view class="container__ad">
+  </view>
+
+  <van-dialog id="van-dialog"/>
+  <van-toast id="van-toast"/>
 </view>

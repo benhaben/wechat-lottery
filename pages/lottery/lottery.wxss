@@ -1,12 +1,118 @@
-.lottery__image {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    height: 450rpx;
-    width: 100%;
+.container__image {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 450rpx;
+  width: 100%;
+  background-size: 750rpx 450rpx;
+  background-repeat: no-repeat;
 }
 
-.lottery__select-image {
-    height: 50rpx;
-    margin: 12rpx;
+.container__select-image {
+  height: 50rpx;
+  margin: 12rpx;
+}
+
+.container__select-prize {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-top: lightgray 1rpx solid;
+}
+
+.container__total-prize {
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx 20rpx 5rpx 20rpx;
+}
+
+.container__total-prize-num {
+  color: red;
+}
+
+.container__lucky-num {
+  align-self: flex-end;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  font-size: 30rpx;
+  color: gray;
+}
+
+.container__prize-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 20rpx;
+  flex-wrap: wrap;
+}
+
+.prize-list-item {
+  width: 120rpx;
+  height: 60rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rpx;
+  margin: 10rpx 20rpx 10rpx 20rpx;
+  color: white;
+  background: gold;
+  border-radius: 10%;
+}
+
+.container__tag {
+  margin: 30rpx 0rpx;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.container__tag_bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20rpx;
+}
+
+.container__tag_items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.container__tag_item {
+  border: 1px gold solid;
+  margin: 20rpx;
+  padding: 10rpx 20rpx;
+  font-size: 25rpx;
+}
+
+.container__desc-textarea{
+  height: 100rpx;
+  width: 100%;
+  background: lightgoldenrodyellow;
+  padding: 30rpx;
+}
+
+.container__ad{
+  margin: 30rpx 0rpx;
+}
+
+.container__ad-button{
+  background: lightgoldenrodyellow;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+/* TODO: 可以全部重命名为title */
+.container__desc-title,
+.container__tag_title,
+.container__total-prize-title,
+.container__ad-title {
+  font-size: 30rpx;
+  color: black;
 }

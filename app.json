@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/ad_details/details",
     "pages/lottery/lottery",
     "pages/home/home",
     "pages/user/user"
@@ -44,7 +45,16 @@
     "van-button": "lib/van/button/index",
     "van-dialog": "lib/van/dialog/index",
     "van-field": "lib/van/field/index",
-    "van-icon": "lib/van/icon/index"
+    "van-icon": "lib/van/icon/index",
+    "van-picker": "lib/van/picker/index",
+    "van-toast": "lib/van/toast/index",
+    "van-popup": "lib/van/popup/index",
+    "van-cell": "lib/van/cell/index",
+    "van-cell-group": "lib/van/cell-group/index",
+    "van-switch-cell": "lib/van/switch-cell/index",
+    "x-richtext": "/components/x-richtext/index",
+    "copy-area": "/components/copy-area/copy-area",
+    "van-progress": "lib/van/progress/index"
   },
   "sitemapLocation": "sitemap.json"
 }
