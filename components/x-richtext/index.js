@@ -245,12 +245,15 @@ Component({
               progressList: that.data.progressList
             });
           });
-          console.log(uploadTask);
           that.data.dataList.splice(that.data.insertIndex, 0, {
             img: res.tempFilePaths[0],
             file: uploadTask.data.file,
             info: "",
             type: 1
+          });
+          that.data.focusList = that.data.focusList.map(item => {
+            item.focus = false;
+            return item;
           });
           that.data.focusList.splice(that.data.insertIndex + 1, 0, {
             focus: true
@@ -258,7 +261,8 @@ Component({
           that.setData({
             dataList: that.data.dataList,
             focusList: that.data.focusList,
-            insertIndex: that.data.insertIndex + 1
+            insertIndex: that.data.insertIndex + 1,
+            isEdit: true
           });
         } catch (err) {
           console.error("选择图片失败");
@@ -276,13 +280,18 @@ Component({
         info: "",
         type: 2
       });
+      that.data.focusList = that.data.focusList.map(item => {
+        item.focus = false;
+        return item;
+      });
       that.data.focusList.splice(that.data.insertIndex + 1, 0, {
         focus: true
       });
       that.setData({
         dataList: that.data.dataList,
         focusList: that.data.focusList,
-        insertIndex: that.data.insertIndex + 1
+        insertIndex: that.data.insertIndex + 1,
+        isEdit: true
       });
     },
     /**
@@ -321,18 +330,24 @@ Component({
           type: 0
         });
       }
-      that.data.dataList.forEach(item => {
-        // 逻辑是这样的，<img,text>或者<cpy,text>
+
+      for (let item of that.data.dataList) {
         if (item.img) {
           list.push({
-            info: item.img,
-            type: 1
+            file: item.file,
+            type: 1,
+            info: item.img
           });
         } else {
-          list.push({
-            info: item.cpy,
-            type: 2
-          });
+          if (item && item.cpy && item.cpy.content) {
+            list.push({
+              info: item.cpy,
+              type: 2
+            });
+          } else {
+            Toast.fail("请输入微信号");
+            return;
+          }
         }
         if (item.info) {
           list.push({
@@ -340,9 +355,13 @@ Component({
             type: 0
           });
         }
-      });
-      console.log(list);
-      that.triggerEvent("getDataList", list);
+      }
+
+      if (list && list.length > 0) {
+        that.triggerEvent("getDataList", list);
+      } else {
+        Toast.fail("请输入图文信息");
+      }
     }
   }
 });

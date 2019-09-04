@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/ad_details/details",
     "pages/lottery/lottery",
+    "pages/tags/tags",
+    "pages/pic_details/details",
     "pages/home/home",
     "pages/user/user"
   ],
@@ -9,7 +10,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "抽奖助手",
+    "navigationBarTitleText": "好运码头",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -18,20 +19,20 @@
       {
         "pagePath": "pages/home/home",
         "text": "主页",
-        "iconPath": "pages/home.png",
-        "selectedIconPath": "pages/selected_home.png"
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/selected_home.png"
       },
       {
         "pagePath": "pages/lottery/lottery",
         "text": "发起抽奖",
-        "iconPath": "pages/lottery.png",
-        "selectedIconPath": "pages/selected_lottery.png"
+        "iconPath": "images/lottery.png",
+        "selectedIconPath": "images/selected_lottery.png"
       },
       {
         "pagePath": "pages/user/user",
         "text": "我的",
-        "iconPath": "pages/user.png",
-        "selectedIconPath": "pages/selected_user.png"
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/selected_user.png"
       }
     ]
   },

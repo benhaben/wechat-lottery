@@ -1,6 +1,7 @@
 import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
 import Toast from "../../lib/van/toast/toast";
+import { ROUTE, ROUTE_DATA } from "../../utils/constants";
 
 const { regeneratorRuntime } = global;
 
@@ -18,14 +19,24 @@ Page({
     prize_list_item: "prize-list-item",
     default_plan: 0,
     plan_index: 0,
-    plans: ["红包95个，福袋100个", "红包97个，福袋50个", "红包98个，福袋25个"],
+    plans: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
     lucky_num_per: 0,
     show_plan: false,
     open_people_num: 1000,
-    tag_items: ["国创", "汉服", "瑜伽", "时间管理", "连连看"],
+    tag_items: [
+      "80后",
+      "A股",
+      "微商",
+      "足球",
+      "音乐",
+      "亲子教育",
+      "美食",
+      "美女"
+    ],
     desc_checked: false,
     desc_value: "",
-    ad_checked: false
+    ad_checked: false,
+    pic_data: null
   },
   onLoad: function() {},
 
@@ -39,9 +50,16 @@ Page({
   },
   onAdChange: function(event) {
     // 需要手动对 checked 状态进行更新
-    this.setData({
-      ad_checked: event.detail
-    });
+    if (event.detail) {
+      this.setData({
+        ad_checked: event.detail
+      });
+    } else {
+      this.setData({
+        pic_data: null,
+        ad_checked: event.detail
+      });
+    }
   },
   onPlanSelect: function() {
     this.setData({
@@ -57,7 +75,28 @@ Page({
     const { picker, value, index } = event.detail;
     Toast(`当前值：${value}, 当前索引：${index}`);
   },
-  onSelectTag: function(e) {},
+  onSelectTag: function(e) {
+    let that = this;
+    wx.navigateTo({
+      url: ROUTE.TAGS,
+      events: {
+        [ROUTE_DATA.BACK_TAGS_TO_ADD_LOTTERY]: function(e) {
+          if (e && e.data) {
+            that.setData({
+              tag_items: e.data
+            });
+          }
+        }
+      },
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit(
+          ROUTE_DATA.FROM_ADD_LOTTERY_TO_TAGS,
+          that.data.tag_items
+        );
+      }
+    });
+  },
   onSelectPrize: function(e) {
     var index = e.currentTarget.dataset.name;
     for (let i in this.data.prize_colors) {
@@ -68,7 +107,23 @@ Page({
       prize_colors: this.data.prize_colors
     });
   },
-  addDetails: function(event) {},
+  addDetails: function(event) {
+    let that = this;
+    wx.navigateTo({
+      url: ROUTE.PIC_DETAILS,
+      events: {
+        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+        [ROUTE_DATA.BACK_PIC_DETAILS_TO_ADD_LOTTERY]: function(e) {
+          if (e && e.data) {
+            that.setData({
+              ad_checked: true,
+              pic_data: e.data
+            });
+          }
+        }
+      }
+    });
+  },
 
   selectImage: async function(event) {
     try {
@@ -96,12 +151,12 @@ Page({
         categoryName: "lottery_images"
       };
 
-      let uploadTask = MyFile.upload(fileParams, metaData);
-
-      uploadTask.onProgressUpdate(e => {
-        // 监听上传进度
-        console.log(e);
-      });
+      let uploadTask = MyFile.upload(fileParams, metaData).onProgressUpdate(
+        e => {
+          // 监听上传进度
+          console.log(e);
+        }
+      );
     } catch (err) {
       console.debug(err);
     }
