@@ -16,12 +16,8 @@ export const ROUTE_DATA = {
 export const CONTENT_GROUP = "";
 
 // 线上数据表 id
-export const TABLE_ID = {
-  LOTTERY: "",
-  USER_LOTTERY_RECORD: "",
-  WORD_LIST: "",
-  RULES_CONTENT: "",
-  CONTACT_INFO: ""
+export const TABLE_NAME = {
+  LOTTERY: "lottery"
 };
 
 export const WECHAT_SCENE = {
@@ -47,7 +43,27 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
   ]
 };
 
+// TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 export const CONST = {
+  LOTTERY_PRIZE_LIST: [
+    "9.9",
+    "16.8",
+    "33.3",
+    "51.8",
+    "66.6",
+    "86.8",
+    "88.8",
+    "99.9"
+  ], // 红包金额
+  LOTTERY_NUM_PEOPLE: [1000, 1500, 2000, 5000, 6000, 8000, 8000, 9000], // 开奖人数
+  PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
+  PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"], // 福袋比例
+  PLANS_PACKAGE: [100, 50, 25], // 不同方案福袋个数，和每个福袋运气值计算相关
+  LUCKY_RATIO_OPEN: 100, // 发起奖励
+  LUCKY_RATIO_SUCCESS: 1000, // 开奖奖励
+  LUCKY_RATIO_LUCKY_PACKAGE: 10, // 福袋奖励
+  LUCKY_RATIO_INVITATION: 100, // 邀请朋友
+  LUCKY_RATIO_INVITATION_OPEN: 10, // 线人发起抽奖
   MAX_SELECTED: 8,
   TAGS: [
     "人工智能",

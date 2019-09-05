@@ -1,7 +1,9 @@
 import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
-import Toast from "../../lib/van/toast/toast";
-import { ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { ROUTE, ROUTE_DATA, CONST } from "../../utils/constants";
+import Big from "../../utils/big";
+import { toFixed1, openDateTimeStamp } from "../../utils/function";
+import lotteryRep from "../../dao/lotteryRep";
 
 const { regeneratorRuntime } = global;
 
@@ -10,16 +12,18 @@ const app = getApp();
 
 Page({
   data: {
-    url: "../../images/发起抽奖.png",
-    total_prize: 0,
-    lucky_num: 0,
-    prize_list: ["9.9", "16.8", "33.3", "51.8", "66.6", "86.8", "88.8", "99.9"],
-    prize_colors: [1, 0, 0, 0, 0, 0, 0, 0],
-    prize_colors_switch: ["lightgray", "red"],
-    prize_list_item: "prize-list-item",
-    default_plan: 0,
+    url:
+      "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png", // 默认图片 TODO: 需要设计换图
+    file: null, // 知晓云返回的服务端文件对象
+    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0]), //默认第一个 9.9
+    lucky_num: toFixed1(
+      new Big(CONST.LOTTERY_PRIZE_LIST[0]).times(CONST.LUCKY_RATIO_OPEN)
+    ),
+    prize_list: CONST.LOTTERY_PRIZE_LIST,
+    prize_colors: CONST.PRIZE_COLORS,
+    prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
     plan_index: 0,
-    plans: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
+    plans: CONST.PLANS,
     lucky_num_per: 0,
     show_plan: false,
     open_people_num: 1000,
@@ -34,7 +38,7 @@ Page({
       "美女"
     ],
     desc_checked: false,
-    desc_value: "",
+    desc_initiator: "",
     ad_checked: false,
     pic_data: null
   },
@@ -42,6 +46,9 @@ Page({
 
   onUnload: function() {},
   onReady: function() {},
+  onInputDesc: function(e) {
+    this.data.desc_initiator = e.detail.value;
+  },
   onDescChange: function(event) {
     // 需要手动对 checked 状态进行更新
     this.setData({
@@ -73,7 +80,16 @@ Page({
   },
   onPlanChange: function(event) {
     const { picker, value, index } = event.detail;
-    Toast(`当前值：${value}, 当前索引：${index}`);
+    console.log(`当前值：${value}, 当前索引：${index}`);
+    this.data.lucky_num_per = toFixed1(
+      new Big(this.data.lucky_num).div(
+        CONST.PLANS_PACKAGE[this.data.plan_index]
+      )
+    );
+    this.setData({
+      plan_index: index,
+      lucky_num_per: this.data.lucky_num_per
+    });
   },
   onSelectTag: function(e) {
     let that = this;
@@ -98,14 +114,23 @@ Page({
     });
   },
   onSelectPrize: function(e) {
-    var index = e.currentTarget.dataset.name;
+    var index = e.currentTarget.dataset.index;
     for (let i in this.data.prize_colors) {
       this.data.prize_colors[i] = 0;
     }
     this.data.prize_colors[index] = 1;
-    this.setData({
-      prize_colors: this.data.prize_colors
-    });
+    this.data.total_prize = toFixed1(CONST.LOTTERY_PRIZE_LIST[index]);
+    this.data.lucky_num = toFixed1(
+      new Big(CONST.LOTTERY_PRIZE_LIST[index]).times(CONST.LUCKY_RATIO_OPEN)
+    );
+    this.data.open_people_num = CONST.LOTTERY_NUM_PEOPLE[index];
+    this.data.lucky_num_per = toFixed1(
+      new Big(this.data.lucky_num).div(
+        CONST.PLANS_PACKAGE[this.data.plan_index]
+      )
+    );
+
+    this.setData(this.data);
   },
   addDetails: function(event) {
     let that = this;
@@ -135,7 +160,7 @@ Page({
       // wxCensorImage 需要开启权限
       let risky = await wx.BaaS.wxCensorImage(res.tempFilePaths[0]);
 
-      if (risky) {
+      if (risky === true) {
         Dialog.alert({
           title: "图片检查失败",
           message: "您的图片不符合微信标准"
@@ -151,12 +176,46 @@ Page({
         categoryName: "lottery_images"
       };
 
-      let uploadTask = MyFile.upload(fileParams, metaData).onProgressUpdate(
-        e => {
-          // 监听上传进度
-          console.log(e);
-        }
-      );
+      let uploadTask = await MyFile.upload(
+        fileParams,
+        metaData
+      ).onProgressUpdate(e => {
+        // 监听上传进度
+        console.log(e);
+      });
+      this.data.file = uploadTask.data.file;
+      // cdn_path: "1i5h6hpru0CZ8tVP.png"
+      // created_at: 1567648963
+      // id: "5d706cc35fcc734afc5d6198"
+      // mime_type: "image/png"
+      // name: "wxb7fb2c1219817db3.o6zAJszUi-hE6mgEhbg7Lhx4ZFLA.jU1Z2g17NS7fac5fb5e904ea92ae289f6f4db131c1c4.png"
+      // path: "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png"
+      // size: 29027
+      this.setData({
+        url: this.data.file.path
+      });
+    } catch (err) {
+      console.debug(err);
+    }
+  },
+  onConfirm: async function(event) {
+    try {
+      let ret = await lotteryRep.createLottery({
+        url: this.data.url,
+        file: this.data.file,
+        open_date: openDateTimeStamp(),
+        pic_data: this.data.pic_data,
+        total_prize: this.data.total_prize,
+        lucky_num: this.data.lucky_num,
+        lucky_num_per: this.data.lucky_num_per,
+        plan_index: this.data.plan_index,
+        plan: this.data.plans[this.data.plan_index],
+        open_people_num: this.data.open_people_num,
+        tag_items: this.data.tag_items,
+        desc_initiator: this.data.desc_initiator
+      });
+      //TODO: 跳转到参与抽奖页面，那边是只读页面，自己也可以参与抽奖，也可以分享
+      console.debug(ret);
     } catch (err) {
       console.debug(err);
     }

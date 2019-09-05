@@ -12,7 +12,7 @@
 
     <view class="container__lucky-num">发起奖励：{{lucky_num}} 运气值</view>
     <view class="container__prize-list">
-      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-name='{{index}}' class="{{prize_list_item}}" style="background:{{prize_colors_switch[prize_colors[index]]}}">
+      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-index='{{index}}' class="prize-list-item" style="background:{{prize_colors_switch[prize_colors[index]]}}">
         {{item}}
       </view>
     </view>
@@ -28,7 +28,7 @@
     </van-cell-group>
 
     <van-popup show="{{ show_plan }}" position="bottom" bind:close="onClosePlan">
-      <van-picker columns="{{ plans }}" default-index="{{ default_plan }}" bind:change="onPlanChange" />
+      <van-picker columns="{{ plans }}" default-index="0" bind:change="onPlanChange" />
     </van-popup>
   </view>
 
@@ -51,7 +51,7 @@
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
       <view class="container__desc-title" slot="title">发起人简介</view>
     </van-switch-cell>
-    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" placeholder="请输入发起人简介" value="{{desc_value}}">
+    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea"  bindinput='onInputDesc' placeholder="请输入发起人简介" value="{{desc_initiator}}">
     </textarea>
   </van-cell-group>
 
@@ -71,6 +71,12 @@
     </view>
   </view>
 
+
+  <view class="container__bottom">
+    <view class="text-center bg-white text-gray">发起抽奖后不可取消</view>
+    <van-button type="primary" size="large" color="darkgoldenrod" icon="gift-card" bindtap="onConfirm">发起抽奖
+    </van-button>
+  </view>
 
   <van-dialog id="van-dialog" />
   <van-toast id="van-toast" />

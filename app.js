@@ -1,4 +1,3 @@
-let rep = require("utils/repository.js");
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 
 App({
