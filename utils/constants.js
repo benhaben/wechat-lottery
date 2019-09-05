@@ -45,6 +45,8 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 export const CONST = {
+  DEFAULT_URL:
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
   LOTTERY_PRIZE_LIST: [
     "9.9",
     "16.8",
@@ -148,5 +150,15 @@ export const CONST = {
     0,
     0,
     0
+  ],
+  DEFAULT_TAG_ITEMS: [
+    "80后",
+    "A股",
+    "微商",
+    "足球",
+    "音乐",
+    "亲子教育",
+    "美食",
+    "美女"
   ]
 };

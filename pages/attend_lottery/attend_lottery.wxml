@@ -1,0 +1,142 @@
+<view class="container__image" style="background-image: url('{{url}}')">
+  <view class="container__select-image">
+    <view class="container__select-image-icon">
+      <van-icon size="35rpx" name="gift"/>
+    </view>
+    <view>
+      <text>{{id}}</text>
+    </view>
+  </view>
+</view>
+
+
+<view class="info">
+  <view class="info-row">
+    <view class="info__row_left">
+      <view class="info__row_title">
+        总奖：
+      </view>
+      <view class="info__row_value">
+        {{total}}
+      </view>
+    </view>
+
+    <view class="info__row_right">
+      <view class="info__row_value">
+        {{lucky_num}} 个
+      </view>
+      <view class="info__row_title">
+        福袋：
+      </view>
+
+    </view>
+  </view>
+
+  <view class="info-row">
+    <view class="info__row_left">
+      <view class="info__row_title">
+        倒计时：
+      </view>
+      <view class="info__row_value">
+        {{countdown}}
+      </view>
+    </view>
+
+    <view class="info__row_right">
+      <view class="info__row_value">
+        {{open_people_num}} 人
+      </view>
+      <view class="info__row_title">
+        开奖人数：
+      </view>
+
+    </view>
+  </view>
+
+  <view class="info-row">
+    <view class="info__row_left">
+      <image src="{{avatar}}"></image>
+      <text>{{nickname}}</text>
+    </view>
+    <view class="info__row_right">
+      发起人
+    </view>
+  </view>
+
+  <view class="container__tag" wx:if="{{tag_items}}">
+    <view class="container__tag_bar">
+      <view class="container__tag_title">
+        发起人标签：
+      </view>
+    </view>
+    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
+      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <view class="container__tag" wx:if="{{desc_initiator}}">
+    <view class="container__tag_bar">
+      <view class="container__tag_title">
+        发起人简介：
+      </view>
+    </view>
+    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
+      <text>{{desc_initiator}}</text>
+    </view>
+  </view>
+
+  <view class="container__tag" wx:if="{{pic_data}}">
+    <view class="container__tag_bar">
+      发起人广告：
+    </view>
+    <view class="">
+      <x-richtext isReadOnly initList="{{pic_data}}"/>
+    </view>
+  </view>
+
+  <view>
+    <view class="weight h-flex flex-row flex-align-center bg-white">
+      <view>中奖权重 ：{{weight}}</view>
+      <van-icon name="add" size="60rpx" bind:click="onAddWeight"/>
+    </view>
+    <view class="weight-info">一个运气值，增加两个权重</view>
+  </view>
+
+  <view class="action">
+    <view class="action__row">
+      <button wx:if="{{!auth}}"
+              class="action__btn circle-border-radius"
+              type="warn"
+              open-type="getUserInfo"
+              bindgetuserinfo="userInfoHandler">
+        参与抽奖
+      </button>
+
+      <button wx:else class="action__btn circle-border-radius" type="warn" bindtap="onAttend">参与抽奖</button>
+    </view>
+    <view class="action__row">
+      <view class="action__num">
+        已有 {{attend_num}} 人参与，查看全部
+        <van-icon class="icon" name="arrow"/>
+      </view>
+    </view>
+    <view class="action__row">
+      <image class="action__avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
+    </view>
+  </view>
+
+  <view class="add-lottery">
+    我要发抽奖
+    <van-icon class="icon" name="arrow"/>
+  </view>
+
+  <view class="share">
+    <button class="share__btn" bindtap="onShare">分享</button>
+    <view class="share__tips">
+      每邀请一个朋友参与，倒计时加快一分钟
+    </view>
+  </view>
+</view>
+

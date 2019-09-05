@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/attend_lottery/attend_lottery",
     "pages/lottery/lottery",
     "pages/tags/tags",
     "pages/pic_details/details",

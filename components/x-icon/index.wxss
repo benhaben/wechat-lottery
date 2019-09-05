@@ -410,24 +410,3 @@
 .hx-icon-left:before {
   content: "\e7c6";
 }
-.text-white{
-  color: white;
-}
-.text-info{
-  color: #8a8a8a;
-}
-.text-danger{
-  color: #F56C6C;
-}
-.text-warning{
-  color: #E6A23C;
-}
-.text-success{
-  color: #67C23A;
-}
-.text-black{
-  color: black;
-}
-.text-primary{
-  color: #409EFF;
-}

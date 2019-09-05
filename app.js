@@ -22,6 +22,14 @@ App({
     let user = store.getUserInfo();
     return !!user.nickname;
   },
+  getAvatar: function() {
+    let user = store.getUserInfo();
+    return user.avatar;
+  },
+  getNickname: function() {
+    let user = store.getUserInfo();
+    return user.nickname;
+  },
   getUserInfo: function(uid) {
     let MyUser = new wx.BaaS.User();
     MyUser.get(uid).then(res => {

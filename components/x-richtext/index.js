@@ -334,9 +334,8 @@ Component({
       for (let item of that.data.dataList) {
         if (item.img) {
           list.push({
-            file: item.file,
             type: 1,
-            info: item.img
+            info: item.file.path
           });
         } else {
           if (item && item.cpy && item.cpy.content) {

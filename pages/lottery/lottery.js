@@ -12,8 +12,7 @@ const app = getApp();
 
 Page({
   data: {
-    url:
-      "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png", // 默认图片 TODO: 需要设计换图
+    url: CONST.DEFAULT_URL,
     file: null, // 知晓云返回的服务端文件对象
     total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0]), //默认第一个 9.9
     lucky_num: toFixed1(
@@ -27,16 +26,7 @@ Page({
     lucky_num_per: 0,
     show_plan: false,
     open_people_num: 1000,
-    tag_items: [
-      "80后",
-      "A股",
-      "微商",
-      "足球",
-      "音乐",
-      "亲子教育",
-      "美食",
-      "美女"
-    ],
+    tag_items: CONST.DEFAULT_TAG_ITEMS,
     desc_checked: false,
     desc_initiator: "",
     ad_checked: false,
@@ -216,7 +206,9 @@ Page({
         plan: this.data.plans[this.data.plan_index],
         open_people_num: this.data.open_people_num,
         tag_items: this.data.tag_items,
-        desc_initiator: this.data.desc_initiator
+        desc_initiator: this.data.desc_initiator,
+        avatar: app.getAvatar(),
+        nickname: app.getNickname()
       });
       //TODO: 跳转到参与抽奖页面，那边是只读页面，自己也可以参与抽奖，也可以分享
       console.debug(ret);
@@ -224,6 +216,7 @@ Page({
       console.debug(err);
     }
   },
+  //TODO: 可以做一个共享的behavior
   userInfoHandler(data) {
     let that = this;
     wx.BaaS.auth.loginWithWechat(data).then(
