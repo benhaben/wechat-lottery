@@ -1,10 +1,10 @@
-const pic_details = "pic_details";
+const USERINFO = "userInfo";
 
 export default {
-  setPicDetails(data) {
-    wx.setStorageSync("pic_details", data);
+  setUserInfo(data) {
+    wx.setStorageSync(USERINFO, data);
   },
-  getPicDetails(data) {
-    wx.getStorageSync("pic_details");
+  getUserInfo(data) {
+    return wx.getStorageSync(USERINFO);
   }
 };

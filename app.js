@@ -1,4 +1,5 @@
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
+import store from "./utils/store.js";
 
 App({
   onLaunch: function() {
@@ -17,11 +18,15 @@ App({
       }
     });
   },
+  hasAuth: function() {
+    let user = store.getUserInfo();
+    return !!user.nickname;
+  },
   getUserInfo: function(uid) {
     let MyUser = new wx.BaaS.User();
     MyUser.get(uid).then(res => {
       var userInfo = res.data;
-      wx.setStorageSync("userInfo", userInfo);
+      store.setUserInfo(userInfo);
     });
   },
   onShow: function(options) {
@@ -43,9 +48,6 @@ App({
 
   globalData: {
     systemInfo: null,
-    clientId: "637bcefdc238706ba166", // 从 BaaS 后台获取 ClientID
-    tb_lottery: "lottery", // tb 表示表的名字
-    tb_lottery_record: "lottery_record",
-    tb_inviter: "inviter"
+    clientId: "637bcefdc238706ba166" // 从 BaaS 后台获取 ClientID
   }
 });

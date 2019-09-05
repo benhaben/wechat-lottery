@@ -40,10 +40,14 @@ Page({
     desc_checked: false,
     desc_initiator: "",
     ad_checked: false,
-    pic_data: null
+    pic_data: null,
+    auth: false
   },
-  onLoad: function() {},
-
+  onLoad: function() {
+    this.setData({
+      auth: app.hasAuth()
+    });
+  },
   onUnload: function() {},
   onReady: function() {},
   onInputDesc: function(e) {
@@ -219,5 +223,20 @@ Page({
     } catch (err) {
       console.debug(err);
     }
+  },
+  userInfoHandler(data) {
+    let that = this;
+    wx.BaaS.auth.loginWithWechat(data).then(
+      user => {
+        // user 包含用户完整信息，详见下方描述
+        app.getUserInfo(user.get("id"));
+        that.setData({
+          auth: app.hasAuth()
+        });
+      },
+      err => {
+        // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
+      }
+    );
   }
 });
