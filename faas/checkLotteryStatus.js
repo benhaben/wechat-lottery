@@ -1,7 +1,7 @@
-import { ERR_TYPE, TABLE_NAME as TABLE_ID } from "../utils/constants";
+import { ERR_TYPE, TABLE_NAME } from "../utils/constants";
 
-let lotteryTable = new BaaS.TableObject(TABLE_ID.LOTTERY);
-let userLotteryTable = new BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
+let lotteryTable = new BaaS.TableObject(TABLE_NAME.LOTTERY);
+let userLotteryTable = new BaaS.TableObject(TABLE_NAME.USER_LOTTERY_RECORD);
 
 const getAttendeesCount = id => {
   let query = new BaaS.Query();

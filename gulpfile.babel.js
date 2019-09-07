@@ -1,10 +1,15 @@
 import gulp from "gulp";
 import del from "del";
 var webpack = require("webpack-stream");
+const named = require("vinyl-named");
 
 const paths = {
   scripts: {
-    src: "faas/**/*.js",
+    src: [
+      "faas/checkLotteryStatus.js",
+      "faas/createLottery.js",
+      "faas/createOrder.js"
+    ],
     dest: "faas/webpack/"
   }
 };
@@ -16,10 +21,11 @@ export const clean = () => del(["faas/gulp/"]);
 
 export function scripts() {
   return gulp
-    .src(paths.scripts.src, { sourcemaps: true })
+    .src(paths.scripts.src)
+    .pipe(named())
     .pipe(
       webpack({
-        // Any configuration options...
+        // devtool: "inline-source-map"
       })
     )
     .pipe(gulp.dest(paths.scripts.dest));

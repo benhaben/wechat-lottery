@@ -22,7 +22,8 @@ export const CONTENT_GROUP = "";
 // 线上数据表 id
 export const TABLE_NAME = {
   USER_LOTTERY_RECORD: "user_lottery_record",
-  LOTTERY: "lottery"
+  LOTTERY: "lottery",
+  ORDER: "order"
 };
 
 export const WECHAT_SCENE = {

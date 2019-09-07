@@ -1,49 +1,54 @@
+import { CONST, TABLE_NAME } from "../utils/constants";
+
 /** 创建订单云函数 **/
-const productTableId = 12345678;
-const orderTableId = 123456789;
+const lotteryTableId = TABLE_NAME.LOTTERY;
+const orderTableId = TABLE_NAME.ORDER;
 
-exports.main = function createOrder(event, callback) {
-  const { product_id } = event.data;
-  const user_id = event.request.user.id;
+exports.main = async function createOrder(event, callback) {
+  try {
+    const { lottery_id } = event.data;
+    const user_id = event.request.user.id;
 
-  getProductDetail(product_id)
-    .then(product => {
-      return createOrderHandel(product, user_id);
-    })
-    .then(res => {
-      const order = res.data || {};
-      callback(null, order);
-    })
-    .catch(err => {
-      callback(err);
-    });
+    const lotteryTable = new BaaS.TableObject(lotteryTableId);
+
+    const query = new BaaS.Query();
+    query.compare("id", "=", lottery_id);
+    let res = await lotteryTable.setQuery(query).find();
+    const lottery = res.data.objects[0];
+
+    console.log(`JSON.stringify ：${JSON.stringify(lottery)}`);
+
+    const orderTable = new BaaS.TableObject(orderTableId);
+    const createObject = orderTable.create();
+
+    const data = {
+      lottery_id: lotteryTable.getWithoutData(lottery.id),
+      lottery_snapshot: {
+        url: lottery.url,
+        file: lottery.file,
+        open_date: lottery.open_date,
+        pic_data: lottery.pic_data,
+        total_prize: lottery.total_prize,
+        lucky_num: lottery.lucky_num,
+        lucky_num_per: lottery.lucky_num_per,
+        plan_index: lottery.plan_index,
+        plan: CONST.PLANS[lottery.plan_index],
+        open_people_num: lottery.open_people_num,
+        tag_items: lottery.tag_items,
+        desc_initiator: lottery.desc_initiator,
+        avatar: lottery.avatar,
+        nickname: lottery.nickname
+      },
+      total_cost: lottery.total_prize,
+      status: "no_paid",
+      created_by: event.request.user.id
+    };
+
+    let orderRes = await createObject.set(data).save();
+    const order = orderRes.data || {};
+
+    callback(null, order);
+  } catch (e) {
+    callback(e);
+  }
 };
-
-function getProductDetail(id) {
-  const tableObject = new BaaS.TableObject(productTableId);
-
-  const query = new BaaS.Query();
-  query.compare("id", "=", id);
-  return tableObject
-    .setQuery(query)
-    .find()
-    .then(res => {
-      const objects = res.data.objects || [];
-      const product = objects[0] || {};
-      return product;
-    });
-}
-
-function createOrderHandel(product, user_id) {
-  const tableObject = new BaaS.TableObject(orderTableId);
-  const createObject = tableObject.create();
-
-  const data = {
-    product_id: product.id,
-    product_snapshot: product,
-    total_cost: product.price,
-    status: "no_paid",
-    created_by: user_id
-  };
-  return createObject.set(data).save();
-}
