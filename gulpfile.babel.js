@@ -5,11 +5,7 @@ const named = require("vinyl-named");
 
 const paths = {
   scripts: {
-    src: [
-      "faas/checkLotteryStatus.js",
-      "faas/createLottery.js",
-      "faas/createOrder.js"
-    ],
+    src: ["faas/*.js"],
     dest: "faas/webpack/"
   }
 };
@@ -25,6 +21,8 @@ export function scripts() {
     .pipe(named())
     .pipe(
       webpack({
+        mode: "production"
+        // mode: "development"
         // devtool: "inline-source-map"
       })
     )

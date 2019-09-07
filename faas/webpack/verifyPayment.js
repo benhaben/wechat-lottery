@@ -2,8 +2,8 @@
   var t = {};
   function r(n) {
     if (t[n]) return t[n].exports;
-    var o = (t[n] = { i: n, l: !1, exports: {} });
-    return e[n].call(o.exports, o, o.exports, r), (o.l = !0), o.exports;
+    var a = (t[n] = { i: n, l: !1, exports: {} });
+    return e[n].call(a.exports, a, a.exports, r), (a.l = !0), a.exports;
   }
   (r.m = e),
     (r.c = t),
@@ -25,13 +25,13 @@
         Object.defineProperty(n, "default", { enumerable: !0, value: e }),
         2 & t && "string" != typeof e)
       )
-        for (var o in e)
+        for (var a in e)
           r.d(
             n,
-            o,
+            a,
             function(t) {
               return e[t];
-            }.bind(null, o)
+            }.bind(null, a)
           );
       return n;
     }),
@@ -50,27 +50,27 @@
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (r.p = ""),
-    r((r.s = 3));
-})([
-  function(e, t, r) {
+    r((r.s = 7));
+})({
+  0: function(e, t, r) {
     "use strict";
     r.d(t, "b", function() {
       return n;
     }),
       r.d(t, "c", function() {
-        return o;
+        return a;
       }),
       r.d(t, "a", function() {
-        return u;
+        return o;
       });
     const n = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
-      o = {
+      a = {
         USER_LOTTERY_RECORD: "user_lottery_record",
         LOTTERY: "lottery",
         ORDER: "order",
         ERROR: "error"
       },
-      u = {
+      o = {
         DEFAULT_URL:
           "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
         LOTTERY_PRIZE_LIST: [
@@ -189,23 +189,57 @@
         ]
       };
   },
-  ,
-  ,
-  function(e, t, r) {
-    e.exports = r(4);
+  7: function(e, t, r) {
+    e.exports = r(8);
   },
-  function(e, t, r) {
+  8: function(e, t, r) {
     "use strict";
     r.r(t);
     var n = r(0);
+    const a = n.c.LOTTERY,
+      o = n.c.ORDER,
+      i = n.c.ERROR;
     exports.main = async function(e, t) {
-      const r = e.data;
+      console.log(`verifyPayment event.data: ${JSON.stringify(e.data)}`);
       try {
-        const e = new BaaS.TableObject(n.c.LOTTERY).create();
-        t(null, await e.set(r).save());
-      } catch (e) {
-        t(e);
+        const r = e.data,
+          n = r.total_cost,
+          c = r.merchandise_record_id,
+          u = r.transaction_no,
+          s = r.merchandise_snapshot.id,
+          _ = new BaaS.TableObject(a),
+          f = new BaaS.Query();
+        f.compare("id", "=", s);
+        let l = (await _.setQuery(f).find()).data.objects[0];
+        if (l && l.total_prize === n) {
+          const e = new BaaS.TableObject(o).getWithoutData(c);
+          e.set("status", "paid"),
+            e.set("transaction_no", u),
+            t(null, await e.update());
+        } else {
+          let e = new BaaS.TableObject(i),
+            r = {
+              error: "支付金额和抽奖金额不一致",
+              action: "verifyPayment",
+              created_by: l.created_by,
+              lottery: _.getWithoutData(s)
+            };
+          const n = e.create();
+          await n.set(r).save();
+          t(new Error(JSON.stringify(r)));
+        }
+      } catch (r) {
+        let n = new BaaS.TableObject(i),
+          a = {
+            error: `verifyPayment event.data: ${JSON.stringify(
+              e.data
+            )} - Error: ${r.message}`,
+            action: "verifyPayment"
+          };
+        const o = n.create();
+        await o.set(a).save();
+        t(new Error(JSON.stringify(a)));
       }
     };
   }
-]);
+});

@@ -67,7 +67,8 @@
       o = {
         USER_LOTTERY_RECORD: "user_lottery_record",
         LOTTERY: "lottery",
-        ORDER: "order"
+        ORDER: "order",
+        ERROR: "error"
       },
       a = {
         DEFAULT_URL:
@@ -204,35 +205,36 @@
     exports.main = async function(e, t) {
       try {
         const { lottery_id: n } = e.data,
-          i = (e.request.user.id, new BaaS.TableObject(o)),
-          u = new BaaS.Query();
-        u.compare("id", "=", n);
-        const _ = (await i.setQuery(u).find()).data.objects[0];
-        console.log(`JSON.stringify ：${JSON.stringify(_)}`);
-        const c = new BaaS.TableObject(a).create(),
-          l = {
-            lottery_id: i.getWithoutData(_.id),
+          i = e.request.user.id,
+          u = new BaaS.TableObject(o),
+          _ = new BaaS.Query();
+        _.compare("id", "=", n);
+        const c = (await u.setQuery(_).find()).data.objects[0];
+        console.log(`JSON.stringify ：${JSON.stringify(c)}`);
+        const l = new BaaS.TableObject(a).create(),
+          p = {
+            lottery_id: u.getWithoutData(c.id),
             lottery_snapshot: {
-              url: _.url,
-              file: _.file,
-              open_date: _.open_date,
-              pic_data: _.pic_data,
-              total_prize: _.total_prize,
-              lucky_num: _.lucky_num,
-              lucky_num_per: _.lucky_num_per,
-              plan_index: _.plan_index,
-              plan: r.a.PLANS[_.plan_index],
-              open_people_num: _.open_people_num,
-              tag_items: _.tag_items,
-              desc_initiator: _.desc_initiator,
-              avatar: _.avatar,
-              nickname: _.nickname
+              url: c.url,
+              file: c.file,
+              open_date: c.open_date,
+              pic_data: c.pic_data,
+              total_prize: c.total_prize,
+              lucky_num: c.lucky_num,
+              lucky_num_per: c.lucky_num_per,
+              plan_index: c.plan_index,
+              plan: r.a.PLANS[c.plan_index],
+              open_people_num: c.open_people_num,
+              tag_items: c.tag_items,
+              desc_initiator: c.desc_initiator,
+              avatar: c.avatar,
+              nickname: c.nickname
             },
-            total_cost: _.total_prize,
+            total_cost: c.total_prize,
             status: "no_paid",
-            created_by: e.request.user.id
+            created_by: i
           };
-        t(null, (await c.set(l).save()).data || {});
+        t(null, (await l.set(p).save()).data || {});
       } catch (e) {
         t(e);
       }

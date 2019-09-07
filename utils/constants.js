@@ -23,7 +23,8 @@ export const CONTENT_GROUP = "";
 export const TABLE_NAME = {
   USER_LOTTERY_RECORD: "user_lottery_record",
   LOTTERY: "lottery",
-  ORDER: "order"
+  ORDER: "order",
+  ERROR: "error"
 };
 
 export const WECHAT_SCENE = {

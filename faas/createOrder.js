@@ -21,6 +21,7 @@ exports.main = async function createOrder(event, callback) {
     const orderTable = new BaaS.TableObject(orderTableId);
     const createObject = orderTable.create();
 
+    // TODO: 不知道为什么lottery_snapshot直接放lottery数据库存不进去
     const data = {
       lottery_id: lotteryTable.getWithoutData(lottery.id),
       lottery_snapshot: {
@@ -41,7 +42,7 @@ exports.main = async function createOrder(event, callback) {
       },
       total_cost: lottery.total_prize,
       status: "no_paid",
-      created_by: event.request.user.id
+      created_by: user_id
     };
 
     let orderRes = await createObject.set(data).save();

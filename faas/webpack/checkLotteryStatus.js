@@ -1,41 +1,41 @@
 !(function(e) {
   var t = {};
-  function n(r) {
-    if (t[r]) return t[r].exports;
-    var o = (t[r] = { i: r, l: !1, exports: {} });
-    return e[r].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
+  function r(n) {
+    if (t[n]) return t[n].exports;
+    var o = (t[n] = { i: n, l: !1, exports: {} });
+    return e[n].call(o.exports, o, o.exports, r), (o.l = !0), o.exports;
   }
-  (n.m = e),
-    (n.c = t),
-    (n.d = function(e, t, r) {
-      n.o(e, t) || Object.defineProperty(e, t, { enumerable: !0, get: r });
+  (r.m = e),
+    (r.c = t),
+    (r.d = function(e, t, n) {
+      r.o(e, t) || Object.defineProperty(e, t, { enumerable: !0, get: n });
     }),
-    (n.r = function(e) {
+    (r.r = function(e) {
       "undefined" != typeof Symbol &&
         Symbol.toStringTag &&
         Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
         Object.defineProperty(e, "__esModule", { value: !0 });
     }),
-    (n.t = function(e, t) {
-      if ((1 & t && (e = n(e)), 8 & t)) return e;
+    (r.t = function(e, t) {
+      if ((1 & t && (e = r(e)), 8 & t)) return e;
       if (4 & t && "object" == typeof e && e && e.__esModule) return e;
-      var r = Object.create(null);
+      var n = Object.create(null);
       if (
-        (n.r(r),
-        Object.defineProperty(r, "default", { enumerable: !0, value: e }),
+        (r.r(n),
+        Object.defineProperty(n, "default", { enumerable: !0, value: e }),
         2 & t && "string" != typeof e)
       )
         for (var o in e)
-          n.d(
-            r,
+          r.d(
+            n,
             o,
             function(t) {
               return e[t];
             }.bind(null, o)
           );
-      return r;
+      return n;
     }),
-    (n.n = function(e) {
+    (r.n = function(e) {
       var t =
         e && e.__esModule
           ? function() {
@@ -44,30 +44,31 @@
           : function() {
               return e;
             };
-      return n.d(t, "a", t), t;
+      return r.d(t, "a", t), t;
     }),
-    (n.o = function(e, t) {
+    (r.o = function(e, t) {
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
-    (n.p = ""),
-    n((n.s = 1));
+    (r.p = ""),
+    r((r.s = 1));
 })([
-  function(e, t, n) {
+  function(e, t, r) {
     "use strict";
-    n.d(t, "b", function() {
-      return r;
+    r.d(t, "b", function() {
+      return n;
     }),
-      n.d(t, "c", function() {
+      r.d(t, "c", function() {
         return o;
       }),
-      n.d(t, "a", function() {
+      r.d(t, "a", function() {
         return u;
       });
-    const r = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
+    const n = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
       o = {
         USER_LOTTERY_RECORD: "user_lottery_record",
         LOTTERY: "lottery",
-        ORDER: "order"
+        ORDER: "order",
+        ERROR: "error"
       },
       u = {
         DEFAULT_URL:
@@ -188,15 +189,15 @@
         ]
       };
   },
-  function(e, t, n) {
-    e.exports = n(2);
+  function(e, t, r) {
+    e.exports = r(2);
   },
-  function(e, t, n) {
+  function(e, t, r) {
     "use strict";
-    n.r(t);
-    var r = n(0);
-    let o = new BaaS.TableObject(r.c.LOTTERY),
-      u = new BaaS.TableObject(r.c.USER_LOTTERY_RECORD);
+    r.r(t);
+    var n = r(0);
+    let o = new BaaS.TableObject(n.c.LOTTERY),
+      u = new BaaS.TableObject(n.c.USER_LOTTERY_RECORD);
     const a = e => {
       let t = new BaaS.Query();
       return (
@@ -211,13 +212,13 @@
         })()).data.objects;
         if (e)
           for (let t in e) {
-            let n = e[t];
-            a(n.id),
-              Math.round(Date.parse(n.open_date) / 1e3),
+            let r = e[t];
+            a(r.id),
+              Math.round(Date.parse(r.open_date) / 1e3),
               Math.round(new Date() / 1e3);
-            n.open_people_num;
+            r.open_people_num;
           }
-        else t(r.b.GET_LOTTERY_FAILED);
+        else t(n.b.GET_LOTTERY_FAILED);
       } catch (e) {
         t(e);
       }

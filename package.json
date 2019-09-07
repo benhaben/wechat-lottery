@@ -1,7 +1,8 @@
 {
   "scripts": {
     "eslint": "eslint .",
-    "min-login": "mincloud login 637bcefdc238706ba166 3e3be45da3898509a59914877668c5098ad47f95"
+    "min-login": "mincloud login 637bcefdc238706ba166 3e3be45da3898509a59914877668c5098ad47f95",
+    "min-d": "mincloud deploy faas/webpack/verifyPayment"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
