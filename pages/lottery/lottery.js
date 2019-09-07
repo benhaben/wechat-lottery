@@ -23,7 +23,7 @@ Page({
     prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
     plan_index: 0,
     plans: CONST.PLANS,
-    lucky_num_per: 0,
+    lucky_num_per: CONST.LOTTERY_PRIZE_LIST[0] * 10,
     show_plan: false,
     open_people_num: 1000,
     tag_items: CONST.DEFAULT_TAG_ITEMS,
@@ -75,14 +75,9 @@ Page({
   onPlanChange: function(event) {
     const { picker, value, index } = event.detail;
     console.log(`当前值：${value}, 当前索引：${index}`);
-    this.data.lucky_num_per = toFixed1(
-      new Big(this.data.lucky_num).div(
-        CONST.PLANS_PACKAGE[this.data.plan_index]
-      )
-    );
+
     this.setData({
-      plan_index: index,
-      lucky_num_per: this.data.lucky_num_per
+      plan_index: index
     });
   },
   onSelectTag: function(e) {
@@ -118,11 +113,7 @@ Page({
       new Big(CONST.LOTTERY_PRIZE_LIST[index]).times(CONST.LUCKY_RATIO_OPEN)
     );
     this.data.open_people_num = CONST.LOTTERY_NUM_PEOPLE[index];
-    this.data.lucky_num_per = toFixed1(
-      new Big(this.data.lucky_num).div(
-        CONST.PLANS_PACKAGE[this.data.plan_index]
-      )
-    );
+    this.data.lucky_num_per = this.data.total_prize * 10;
 
     this.setData(this.data);
   },
@@ -200,8 +191,8 @@ Page({
         open_date: openDateTimeStamp(),
         pic_data: this.data.pic_data,
         total_prize: this.data.total_prize,
-        lucky_num: this.data.lucky_num,
-        lucky_num_per: this.data.lucky_num_per,
+        lucky_num: Number(this.data.lucky_num),
+        lucky_num_per: Number(this.data.lucky_num_per),
         plan_index: this.data.plan_index,
         plan: this.data.plans[this.data.plan_index],
         open_people_num: this.data.open_people_num,
@@ -210,6 +201,9 @@ Page({
         avatar: app.getAvatar(),
         nickname: app.getNickname()
       });
+
+      // 有审批功能后移除
+      lotteryRep.approveLottery(ret.data.id);
       //TODO: 跳转到参与抽奖页面，那边是只读页面，自己也可以参与抽奖，也可以分享
       console.debug(ret);
     } catch (err) {

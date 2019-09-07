@@ -1,0 +1,40 @@
+import gulp from "gulp";
+import del from "del";
+var webpack = require("webpack-stream");
+
+const paths = {
+  scripts: {
+    src: "faas/**/*.js",
+    dest: "faas/webpack/"
+  }
+};
+
+/*
+ * For small tasks you can export arrow functions
+ */
+export const clean = () => del(["faas/gulp/"]);
+
+export function scripts() {
+  return gulp
+    .src(paths.scripts.src, { sourcemaps: true })
+    .pipe(
+      webpack({
+        // Any configuration options...
+      })
+    )
+    .pipe(gulp.dest(paths.scripts.dest));
+}
+
+/*
+ * You could even use `export as` to rename exported tasks
+ */
+function watchFiles() {
+  gulp.watch(paths.scripts.src, scripts);
+}
+export { watchFiles as watch };
+
+const build = gulp.series(clean, gulp.parallel(scripts));
+/*
+ * Export a default task
+ */
+export default build;

@@ -12,11 +12,16 @@ export const ROUTE_DATA = {
   BACK_TAGS_TO_ADD_LOTTERY: "BACK_TAGS_TO_ADD_LOTTERY"
 };
 
+export const ERR_TYPE = {
+  GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED"
+};
+
 // 活动规则内容库 id
 export const CONTENT_GROUP = "";
 
 // 线上数据表 id
 export const TABLE_NAME = {
+  USER_LOTTERY_RECORD: "user_lottery_record",
   LOTTERY: "lottery"
 };
 
@@ -57,7 +62,7 @@ export const CONST = {
     "88.8",
     "99.9"
   ], // 红包金额
-  LOTTERY_NUM_PEOPLE: [1000, 1500, 2000, 5000, 6000, 8000, 8000, 9000], // 开奖人数
+  LOTTERY_NUM_PEOPLE: [1000, 1500, 3500, 5000, 6000, 8000, 8000, 9000], // 开奖人数
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
   PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"], // 福袋比例
   PLANS_PACKAGE: [100, 50, 25], // 不同方案福袋个数，和每个福袋运气值计算相关
