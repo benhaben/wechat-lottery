@@ -20,14 +20,22 @@ mincloud
 ### trrigerCheckLotteryStatus 
 
 检查开奖状态，调用云函数 CheckLotteryStatus 
-
 触发器触发时间 18 8,18,20 * * *
+开奖需要做如下操作：
 
+1. 更新 lottery status 为（3，已经开奖）
+2. 更新发起抽奖者的 user 表的 luck_num
+3. 随机抽出幸运儿，更新到（userLotteryTable，lottery_result），更新幸运儿的（user，balance或者lucky_num）
+4. 发起通知，通知所有参与抽奖的用户已经开奖
 
 ### trrigerWhenOpenLottery
 
 增加开奖者运气值： _userprofile 表 lucky_num 字段
 增加运气值记录：luck_record表增加一条记录
+
+### triggerVerifyPayment
+
+支付完以后验证支付金额，更新支付状态到（1，已经支付，等待审批）
 
 ## 知晓云云函数
 ### createLottery

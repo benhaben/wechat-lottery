@@ -1,29 +1,27 @@
-import { TABLE_NAME } from "../utils/constants";
+import { TABLE_ID, FUNCTION_NAME } from "../utils/constants";
 
 export default {
+  /**
+   * 为了安全在服务端创建抽奖
+   * @param data
+   * @returns {Promise<*>}
+   */
   async createLottery(data) {
-    // 通过 `tableName` 实例化一个 `TableObject` 对象，操作该对象即相当于操作对应的数据表
-    let Lottery = new wx.BaaS.TableObject(TABLE_NAME.LOTTERY);
-
-    // 本地创建一条空记录
-    let lottery = Lottery.create(); // lottery 为 TableRecord 实例
-
-    // 为上面创建的空记录赋值，并保存到服务器，save() 方法返回一个 Promise 对象
-    return lottery.set(data).save();
+    return wx.BaaS.invokeFunction(FUNCTION_NAME.CREATE_LOTTERY, data);
   },
 
   async approveLottery(id = "") {
     if (!id) {
       throw TypeError("id invalid");
     }
-    let Lottery = new wx.BaaS.TableObject(TABLE_NAME.LOTTERY);
+    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let lotteryRecord = Lottery.getWithoutData(id);
     lotteryRecord.set({ status: 2 });
     return lotteryRecord.update();
   },
 
   async getLottery() {
-    let Lottery = new wx.BaaS.TableObject(TABLE_NAME.LOTTERY);
+    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
     return Lottery.setQuery(query)
       .limit(8)
@@ -34,7 +32,7 @@ export default {
     if (!id) {
       throw TypeError("id invalid");
     }
-    let Lottery = new wx.BaaS.TableObject(TABLE_NAME.LOTTERY);
+    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
     query.compare("id", "=", id);
     return Lottery.setQuery(query).find();

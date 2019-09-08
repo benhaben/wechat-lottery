@@ -20,13 +20,15 @@ export const ERR_TYPE = {
 export const CONTENT_GROUP = "";
 
 // 线上数据表 id
-export const TABLE_NAME = {
-  USER_LOTTERY_RECORD: "user_lottery_record",
-  LOTTERY: "lottery",
-  ORDER: "order",
-  ERROR: "error"
+export const TABLE_ID = {
+  USER_LOTTERY_RECORD: 81892,
+  LOTTERY: 81873,
+  ERROR: 83510
 };
 
+export const FUNCTION_NAME = {
+  CREATE_LOTTERY: "createLottery"
+};
 export const WECHAT_SCENE = {
   FROM_CHAT: "FROM_CHAT",
   FROM_POSTER: "FROM_POSTER",

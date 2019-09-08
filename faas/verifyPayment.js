@@ -1,13 +1,12 @@
 /** 校验并更新订单状态云函数 **/
-import { TABLE_NAME } from "../utils/constants";
+import { TABLE_ID } from "../utils/constants";
 
-const lotteryTableId = TABLE_NAME.LOTTERY;
-const orderTableId = TABLE_NAME.ORDER;
-const errorTableId = TABLE_NAME.ERROR;
+const lotteryTableId = TABLE_ID.LOTTERY;
+const errorTableId = TABLE_ID.ERROR;
 
 /**
- * 1. 调用  createOrder 云函数创建订单
- * 2. 拿到创建订单成功的回调数据后，发起支付
+ * 1. 调用  createLottery 云函数创建订单
+ * 2. 拿到创建订单成功的回调数据后，发起支付（客户端才能发起支付）
  * 3. 支付成功之后，由触发器自动调用 verifyPayment 云函数，校验实付金额是否跟该商品的价格一致，若一致则更新该订单为已支付状态。
  * @param event
  * @param callback
@@ -30,11 +29,9 @@ exports.main = async function verifyPayment(event, callback) {
     let lottery = resLottery.data.objects[0];
 
     if (lottery && lottery.total_prize === totalCost) {
-      const tableObject = new BaaS.TableObject(orderTableId);
-      const record = tableObject.getWithoutData(orderId);
-      record.set("status", "paid");
-      record.set("transaction_no", transactionNo);
-      let updateRes = await record.update();
+      tableObjectLottery.set("status", 1);
+      tableObjectLottery.set("transaction_no", transactionNo);
+      let updateRes = await tableObjectLottery.update();
       callback(null, updateRes);
     } else {
       let tableError = new BaaS.TableObject(errorTableId);

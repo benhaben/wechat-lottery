@@ -1,6 +1,6 @@
 import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
-import { ROUTE, ROUTE_DATA, CONST } from "../../utils/constants";
+import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
 import lotteryRep from "../../dao/lotteryRep";
@@ -185,6 +185,7 @@ Page({
   },
   onConfirm: async function(event) {
     try {
+      // （创建抽奖，创建订单）-> 支付，
       let ret = await lotteryRep.createLottery({
         url: this.data.url,
         file: this.data.file,
@@ -201,6 +202,18 @@ Page({
         avatar: app.getAvatar(),
         nickname: app.getNickname()
       });
+
+      const params = {
+        totalCost: ret.total_prize,
+        merchandiseDescription: ret.title,
+        merchandiseSchemaID: TABLE_ID.LOTTERY,
+        merchandiseRecordID: ret.id,
+        merchandiseSnapshot: ret
+      };
+
+      // 触发器会更新lottery状态
+      let res = await wx.BaaS.pay(params);
+      console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
 
       // 有审批功能后移除
       lotteryRep.approveLottery(ret.data.id);

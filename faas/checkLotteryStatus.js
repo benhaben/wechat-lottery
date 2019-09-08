@@ -1,7 +1,7 @@
-import { ERR_TYPE, TABLE_NAME } from "../utils/constants";
+import { ERR_TYPE, TABLE_ID } from "../utils/constants";
 
-let lotteryTable = new BaaS.TableObject(TABLE_NAME.LOTTERY);
-let userLotteryTable = new BaaS.TableObject(TABLE_NAME.USER_LOTTERY_RECORD);
+let lotteryTable = new BaaS.TableObject(TABLE_ID.LOTTERY);
+let userLotteryTable = new BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
 
 const getAttendeesCount = id => {
   let query = new BaaS.Query();
@@ -86,9 +86,9 @@ exports.main = async function checkLotteryStatus(event, callback) {
         let time_distance = time_end - time_now;
         if (count >= lottery.open_people_num && time_distance <= 0) {
           // TODO：开奖
-          // 更新 lottery status 为 1
-          // 更新 user_balance 表的 luck_num
-          // 随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新 user_balance 的 balance
+          // 更新 lottery status 为 3
+          // 更新发起抽奖者的 user 表的 luck_num
+          // 随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新幸运儿的 balance或者运气值
           // 发起通知通知所有参与抽奖的用户已经开奖
         }
       }
