@@ -3,7 +3,7 @@ import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
-import lotteryRep from "../../dao/lotteryRep";
+import lotteryRep from "../../utils/dao/lotteryRep";
 
 const { regeneratorRuntime } = global;
 
@@ -31,7 +31,8 @@ Page({
     desc_initiator: "",
     ad_checked: false,
     pic_data: null,
-    auth: false
+    auth: false,
+    loading: false
   },
   onLoad: function() {
     this.setData({
@@ -185,13 +186,16 @@ Page({
   },
   onConfirm: async function(event) {
     try {
+      this.setData({
+        loading: true
+      });
       // （创建抽奖，创建订单）-> 支付，
-      let ret = await lotteryRep.createLottery({
+      let lottery = await lotteryRep.createLottery({
         url: this.data.url,
         file: this.data.file,
         open_date: openDateTimeStamp(),
         pic_data: this.data.pic_data,
-        total_prize: this.data.total_prize,
+        total_prize: Number(this.data.total_prize),
         lucky_num: Number(this.data.lucky_num),
         lucky_num_per: Number(this.data.lucky_num_per),
         plan_index: this.data.plan_index,
@@ -204,23 +208,37 @@ Page({
       });
 
       const params = {
-        totalCost: ret.total_prize,
-        merchandiseDescription: ret.title,
+        // totalCost: lottery.total_prize,
+        totalCost: 0.1,
+        merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
         merchandiseSchemaID: TABLE_ID.LOTTERY,
-        merchandiseRecordID: ret.id,
-        merchandiseSnapshot: ret
+        merchandiseRecordID: lottery.id,
+        merchandiseSnapshot: lottery
       };
 
-      // 触发器会更新lottery状态
-      let res = await wx.BaaS.pay(params);
-      console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
+      // TODO: 触发器会更新lottery状态
+      // let res = await wx.BaaS.pay(params);
+      // console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
 
       // 有审批功能后移除
-      lotteryRep.approveLottery(ret.data.id);
+      await lotteryRep.approveLottery(lottery.id);
+
+      this.setData({
+        loading: false
+      });
+
       //TODO: 跳转到参与抽奖页面，那边是只读页面，自己也可以参与抽奖，也可以分享
-      console.debug(ret);
+      wx.navigateTo({
+        url: `${ROUTE.ATTEND_LOTTERY}?id=${lottery.id}`
+      });
     } catch (err) {
-      console.debug(err);
+      this.setData({
+        loading: false
+      });
+      // Dialog.alert({
+      //   title: "发起抽奖失败，请联系客服",
+      //   message: err.message
+      // });
     }
   },
   //TODO: 可以做一个共享的behavior
@@ -234,9 +252,7 @@ Page({
           auth: app.hasAuth()
         });
       },
-      err => {
-        // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
-      }
+      err => {}
     );
   }
 });

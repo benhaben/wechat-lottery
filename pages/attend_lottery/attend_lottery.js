@@ -1,6 +1,6 @@
 // pages/attend_lottery/attend_lottery.js
 import { CONST } from "../../utils/constants";
-import lotteryRep from "../../dao/lotteryRep";
+import lotteryRep from "../../utils/dao/lotteryRep";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -41,95 +41,99 @@ Page({
    */
   onLoad: async function(options) {
     let that = this;
-    // option.query && option.query.lottery_id;
-    let lottery_id = "5d7086245fcc730d535d6848";
+    let lottery_id = options.id;
 
-    // 获取数据
-    if (lottery_id) {
-      try {
-        wx.showLoading({
-          title: "加载中"
-        });
-        let ret = await lotteryRep.getLotteryById(lottery_id);
-        wx.hideLoading();
-
-        let lottery = ret.data.objects[0];
-        this.setData({
-          id: lottery.id.substr(0, 10),
-          total: `${lottery.total_prize}元/100人`,
-          lucky_num: lottery.lucky_num,
-          open_people_num: lottery.open_people_num,
-          avatar: lottery.avatar,
-          nickname: lottery.nickname,
-          tag_items: lottery.tag_items,
-          desc_initiator: lottery.desc_initiator,
-          pic_data: lottery.pic_data
-        });
-
-        startclock();
-        let timerID = null;
-        let timerRunning = false;
-        function stopclock() {
-          if (timerRunning) clearTimeout(timerID);
-          timerRunning = false;
-        }
-        function startclock() {
-          stopclock();
-          show_time();
-        }
-
-        function show_time() {
-          let time_end = Math.round(Date.parse(lottery.open_date) / 1000);
-          let time_now = Math.round(new Date() / 1000);
-          let time_distance = time_end - time_now;
-
-          if (time_distance > 0) {
-            let int_day = Math.floor(time_distance / (60 * 60 * 24));
-            let int_hour = Math.floor(time_distance / (60 * 60)) - int_day * 24;
-            let int_minute =
-              Math.floor(time_distance / 60) -
-              int_day * 24 * 60 -
-              int_hour * 60;
-            let int_second =
-              Math.floor(time_distance) -
-              int_day * 24 * 60 * 60 -
-              int_hour * 60 * 60 -
-              int_minute * 60;
-            if (int_hour < 10) int_hour = "0" + int_hour;
-            if (int_minute < 10) int_minute = "0" + int_minute;
-            if (int_second < 10) int_second = "0" + int_second;
-            let str_time = int_hour + "小时" + int_minute + "分钟";
-            that.setData({
-              countdown: str_time
-            });
-            timerID = setTimeout(show_time, 1000 * 60);
-            timerRunning = true;
-          } else {
-            that.setData({
-              countdown: "已过期"
-            });
-            clearTimeout(timerID);
-          }
-        }
-      } catch (e) {
-        wx.hideLoading();
-      }
-    } else {
-      this.setData({
-        auth: app.hasAuth()
-      });
+    if (!lottery_id) {
+      return;
     }
+    // 获取数据
+    try {
+      wx.showLoading({
+        title: "加载中"
+      });
+      let ret = await lotteryRep.getLotteryById(lottery_id);
+      wx.hideLoading();
+
+      let lottery = ret.data.objects[0];
+      this.setData({
+        id: lottery.id.substr(0, 10),
+        total: `${lottery.total_prize}元/100人`,
+        lucky_num: lottery.lucky_num,
+        open_people_num: lottery.open_people_num,
+        avatar: lottery.avatar,
+        nickname: lottery.nickname,
+        tag_items: lottery.tag_items,
+        desc_initiator: lottery.desc_initiator,
+        pic_data: lottery.pic_data
+      });
+
+      startclock();
+      let timerID = null;
+      let timerRunning = false;
+      function stopclock() {
+        if (timerRunning) clearTimeout(timerID);
+        timerRunning = false;
+      }
+      function startclock() {
+        stopclock();
+        show_time();
+      }
+
+      function show_time() {
+        let time_end = Math.round(Date.parse(lottery.open_date) / 1000);
+        let time_now = Math.round(new Date() / 1000);
+        let time_distance = time_end - time_now;
+
+        if (time_distance > 0) {
+          let int_day = Math.floor(time_distance / (60 * 60 * 24));
+          let int_hour = Math.floor(time_distance / (60 * 60)) - int_day * 24;
+          let int_minute =
+            Math.floor(time_distance / 60) - int_day * 24 * 60 - int_hour * 60;
+          let int_second =
+            Math.floor(time_distance) -
+            int_day * 24 * 60 * 60 -
+            int_hour * 60 * 60 -
+            int_minute * 60;
+          if (int_hour < 10) int_hour = "0" + int_hour;
+          if (int_minute < 10) int_minute = "0" + int_minute;
+          if (int_second < 10) int_second = "0" + int_second;
+          let str_time = int_hour + "小时" + int_minute + "分钟";
+          that.setData({
+            countdown: str_time
+          });
+          timerID = setTimeout(show_time, 1000 * 60);
+          timerRunning = true;
+        } else {
+          that.setData({
+            countdown: "已过期"
+          });
+          clearTimeout(timerID);
+        }
+      }
+    } catch (e) {
+      wx.hideLoading();
+    }
+
+    this.setData({
+      auth: app.hasAuth()
+    });
   },
 
+  /**
+   * 100个运气值去参与100个抽奖，总权重是100，去参与一个抽奖，总权重是199。这是鼓励用户在一个抽奖里多消耗运气值
+   * @param e
+   */
   onAddWeight: function(e) {
-    //TODO: 减少运气值
+    // 减少运气值在服务端计算
     let weight = this.data.weight + 2;
     this.setData({
       weight
     });
   },
   onShare: function(e) {},
-  onAttend: function(e) {},
+  onAttend: function(e) {
+    // 调用云函数
+  },
 
   //TODO: 可以做一个共享的behavior
   userInfoHandler(data) {

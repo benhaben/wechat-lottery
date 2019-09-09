@@ -77,7 +77,7 @@
     <van-button wx:if="{{!auth}}" type="primary" size="large" icon="gift-card" open-type="getUserInfo" bindgetuserinfo="userInfoHandler">发起抽奖
     </van-button>
 
-    <van-button wx:else type="primary" size="large" color="darkgoldenrod" icon="gift-card" bindtap="onConfirm">发起抽奖
+    <van-button wx:else type="primary" :loading="loading" size="large" color="darkgoldenrod" icon="gift-card" bindtap="onConfirm">发起抽奖
     </van-button>
   </view>
 

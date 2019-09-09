@@ -1,4 +1,4 @@
-import { TABLE_ID, FUNCTION_NAME } from "../utils/constants";
+import { TABLE_ID, FUNCTION_NAME } from "../constants";
 
 export default {
   /**
@@ -7,7 +7,18 @@ export default {
    * @returns {Promise<*>}
    */
   async createLottery(data) {
-    return wx.BaaS.invokeFunction(FUNCTION_NAME.CREATE_LOTTERY, data);
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.CREATE_LOTTERY, data);
+    return ret.data.data;
+  },
+
+  /**
+   * 为了安全在服务端参与抽奖，减少运气值
+   * @param data
+   * @returns {Promise<*>}
+   */
+  async attendLottery(data) {
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
+    return ret.data.data;
   },
 
   async approveLottery(id = "") {

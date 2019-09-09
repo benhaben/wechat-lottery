@@ -50,9 +50,9 @@
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (r.p = ""),
-    r((r.s = 5));
-})([
-  function(e, t, r) {
+    r((r.s = 9));
+})({
+  0: function(e, t, r) {
     "use strict";
     r.d(t, "a", function() {
       return n;
@@ -61,16 +61,14 @@
         return a;
       });
     const n = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
-      a = { USER_LOTTERY_RECORD: 81892, LOTTERY: 81873, ERROR: 83510 };
+      a = {
+        USER_LOTTERY_RECORD: 81892,
+        LOTTERY: 81873,
+        ERROR: 83510,
+        CONFIG: 83587
+      };
   },
-  ,
-  ,
-  ,
-  ,
-  function(e, t, r) {
-    e.exports = r(6);
-  },
-  function(e, t, r) {
+  10: function(e, t, r) {
     "use strict";
     r.r(t);
     var n = r(0);
@@ -116,5 +114,8 @@
         t(new Error(JSON.stringify(a)));
       }
     };
+  },
+  9: function(e, t, r) {
+    e.exports = r(10);
   }
-]);
+});

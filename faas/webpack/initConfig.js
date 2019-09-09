@@ -50,9 +50,9 @@
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (n.p = ""),
-    n((n.s = 3));
-})([
-  function(e, t, n) {
+    n((n.s = 7));
+})({
+  0: function(e, t, n) {
     "use strict";
     n.d(t, "a", function() {
       return r;
@@ -68,41 +68,52 @@
         CONFIG: 83587
       };
   },
-  ,
-  ,
-  function(e, t, n) {
-    e.exports = n(4);
+  7: function(e, t, n) {
+    e.exports = n(8);
   },
-  function(e, t, n) {
+  8: function(e, t, n) {
     "use strict";
     n.r(t);
     var r = n(0);
-    let o = new BaaS.TableObject(r.b.LOTTERY),
-      u = new BaaS.TableObject(r.b.USER_LOTTERY_RECORD);
-    const a = e => {
-      let t = new BaaS.Query();
-      return (
-        t.compare("lottery", "=", o.getWithoutData(e)), u.setQuery(t).count()
-      );
-    };
     exports.main = async function(e, t) {
       try {
-        let e = (await (() => {
-          let e = new BaaS.Query();
-          return e.compare("status", "=", 2), o.setQuery(e).find();
-        })()).data.objects;
-        if (e)
-          for (let t in e) {
-            let n = e[t];
-            a(n.id),
-              Math.round(Date.parse(n.open_date) / 1e3),
-              Math.round(new Date() / 1e3);
-            n.open_people_num;
-          }
-        else t(r.a.GET_LOTTERY_FAILED);
+        const e = new BaaS.TableObject(r.b.CONFIG).create();
+        t(
+          null,
+          await e
+            .set({
+              lucky_cost_per: 1,
+              weight_per_lucky: 2,
+              lottery_prize_list: [
+                9.9,
+                16.8,
+                33.3,
+                51.8,
+                66.6,
+                86.8,
+                88.8,
+                99.9
+              ],
+              lottery_num_people: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
+              prize_colors: [1, 0, 0, 0, 0, 0, 0, 0],
+              plans: [
+                "红包95个/福袋100个",
+                "红包97个/福袋50个",
+                "红包98个/福袋25个"
+              ],
+              plans_lucky_package: [100, 50, 25],
+              plans_lottery_package: [95, 97, 98],
+              lucky_ratio_open: 100,
+              lucky_ratio_success: 1e3,
+              lucky_ratio_lucky_package: 10,
+              lucky_ratio_invitation: 100,
+              lucky_ratio_invitation_open: 10
+            })
+            .save()
+        );
       } catch (e) {
         t(e);
       }
     };
   }
-]);
+});
