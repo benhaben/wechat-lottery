@@ -2,15 +2,17 @@ export const ROUTE = {
   HOME: "/pages/home/home",
   PIC_DETAILS: "/pages/pic_details/details",
   TAGS: "/pages/tags/tags",
-  ADD_LOTTERY: "/pages/lottery/lottery",
+  ADD_LOTTERY: "/pages/add_lottery/add_lottery",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
-  USER: "/pages/user/user"
+  USER: "/pages/user/user",
+  SHARE_PIC: "/pages/share_pic/share_pic"
 };
 
 export const ROUTE_DATA = {
   FROM_ADD_LOTTERY_TO_TAGS: "ADD_LOTTERY_TO_TAGS",
   BACK_PIC_DETAILS_TO_ADD_LOTTERY: "BACK_PIC_DETAILS_TO_ADD_LOTTERY",
-  BACK_TAGS_TO_ADD_LOTTERY: "BACK_TAGS_TO_ADD_LOTTERY"
+  BACK_TAGS_TO_ADD_LOTTERY: "BACK_TAGS_TO_ADD_LOTTERY",
+  FROM_ATTEND_LOTTERY_TO_SHARE_PIC: "FROM_ATTEND_LOTTERY_TO_SHARE_PIC"
 };
 
 export const ERR_TYPE = {

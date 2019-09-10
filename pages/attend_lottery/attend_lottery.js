@@ -1,5 +1,5 @@
 // pages/attend_lottery/attend_lottery.js
-import { CONST, ROUTE } from "../../utils/constants";
+import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import lotteryRep from "../../utils/dao/lotteryRep";
 
 const { regeneratorRuntime } = global;
@@ -29,7 +29,8 @@ Page({
     attendBtnLoading: false,
     hasAttended: true,
     selfLuckyNum: 0,
-    open_date: null
+    open_date: null,
+    showSharePopup: false
   },
 
   /**
@@ -37,9 +38,9 @@ Page({
    */
   onLoad: async function(options) {
     let that = this;
-    // let lottery_id = options.id;
+    let lottery_id = options.id;
     // let lottery_id = "5d75f93b1bb32a389a830414";
-    let lottery_id = "5d7612d71db94f5d2e68fd74";
+    // let lottery_id = "5d7612d71db94f5d2e68fd74";
 
     this.setData({
       selfLuckyNum: app.getLuckyNum(),
@@ -153,21 +154,25 @@ Page({
    */
   onAddWeight: function(e) {
     // 要留一个参与现在的抽奖
-    if (this.data.selfLuckyNum > 1) {
-      let weight = this.data.weight + 2;
-      let selfLuckyNum = this.data.selfLuckyNum - 1;
-      this.setData({ weight, selfLuckyNum });
+    if (this.data.hasAttended || this.data.selfLuckyNum <= 1) {
+      return;
     }
+
+    let weight = this.data.weight + 2;
+    let selfLuckyNum = this.data.selfLuckyNum - 1;
+    this.setData({ weight, selfLuckyNum });
   },
   goToAddLottery: function(e) {
     wx.navigateTo({
       url: `${ROUTE.ADD_LOTTERY}`
     });
   },
-  onShare: function(e) {},
   onAttend: async function(e) {
     // 调用云函数
 
+    if (this.data.hasAttended) {
+      return;
+    }
     try {
       this.setData({ attendBtnLoading: true });
       let res = await lotteryRep.attendLottery({
@@ -201,39 +206,32 @@ Page({
       }
     );
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {}
+  onCloseSharePopup() {
+    this.setData({ showSharePopup: false });
+  },
+  onShare: function(e) {
+    this.setData({ showSharePopup: true });
+  },
+  genPic: function(e) {
+    let that = this;
+    wx.navigateTo({
+      url: `${ROUTE.SHARE_PIC}`,
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit(
+          ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_SHARE_PIC,
+          that.data
+        );
+      }
+    });
+  },
+  onShareAppMessage: function() {
+    return {
+      title: `${app.getNickname()}邀请你参与[${this.data.nickname}]发起的抽奖`,
+      path: `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery_id}`,
+      success: function(res) {
+        console.log("成功", res);
+      }
+    };
+  }
 });

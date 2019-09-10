@@ -152,11 +152,14 @@
 
 .share{
   background: white;
-  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .share__btn{
-  margin: 10rpx;
-  width: 700rpx;
+  margin: 30rpx 0rpx 0rpx 0rpx;
+  width: 80%;
   height: 80rpx;
   background: gray;
   color: white;
@@ -164,7 +167,27 @@
 }
 
 .share__tips{
+  margin: 15rpx;
   color:gray;
   font-size: 25rpx;
   text-align: center;
+}
+
+
+.popup{
+  background: white;
+  display: flex;
+  height: 200rpx;
+  align-items: center;
+  color:gray;
+}
+.popup-item{
+  flex-grow: 1;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-item-btn{
+  margin: 20rpx;
 }

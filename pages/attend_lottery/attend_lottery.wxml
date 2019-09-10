@@ -113,16 +113,17 @@
     <view class="action__row">
       <view wx:if="{{!auth}}">
         <button
-                class="action__btn circle-border-radius"
-                type="warn"
-                open-type="getUserInfo"
-                bindgetuserinfo="userInfoHandler">
+          class="action__btn circle-border-radius"
+          type="warn"
+          open-type="getUserInfo"
+          bindgetuserinfo="userInfoHandler">
           <text wx:if="{{hasAttended}}">待开奖</text>
           <text wx:else>参与抽奖</text>
         </button>
       </view>
 
-      <button wx:else :loading="attendBtnLoading" class="action__btn circle-border-radius" type="warn" bindtap="onAttend">
+      <button wx:else :loading="attendBtnLoading" class="action__btn circle-border-radius" type="warn"
+              bindtap="onAttend">
         <text wx:if="{{hasAttended}}">待开奖</text>
         <text wx:else>参与抽奖</text>
       </button>
@@ -151,3 +152,18 @@
   </view>
 </view>
 
+
+<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup">
+
+  <view class="popup">
+    <view class="popup-item">
+      <van-button  class="popup-item-btn" icon="share" open-type="share" type="danger"  hairline ></van-button >
+      <view>分享</view>
+    </view>
+    <view class="popup-item">
+      <van-button  class="popup-item-btn"  icon="photo-o"  type="danger" bindtap="genPic" hairline ></van-button >
+      <view>生成图片</view>
+    </view>
+  </view>
+
+</van-popup>

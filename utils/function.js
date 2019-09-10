@@ -5,7 +5,9 @@ function formatNumber(n) {
   return n[1] ? n : "0" + n;
 }
 
-const formatTime = date => {
+const formatTime = timestamp => {
+  var date = new Date();
+  date.setTime(timestamp);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -14,10 +16,20 @@ const formatTime = date => {
   const second = date.getSeconds();
 
   return (
-    [year, month, day].map(formatNumber).join("/") +
+    [year, month, day].map(formatNumber).join("-") +
     " " +
-    [hour, minute, second].map(formatNumber).join(":")
+    [hour, minute].map(formatNumber).join(":")
   );
+};
+
+const formatDate = timestamp => {
+  var date = new Date();
+  date.setTime(timestamp);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return [year, month, day].map(formatNumber).join("-");
 };
 
 const openDateTimeStamp = () => {
@@ -33,4 +45,4 @@ const toFixed1 = num => {
   return new Big(num).toFixed(1);
 };
 
-module.exports = { formatTime, toFixed1, openDateTimeStamp };
+module.exports = { formatTime, formatDate, toFixed1, openDateTimeStamp };

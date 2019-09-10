@@ -1,12 +1,13 @@
 {
   "pages": [
-    "pages/home/home",
     "pages/attend_lottery/attend_lottery",
-    "pages/lottery/lottery",
-    "pages/lottery/lottery_wrap",
+    "pages/home/home",
+    "pages/add_lottery/add_lottery",
+    "pages/add_lottery/lottery_wrap",
     "pages/tags/tags",
     "pages/pic_details/details",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/share_pic/share_pic"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -15,7 +16,6 @@
     "navigationBarTitleText": "好运码头",
     "navigationBarTextStyle": "black"
   },
-
   "tabBar": {
     "custom": true,
     "selectedColor": "#d81e06",
@@ -24,7 +24,7 @@
         "pagePath": "pages/home/home"
       },
       {
-        "pagePath": "pages/lottery/lottery_wrap"
+        "pagePath": "pages/add_lottery/lottery_wrap"
       },
       {
         "pagePath": "pages/user/user"
@@ -50,7 +50,8 @@
     "van-switch-cell": "lib/van/switch-cell/index",
     "x-richtext": "/components/x-richtext/index",
     "copy-area": "/components/copy-area/copy-area",
-    "van-progress": "lib/van/progress/index"
+    "van-progress": "lib/van/progress/index",
+    "poster": "/components/poster-gen-canvas/poster/index"
   },
   "sitemapLocation": "sitemap.json"
 }

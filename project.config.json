@@ -25,5 +25,41 @@
 		}
 	},
 	"simulatorPluginLibVersion": {},
-	"condition": {}
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/attend_lottery/attend_lottery",
+					"pathName": "pages/attend_lottery/attend_lottery",
+					"query": "id=5d7612d71db94f5d2e68fd74",
+					"scene": 1036,
+					"referrerInfo": {}
+				},
+				{
+					"id": 1,
+					"name": "pages/share_pic/share_pic",
+					"pathName": "pages/share_pic/share_pic",
+					"query": "id=5d7612d71db94f5d2e68fd74",
+					"scene": 1001
+				}
+			]
+		}
+	}
 }

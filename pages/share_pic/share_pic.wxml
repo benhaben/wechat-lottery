@@ -1,0 +1,4 @@
+<image mode="widthFix" src="{{url}}"/>
+
+<poster class="poster" id="poster" hide-loading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess"  bind:fail="onPosterFail">
+</poster>

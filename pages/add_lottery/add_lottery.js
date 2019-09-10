@@ -208,7 +208,7 @@ Page({
       });
 
       const params = {
-        // totalCost: lottery.total_prize,
+        // totalCost: add_lottery.total_prize,
         totalCost: 0.1,
         merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
         merchandiseSchemaID: TABLE_ID.LOTTERY,
