@@ -30,6 +30,17 @@ App({
     let user = store.getUserInfo();
     return user.nickname;
   },
+  getUserId: function() {
+    let user = store.getUserInfo();
+    return user.id;
+  },
+  getLuckyNum: function() {
+    let user = store.getUserInfo();
+    return user.lucky_num;
+  },
+  setUserInfo: function(userInfo) {
+    store.setUserInfo(userInfo);
+  },
   getUserInfo: function(uid) {
     let MyUser = new wx.BaaS.User();
     MyUser.get(uid).then(res => {

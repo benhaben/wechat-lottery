@@ -1,9 +1,4 @@
 {
-    "usingComponents":
-    {
-        "dayliy-lottery-list": "../../components/lottery-list/dayliy-lottery-list",
-        "recycle-view": "../../components/miniprogram-recycle-view/recycle-view",
-        "recycle-item": "../../components/miniprogram-recycle-view/recycle-item"
-    },
-    "navigationBarTitleText": "公共抽奖"
+  "usingComponents": {},
+  "navigationBarTitleText": "公共抽奖"
 }

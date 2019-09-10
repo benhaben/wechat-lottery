@@ -2,8 +2,8 @@
   var e = {};
   function n(r) {
     if (e[r]) return e[r].exports;
-    var o = (e[r] = { i: r, l: !1, exports: {} });
-    return t[r].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
+    var a = (e[r] = { i: r, l: !1, exports: {} });
+    return t[r].call(a.exports, a, a.exports, n), (a.l = !0), a.exports;
   }
   (n.m = t),
     (n.c = e),
@@ -25,13 +25,13 @@
         Object.defineProperty(r, "default", { enumerable: !0, value: t }),
         2 & e && "string" != typeof t)
       )
-        for (var o in t)
+        for (var a in t)
           n.d(
             r,
-            o,
+            a,
             function(e) {
               return t[e];
-            }.bind(null, o)
+            }.bind(null, a)
           );
       return r;
     }),
@@ -58,10 +58,10 @@
       return r;
     }),
       n.d(e, "b", function() {
-        return o;
+        return a;
       });
     const r = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
-      o = {
+      a = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
         ERROR: 83510,
@@ -76,10 +76,26 @@
     n.r(e);
     var r = n(0);
     exports.main = async function(t, e) {
-      const n = t.data;
+      const { lottery_id: n, weight: a } = t.data,
+        o = t.request.user.id;
       try {
-        const t = new BaaS.TableObject(r.b.LOTTERY).create();
-        e(null, await t.set(n).save());
+        let t = new BaaS.User(),
+          u = await t.get(o);
+        console.log(`user : ${u}`);
+        let i = new BaaS.TableObject(r.b.LOTTERY).getWithoutData(n);
+        const c = new BaaS.TableObject(r.b.USER_LOTTERY_RECORD).create();
+        e(
+          null,
+          await c
+            .set({
+              user: t.getWithoutData(o),
+              avatar: u.data.avatar,
+              nickname: u.data.nickname,
+              lottery: i,
+              weight: a
+            })
+            .save()
+        );
       } catch (t) {
         e(t);
       }

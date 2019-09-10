@@ -38,7 +38,7 @@
         倒计时：
       </view>
       <view class="info__row_value">
-        {{countdown}}
+        {{countdownStr}}
       </view>
     </view>
 
@@ -101,20 +101,31 @@
       <view>中奖权重 ：{{weight}}</view>
       <van-icon name="add" size="60rpx" bind:click="onAddWeight"/>
     </view>
-    <view class="weight-info">一个运气值，增加两个权重</view>
+
+    <view class="container-info">
+      <view class="lucky-info">运气值：{{selfLuckyNum}}</view>
+      <view class="weight-info">一个运气值，增加两个权重</view>
+    </view>
+
   </view>
 
   <view class="action">
     <view class="action__row">
-      <button wx:if="{{!auth}}"
-              class="action__btn circle-border-radius"
-              type="warn"
-              open-type="getUserInfo"
-              bindgetuserinfo="userInfoHandler">
-        参与抽奖
-      </button>
+      <view wx:if="{{!auth}}">
+        <button
+                class="action__btn circle-border-radius"
+                type="warn"
+                open-type="getUserInfo"
+                bindgetuserinfo="userInfoHandler">
+          <text wx:if="{{hasAttended}}">待开奖</text>
+          <text wx:else>参与抽奖</text>
+        </button>
+      </view>
 
-      <button wx:else class="action__btn circle-border-radius" type="warn" bindtap="onAttend">参与抽奖</button>
+      <button wx:else :loading="attendBtnLoading" class="action__btn circle-border-radius" type="warn" bindtap="onAttend">
+        <text wx:if="{{hasAttended}}">待开奖</text>
+        <text wx:else>参与抽奖</text>
+      </button>
     </view>
     <view class="action__row">
       <view class="action__num">
@@ -127,7 +138,7 @@
     </view>
   </view>
 
-  <view class="add-lottery">
+  <view class="add-lottery" bindtap="goToAddLottery">
     我要发抽奖
     <van-icon class="icon" name="arrow"/>
   </view>

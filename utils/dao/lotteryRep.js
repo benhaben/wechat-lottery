@@ -18,6 +18,7 @@ export default {
    */
   async attendLottery(data) {
     let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
+    debugger;
     return ret.data.data;
   },
 
@@ -41,11 +42,48 @@ export default {
 
   async getLotteryById(id = "") {
     if (!id) {
-      throw TypeError("id invalid");
+      throw TypeError("id or user invalid");
     }
-    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
+    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
+    return lotteryTable.get(id);
+  },
+
+  /**
+   * 从参加抽奖记录表拿抽奖记录，拿到说明参加过了，拿不到说明没参加过
+   * @param id
+   * @param user_id
+   * @returns {Promise<*|NodePath<Node>|number|bigint|T|T>}
+   */
+  async getUserLotteryRecordByLotteryIdAndUserId(id = "", user_id = "") {
+    if (!id || !user_id) {
+      throw TypeError("id or user invalid");
+    }
+    let tableObject = new wx.BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
+    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
-    query.compare("id", "=", id);
-    return Lottery.setQuery(query).find();
+    query.compare("lottery", "=", lotteryTable.getWithoutData(id));
+    let uerTable = new wx.BaaS.User();
+    query.compare("user", "=", uerTable.getWithoutData(user_id));
+    return tableObject
+      .setQuery(query)
+      .expand(["user", "lottery"])
+      .find();
+  },
+
+  async getLotteryAttendees(id = "") {
+    if (!id) {
+      throw TypeError("id or user invalid");
+    }
+    let tableObject = new wx.BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
+    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", lotteryTable.getWithoutData(id));
+    return tableObject
+      .setQuery(query)
+      .select(["avatar"])
+      .expand(["user"])
+      .limit(8)
+      .offset(0)
+      .find();
   }
 };

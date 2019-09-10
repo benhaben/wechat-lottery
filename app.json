@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/lottery/lottery",
+    "pages/home/home",
     "pages/attend_lottery/attend_lottery",
+    "pages/lottery/lottery",
+    "pages/lottery/lottery_wrap",
     "pages/tags/tags",
     "pages/pic_details/details",
-    "pages/home/home",
     "pages/user/user"
   ],
   "window": {
@@ -14,26 +15,19 @@
     "navigationBarTitleText": "好运码头",
     "navigationBarTextStyle": "black"
   },
+
   "tabBar": {
+    "custom": true,
     "selectedColor": "#d81e06",
     "list": [
       {
-        "pagePath": "pages/home/home",
-        "text": "主页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/selected_home.png"
+        "pagePath": "pages/home/home"
       },
       {
-        "pagePath": "pages/lottery/lottery",
-        "text": "发起抽奖",
-        "iconPath": "images/lottery.png",
-        "selectedIconPath": "images/selected_lottery.png"
+        "pagePath": "pages/lottery/lottery_wrap"
       },
       {
-        "pagePath": "pages/user/user",
-        "text": "我的",
-        "iconPath": "images/user.png",
-        "selectedIconPath": "images/selected_user.png"
+        "pagePath": "pages/user/user"
       }
     ]
   },

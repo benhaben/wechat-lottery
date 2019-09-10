@@ -6,13 +6,31 @@ import { TABLE_ID } from "../utils/constants";
  * @param callback
  * @returns {Promise<void>}
  */
-exports.main = async function createLottery(event, callback) {
-  const lottery = event.data;
+exports.main = async function attendLottery(event, callback) {
+  const { lottery_id, weight } = event.data;
+  const user_id = event.request.user.id;
+
+  //TODO: 验证参数，有足够的运气值去增加权重
 
   try {
-    const tableObject = new BaaS.TableObject(TABLE_ID.LOTTERY);
-    const createObject = tableObject.create();
-    let ret = await createObject.set(lottery).save();
+    let MyUser = new BaaS.User();
+    let user = await MyUser.get(user_id);
+    console.log(`user : ${user}`);
+    const lotterytableObject = new BaaS.TableObject(TABLE_ID.LOTTERY);
+    let lottery = lotterytableObject.getWithoutData(lottery_id);
+    const recordtableObject = new BaaS.TableObject(
+      TABLE_ID.USER_LOTTERY_RECORD
+    );
+    const createObject = recordtableObject.create();
+    let ret = await createObject
+      .set({
+        user: MyUser.getWithoutData(user_id),
+        avatar: user.data.avatar,
+        nickname: user.data.nickname,
+        lottery,
+        weight
+      })
+      .save();
     callback(null, ret);
   } catch (e) {
     callback(e);

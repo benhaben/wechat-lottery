@@ -17,7 +17,7 @@ exports.main = async function verifyPayment(event, callback) {
   try {
     const data = event.data;
     const totalCost = data.total_cost;
-    const orderId = data.merchandise_record_id;
+    // const lotteryId = data.merchandise_record_id;
     const transactionNo = data.transaction_no;
     const merchandiseSnapshot = data.merchandise_snapshot;
     const lotteryId = merchandiseSnapshot.id;

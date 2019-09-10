@@ -1,66 +1,66 @@
-!(function(e) {
-  var t = {};
-  function r(n) {
-    if (t[n]) return t[n].exports;
-    var a = (t[n] = { i: n, l: !1, exports: {} });
-    return e[n].call(a.exports, a, a.exports, r), (a.l = !0), a.exports;
+!(function(t) {
+  var e = {};
+  function n(r) {
+    if (e[r]) return e[r].exports;
+    var a = (e[r] = { i: r, l: !1, exports: {} });
+    return t[r].call(a.exports, a, a.exports, n), (a.l = !0), a.exports;
   }
-  (r.m = e),
-    (r.c = t),
-    (r.d = function(e, t, n) {
-      r.o(e, t) || Object.defineProperty(e, t, { enumerable: !0, get: n });
+  (n.m = t),
+    (n.c = e),
+    (n.d = function(t, e, r) {
+      n.o(t, e) || Object.defineProperty(t, e, { enumerable: !0, get: r });
     }),
-    (r.r = function(e) {
+    (n.r = function(t) {
       "undefined" != typeof Symbol &&
         Symbol.toStringTag &&
-        Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
-        Object.defineProperty(e, "__esModule", { value: !0 });
+        Object.defineProperty(t, Symbol.toStringTag, { value: "Module" }),
+        Object.defineProperty(t, "__esModule", { value: !0 });
     }),
-    (r.t = function(e, t) {
-      if ((1 & t && (e = r(e)), 8 & t)) return e;
-      if (4 & t && "object" == typeof e && e && e.__esModule) return e;
-      var n = Object.create(null);
+    (n.t = function(t, e) {
+      if ((1 & e && (t = n(t)), 8 & e)) return t;
+      if (4 & e && "object" == typeof t && t && t.__esModule) return t;
+      var r = Object.create(null);
       if (
-        (r.r(n),
-        Object.defineProperty(n, "default", { enumerable: !0, value: e }),
-        2 & t && "string" != typeof e)
+        (n.r(r),
+        Object.defineProperty(r, "default", { enumerable: !0, value: t }),
+        2 & e && "string" != typeof t)
       )
-        for (var a in e)
-          r.d(
-            n,
+        for (var a in t)
+          n.d(
+            r,
             a,
-            function(t) {
-              return e[t];
+            function(e) {
+              return t[e];
             }.bind(null, a)
           );
-      return n;
+      return r;
     }),
-    (r.n = function(e) {
-      var t =
-        e && e.__esModule
+    (n.n = function(t) {
+      var e =
+        t && t.__esModule
           ? function() {
-              return e.default;
+              return t.default;
             }
           : function() {
-              return e;
+              return t;
             };
-      return r.d(t, "a", t), t;
+      return n.d(e, "a", e), e;
     }),
-    (r.o = function(e, t) {
-      return Object.prototype.hasOwnProperty.call(e, t);
+    (n.o = function(t, e) {
+      return Object.prototype.hasOwnProperty.call(t, e);
     }),
-    (r.p = ""),
-    r((r.s = 9));
+    (n.p = ""),
+    n((n.s = 9));
 })({
-  0: function(e, t, r) {
+  0: function(t, e, n) {
     "use strict";
-    r.d(t, "a", function() {
-      return n;
+    n.d(e, "a", function() {
+      return r;
     }),
-      r.d(t, "b", function() {
+      n.d(e, "b", function() {
         return a;
       });
-    const n = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
+    const r = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
       a = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
@@ -68,54 +68,54 @@
         CONFIG: 83587
       };
   },
-  10: function(e, t, r) {
+  10: function(t, e, n) {
     "use strict";
-    r.r(t);
-    var n = r(0);
-    const a = n.b.LOTTERY,
-      o = n.b.ERROR;
-    exports.main = async function(e, t) {
-      console.log(`verifyPayment event.data: ${JSON.stringify(e.data)}`);
+    n.r(e);
+    var r = n(0);
+    const a = r.b.LOTTERY,
+      o = r.b.ERROR;
+    exports.main = async function(t, e) {
+      console.log(`verifyPayment event.data: ${JSON.stringify(t.data)}`);
       try {
-        const r = e.data,
-          n = r.total_cost,
-          i = (r.merchandise_record_id, r.transaction_no),
-          c = r.merchandise_snapshot.id,
+        const n = t.data,
+          r = n.total_cost,
+          i = n.transaction_no,
+          c = n.merchandise_snapshot.id,
           u = new BaaS.TableObject(a),
           s = new BaaS.Query();
         s.compare("id", "=", c);
         let f = (await u.setQuery(s).find()).data.objects[0];
-        if (f && f.total_prize === n) {
+        if (f && f.total_prize === r) {
           u.set("status", 1),
             u.set("transaction_no", i),
-            t(null, await u.update());
+            e(null, await u.update());
         } else {
-          let e = new BaaS.TableObject(o),
-            r = {
+          let t = new BaaS.TableObject(o),
+            n = {
               error: "支付金额和抽奖金额不一致",
               action: "verifyPayment",
               created_by: f.created_by,
               lottery: u.getWithoutData(c)
             };
-          const n = e.create();
-          await n.set(r).save();
-          t(new Error(JSON.stringify(r)));
+          const r = t.create();
+          await r.set(n).save();
+          e(new Error(JSON.stringify(n)));
         }
-      } catch (r) {
-        let n = new BaaS.TableObject(o),
+      } catch (n) {
+        let r = new BaaS.TableObject(o),
           a = {
             error: `verifyPayment event.data: ${JSON.stringify(
-              e.data
-            )} - Error: ${r.message}`,
+              t.data
+            )} - Error: ${n.message}`,
             action: "verifyPayment"
           };
-        const i = n.create();
+        const i = r.create();
         await i.set(a).save();
-        t(new Error(JSON.stringify(a)));
+        e(new Error(JSON.stringify(a)));
       }
     };
   },
-  9: function(e, t, r) {
-    e.exports = r(10);
+  9: function(t, e, n) {
+    t.exports = n(10);
   }
 });
