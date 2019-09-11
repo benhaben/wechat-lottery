@@ -1,4 +1,10 @@
 <image mode="widthFix" src="{{url}}"/>
 
-<poster class="poster" id="poster" hide-loading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess"  bind:fail="onPosterFail">
+<poster class="poster" id="poster" hide-loading="{{false}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess"  bind:fail="onPosterFail">
 </poster>
+
+<view class="album" wx:if="{{url}}">
+  <van-button type="danger" size="large" class="album__btn" bindtap="onSaveToAlbum">保存到相册</van-button>
+</view>
+
+<van-dialog id="van-dialog" />
