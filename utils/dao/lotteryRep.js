@@ -32,11 +32,12 @@ export default {
     return lotteryRecord.update();
   },
 
-  async getLottery() {
+  async getLottery(offset) {
     let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
     return Lottery.setQuery(query)
       .limit(8)
+      .offset(offset)
       .find();
   },
 

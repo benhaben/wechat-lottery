@@ -228,7 +228,9 @@ Page({
   onShareAppMessage: function() {
     return {
       title: `${app.getNickname()}邀请你参与[${this.data.nickname}]发起的抽奖`,
-      path: `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery_id}`,
+      path: `${ROUTE.ATTEND_LOTTERY}?id=${
+        this.data.lottery_id
+      }&nickname=${app.getNickname()}`,
       success: function(res) {
         console.log("成功", res);
       }

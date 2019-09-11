@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/attend_lottery/attend_lottery",
     "pages/home/home",
+    "pages/attend_lottery/attend_lottery",
     "pages/add_lottery/add_lottery",
     "pages/add_lottery/lottery_wrap",
     "pages/tags/tags",
@@ -51,7 +51,8 @@
     "x-richtext": "/components/x-richtext/index",
     "copy-area": "/components/copy-area/copy-area",
     "van-progress": "lib/van/progress/index",
-    "poster": "/components/poster-gen-canvas/poster/index"
+    "poster": "/components/poster-gen-canvas/poster/index",
+    "lottery-item":"/components/lottery-item/lottery-item"
   },
   "sitemapLocation": "sitemap.json"
 }

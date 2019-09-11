@@ -1,0 +1,65 @@
+<view bindtap="_onTap">
+  <view class="container__image" style="background-image: url('{{lottery.url}}')">
+    <view class="container__select-image">
+      <view class="container__select-image-icon">
+        <van-icon size="35rpx" name="gift"/>
+      </view>
+      <view>
+        <text>{{lottery.id}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="info">
+    <view class="info-row">
+      <view class="info__row_left">
+        <view class="info__row_title">
+          总奖：
+        </view>
+        <view class="info__row_value">
+          {{lottery.total}}
+        </view>
+      </view>
+
+      <view class="info__row_right">
+        <view class="info__row_value">
+          {{lottery.lucky_num}} 个
+        </view>
+        <view class="info__row_title">
+          福袋：
+        </view>
+
+      </view>
+    </view>
+
+    <view class="info-row">
+      <view class="info__row_left">
+        <view class="info__row_title">
+          倒计时：
+        </view>
+        <view class="info__row_value">
+          {{lottery.countdownStr}}
+        </view>
+      </view>
+
+      <view class="info__row_right">
+        <view class="info__row_value">
+          {{lottery.open_people_num}} 人
+        </view>
+        <view class="info__row_title">
+          开奖人数：
+        </view>
+
+      </view>
+    </view>
+
+    <view class="info-row">
+      <view class="info__row_left">
+        <image src="{{avatar}}"></image>
+        <text>{{lottery.nickname}}</text>
+      </view>
+      <view class="info__row_right">
+        发起人
+      </view>
+    </view>
+  </view>
+</view>

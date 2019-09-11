@@ -163,33 +163,34 @@ Page({
     eventChannel.on(ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_SHARE_PIC, function(
       data
     ) {
-      posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
-      posterConfig.texts[6].text = `${formatTime(Date.parse(data.open_date))}`;
-
-      posterConfig.texts[4].text = `${data.total}`;
-      posterConfig.images[2].url = posterConfig.images[1].url;
-      that.onCreatePoster();
-
-      // 获取二维码的 base64
-      // wx.BaaS.getWXACode(
-      //   "wxacode",
-      //   {
-      //     path: `${ROUTE.ATTEND_LOTTERY}?id=${data.lottery_id}`
-      //   },
-      //   true,
-      //   "wxacode"
-      // )
-      //   .then(res => {
-      //     posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
-      //     posterConfig.texts[6].text = `${formatTime(Date.parse(data.open_date))}`;
+      // posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
+      // posterConfig.texts[6].text = `${formatTime(Date.parse(data.open_date))}`;
       //
-      //     posterConfig.texts[4].text = `${data.total}`;
-      //     posterConfig.images[2].url = res.download_url;
-      //     that.onCreatePoster();
-      //   })
-      //   .catch(err => {
-      //     console.log("wxacode" + err);
-      //   });
+      // posterConfig.texts[4].text = `${data.total}`;
+      // posterConfig.images[2].url = posterConfig.images[1].url;
+      // that.onCreatePoster();
+
+      wx.BaaS.getWXACode(
+        "wxacode",
+        {
+          path: `${ROUTE.ATTEND_LOTTERY}?id=${data.lottery_id}`
+        },
+        true,
+        "wxacode"
+      )
+        .then(res => {
+          posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
+          posterConfig.texts[6].text = `${formatTime(
+            Date.parse(data.open_date)
+          )}`;
+
+          posterConfig.texts[4].text = `${data.total}`;
+          posterConfig.images[2].url = res.download_url;
+          that.onCreatePoster();
+        })
+        .catch(err => {
+          console.log("wxacode" + err);
+        });
     });
   },
 

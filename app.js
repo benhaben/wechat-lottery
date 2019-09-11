@@ -48,6 +48,19 @@ App({
       store.setUserInfo(userInfo);
     });
   },
+  saveInvitationInfo({ uid, lotteryID }) {
+    wx.BaaS.storage.set("my_inviter_uid", uid);
+    wx.BaaS.storage.set("invitation_lottery_id", lotteryID);
+  },
+  getInvitationInfo() {
+    let uid = wx.BaaS.storage.get("my_inviter_uid");
+    uid = uid ? Number(uid) : uid;
+    let lotteryID = wx.BaaS.storage.get("invitation_lottery_id");
+    return {
+      uid,
+      lotteryID
+    };
+  },
   onShow: function(options) {
     // 上报模版消息卡片点击事
     wx.BaaS.reportTemplateMsgAnalytics(options);

@@ -1,26 +1,24 @@
-<template name="recycleItem">
-    <block wx:for="{{recycleList}}" wx:key="{{id}}">
-        <view wx:if="{{index===0}}" class="item stick-item">
-            <view class="pd-banner" style="background-image: url('{{item.bannerUrl}}')" />
-            <view class="pd-detail">
-                <text class="font-mid">奖品：小米九号平衡车 X1</text>
-                <text class="time">08月18日 14:04 自动开奖</text>
-                <view class="vip">
-                    <view class="icon-vip" />
-                    <text>星空下的童话</text>
-                </view>
-            </view>
-        </view>
-        <view wx:else class="item">
-            <view class="pd-banner" style="background-image: url('{{item.bannerUrl}}')" />
-            <view class="pd-detail">
-                <text class="font-mid">奖品：小米九号平衡车 X1</text>
-                <text class="time">08月18日 14:04 自动开奖</text>
-                <view class="vip">
-                    <view class="icon-vip" />
-                    <text>星空下的童话</text>
-                </view>
-            </view>
-        </view>
-    </block>
-</template>
+<view class="bar h-flex flex-row flex-align-center flex-justify-content-between">
+  <view class="h-flex flex-row flex-align-center">
+    <van-icon class="bar__lucky-like color-red" size="60rpx" name="like"/>
+    <view class="bar__lucky-num ">
+      {{lucky_num}} 运气值
+    </view>
+  </view>
+
+  <view class="bar__sign" bindtap="onGotoSign">
+    去签到
+    <van-icon class="arrow-vertical-align" name="arrow"/>
+  </view>
+</view>
+
+
+<view class="list-bar h-flex flex-align-center flex-justify-content-between">
+  <view class="list-bar__title">每日推荐</view>
+  <view class="share">每日集好运 | 分享</view>
+</view>
+
+
+<view class="container" wx:for="{{lotteries}}" wx:key="{{index}}">
+    <lottery-item :lottery="{{item}}"></lottery-item>
+</view>
