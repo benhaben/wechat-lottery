@@ -3,7 +3,7 @@ import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
-import lotteryRep from "../../utils/dao/lotteryRep";
+import lotteryRep from "../../utils/dao";
 
 const { regeneratorRuntime } = global;
 
@@ -216,18 +216,16 @@ Page({
         merchandiseSnapshot: lottery
       };
 
-      // TODO: 触发器会更新lottery状态
-      // let res = await wx.BaaS.pay(params);
-      // console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
+      let res = await wx.BaaS.pay(params);
+      console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
 
-      // 有审批功能后移除
+      // TODO: 有审批功能后移除
       await lotteryRep.approveLottery(lottery.id);
 
       this.setData({
         loading: false
       });
 
-      //TODO: 跳转到参与抽奖页面，那边是只读页面，自己也可以参与抽奖，也可以分享
       wx.navigateTo({
         url: `${ROUTE.ATTEND_LOTTERY}?id=${lottery.id}`
       });

@@ -21,6 +21,12 @@ export function scripts() {
     .pipe(named())
     .pipe(
       webpack({
+        target: "node",
+        output: {
+          library: "exports.main",
+          libraryTarget: "assign",
+          libraryExport: "default"
+        },
         mode: "production"
         // mode: "development"
         // devtool: "inline-source-map"

@@ -1,4 +1,10 @@
-import { TABLE_ID, FUNCTION_NAME } from "../constants";
+import {
+  FUNCTION_NAME,
+  LOTTERY_TABLE,
+  USER_LOTTERY_RECORD_TABLE,
+  USER_TABLE,
+  PAGE_SIZE
+} from "./constants";
 
 export default {
   /**
@@ -18,7 +24,6 @@ export default {
    */
   async attendLottery(data) {
     let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
-    debugger;
     return ret.data.data;
   },
 
@@ -26,17 +31,16 @@ export default {
     if (!id) {
       throw TypeError("id invalid");
     }
-    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
-    let lotteryRecord = Lottery.getWithoutData(id);
+    let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
     lotteryRecord.set({ status: 2 });
     return lotteryRecord.update();
   },
 
   async getLottery(offset) {
-    let Lottery = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
-    return Lottery.setQuery(query)
-      .limit(8)
+    query.compare("status", "=", 2);
+    return LOTTERY_TABLE.setQuery(query)
+      .limit(PAGE_SIZE)
       .offset(offset)
       .find();
   },
@@ -45,8 +49,7 @@ export default {
     if (!id) {
       throw TypeError("id or user invalid");
     }
-    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
-    return lotteryTable.get(id);
+    return LOTTERY_TABLE.get(id);
   },
 
   /**
@@ -59,14 +62,10 @@ export default {
     if (!id || !user_id) {
       throw TypeError("id or user invalid");
     }
-    let tableObject = new wx.BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
-    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
-    query.compare("lottery", "=", lotteryTable.getWithoutData(id));
-    let uerTable = new wx.BaaS.User();
-    query.compare("user", "=", uerTable.getWithoutData(user_id));
-    return tableObject
-      .setQuery(query)
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    query.compare("user", "=", USER_TABLE.getWithoutData(user_id));
+    return USER_LOTTERY_RECORD_TABLE.setQuery(query)
       .expand(["user", "lottery"])
       .find();
   },
@@ -75,12 +74,9 @@ export default {
     if (!id) {
       throw TypeError("id or user invalid");
     }
-    let tableObject = new wx.BaaS.TableObject(TABLE_ID.USER_LOTTERY_RECORD);
-    let lotteryTable = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
     let query = new wx.BaaS.Query();
-    query.compare("lottery", "=", lotteryTable.getWithoutData(id));
-    return tableObject
-      .setQuery(query)
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    return USER_LOTTERY_RECORD_TABLE.setQuery(query)
       .select(["avatar"])
       .expand(["user"])
       .limit(8)

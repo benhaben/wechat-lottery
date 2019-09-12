@@ -30,15 +30,6 @@ export const TABLE_ID = {
   CONFIG: 83587
 };
 
-export const CONFIG_ID = "5d7917899d8da5229c037105";
-export const USER_LOTTERY_RECORD_TABLE = new wx.BaaS.TableObject(
-  TABLE_ID.USER_LOTTERY_RECORD
-);
-export const LOTTERY_TABLE = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
-export const CONFIG_TABLE = new wx.BaaS.TableObject(TABLE_ID.CONFIG);
-export const ERROR_TABLE = new wx.BaaS.TableObject(TABLE_ID.ERROR);
-export const USER_TABLE = new wx.BaaS.User();
-
 export const FUNCTION_NAME = {
   CREATE_LOTTERY: "createLottery",
   ATTEND_LOTTERY: "attendLottery"
@@ -66,8 +57,6 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
   ]
 };
 
-export const PAGE_SIZE = 10;
-
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 export const CONST = {
   DEFAULT_URL:
@@ -77,7 +66,7 @@ export const CONST = {
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
   PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"], // 福袋比例
   PLANS_LUCKY_PACKAGE: [100, 50, 25], // 不同方案福袋个数，和每个福袋运气值计算相关
-  plans_lottery_package: [95, 97, 98], // 不同方案红包个数
+  PLANS_LOTTERY_PACKAGE: [95, 97, 98], // 不同方案红包个数
   LUCKY_RATIO_OPEN: 100, // 发起抽奖运气值奖励，金额乘以该值
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
   LUCKY_RATIO_LUCKY_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值

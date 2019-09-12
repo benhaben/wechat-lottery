@@ -53,6 +53,8 @@ view{
 .bg-gray {background-color: #8a8a8a;}
 .bg-red {background-color: #E20F15;}
 .color-red{color: #E20F15;}
+.color-white{color: white;}
+
 .img-s-4{
   width: 2.5rem;
   height: 2.5rem;

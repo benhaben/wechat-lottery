@@ -1,6 +1,6 @@
 // pages/attend_lottery/attend_lottery.js
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
-import lotteryRep from "../../utils/dao/lotteryRep";
+import lotteryRep from "../../utils/dao";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -93,7 +93,6 @@ Page({
       });
       this.countDown();
     } catch (e) {
-      debugger;
       console.log(e);
     }
   },

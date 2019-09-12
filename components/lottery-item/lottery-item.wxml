@@ -1,4 +1,4 @@
-<view bindtap="_onTap">
+<view class="container" bindtap="_onTap">
   <view class="container__image" style="background-image: url('{{lottery.url}}')">
     <view class="container__select-image">
       <view class="container__select-image-icon">
@@ -54,7 +54,7 @@
 
     <view class="info-row">
       <view class="info__row_left">
-        <image src="{{avatar}}"></image>
+        <image src="{{lottery.avatar}}"></image>
         <text>{{lottery.nickname}}</text>
       </view>
       <view class="info__row_right">
