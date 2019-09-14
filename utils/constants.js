@@ -1,3 +1,5 @@
+// 本文件需要考虑兼容性，需要在faas那边也用，所以不要使用wx.开头的函数
+
 export const ROUTE = {
   HOME: "/pages/home/home",
   PIC_DETAILS: "/pages/pic_details/details",
@@ -16,7 +18,8 @@ export const ROUTE_DATA = {
 };
 
 export const ERR_TYPE = {
-  GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED"
+  GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
+  OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
 };
 
 // 活动规则内容库 id
@@ -27,17 +30,11 @@ export const TABLE_ID = {
   USER_LOTTERY_RECORD: 81892,
   LOTTERY: 81873,
   ERROR: 83510,
-  CONFIG: 83587
+  CONFIG: 83587,
+  BALANCE_LUCKY_RECORD: 83371
 };
 
 export const CONFIG_ID = "5d7917899d8da5229c037105";
-export const USER_LOTTERY_RECORD_TABLE = new wx.BaaS.TableObject(
-  TABLE_ID.USER_LOTTERY_RECORD
-);
-export const LOTTERY_TABLE = new wx.BaaS.TableObject(TABLE_ID.LOTTERY);
-export const CONFIG_TABLE = new wx.BaaS.TableObject(TABLE_ID.CONFIG);
-export const ERROR_TABLE = new wx.BaaS.TableObject(TABLE_ID.ERROR);
-export const USER_TABLE = new wx.BaaS.User();
 
 export const FUNCTION_NAME = {
   CREATE_LOTTERY: "createLottery",
@@ -70,6 +67,9 @@ export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 export const CONST = {
+  ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
+  ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重
+  GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
   DEFAULT_URL:
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
   LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9], // 红包金额

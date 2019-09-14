@@ -5,7 +5,7 @@
         <van-icon size="35rpx" name="gift"/>
       </view>
       <view>
-        <text>{{lottery.id}}</text>
+        <text>{{lottery.hash}}</text>
       </view>
     </view>
   </view>

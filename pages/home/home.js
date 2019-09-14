@@ -21,7 +21,7 @@ Page({
     }
 
     let add = lotteries.data.objects.map(lottery => {
-      lottery.id = lottery.id.substr(0, 10);
+      lottery.hash = lottery.id.substr(0, 10);
       lottery.total = `${lottery.total_prize}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       return lottery;
@@ -38,6 +38,11 @@ Page({
       //   debugger
       //   console.log(err);
       // });
+
+      await app.getUserInfo(app.getUserId());
+      this.setData({
+        lucky_num: app.getLuckyNum()
+      });
 
       await this.loadMore();
     } catch (e) {

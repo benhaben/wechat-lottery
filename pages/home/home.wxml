@@ -28,6 +28,6 @@
  <button class="bottom__btn color-white bg-red" bindtap="onMore">
    点击加载 10 个抽奖
  </button>
-  <view class="bottom_info">需消耗 10 个运气值</view>
+  <view class="bottom_info"></view>
 </view>
 </view>

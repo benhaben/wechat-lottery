@@ -1,12 +1,19 @@
+/**
+ * 服务端转用，BaaS不需要加wx.前缀
+ */
+
 import { TABLE_ID } from "../../utils/constants";
 
-export const CONFIG_ID = "5d7917899d8da5229c037105";
 export const USER_LOTTERY_RECORD_TABLE = new BaaS.TableObject(
   TABLE_ID.USER_LOTTERY_RECORD
 );
 export const LOTTERY_TABLE = new BaaS.TableObject(TABLE_ID.LOTTERY);
 export const CONFIG_TABLE = new BaaS.TableObject(TABLE_ID.CONFIG);
 export const ERROR_TABLE = new BaaS.TableObject(TABLE_ID.ERROR);
+export const USER_TABLE = new BaaS.User();
+export const BALANCE_LUCKY_RECORD_TABLE = new BaaS.TableObject(
+  TABLE_ID.BALANCE_LUCKY_RECORD
+);
 
 export async function getAttendeesCount(id) {
   let query = new BaaS.Query();

@@ -51,122 +51,206 @@ exports.main = (function(e) {
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (r.p = ""),
-    r((r.s = 9))
+    r((r.s = 7))
   );
-})({
-  0: function(e, t, r) {
+})([
+  function(e, t, r) {
     "use strict";
-    r.d(t, "a", function() {
+    r.d(t, "c", function() {
       return n;
     }),
-      r.d(t, "b", function() {
+      r.d(t, "d", function() {
         return o;
+      }),
+      r.d(t, "a", function() {
+        return i;
+      }),
+      r.d(t, "b", function() {
+        return c;
       });
-    const n = { GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED" },
+    const n = {
+        GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
+        OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
+      },
       o = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
         ERROR: 83510,
-        CONFIG: 83587
+        CONFIG: 83587,
+        BALANCE_LUCKY_RECORD: 83371
+      },
+      i = "5d7917899d8da5229c037105",
+      c = {
+        ATTEND_LOTTERY_COST: 1,
+        ONE_LUCKY_NUM_WEIGHT: 2,
+        GET_MORE_REDUCE_LUCKY_NUM: -10,
+        DEFAULT_URL:
+          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
+        LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9],
+        LOTTERY_NUM_PEOPLE: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
+        PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
+        PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
+        PLANS_LUCKY_PACKAGE: [100, 50, 25],
+        plans_lottery_package: [95, 97, 98],
+        LUCKY_RATIO_OPEN: 100,
+        LUCKY_RATIO_SUCCESS: 1e3,
+        LUCKY_RATIO_LUCKY_PACKAGE: 10,
+        LUCKY_RATIO_INVITATION: 100,
+        LUCKY_RATIO_INVITATION_OPEN: 10,
+        MAX_SELECTED: 8,
+        TAGS: [
+          "人工智能",
+          "商业管理",
+          "化妆品",
+          "亲子教育",
+          "科技",
+          "互联网",
+          "旅游",
+          "美食",
+          "动漫",
+          "程序开发",
+          "微商",
+          "自由职业",
+          "健身",
+          "篮球",
+          "足球",
+          "购物",
+          "翻译",
+          "英语",
+          "脱口秀",
+          "美剧",
+          "音乐",
+          "吉他",
+          "摇滚",
+          "阿拉贝卡",
+          "区块链",
+          "A股",
+          "美股",
+          "港股",
+          "美女",
+          "帅哥",
+          "模特",
+          "腔调",
+          "北上广深",
+          "来自农村",
+          "二三四线",
+          "火星",
+          "60后",
+          "70后",
+          "80后",
+          "90后"
+        ],
+        TAG_FLAGS: [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        DEFAULT_TAG_ITEMS: [
+          "80后",
+          "A股",
+          "微商",
+          "足球",
+          "音乐",
+          "亲子教育",
+          "美食",
+          "美女"
+        ]
       };
   },
-  1: function(e, t, r) {
+  function(e, t, r) {
     "use strict";
-    r.d(t, "a", function() {
+    r.d(t, "e", function() {
       return o;
     }),
-      r.d(t, "e", function() {
-        return i;
-      }),
       r.d(t, "d", function() {
-        return s;
+        return i;
       }),
       r.d(t, "b", function() {
         return c;
       }),
       r.d(t, "c", function() {
-        return u;
+        return s;
       }),
       r.d(t, "f", function() {
+        return u;
+      }),
+      r.d(t, "a", function() {
         return f;
       }),
       r.d(t, "g", function() {
         return l;
+      }),
+      r.d(t, "h", function() {
+        return a;
       });
     var n = r(0);
-    const o = "5d7917899d8da5229c037105",
-      i = new BaaS.TableObject(n.b.USER_LOTTERY_RECORD),
-      s = new BaaS.TableObject(n.b.LOTTERY),
-      c = new BaaS.TableObject(n.b.CONFIG),
-      u = new BaaS.TableObject(n.b.ERROR);
-    async function f(e) {
+    const o = new BaaS.TableObject(n.d.USER_LOTTERY_RECORD),
+      i = new BaaS.TableObject(n.d.LOTTERY),
+      c = new BaaS.TableObject(n.d.CONFIG),
+      s = new BaaS.TableObject(n.d.ERROR),
+      u = new BaaS.User(),
+      f = new BaaS.TableObject(n.d.BALANCE_LUCKY_RECORD);
+    async function l(e) {
       let t = new BaaS.Query();
       return (
-        t.compare("lottery", "=", s.getWithoutData(e)), i.setQuery(t).count()
+        t.compare("lottery", "=", i.getWithoutData(e)), o.setQuery(t).count()
       );
     }
-    async function l() {
+    async function a() {
       let e = new BaaS.Query();
       return (
         e.compare("status", "=", 2),
-        s
+        i
           .setQuery(e)
           .limit(10)
           .find()
       );
     }
   },
-  16: function(e, t, r) {
-    "use strict";
-    r.r(t);
-    var n = r(0);
-    r(2);
-    var o = r(1);
-    async function i(e, t) {
-      console.log(`checkLotteryStatus - event: ${e}`);
-      try {
-        let e = (await Object(o.g)()).data.objects;
-        if ((console.log(`openedLotteries: ${JSON.stringify(e)}`), e)) {
-          for (let t in e) {
-            console.log(`openedLotteries[lotteryIndex] - ${e[t]}`);
-            let n = e[t],
-              i = await Object(o.f)(n.id);
-            console.log(`getAttendeesCount: ${i}`);
-            let s =
-              Math.round(Date.parse(n.open_date) / 1e3) -
-              Math.round(new Date() / 1e3);
-            if (i < n.open_people_num && s <= 0) {
-              let e =
-                ((r = void 0),
-                (r = Date.parse(new Date())),
-                (r /= 1e3),
-                new Date(1e3 * (r + 86400)).toISOString());
-              console.log(
-                `人数不够，时间已经到了，顺延24小时 - lottery.id: ${n.id}, time: ${e}`
-              );
-              let t = o.d.getWithoutData(n.id);
-              t.set("open_date", e);
-              await t.update();
-            }
-          }
-          t(null, "success");
-        } else t(n.a.GET_LOTTERY_FAILED);
-      } catch (e) {
-        t(e);
-      }
-      var r;
-    }
-    r.d(t, "default", function() {
-      return i;
-    });
-  },
-  2: function(e, t, r) {
+  function(e, t, r) {
     var n;
     !(function(o) {
       "use strict";
       var i,
-        s = 20,
-        c = 1,
+        c = 20,
+        s = 1,
         u = 1e6,
         f = -7,
         l = 21,
@@ -174,10 +258,10 @@ exports.main = (function(e) {
         h = a + "Invalid ",
         d = h + "decimal places",
         p = h + "rounding mode",
-        g = {},
-        v = void 0,
-        w = /^-?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
-      function b(e, t, r, n) {
+        _ = {},
+        E = void 0,
+        g = /^-?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
+      function O(e, t, r, n) {
         var o = e.c,
           i = e.e + t + 1;
         if (i < o.length) {
@@ -185,7 +269,7 @@ exports.main = (function(e) {
           else if (2 === r)
             n =
               o[i] > 5 ||
-              (5 == o[i] && (n || i < 0 || o[i + 1] !== v || 1 & o[i - 1]));
+              (5 == o[i] && (n || i < 0 || o[i + 1] !== E || 1 & o[i - 1]));
           else if (3 === r) n = n || !!o[0];
           else if (((n = !1), 0 !== r)) throw Error(p);
           if (i < 1)
@@ -198,17 +282,17 @@ exports.main = (function(e) {
         } else if (r < 0 || r > 3 || r !== ~~r) throw Error(p);
         return e;
       }
-      function E(e, t, r, n) {
+      function T(e, t, r, n) {
         var o,
           i,
-          s = e.constructor,
-          c = !e.c[0];
-        if (r !== v) {
+          c = e.constructor,
+          s = !e.c[0];
+        if (r !== E) {
           if (r !== ~~r || r < (3 == t) || r > u)
             throw Error(3 == t ? h + "precision" : d);
           for (
-            r = n - (e = new s(e)).e,
-              e.c.length > ++n && b(e, r, s.RM),
+            r = n - (e = new c(e)).e,
+              e.c.length > ++n && O(e, r, c.RM),
               2 == t && (n = e.e + r + 1);
             e.c.length < n;
 
@@ -218,7 +302,7 @@ exports.main = (function(e) {
         if (
           ((o = e.e),
           (r = (i = e.c.join("")).length),
-          2 != t && (1 == t || (3 == t && n <= o) || o <= s.NE || o >= s.PE))
+          2 != t && (1 == t || (3 == t && n <= o) || o <= c.NE || o >= c.PE))
         )
           i =
             i.charAt(0) +
@@ -232,117 +316,117 @@ exports.main = (function(e) {
           if (++o > r) for (o -= r; o--; ) i += "0";
           else o < r && (i = i.slice(0, o) + "." + i.slice(o));
         else r > 1 && (i = i.charAt(0) + "." + i.slice(1));
-        return e.s < 0 && (!c || 4 == t) ? "-" + i : i;
+        return e.s < 0 && (!s || 4 == t) ? "-" + i : i;
       }
-      (g.abs = function() {
+      (_.abs = function() {
         var e = new this.constructor(this);
         return (e.s = 1), e;
       }),
-        (g.cmp = function(e) {
+        (_.cmp = function(e) {
           var t,
             r = this,
             n = r.c,
             o = (e = new r.constructor(e)).c,
             i = r.s,
-            s = e.s,
-            c = r.e,
+            c = e.s,
+            s = r.e,
             u = e.e;
-          if (!n[0] || !o[0]) return n[0] ? i : o[0] ? -s : 0;
-          if (i != s) return i;
-          if (((t = i < 0), c != u)) return (c > u) ^ t ? 1 : -1;
-          for (s = (c = n.length) < (u = o.length) ? c : u, i = -1; ++i < s; )
+          if (!n[0] || !o[0]) return n[0] ? i : o[0] ? -c : 0;
+          if (i != c) return i;
+          if (((t = i < 0), s != u)) return (s > u) ^ t ? 1 : -1;
+          for (c = (s = n.length) < (u = o.length) ? s : u, i = -1; ++i < c; )
             if (n[i] != o[i]) return (n[i] > o[i]) ^ t ? 1 : -1;
-          return c == u ? 0 : (c > u) ^ t ? 1 : -1;
+          return s == u ? 0 : (s > u) ^ t ? 1 : -1;
         }),
-        (g.div = function(e) {
+        (_.div = function(e) {
           var t = this,
             r = t.constructor,
             n = t.c,
             o = (e = new r(e)).c,
             i = t.s == e.s ? 1 : -1,
-            s = r.DP;
-          if (s !== ~~s || s < 0 || s > u) throw Error(d);
+            c = r.DP;
+          if (c !== ~~c || c < 0 || c > u) throw Error(d);
           if (!o[0]) throw Error("[big.js] Division by zero");
           if (!n[0]) return new r(0 * i);
-          var c,
+          var s,
             f,
             l,
             a,
             h,
             p = o.slice(),
-            g = (c = o.length),
-            w = n.length,
-            E = n.slice(0, c),
-            m = E.length,
-            O = e,
-            y = (O.c = []),
-            R = 0,
-            T = s + (O.e = t.e - e.e) + 1;
-          for (O.s = i, i = T < 0 ? 0 : T, p.unshift(0); m++ < c; ) E.push(0);
+            _ = (s = o.length),
+            g = n.length,
+            T = n.slice(0, s),
+            w = T.length,
+            v = e,
+            R = (v.c = []),
+            L = 0,
+            b = c + (v.e = t.e - e.e) + 1;
+          for (v.s = i, i = b < 0 ? 0 : b, p.unshift(0); w++ < s; ) T.push(0);
           do {
             for (l = 0; l < 10; l++) {
-              if (c != (m = E.length)) a = c > m ? 1 : -1;
+              if (s != (w = T.length)) a = s > w ? 1 : -1;
               else
-                for (h = -1, a = 0; ++h < c; )
-                  if (o[h] != E[h]) {
-                    a = o[h] > E[h] ? 1 : -1;
+                for (h = -1, a = 0; ++h < s; )
+                  if (o[h] != T[h]) {
+                    a = o[h] > T[h] ? 1 : -1;
                     break;
                   }
               if (!(a < 0)) break;
-              for (f = m == c ? o : p; m; ) {
-                if (E[--m] < f[m]) {
-                  for (h = m; h && !E[--h]; ) E[h] = 9;
-                  --E[h], (E[m] += 10);
+              for (f = w == s ? o : p; w; ) {
+                if (T[--w] < f[w]) {
+                  for (h = w; h && !T[--h]; ) T[h] = 9;
+                  --T[h], (T[w] += 10);
                 }
-                E[m] -= f[m];
+                T[w] -= f[w];
               }
-              for (; !E[0]; ) E.shift();
+              for (; !T[0]; ) T.shift();
             }
-            (y[R++] = a ? l : ++l),
-              E[0] && a ? (E[m] = n[g] || 0) : (E = [n[g]]);
-          } while ((g++ < w || E[0] !== v) && i--);
+            (R[L++] = a ? l : ++l),
+              T[0] && a ? (T[w] = n[_] || 0) : (T = [n[_]]);
+          } while ((_++ < g || T[0] !== E) && i--);
           return (
-            y[0] || 1 == R || (y.shift(), O.e--),
-            R > T && b(O, s, r.RM, E[0] !== v),
-            O
+            R[0] || 1 == L || (R.shift(), v.e--),
+            L > b && O(v, c, r.RM, T[0] !== E),
+            v
           );
         }),
-        (g.eq = function(e) {
+        (_.eq = function(e) {
           return !this.cmp(e);
         }),
-        (g.gt = function(e) {
+        (_.gt = function(e) {
           return this.cmp(e) > 0;
         }),
-        (g.gte = function(e) {
+        (_.gte = function(e) {
           return this.cmp(e) > -1;
         }),
-        (g.lt = function(e) {
+        (_.lt = function(e) {
           return this.cmp(e) < 0;
         }),
-        (g.lte = function(e) {
+        (_.lte = function(e) {
           return this.cmp(e) < 1;
         }),
-        (g.minus = g.sub = function(e) {
+        (_.minus = _.sub = function(e) {
           var t,
             r,
             n,
             o,
             i = this,
-            s = i.constructor,
-            c = i.s,
-            u = (e = new s(e)).s;
-          if (c != u) return (e.s = -u), i.plus(e);
+            c = i.constructor,
+            s = i.s,
+            u = (e = new c(e)).s;
+          if (s != u) return (e.s = -u), i.plus(e);
           var f = i.c.slice(),
             l = i.e,
             a = e.c,
             h = e.e;
           if (!f[0] || !a[0])
-            return a[0] ? ((e.s = -u), e) : new s(f[0] ? i : 0);
-          if ((c = l - h)) {
+            return a[0] ? ((e.s = -u), e) : new c(f[0] ? i : 0);
+          if ((s = l - h)) {
             for (
-              (o = c < 0) ? ((c = -c), (n = f)) : ((h = l), (n = a)),
+              (o = s < 0) ? ((s = -s), (n = f)) : ((h = l), (n = a)),
                 n.reverse(),
-                u = c;
+                u = s;
               u--;
 
             )
@@ -350,7 +434,7 @@ exports.main = (function(e) {
             n.reverse();
           } else
             for (
-              r = ((o = f.length < a.length) ? f : a).length, c = u = 0;
+              r = ((o = f.length < a.length) ? f : a).length, s = u = 0;
               u < r;
               u++
             )
@@ -363,7 +447,7 @@ exports.main = (function(e) {
             (u = (r = a.length) - (t = f.length)) > 0)
           )
             for (; u--; ) f[t++] = 0;
-          for (u = t; r > c; ) {
+          for (u = t; r > s; ) {
             if (f[--r] < a[r]) {
               for (t = r; t && !f[--t]; ) f[t] = 9;
               --f[t], (f[r] += 10);
@@ -374,7 +458,7 @@ exports.main = (function(e) {
           for (; 0 === f[0]; ) f.shift(), --h;
           return f[0] || ((e.s = 1), (f = [(h = 0)])), (e.c = f), (e.e = h), e;
         }),
-        (g.mod = function(e) {
+        (_.mod = function(e) {
           var t,
             r = this,
             n = r.constructor,
@@ -397,21 +481,21 @@ exports.main = (function(e) {
                 this.minus(r.times(e)))
           );
         }),
-        (g.plus = g.add = function(e) {
+        (_.plus = _.add = function(e) {
           var t,
             r = this,
             n = r.constructor,
             o = r.s,
             i = (e = new n(e)).s;
           if (o != i) return (e.s = -i), r.minus(e);
-          var s = r.e,
-            c = r.c,
+          var c = r.e,
+            s = r.c,
             u = e.e,
             f = e.c;
-          if (!c[0] || !f[0]) return f[0] ? e : new n(c[0] ? r : 0 * o);
-          if (((c = c.slice()), (o = s - u))) {
+          if (!s[0] || !f[0]) return f[0] ? e : new n(s[0] ? r : 0 * o);
+          if (((s = s.slice()), (o = c - u))) {
             for (
-              o > 0 ? ((u = s), (t = f)) : ((o = -o), (t = c)), t.reverse();
+              o > 0 ? ((u = c), (t = f)) : ((o = -o), (t = s)), t.reverse();
               o--;
 
             )
@@ -419,17 +503,17 @@ exports.main = (function(e) {
             t.reverse();
           }
           for (
-            c.length - f.length < 0 && ((t = f), (f = c), (c = t)),
+            s.length - f.length < 0 && ((t = f), (f = s), (s = t)),
               o = f.length,
               i = 0;
             o;
-            c[o] %= 10
+            s[o] %= 10
           )
-            i = ((c[--o] = c[o] + f[o] + i) / 10) | 0;
-          for (i && (c.unshift(i), ++u), o = c.length; 0 === c[--o]; ) c.pop();
-          return (e.c = c), (e.e = u), e;
+            i = ((s[--o] = s[o] + f[o] + i) / 10) | 0;
+          for (i && (s.unshift(i), ++u), o = s.length; 0 === s[--o]; ) s.pop();
+          return (e.c = s), (e.e = u), e;
         }),
-        (g.pow = function(e) {
+        (_.pow = function(e) {
           var t = this,
             r = new t.constructor(1),
             n = r,
@@ -439,93 +523,93 @@ exports.main = (function(e) {
             t = t.times(t);
           return o ? r.div(n) : n;
         }),
-        (g.round = function(e, t) {
+        (_.round = function(e, t) {
           var r = this.constructor;
-          if (e === v) e = 0;
+          if (e === E) e = 0;
           else if (e !== ~~e || e < -u || e > u) throw Error(d);
-          return b(new r(this), e, t === v ? r.RM : t);
+          return O(new r(this), e, t === E ? r.RM : t);
         }),
-        (g.sqrt = function() {
+        (_.sqrt = function() {
           var e,
             t,
             r,
             n = this,
             o = n.constructor,
             i = n.s,
-            s = n.e,
-            c = new o(0.5);
+            c = n.e,
+            s = new o(0.5);
           if (!n.c[0]) return new o(n);
           if (i < 0) throw Error(a + "No square root");
           0 === (i = Math.sqrt(n + "")) || i === 1 / 0
-            ? (((t = n.c.join("")).length + s) & 1 || (t += "0"),
-              (s = (((s + 1) / 2) | 0) - (s < 0 || 1 & s)),
+            ? (((t = n.c.join("")).length + c) & 1 || (t += "0"),
+              (c = (((c + 1) / 2) | 0) - (c < 0 || 1 & c)),
               (e = new o(
                 ((i = Math.sqrt(t)) == 1 / 0
                   ? "1e"
-                  : (i = i.toExponential()).slice(0, i.indexOf("e") + 1)) + s
+                  : (i = i.toExponential()).slice(0, i.indexOf("e") + 1)) + c
               )))
             : (e = new o(i)),
-            (s = e.e + (o.DP += 4));
+            (c = e.e + (o.DP += 4));
           do {
-            (r = e), (e = c.times(r.plus(n.div(r))));
-          } while (r.c.slice(0, s).join("") !== e.c.slice(0, s).join(""));
-          return b(e, (o.DP -= 4), o.RM);
+            (r = e), (e = s.times(r.plus(n.div(r))));
+          } while (r.c.slice(0, c).join("") !== e.c.slice(0, c).join(""));
+          return O(e, (o.DP -= 4), o.RM);
         }),
-        (g.times = g.mul = function(e) {
+        (_.times = _.mul = function(e) {
           var t,
             r = this,
             n = r.constructor,
             o = r.c,
             i = (e = new n(e)).c,
-            s = o.length,
-            c = i.length,
+            c = o.length,
+            s = i.length,
             u = r.e,
             f = e.e;
           if (((e.s = r.s == e.s ? 1 : -1), !o[0] || !i[0]))
             return new n(0 * e.s);
           for (
             e.e = u + f,
-              s < c && ((t = o), (o = i), (i = t), (f = s), (s = c), (c = f)),
-              t = new Array((f = s + c));
+              c < s && ((t = o), (o = i), (i = t), (f = c), (c = s), (s = f)),
+              t = new Array((f = c + s));
             f--;
 
           )
             t[f] = 0;
-          for (u = c; u--; ) {
-            for (c = 0, f = s + u; f > u; )
-              (c = t[f] + i[u] * o[f - u - 1] + c),
-                (t[f--] = c % 10),
-                (c = (c / 10) | 0);
-            t[f] = c;
+          for (u = s; u--; ) {
+            for (s = 0, f = c + u; f > u; )
+              (s = t[f] + i[u] * o[f - u - 1] + s),
+                (t[f--] = s % 10),
+                (s = (s / 10) | 0);
+            t[f] = s;
           }
-          for (c ? ++e.e : t.shift(), u = t.length; !t[--u]; ) t.pop();
+          for (s ? ++e.e : t.shift(), u = t.length; !t[--u]; ) t.pop();
           return (e.c = t), e;
         }),
-        (g.toExponential = function(e) {
-          return E(this, 1, e, e);
+        (_.toExponential = function(e) {
+          return T(this, 1, e, e);
         }),
-        (g.toFixed = function(e) {
-          return E(this, 2, e, this.e + e);
+        (_.toFixed = function(e) {
+          return T(this, 2, e, this.e + e);
         }),
-        (g.toPrecision = function(e) {
-          return E(this, 3, e, e - 1);
+        (_.toPrecision = function(e) {
+          return T(this, 3, e, e - 1);
         }),
-        (g.toString = function() {
-          return E(this);
+        (_.toString = function() {
+          return T(this);
         }),
-        (g.valueOf = g.toJSON = function() {
-          return E(this, 4);
+        (_.valueOf = _.toJSON = function() {
+          return T(this, 4);
         }),
         ((i = (function e() {
           function t(r) {
             var n = this;
-            if (!(n instanceof t)) return r === v ? e() : new t(r);
+            if (!(n instanceof t)) return r === E ? e() : new t(r);
             r instanceof t
               ? ((n.s = r.s), (n.e = r.e), (n.c = r.c.slice()))
               : (function(e, t) {
                   var r, n, o;
                   if (0 === t && 1 / t < 0) t = "-0";
-                  else if (!w.test((t += ""))) throw Error(h + "number");
+                  else if (!g.test((t += ""))) throw Error(h + "number");
                   (e.s = "-" == t.charAt(0) ? ((t = t.slice(1)), -1) : 1),
                     (r = t.indexOf(".")) > -1 && (t = t.replace(".", ""));
                   (n = t.search(/e/i)) > 0
@@ -544,9 +628,9 @@ exports.main = (function(e) {
               (n.constructor = t);
           }
           return (
-            (t.prototype = g),
-            (t.DP = s),
-            (t.RM = c),
+            (t.prototype = _),
+            (t.DP = c),
+            (t.RM = s),
             (t.NE = f),
             (t.PE = l),
             (t.version = "5.2.2"),
@@ -559,7 +643,61 @@ exports.main = (function(e) {
           }.call(t, r, t, e)) || (e.exports = n);
     })();
   },
-  9: function(e, t, r) {
-    e.exports = r(16);
+  ,
+  ,
+  ,
+  ,
+  function(e, t, r) {
+    e.exports = r(14);
+  },
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  function(e, t, r) {
+    "use strict";
+    r.r(t);
+    var n = r(0);
+    r(2);
+    var o = r(1);
+    async function i(e, t) {
+      console.log(`checkLotteryStatus - event: ${e}`);
+      try {
+        let e = (await Object(o.h)()).data.objects;
+        if ((console.log(`openedLotteries: ${JSON.stringify(e)}`), e)) {
+          for (let t in e) {
+            console.log(`openedLotteries[lotteryIndex] - ${e[t]}`);
+            let n = e[t],
+              i = await Object(o.g)(n.id);
+            console.log(`getAttendeesCount: ${i}`);
+            let c =
+              Math.round(Date.parse(n.open_date) / 1e3) -
+              Math.round(new Date() / 1e3);
+            if (i < n.open_people_num && c <= 0) {
+              let e =
+                ((r = void 0),
+                (r = Date.parse(new Date())),
+                (r /= 1e3),
+                new Date(1e3 * (r + 86400)).toISOString());
+              console.log(
+                `人数不够，时间已经到了，顺延24小时 - lottery.id: ${n.id}, time: ${e}`
+              );
+              let t = o.d.getWithoutData(n.id);
+              t.set("open_date", e);
+              await t.update();
+            }
+          }
+          t(null, "success");
+        } else t(n.c.GET_LOTTERY_FAILED);
+      } catch (e) {
+        t(e);
+      }
+      var r;
+    }
+    r.d(t, "default", function() {
+      return i;
+    });
   }
-}).default;
+]).default;

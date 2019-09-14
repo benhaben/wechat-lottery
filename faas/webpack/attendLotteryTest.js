@@ -2,8 +2,8 @@ exports.main = (function(e) {
   var t = {};
   function n(r) {
     if (t[r]) return t[r].exports;
-    var _ = (t[r] = { i: r, l: !1, exports: {} });
-    return e[r].call(_.exports, _, _.exports, n), (_.l = !0), _.exports;
+    var a = (t[r] = { i: r, l: !1, exports: {} });
+    return e[r].call(a.exports, a, a.exports, n), (a.l = !0), a.exports;
   }
   return (
     (n.m = e),
@@ -26,13 +26,13 @@ exports.main = (function(e) {
         Object.defineProperty(r, "default", { enumerable: !0, value: e }),
         2 & t && "string" != typeof e)
       )
-        for (var _ in e)
+        for (var a in e)
           n.d(
             r,
-            _,
+            a,
             function(t) {
               return e[t];
-            }.bind(null, _)
+            }.bind(null, a)
           );
       return r;
     }),
@@ -51,7 +51,7 @@ exports.main = (function(e) {
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (n.p = ""),
-    n((n.s = 10))
+    n((n.s = 5))
   );
 })({
   0: function(e, t, n) {
@@ -60,28 +60,27 @@ exports.main = (function(e) {
       return r;
     }),
       n.d(t, "d", function() {
-        return _;
+        return a;
       }),
       n.d(t, "a", function() {
-        return o;
+        return u;
       }),
       n.d(t, "b", function() {
-        return u;
+        return _;
       });
     const r = {
         GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
         OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
       },
-      _ = {
+      a = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
         ERROR: 83510,
         CONFIG: 83587,
         BALANCE_LUCKY_RECORD: 83371
       },
-      o = "5d7917899d8da5229c037105",
-      u = {
-        ATTEND_LOTTERY_COST: 1,
+      u = "5d7917899d8da5229c037105",
+      _ = {
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
         DEFAULT_URL:
@@ -194,52 +193,58 @@ exports.main = (function(e) {
         ]
       };
   },
-  10: function(e, t, n) {
-    e.exports = n(11);
-  },
-  11: function(e, t, n) {
+  15: function(e, t, n) {
     "use strict";
     n.r(t);
     var r = n(0);
-    exports.main = async function(e, t) {
+    const a = new wx.BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
+      u = new wx.BaaS.TableObject(r.d.LOTTERY),
+      _ =
+        (new wx.BaaS.TableObject(r.d.CONFIG),
+        new wx.BaaS.TableObject(r.d.ERROR),
+        new wx.BaaS.User()),
+      o = new wx.BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
+    async function c(e, t) {
+      const { lottery_id: n, weight: c } = e.data,
+        i = e.request.user.id;
       try {
-        const e = new BaaS.TableObject(r.d.CONFIG).create();
+        let e = c / r.b.ONE_LUCKY_NUM_WEIGHT,
+          O = await _.get(i);
+        if (O.lucky_num < e) throw new Error(r.c.OUT_OF_LUCKY_NUM);
+        let T = _.getWithoutData(i);
+        if (e > 0) {
+          T.incrementBy("lucky_num", -e), await T.update();
+          const t = o.create();
+          await t
+            .set({
+              reason: "增减权重，减少运气值",
+              lucky_num: -e,
+              user_id: i,
+              lottery_id: n
+            })
+            .save();
+        }
+        let l = u.getWithoutData(n);
+        const E = a.create();
         t(
           null,
-          await e
-            .set({
-              lucky_cost_per: 1,
-              weight_per_lucky: 2,
-              lottery_prize_list: [
-                9.9,
-                16.8,
-                33.3,
-                51.8,
-                66.6,
-                86.8,
-                88.8,
-                99.9
-              ],
-              lottery_num_people: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
-              prize_colors: [1, 0, 0, 0, 0, 0, 0, 0],
-              plans: [
-                "红包95个/福袋100个",
-                "红包97个/福袋50个",
-                "红包98个/福袋25个"
-              ],
-              plans_lucky_package: [100, 50, 25],
-              plans_lottery_package: [95, 97, 98],
-              lucky_ratio_open: 100,
-              lucky_ratio_success: 1e3,
-              lucky_ratio_lucky_package: 10,
-              lucky_ratio_invitation: 100,
-              lucky_ratio_invitation_open: 10
-            })
-            .save()
+          await E.set({
+            user: T,
+            nickname: O.data.nickname,
+            avatar_cache: O.data.avatar,
+            lottery: l,
+            weight: c
+          }).save()
         );
       } catch (e) {
         t(e);
       }
-    };
+    }
+    n.d(t, "default", function() {
+      return c;
+    });
+  },
+  5: function(e, t, n) {
+    e.exports = n(15);
   }
 }).default;

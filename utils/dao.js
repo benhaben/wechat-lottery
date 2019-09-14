@@ -1,10 +1,6 @@
-import {
-  FUNCTION_NAME,
-  LOTTERY_TABLE,
-  USER_LOTTERY_RECORD_TABLE,
-  USER_TABLE,
-  PAGE_SIZE
-} from "./constants";
+import { FUNCTION_NAME, PAGE_SIZE } from "./constants";
+
+import { LOTTERY_TABLE, USER_LOTTERY_RECORD_TABLE, USER_TABLE } from "./table";
 
 export default {
   /**
@@ -24,6 +20,7 @@ export default {
    */
   async attendLottery(data) {
     let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
+    debugger;
     return ret.data.data;
   },
 
@@ -77,10 +74,22 @@ export default {
     let query = new wx.BaaS.Query();
     query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
     return USER_LOTTERY_RECORD_TABLE.setQuery(query)
-      .select(["avatar"])
+      .select(["avatar_cache"])
       .expand(["user"])
       .limit(8)
       .offset(0)
       .find();
+  },
+
+  /**
+   * 下拉减少运气值，需要在服务端做，感觉没必要，因为参与抽奖需要消耗运气值，尽量减少计算，减少复杂度
+   * @param luckyNum
+   * @param user_id
+   * @returns {Promise<void>}
+   */
+  async reduceLuckyNum(luckyNum, user_id) {
+    let userUpdate = USER_TABLE.getWithoutData(user_id);
+    userUpdate.incrementBy("lucky_num", CONST.GET_MORE_REDUCE_LUCKY_NUM);
+    userUpdate.update();
   }
 };

@@ -1,8 +1,7 @@
-import { ERR_TYPE, TABLE_ID } from "../utils/constants";
+import { ERR_TYPE, CONFIG_ID } from "../utils/constants";
 import {
   getOpenedLottery,
   getAttendeesCount,
-  CONFIG_ID,
   CONFIG_TABLE,
   LOTTERY_TABLE,
   USER_LOTTERY_RECORD_TABLE

@@ -1,32 +1,59 @@
-import { TABLE_ID } from "../utils/constants";
-
+import {
+  LOTTERY_TABLE,
+  USER_LOTTERY_RECORD_TABLE,
+  USER_TABLE,
+  BALANCE_LUCKY_RECORD_TABLE
+} from "./common";
+import { CONST, ERR_TYPE } from "../utils/constants";
 /**
  * 参加抽奖，需要在 user_lottery_record 增加一条记录，记录参与者，参与的抽奖，中奖的权重
  * @param event
  * @param callback
  * @returns {Promise<void>}
  */
-exports.main = async function attendLottery(event, callback) {
+export default async function attendLottery(event, callback) {
   const { lottery_id, weight } = event.data;
   const user_id = event.request.user.id;
 
-  //TODO: 验证参数，有足够的运气值去增加权重
-
   try {
-    let MyUser = new BaaS.User();
-    let user = await MyUser.get(user_id);
-    console.log(`user : ${user}`);
-    const lotterytableObject = new BaaS.TableObject(TABLE_ID.LOTTERY);
-    let lottery = lotterytableObject.getWithoutData(lottery_id);
-    const recordtableObject = new BaaS.TableObject(
-      TABLE_ID.USER_LOTTERY_RECORD
-    );
-    const createObject = recordtableObject.create();
+    let cost = weight / CONST.ONE_LUCKY_NUM_WEIGHT;
+    let user = await USER_TABLE.get(user_id);
+
+    //TODO: 没有事务，感觉不保险；参数配置在云端
+    let reason;
+    if (cost === 0) {
+      reason = `参与抽奖，减少${CONST.ATTEND_LOTTERY_COST}运气值`;
+      cost = CONST.ATTEND_LOTTERY_COST;
+    } else {
+      reason = `参与抽奖，减少${CONST.ATTEND_LOTTERY_COST}运气值，增加权重减少${cost}运气值`;
+      cost = CONST.ATTEND_LOTTERY_COST + cost;
+    }
+
+    if (user.lucky_num < cost) {
+      throw new Error(ERR_TYPE.OUT_OF_LUCKY_NUM);
+    }
+
+    let userUpdate = USER_TABLE.getWithoutData(user_id);
+    userUpdate.incrementBy("lucky_num", -cost);
+    await userUpdate.update();
+
+    const createBalanceRecord = BALANCE_LUCKY_RECORD_TABLE.create();
+    await createBalanceRecord
+      .set({
+        reason,
+        lucky_num: -cost,
+        user_id: user_id,
+        lottery_id: lottery_id
+      })
+      .save();
+
+    let lottery = LOTTERY_TABLE.getWithoutData(lottery_id);
+    const createObject = USER_LOTTERY_RECORD_TABLE.create();
     let ret = await createObject
       .set({
-        user: MyUser.getWithoutData(user_id),
-        avatar: user.data.avatar,
+        user: userUpdate,
         nickname: user.data.nickname,
+        avatar_cache: user.data.avatar,
         lottery,
         weight
       })
@@ -35,4 +62,4 @@ exports.main = async function attendLottery(event, callback) {
   } catch (e) {
     callback(e);
   }
-};
+}

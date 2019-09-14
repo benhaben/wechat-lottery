@@ -41,12 +41,12 @@ App({
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);
   },
-  getUserInfo: function(uid) {
+  getUserInfo: async function(uid) {
     let MyUser = new wx.BaaS.User();
-    MyUser.get(uid).then(res => {
-      var userInfo = res.data;
-      store.setUserInfo(userInfo);
-    });
+    let res = await MyUser.get(uid);
+    var userInfo = res.data;
+    store.setUserInfo(userInfo);
+    return userInfo;
   },
   saveInvitationInfo({ uid, lotteryID }) {
     wx.BaaS.storage.set("my_inviter_uid", uid);

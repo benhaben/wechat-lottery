@@ -1,7 +1,7 @@
 // pages/attend_lottery/attend_lottery.js
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import lotteryRep from "../../utils/dao";
-
+// import main from "../../faas/attendLotteryTest";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -41,7 +41,7 @@ Page({
     let lottery_id = options.id;
     // let lottery_id = "5d75f93b1bb32a389a830414";
     // let lottery_id = "5d7612d71db94f5d2e68fd74";
-
+    await app.getUserInfo(app.getUserId());
     this.setData({
       selfLuckyNum: app.getLuckyNum(),
       auth: app.hasAuth(),
@@ -89,7 +89,9 @@ Page({
         open_date: lottery.open_date,
         hasAttended,
         attend_num: attendees.data.meta.total_count,
-        attend_avatar_list: attendees.data.objects.map(item => item.avatar)
+        attend_avatar_list: attendees.data.objects.map(
+          item => item.avatar_cache
+        )
       });
       this.countDown();
     } catch (e) {
@@ -157,7 +159,7 @@ Page({
       return;
     }
 
-    let weight = this.data.weight + 2;
+    let weight = this.data.weight + CONST.ONE_LUCKY_NUM_WEIGHT;
     let selfLuckyNum = this.data.selfLuckyNum - 1;
     this.setData({ weight, selfLuckyNum });
   },
@@ -174,6 +176,21 @@ Page({
     }
     try {
       this.setData({ attendBtnLoading: true });
+
+      // main(
+      //   {
+      //     data: {
+      //       weight: this.data.weight,
+      //       lottery_id: this.data.lottery_id
+      //     },
+      //     request: { user: { id: app.getUserId() } }
+      //   },
+      //   (err, ret) => {
+      //     debugger;
+      //     console.log(err);
+      //   }
+      // );
+
       let res = await lotteryRep.attendLottery({
         weight: this.data.weight,
         lottery_id: this.data.lottery_id

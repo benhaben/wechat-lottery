@@ -34,10 +34,15 @@ TODO: 云端配置
 3. 随机抽出幸运儿，更新到（userLotteryTable，lottery_result），更新幸运儿的（user，balance或者lucky_num）
 4. 发起通知，通知所有参与抽奖的用户已经开奖
 
-### trrigerWhenOpenLottery
-
+### trrigerWhenCreateLottery
+创建抽奖
 增加开奖者运气值： _userprofile 表 lucky_num 字段
-增加运气值记录：luck_record表增加一条记录
+增加运气值记录：luck_record 表增加一条记录
+
+### trrigerWhenOpenLottery
+开奖
+增加开奖者运气值： _userprofile 表 lucky_num 字段
+增加运气值记录：luck_record 表增加一条记录
 
 ### triggerVerifyPayment
 
