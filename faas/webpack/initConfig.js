@@ -51,7 +51,7 @@ exports.main = (function(e) {
       return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (n.p = ""),
-    n((n.s = 10))
+    n((n.s = 13))
   );
 })({
   0: function(e, t, n) {
@@ -81,6 +81,7 @@ exports.main = (function(e) {
       },
       o = "5d7917899d8da5229c037105",
       u = {
+        HONHBAO_RATIO: 100,
         ATTEND_LOTTERY_COST: 1,
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
@@ -91,7 +92,7 @@ exports.main = (function(e) {
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
         PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
         PLANS_LUCKY_PACKAGE: [100, 50, 25],
-        plans_lottery_package: [95, 97, 98],
+        PLANS_LOTTERY_PACKAGE: [95, 97, 98],
         LUCKY_RATIO_OPEN: 100,
         LUCKY_RATIO_SUCCESS: 1e3,
         LUCKY_RATIO_LUCKY_PACKAGE: 10,
@@ -194,10 +195,10 @@ exports.main = (function(e) {
         ]
       };
   },
-  10: function(e, t, n) {
-    e.exports = n(11);
+  13: function(e, t, n) {
+    e.exports = n(14);
   },
-  11: function(e, t, n) {
+  14: function(e, t, n) {
     "use strict";
     n.r(t);
     var r = n(0);

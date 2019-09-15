@@ -1,7 +1,7 @@
 import lotteryRep from "../../utils/dao";
 import { ROUTE } from "../../utils/constants";
 import { countDown } from "../../utils/function";
-// import {main} from "../../faas/checkLotteryStatusOpenTest";
+import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -16,7 +16,6 @@ Page({
   loadMore: async function() {
     let lotteries = await lotteryRep.getLottery(this.data.offset);
     if (lotteries.data.objects <= 0) {
-      debugger;
       return;
     }
 
@@ -34,10 +33,10 @@ Page({
   onLoad: async function() {
     try {
       // 知晓云云函数调试比较麻烦，只能在前端模拟一下
-      // await main({},(err,msg)=>{
-      //   debugger
-      //   console.log(err);
-      // });
+      await main({}, (err, msg) => {
+        debugger;
+        console.log(err);
+      });
 
       await app.getUserInfo(app.getUserId());
       this.setData({
@@ -51,7 +50,7 @@ Page({
   },
   onUnload: function() {},
   onReady: function() {},
-  onShow() {
+  onShow: async function() {
     this.getTabBar().init();
   },
   onLotteryItem: function(event) {

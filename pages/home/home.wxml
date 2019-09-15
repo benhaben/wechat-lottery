@@ -26,7 +26,7 @@
 
 <view class="bottom h-flex flex-col flex-align-center">
  <button class="bottom__btn color-white bg-red" bindtap="onMore">
-   点击加载 10 个抽奖
+   点击加载更多抽奖
  </button>
   <view class="bottom_info"></view>
 </view>

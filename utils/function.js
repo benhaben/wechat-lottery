@@ -70,3 +70,7 @@ export function openDateTimeStamp() {
 export const toFixed1 = num => {
   return new Big(num).toFixed(1);
 };
+
+export const toFixed3 = num => {
+  return new Big(num).toFixed(3);
+};

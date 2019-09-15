@@ -11,13 +11,14 @@ import { LOTTERY_TABLE, ERROR_TABLE } from "./common";
 export default async function verifyPayment(event, callback) {
   console.log(`verifyPayment event.data: ${JSON.stringify(event.data)}`);
 
+  const data = event.data;
+  const totalCost = data.total_cost;
+  // const lotteryId = data.merchandise_record_id;
+  const transactionNo = data.transaction_no;
+  const merchandiseSnapshot = data.merchandise_snapshot;
+  const lotteryId = merchandiseSnapshot.id;
+
   try {
-    const data = event.data;
-    const totalCost = data.total_cost;
-    // const lotteryId = data.merchandise_record_id;
-    const transactionNo = data.transaction_no;
-    const merchandiseSnapshot = data.merchandise_snapshot;
-    const lotteryId = merchandiseSnapshot.id;
     const query = new BaaS.Query();
     let resLottery = await LOTTERY_TABLE.get(lotteryId);
     let lottery = resLottery.data;
@@ -32,7 +33,7 @@ export default async function verifyPayment(event, callback) {
         error: "支付金额和抽奖金额不一致",
         action: "verifyPayment",
         created_by: lottery.created_by,
-        lottery: tableObjectLottery.getWithoutData(lotteryId)
+        lottery: LOTTERY_TABLE.getWithoutData(lotteryId)
       };
       const createObject = ERROR_TABLE.create();
       let ret = await createObject.set(err).save();
@@ -43,10 +44,11 @@ export default async function verifyPayment(event, callback) {
       error: `verifyPayment event.data: ${JSON.stringify(
         event.data
       )} - Error: ${e.message}`,
+      lottery: LOTTERY_TABLE.getWithoutData(lotteryId),
       action: "verifyPayment"
     };
     const createObject = ERROR_TABLE.create();
-    let ret = await createObject.set(err).save();
+    await createObject.set(err).save();
     callback(new Error(JSON.stringify(err)));
   }
 }

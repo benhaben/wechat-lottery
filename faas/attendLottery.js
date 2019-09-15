@@ -51,6 +51,7 @@ export default async function attendLottery(event, callback) {
     const createObject = USER_LOTTERY_RECORD_TABLE.create();
     let ret = await createObject
       .set({
+        user_id,
         user: userUpdate,
         nickname: user.data.nickname,
         avatar_cache: user.data.avatar,

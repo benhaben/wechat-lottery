@@ -67,6 +67,7 @@ export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 export const CONST = {
+  HONHBAO_RATIO: 100, // 开奖金额总是除以 100，但是发出去多少看PLANS_LOTTERY_PACKAGE，剩下的是平台盈利
   ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
   ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重
   GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
@@ -77,7 +78,7 @@ export const CONST = {
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
   PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"], // 福袋比例
   PLANS_LUCKY_PACKAGE: [100, 50, 25], // 不同方案福袋个数，和每个福袋运气值计算相关
-  plans_lottery_package: [95, 97, 98], // 不同方案红包个数
+  PLANS_LOTTERY_PACKAGE: [95, 97, 98], // 不同方案红包个数
   LUCKY_RATIO_OPEN: 100, // 发起抽奖运气值奖励，金额乘以该值
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
   LUCKY_RATIO_LUCKY_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值

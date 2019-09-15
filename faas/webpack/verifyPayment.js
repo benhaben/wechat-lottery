@@ -51,7 +51,7 @@ exports.main = (function(t) {
       return Object.prototype.hasOwnProperty.call(t, e);
     }),
     (n.p = ""),
-    n((n.s = 12))
+    n((n.s = 15))
   );
 })({
   0: function(t, e, n) {
@@ -81,6 +81,7 @@ exports.main = (function(t) {
       },
       o = "5d7917899d8da5229c037105",
       u = {
+        HONHBAO_RATIO: 100,
         ATTEND_LOTTERY_COST: 1,
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
@@ -91,7 +92,7 @@ exports.main = (function(t) {
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
         PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
         PLANS_LUCKY_PACKAGE: [100, 50, 25],
-        plans_lottery_package: [95, 97, 98],
+        PLANS_LOTTERY_PACKAGE: [95, 97, 98],
         LUCKY_RATIO_OPEN: 100,
         LUCKY_RATIO_SUCCESS: 1e3,
         LUCKY_RATIO_LUCKY_PACKAGE: 10,
@@ -196,7 +197,7 @@ exports.main = (function(t) {
   },
   1: function(t, e, n) {
     "use strict";
-    n.d(e, "e", function() {
+    n.d(e, "g", function() {
       return a;
     }),
       n.d(e, "d", function() {
@@ -206,34 +207,40 @@ exports.main = (function(t) {
         return u;
       }),
       n.d(e, "c", function() {
-        return c;
-      }),
-      n.d(e, "f", function() {
         return i;
+      }),
+      n.d(e, "h", function() {
+        return c;
       }),
       n.d(e, "a", function() {
         return _;
       }),
-      n.d(e, "g", function() {
+      n.d(e, "i", function() {
+        return d;
+      }),
+      n.d(e, "j", function() {
         return f;
       }),
-      n.d(e, "h", function() {
-        return d;
+      n.d(e, "f", function() {
+        return s;
+      }),
+      n.d(e, "e", function() {
+        return O;
       });
     var r = n(0);
     const a = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
       o = new BaaS.TableObject(r.d.LOTTERY),
       u = new BaaS.TableObject(r.d.CONFIG),
-      c = new BaaS.TableObject(r.d.ERROR),
-      i = new BaaS.User(),
+      i = new BaaS.TableObject(r.d.ERROR),
+      c = new BaaS.User(),
       _ = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function f(t) {
+    async function d(t) {
       let e = new BaaS.Query();
       return (
         e.compare("lottery", "=", o.getWithoutData(t)), a.setQuery(e).count()
       );
     }
-    async function d() {
+    async function f() {
       let t = new BaaS.Query();
       return (
         t.compare("status", "=", 2),
@@ -243,11 +250,250 @@ exports.main = (function(t) {
           .find()
       );
     }
+    const s = [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        16,
+        18,
+        20,
+        22,
+        26,
+        28,
+        30,
+        32,
+        36,
+        38,
+        40,
+        42,
+        46,
+        48,
+        50,
+        52,
+        56,
+        58,
+        60,
+        62,
+        66,
+        68,
+        70,
+        72,
+        78,
+        80,
+        81,
+        82,
+        83,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        92,
+        96,
+        99,
+        100,
+        102,
+        106,
+        108,
+        110,
+        112,
+        116,
+        118,
+        120,
+        122,
+        126,
+        128,
+        150,
+        152,
+        156,
+        158,
+        160,
+        162,
+        166,
+        168,
+        170,
+        172,
+        176,
+        178,
+        180,
+        182,
+        186,
+        188,
+        200,
+        202,
+        206,
+        208,
+        510,
+        512,
+        516,
+        518,
+        555,
+        666,
+        777,
+        888,
+        610,
+        612,
+        616,
+        618,
+        190,
+        192,
+        196,
+        199,
+        130,
+        132,
+        136,
+        138
+      ],
+      O = [
+        4,
+        11,
+        13,
+        14,
+        15,
+        17,
+        19,
+        21,
+        23,
+        24,
+        25,
+        27,
+        29,
+        31,
+        33,
+        34,
+        35,
+        37,
+        39,
+        41,
+        43,
+        44,
+        45,
+        47,
+        49,
+        51,
+        53,
+        54,
+        55,
+        57,
+        59,
+        61,
+        63,
+        64,
+        65,
+        67,
+        69,
+        71,
+        73,
+        74,
+        76,
+        79,
+        84,
+        91,
+        93,
+        94,
+        95,
+        97,
+        98,
+        101,
+        103,
+        104,
+        105,
+        107,
+        109,
+        111,
+        113,
+        114,
+        115,
+        117,
+        119,
+        121,
+        123,
+        124,
+        125,
+        127,
+        129,
+        131,
+        133,
+        134,
+        135,
+        137,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        151,
+        153,
+        154,
+        155,
+        157,
+        159,
+        161,
+        163,
+        164,
+        165,
+        167,
+        169,
+        171,
+        173,
+        174,
+        177,
+        179,
+        181,
+        183,
+        184,
+        185,
+        187,
+        189,
+        191,
+        193,
+        194,
+        195,
+        197,
+        201,
+        203,
+        205,
+        207,
+        209,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228
+      ];
   },
-  12: function(t, e, n) {
-    t.exports = n(13);
+  15: function(t, e, n) {
+    t.exports = n(16);
   },
-  13: function(t, e, n) {
+  16: function(t, e, n) {
     "use strict";
     n.r(e),
       n.d(e, "default", function() {
@@ -256,14 +502,14 @@ exports.main = (function(t) {
     var r = n(1);
     async function a(t, e) {
       console.log(`verifyPayment event.data: ${JSON.stringify(t.data)}`);
+      const n = t.data,
+        a = n.total_cost,
+        o = n.transaction_no,
+        u = n.merchandise_snapshot.id;
       try {
-        const n = t.data,
-          a = n.total_cost,
-          o = n.transaction_no,
-          u = n.merchandise_snapshot.id;
         new BaaS.Query();
-        let c = (await r.d.get(u)).data;
-        if (c && c.total_prize === a) {
+        let n = (await r.d.get(u)).data;
+        if (n && n.total_prize === a) {
           let t = r.d.getWithoutData(u);
           t.set("status", 1),
             t.set("transaction_no", o),
@@ -272,11 +518,11 @@ exports.main = (function(t) {
           let t = {
             error: "支付金额和抽奖金额不一致",
             action: "verifyPayment",
-            created_by: c.created_by,
-            lottery: tableObjectLottery.getWithoutData(u)
+            created_by: n.created_by,
+            lottery: r.d.getWithoutData(u)
           };
-          const n = r.c.create();
-          await n.set(t).save();
+          const a = r.c.create();
+          await a.set(t).save();
           e(new Error(JSON.stringify(t)));
         }
       } catch (n) {
@@ -284,11 +530,11 @@ exports.main = (function(t) {
           error: `verifyPayment event.data: ${JSON.stringify(
             t.data
           )} - Error: ${n.message}`,
+          lottery: r.d.getWithoutData(u),
           action: "verifyPayment"
         };
         const o = r.c.create();
-        await o.set(a).save();
-        e(new Error(JSON.stringify(a)));
+        await o.set(a).save(), e(new Error(JSON.stringify(a)));
       }
     }
   }

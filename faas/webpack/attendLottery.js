@@ -51,7 +51,7 @@ exports.main = (function(t) {
       return Object.prototype.hasOwnProperty.call(t, e);
     }),
     (n.p = ""),
-    n((n.s = 3))
+    n((n.s = 4))
   );
 })([
   function(t, e, n) {
@@ -81,6 +81,7 @@ exports.main = (function(t) {
       },
       a = "5d7917899d8da5229c037105",
       o = {
+        HONHBAO_RATIO: 100,
         ATTEND_LOTTERY_COST: 1,
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
@@ -91,7 +92,7 @@ exports.main = (function(t) {
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
         PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"],
         PLANS_LUCKY_PACKAGE: [100, 50, 25],
-        plans_lottery_package: [95, 97, 98],
+        PLANS_LOTTERY_PACKAGE: [95, 97, 98],
         LUCKY_RATIO_OPEN: 100,
         LUCKY_RATIO_SUCCESS: 1e3,
         LUCKY_RATIO_LUCKY_PACKAGE: 10,
@@ -196,7 +197,7 @@ exports.main = (function(t) {
   },
   function(t, e, n) {
     "use strict";
-    n.d(e, "e", function() {
+    n.d(e, "g", function() {
       return u;
     }),
       n.d(e, "d", function() {
@@ -208,17 +209,23 @@ exports.main = (function(t) {
       n.d(e, "c", function() {
         return c;
       }),
-      n.d(e, "f", function() {
+      n.d(e, "h", function() {
         return _;
       }),
       n.d(e, "a", function() {
-        return T;
-      }),
-      n.d(e, "g", function() {
         return i;
       }),
-      n.d(e, "h", function() {
+      n.d(e, "i", function() {
+        return T;
+      }),
+      n.d(e, "j", function() {
         return O;
+      }),
+      n.d(e, "f", function() {
+        return E;
+      }),
+      n.d(e, "e", function() {
+        return d;
       });
     var r = n(0);
     const u = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
@@ -226,8 +233,8 @@ exports.main = (function(t) {
       o = new BaaS.TableObject(r.d.CONFIG),
       c = new BaaS.TableObject(r.d.ERROR),
       _ = new BaaS.User(),
-      T = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function i(t) {
+      i = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
+    async function T(t) {
       let e = new BaaS.Query();
       return (
         e.compare("lottery", "=", a.getWithoutData(t)), u.setQuery(e).count()
@@ -243,10 +250,250 @@ exports.main = (function(t) {
           .find()
       );
     }
+    const E = [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        16,
+        18,
+        20,
+        22,
+        26,
+        28,
+        30,
+        32,
+        36,
+        38,
+        40,
+        42,
+        46,
+        48,
+        50,
+        52,
+        56,
+        58,
+        60,
+        62,
+        66,
+        68,
+        70,
+        72,
+        78,
+        80,
+        81,
+        82,
+        83,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        92,
+        96,
+        99,
+        100,
+        102,
+        106,
+        108,
+        110,
+        112,
+        116,
+        118,
+        120,
+        122,
+        126,
+        128,
+        150,
+        152,
+        156,
+        158,
+        160,
+        162,
+        166,
+        168,
+        170,
+        172,
+        176,
+        178,
+        180,
+        182,
+        186,
+        188,
+        200,
+        202,
+        206,
+        208,
+        510,
+        512,
+        516,
+        518,
+        555,
+        666,
+        777,
+        888,
+        610,
+        612,
+        616,
+        618,
+        190,
+        192,
+        196,
+        199,
+        130,
+        132,
+        136,
+        138
+      ],
+      d = [
+        4,
+        11,
+        13,
+        14,
+        15,
+        17,
+        19,
+        21,
+        23,
+        24,
+        25,
+        27,
+        29,
+        31,
+        33,
+        34,
+        35,
+        37,
+        39,
+        41,
+        43,
+        44,
+        45,
+        47,
+        49,
+        51,
+        53,
+        54,
+        55,
+        57,
+        59,
+        61,
+        63,
+        64,
+        65,
+        67,
+        69,
+        71,
+        73,
+        74,
+        76,
+        79,
+        84,
+        91,
+        93,
+        94,
+        95,
+        97,
+        98,
+        101,
+        103,
+        104,
+        105,
+        107,
+        109,
+        111,
+        113,
+        114,
+        115,
+        117,
+        119,
+        121,
+        123,
+        124,
+        125,
+        127,
+        129,
+        131,
+        133,
+        134,
+        135,
+        137,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        151,
+        153,
+        154,
+        155,
+        157,
+        159,
+        161,
+        163,
+        164,
+        165,
+        167,
+        169,
+        171,
+        173,
+        174,
+        177,
+        179,
+        181,
+        183,
+        184,
+        185,
+        187,
+        189,
+        191,
+        193,
+        194,
+        195,
+        197,
+        201,
+        203,
+        205,
+        207,
+        209,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228
+      ];
   },
   ,
+  ,
   function(t, e, n) {
-    t.exports = n(4);
+    t.exports = n(5);
   },
   function(t, e, n) {
     "use strict";
@@ -262,7 +509,7 @@ exports.main = (function(t) {
       try {
         let t,
           c = a / u.b.ONE_LUCKY_NUM_WEIGHT,
-          _ = await r.f.get(o);
+          _ = await r.h.get(o);
         if (
           (0 === c
             ? ((t = `参与抽奖，减少${u.b.ATTEND_LOTTERY_COST}运气值`),
@@ -272,18 +519,22 @@ exports.main = (function(t) {
           _.lucky_num < c)
         )
           throw new Error(u.c.OUT_OF_LUCKY_NUM);
-        let T = r.f.getWithoutData(o);
-        T.incrementBy("lucky_num", -c), await T.update();
-        const i = r.a.create();
-        await i
-          .set({ reason: t, lucky_num: -c, user_id: o, lottery_id: n })
-          .save();
+        let i = r.h.getWithoutData(o);
+        i.incrementBy("lucky_num", -c), await i.update();
+        const T = r.a.create();
+        await T.set({
+          reason: t,
+          lucky_num: -c,
+          user_id: o,
+          lottery_id: n
+        }).save();
         let O = r.d.getWithoutData(n);
-        const E = r.e.create();
+        const E = r.g.create();
         e(
           null,
           await E.set({
-            user: T,
+            user_id: o,
+            user: i,
             nickname: _.data.nickname,
             avatar_cache: _.data.avatar,
             lottery: O,
