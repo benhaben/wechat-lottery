@@ -39,7 +39,7 @@ export default async function checkLotteryStatus(event, callback) {
           // 更新 lottery status 为 3
           // 更新发起抽奖者的 user 表的 lucky_num，在触发器里面更新
           lotteryUpdate.set("status", 3);
-          lotteryUpdate.update();
+          await lotteryUpdate.update();
 
           // 随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新幸运儿的 balance 或者运气值
 
@@ -58,7 +58,7 @@ export default async function checkLotteryStatus(event, callback) {
 
           let index_fudai = config.plans_lucky_package[lottery.plan_index];
           let seed_fudai = LUCKY_SEED_FUDAI.slice(0, index_fudai);
-
+          debugger;
           await updateUserLotteryRecords(
             seed_fudai,
             lottery.id,
@@ -78,47 +78,50 @@ export default async function checkLotteryStatus(event, callback) {
   }
 }
 
-/**
- * // 在某次特定抽奖活动中未中奖的参与人里，找到中奖 offset 的参与人记录，并更新其为中奖状态
- * @param offsets offset 数组
- * @param lotteryID
- * @return {Promise<*>}
- */
 const updateUserLotteryRecords = async (offsets, lotteryID, status, value) => {
-  let results = await Promise.all(
-    offsets.map(offset => {
-      let luckyQuery = new BaaS.Query();
+  let results = [];
 
-      luckyQuery.compare(
-        "lottery",
-        "=",
-        LOTTERY_TABLE.getWithoutData(lotteryID)
-      );
-
-      return USER_LOTTERY_RECORD_TABLE.setQuery(luckyQuery)
-        .offset(offset)
-        .limit(1)
-        .orderBy("-weight")
-        .find();
-    })
-  );
-  // 取出 id
-  let ids = results
-    .map(ret => {
-      return ret.data.objects.length ? ret.data.objects[0].id : null;
-    })
-    .filter(v => v);
-
-  // 先根据 offsets 查出数据行 id，在通过数据行 id 更新数据行的 is_lucky & lottery_id 字段
   let luckyQuery = new BaaS.Query();
-  // 通过 id in 查询来更新
-  luckyQuery.in("id", ids);
-  luckyQuery.compare("lottery_result", "=", 0);
   luckyQuery.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(lotteryID));
+
+  let rawResult = await USER_LOTTERY_RECORD_TABLE.setQuery(luckyQuery)
+    .offset(0)
+    .limit(1000)
+    .orderBy("-weight")
+    .find();
+  let rawResultData = rawResult.data.objects;
+
+  for (let i = 0; i < offsets.length; i++) {
+    if (offsets[i] < rawResultData.length) {
+      results.push(rawResultData[offsets[i]]);
+    }
+  }
+
+  debugger;
+  // 取出 id
+  let ids = results.map(ret => {
+    return ret.id;
+  });
+
+  if (ids.length <= 0) {
+    return;
+  }
+  // 先根据 offsets 查出数据行 id，在通过数据行 id 更新数据行的 is_lucky & lottery_id 字段
+  let luckyQueryUpdate = new BaaS.Query();
+  // 通过 id in 查询来更新
+  luckyQueryUpdate.in("id", ids);
+  luckyQueryUpdate.compare("lottery_result", "=", 0);
+  luckyQueryUpdate.compare(
+    "lottery",
+    "=",
+    LOTTERY_TABLE.getWithoutData(lotteryID)
+  );
   let luckyRecord = USER_LOTTERY_RECORD_TABLE.getWithoutData(luckyQuery);
   if (status === 1) {
+    console.log(`开奖 - 更新余额为${value} - 涉及以下 ids ：${ids}`);
     luckyRecord.set("balance", value);
   } else {
+    console.log(`开奖 - 更新运气值为${value} - 涉及以下 ids ：${ids}`);
     luckyRecord.set("lucky_num", value);
   }
   luckyRecord.set("lottery_result", status);

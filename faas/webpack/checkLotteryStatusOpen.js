@@ -505,9 +505,9 @@ exports.main = (function(e) {
         d = h + "decimal places",
         p = h + "rounding mode",
         _ = {},
-        E = void 0,
-        O = /^-?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
-      function g(e, t, n, r) {
+        g = void 0,
+        E = /^-?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
+      function O(e, t, n, r) {
         var i = e.c,
           o = e.e + t + 1;
         if (o < i.length) {
@@ -515,7 +515,7 @@ exports.main = (function(e) {
           else if (2 === n)
             r =
               i[o] > 5 ||
-              (5 == i[o] && (r || o < 0 || i[o + 1] !== E || 1 & i[o - 1]));
+              (5 == i[o] && (r || o < 0 || i[o + 1] !== g || 1 & i[o - 1]));
           else if (3 === n) r = r || !!i[0];
           else if (((r = !1), 0 !== n)) throw Error(p);
           if (o < 1)
@@ -533,12 +533,12 @@ exports.main = (function(e) {
           o,
           u = e.constructor,
           c = !e.c[0];
-        if (n !== E) {
+        if (n !== g) {
           if (n !== ~~n || n < (3 == t) || n > s)
             throw Error(3 == t ? h + "precision" : d);
           for (
             n = r - (e = new u(e)).e,
-              e.c.length > ++r && g(e, n, u.RM),
+              e.c.length > ++r && O(e, n, u.RM),
               2 == t && (r = e.e + n + 1);
             e.c.length < r;
 
@@ -601,14 +601,14 @@ exports.main = (function(e) {
             h,
             p = i.slice(),
             _ = (c = i.length),
-            O = r.length,
+            E = r.length,
             T = r.slice(0, c),
             w = T.length,
             b = e,
             R = (b.c = []),
             v = 0,
-            m = u + (b.e = t.e - e.e) + 1;
-          for (b.s = o, o = m < 0 ? 0 : m, p.unshift(0); w++ < c; ) T.push(0);
+            A = u + (b.e = t.e - e.e) + 1;
+          for (b.s = o, o = A < 0 ? 0 : A, p.unshift(0); w++ < c; ) T.push(0);
           do {
             for (a = 0; a < 10; a++) {
               if (c != (w = T.length)) l = c > w ? 1 : -1;
@@ -630,10 +630,10 @@ exports.main = (function(e) {
             }
             (R[v++] = l ? a : ++a),
               T[0] && l ? (T[w] = r[_] || 0) : (T = [r[_]]);
-          } while ((_++ < O || T[0] !== E) && o--);
+          } while ((_++ < E || T[0] !== g) && o--);
           return (
             R[0] || 1 == v || (R.shift(), b.e--),
-            v > m && g(b, u, n.RM, T[0] !== E),
+            v > A && O(b, u, n.RM, T[0] !== g),
             b
           );
         }),
@@ -771,9 +771,9 @@ exports.main = (function(e) {
         }),
         (_.round = function(e, t) {
           var n = this.constructor;
-          if (e === E) e = 0;
+          if (e === g) e = 0;
           else if (e !== ~~e || e < -s || e > s) throw Error(d);
-          return g(new n(this), e, t === E ? n.RM : t);
+          return O(new n(this), e, t === g ? n.RM : t);
         }),
         (_.sqrt = function() {
           var e,
@@ -799,7 +799,7 @@ exports.main = (function(e) {
           do {
             (n = e), (e = c.times(n.plus(r.div(n))));
           } while (n.c.slice(0, u).join("") !== e.c.slice(0, u).join(""));
-          return g(e, (i.DP -= 4), i.RM);
+          return O(e, (i.DP -= 4), i.RM);
         }),
         (_.times = _.mul = function(e) {
           var t,
@@ -849,13 +849,13 @@ exports.main = (function(e) {
         ((o = (function e() {
           function t(n) {
             var r = this;
-            if (!(r instanceof t)) return n === E ? e() : new t(n);
+            if (!(r instanceof t)) return n === g ? e() : new t(n);
             n instanceof t
               ? ((r.s = n.s), (r.e = n.e), (r.c = n.c.slice()))
               : (function(e, t) {
                   var n, r, i;
                   if (0 === t && 1 / t < 0) t = "-0";
-                  else if (!O.test((t += ""))) throw Error(h + "number");
+                  else if (!E.test((t += ""))) throw Error(h + "number");
                   (e.s = "-" == t.charAt(0) ? ((t = t.slice(1)), -1) : 1),
                     (n = t.indexOf(".")) > -1 && (t = t.replace(".", ""));
                   (r = t.search(/e/i)) > 0
@@ -937,7 +937,7 @@ exports.main = (function(e) {
             if (s >= u.open_people_num) {
               console.log(`开奖 - lottery.id: ${u.id}`);
               let e = o.d.getWithoutData(u.id);
-              e.set("status", 3), e.update();
+              e.set("status", 3), await e.update();
               let t = n.plans_lottery_package[u.plan_index],
                 s = o.f.slice(0, t),
                 f = Number(Object(i.b)(u.total_prize / r.b.HONHBAO_RATIO));
@@ -954,31 +954,31 @@ exports.main = (function(e) {
       }
     }
     const c = async (e, t, n, r) => {
-      let i = (await Promise.all(
-          e.map(e => {
-            let n = new BaaS.Query();
-            return (
-              n.compare("lottery", "=", o.d.getWithoutData(t)),
-              o.g
-                .setQuery(n)
-                .offset(e)
-                .limit(1)
-                .orderBy("-weight")
-                .find()
-            );
-          })
-        ))
-          .map(e => (e.data.objects.length ? e.data.objects[0].id : null))
-          .filter(e => e),
+      let i = [],
         u = new BaaS.Query();
-      u.in("id", i),
-        u.compare("lottery_result", "=", 0),
-        u.compare("lottery", "=", o.d.getWithoutData(t));
-      let c = o.g.getWithoutData(u);
+      u.compare("lottery", "=", o.d.getWithoutData(t));
+      let c = (await o.g
+        .setQuery(u)
+        .offset(0)
+        .limit(1e3)
+        .orderBy("-weight")
+        .find()).data.objects;
+      for (let t = 0; t < e.length; t++) e[t] < c.length && i.push(c[e[t]]);
+      let s = i.map(e => e.id);
+      if (s.length <= 0) return;
+      let f = new BaaS.Query();
+      f.in("id", s),
+        f.compare("lottery_result", "=", 0),
+        f.compare("lottery", "=", o.d.getWithoutData(t));
+      let a = o.g.getWithoutData(u);
       return (
-        1 === n ? c.set("balance", r) : c.set("lucky_num", r),
-        c.set("lottery_result", n),
-        c.update()
+        1 === n
+          ? (console.log(`开奖 - 更新余额为${r} - 涉及以下 ids ：${s}`),
+            a.set("balance", r))
+          : (console.log(`开奖 - 更新运气值为${r} - 涉及以下 ids ：${s}`),
+            a.set("lucky_num", r)),
+        a.set("lottery_result", n),
+        a.update()
       );
     };
   }
