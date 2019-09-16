@@ -133,7 +133,7 @@ const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
     user_list: userIds,
     template_id: "PGXKodkuaE7k1bmXsQ9c-gPEcmnPY0am97nd9cOuI_0",
     submission_type: "form_id",
-    page: `pages/attend_lottery/attend_lottery?id=${lottery.id}`,
+    page: `pages/win_lottery/win_lottery?id=${lottery.id}`,
     keywords: {
       keyword1: {
         value: `${lottery.nickname}发起的抽奖`

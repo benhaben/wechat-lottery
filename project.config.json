@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -72,6 +72,13 @@
 					"pathName": "pages/home/home",
 					"query": "inviter_uid =1",
 					"scene": 1007
+				},
+				{
+					"id": -1,
+					"name": "pages/win_lottery/win_lottery",
+					"pathName": "pages/win_lottery/win_lottery",
+					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"scene": 1014
 				}
 			]
 		}

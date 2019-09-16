@@ -55,7 +55,7 @@
 
   <view class="info-row">
     <view class="info__row_left">
-      <image src="{{avatar}}"></image>
+      <image class="avatar" src="{{avatar}}"></image>
       <text>{{nickname}}</text>
     </view>
     <view class="info__row_right">
@@ -139,7 +139,7 @@
       </view>
     </view>
     <view class="action__row">
-      <image class="action__avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
+      <image class="action__avatar avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
     </view>
   </form>
 

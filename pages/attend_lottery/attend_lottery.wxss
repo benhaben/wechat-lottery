@@ -38,8 +38,6 @@
 }
 
 .info__row_left image{
-  width: 50rpx;
-  height: 50rpx;
   margin-right: 20rpx;
 }
 
@@ -131,8 +129,6 @@
   font-size: 25rpx;
 }
 .action__avatar{
-  height: 45rpx;
-  width: 45rpx;
   margin: 6rpx;
 }
 

@@ -17,10 +17,15 @@ page{
 view{
   box-sizing: border-box;
 }
-.s-fill{
-  width: 100%;
-  height: 100%;
-}
+
+.h1{font-size: 55rpx;}
+.h2{font-size: 50rpx;}
+.h3{font-size: 45rpx;}
+.h4{font-size: 40rpx;}
+.padding30{padding: 30rpx;}
+.margin30{margin: 30rpx}
+.margin30-bottom{margin-bottom: 30rpx;}
+.border-red{border: 1rpx solid #E20F15}
 .text-center{text-align: center;}
 .text-break{word-break:break-all;word-wrap:break-word;}
 .h-flex{display: flex;}
@@ -120,3 +125,8 @@ view{
   margin: 20rpx;
 }
 
+.avatar{
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 25px;
+}
