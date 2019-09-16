@@ -86,7 +86,7 @@ exports.main = (function(e) {
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
         DEFAULT_URL:
-          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
+          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
         LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9],
         LOTTERY_NUM_PEOPLE: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
@@ -507,7 +507,7 @@ exports.main = (function(e) {
         E = {},
         _ = void 0,
         O = /^-?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
-      function T(e, t, n, r) {
+      function g(e, t, n, r) {
         var o = e.c,
           i = e.e + t + 1;
         if (i < o.length) {
@@ -528,7 +528,7 @@ exports.main = (function(e) {
         } else if (n < 0 || n > 3 || n !== ~~n) throw Error(p);
         return e;
       }
-      function g(e, t, n, r) {
+      function T(e, t, n, r) {
         var o,
           i,
           c = e.constructor,
@@ -538,7 +538,7 @@ exports.main = (function(e) {
             throw Error(3 == t ? h + "precision" : d);
           for (
             n = r - (e = new c(e)).e,
-              e.c.length > ++r && T(e, n, c.RM),
+              e.c.length > ++r && g(e, n, c.RM),
               2 == t && (r = e.e + n + 1);
             e.c.length < r;
 
@@ -602,38 +602,38 @@ exports.main = (function(e) {
             p = o.slice(),
             E = (u = o.length),
             O = r.length,
-            g = r.slice(0, u),
-            w = g.length,
+            T = r.slice(0, u),
+            w = T.length,
             v = e,
             R = (v.c = []),
-            A = 0,
-            L = c + (v.e = t.e - e.e) + 1;
-          for (v.s = i, i = L < 0 ? 0 : L, p.unshift(0); w++ < u; ) g.push(0);
+            L = 0,
+            b = c + (v.e = t.e - e.e) + 1;
+          for (v.s = i, i = b < 0 ? 0 : b, p.unshift(0); w++ < u; ) T.push(0);
           do {
             for (a = 0; a < 10; a++) {
-              if (u != (w = g.length)) l = u > w ? 1 : -1;
+              if (u != (w = T.length)) l = u > w ? 1 : -1;
               else
                 for (h = -1, l = 0; ++h < u; )
-                  if (o[h] != g[h]) {
-                    l = o[h] > g[h] ? 1 : -1;
+                  if (o[h] != T[h]) {
+                    l = o[h] > T[h] ? 1 : -1;
                     break;
                   }
               if (!(l < 0)) break;
               for (f = w == u ? o : p; w; ) {
-                if (g[--w] < f[w]) {
-                  for (h = w; h && !g[--h]; ) g[h] = 9;
-                  --g[h], (g[w] += 10);
+                if (T[--w] < f[w]) {
+                  for (h = w; h && !T[--h]; ) T[h] = 9;
+                  --T[h], (T[w] += 10);
                 }
-                g[w] -= f[w];
+                T[w] -= f[w];
               }
-              for (; !g[0]; ) g.shift();
+              for (; !T[0]; ) T.shift();
             }
-            (R[A++] = l ? a : ++a),
-              g[0] && l ? (g[w] = r[E] || 0) : (g = [r[E]]);
-          } while ((E++ < O || g[0] !== _) && i--);
+            (R[L++] = l ? a : ++a),
+              T[0] && l ? (T[w] = r[E] || 0) : (T = [r[E]]);
+          } while ((E++ < O || T[0] !== _) && i--);
           return (
-            R[0] || 1 == A || (R.shift(), v.e--),
-            A > L && T(v, c, n.RM, g[0] !== _),
+            R[0] || 1 == L || (R.shift(), v.e--),
+            L > b && g(v, c, n.RM, T[0] !== _),
             v
           );
         }),
@@ -773,7 +773,7 @@ exports.main = (function(e) {
           var n = this.constructor;
           if (e === _) e = 0;
           else if (e !== ~~e || e < -s || e > s) throw Error(d);
-          return T(new n(this), e, t === _ ? n.RM : t);
+          return g(new n(this), e, t === _ ? n.RM : t);
         }),
         (E.sqrt = function() {
           var e,
@@ -799,7 +799,7 @@ exports.main = (function(e) {
           do {
             (n = e), (e = u.times(n.plus(r.div(n))));
           } while (n.c.slice(0, c).join("") !== e.c.slice(0, c).join(""));
-          return T(e, (o.DP -= 4), o.RM);
+          return g(e, (o.DP -= 4), o.RM);
         }),
         (E.times = E.mul = function(e) {
           var t,
@@ -832,19 +832,19 @@ exports.main = (function(e) {
           return (e.c = t), e;
         }),
         (E.toExponential = function(e) {
-          return g(this, 1, e, e);
+          return T(this, 1, e, e);
         }),
         (E.toFixed = function(e) {
-          return g(this, 2, e, this.e + e);
+          return T(this, 2, e, this.e + e);
         }),
         (E.toPrecision = function(e) {
-          return g(this, 3, e, e - 1);
+          return T(this, 3, e, e - 1);
         }),
         (E.toString = function() {
-          return g(this);
+          return T(this);
         }),
         (E.valueOf = E.toJSON = function() {
-          return g(this, 4);
+          return T(this, 4);
         }),
         ((i = (function e() {
           function t(n) {
@@ -892,18 +892,31 @@ exports.main = (function(e) {
   function(e, t, n) {
     "use strict";
     n.d(t, "a", function() {
-      return i;
+      return c;
     }),
       n.d(t, "b", function() {
-        return c;
+        return u;
+      }),
+      n.d(t, "c", function() {
+        return s;
       });
     var r = n(2),
       o = n.n(r);
-    function i() {
+    function i(e) {
+      return (e = e.toString())[1] ? e : "0" + e;
+    }
+    const c = e => {
+      var t = new Date();
+      return (
+        t.setTime(e),
+        [t.getFullYear(), t.getMonth() + 1, t.getDate()].map(i).join("-")
+      );
+    };
+    function u() {
       var e = Date.parse(new Date());
       return (e /= 1e3), new Date(1e3 * (e + 86400)).toISOString();
     }
-    const c = e => new o.a(e).toFixed(3);
+    const s = e => new o.a(e).toFixed(3);
   },
   ,
   ,
@@ -936,7 +949,7 @@ exports.main = (function(e) {
               Math.round(Date.parse(n.open_date) / 1e3) -
               Math.round(new Date() / 1e3);
             if (r < n.open_people_num && c <= 0) {
-              let e = Object(o.a)();
+              let e = Object(o.b)();
               console.log(
                 `人数不够，时间已经到了，顺延24小时 - lottery.id: ${n.id}, time: ${e}`
               );

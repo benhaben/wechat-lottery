@@ -1,5 +1,5 @@
 import { ERR_TYPE, CONFIG_ID, CONST } from "../utils/constants";
-import { toFixed3 } from "../utils/function";
+import { formatDate, toFixed3 } from "../utils/function";
 import {
   getOpenedLottery,
   getAttendeesCount,
@@ -49,19 +49,14 @@ export default async function checkLotteryStatus(event, callback) {
             toFixed3(lottery.total_prize / CONST.HONHBAO_RATIO)
           );
           // 发起通知通知所有参与抽奖的用户已经开奖
-          await updateUserLotteryRecords(
-            seed_hongbao,
-            lottery.id,
-            1,
-            price_per
-          );
+          await updateUserLotteryRecords(seed_hongbao, lottery, 1, price_per);
 
           let index_fudai = config.plans_lucky_package[lottery.plan_index];
           let seed_fudai = LUCKY_SEED_FUDAI.slice(0, index_fudai);
           debugger;
           await updateUserLotteryRecords(
             seed_fudai,
-            lottery.id,
+            lottery,
             2,
             lottery.lucky_num_per
           );
@@ -78,11 +73,11 @@ export default async function checkLotteryStatus(event, callback) {
   }
 }
 
-const updateUserLotteryRecords = async (offsets, lotteryID, status, value) => {
+const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
   let results = [];
 
   let luckyQuery = new BaaS.Query();
-  luckyQuery.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(lotteryID));
+  luckyQuery.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(lottery.id));
 
   let rawResult = await USER_LOTTERY_RECORD_TABLE.setQuery(luckyQuery)
     .offset(0)
@@ -97,7 +92,6 @@ const updateUserLotteryRecords = async (offsets, lotteryID, status, value) => {
     }
   }
 
-  debugger;
   // 取出 id
   let ids = results.map(ret => {
     return ret.id;
@@ -106,6 +100,7 @@ const updateUserLotteryRecords = async (offsets, lotteryID, status, value) => {
   if (ids.length <= 0) {
     return;
   }
+
   // 先根据 offsets 查出数据行 id，在通过数据行 id 更新数据行的 is_lucky & lottery_id 字段
   let luckyQueryUpdate = new BaaS.Query();
   // 通过 id in 查询来更新
@@ -114,16 +109,46 @@ const updateUserLotteryRecords = async (offsets, lotteryID, status, value) => {
   luckyQueryUpdate.compare(
     "lottery",
     "=",
-    LOTTERY_TABLE.getWithoutData(lotteryID)
+    LOTTERY_TABLE.getWithoutData(lottery.id)
   );
   let luckyRecord = USER_LOTTERY_RECORD_TABLE.getWithoutData(luckyQuery);
   if (status === 1) {
-    console.log(`开奖 - 更新余额为${value} - 涉及以下 ids ：${ids}`);
     luckyRecord.set("balance", value);
   } else {
-    console.log(`开奖 - 更新运气值为${value} - 涉及以下 ids ：${ids}`);
     luckyRecord.set("lucky_num", value);
   }
   luckyRecord.set("lottery_result", status);
-  return luckyRecord.update();
+  let resUpdate = await luckyRecord.update();
+
+  let updateIds = resUpdate.data.operation_result.map(item => item.success.id);
+  let queryUserIds = new BaaS.Query();
+  queryUserIds.in("id", updateIds);
+  let userIdsRes = await USER_LOTTERY_RECORD_TABLE.setQuery(queryUserIds)
+    .select("user_id")
+    .find();
+  let userIds = userIdsRes.data.objects.map(item => item.user_id);
+
+  let data = {
+    recipient_type: "user_list",
+    user_list: userIds,
+    template_id: "PGXKodkuaE7k1bmXsQ9c-gPEcmnPY0am97nd9cOuI_0",
+    submission_type: "form_id",
+    page: `pages/attend_lottery/attend_lottery?id=${lottery.id}`,
+    keywords: {
+      keyword1: {
+        value: `${lottery.nickname}发起的抽奖`
+      },
+      keyword2: {
+        value: "恭喜你，已经抽中红包"
+      },
+      keyword3: {
+        value: `${formatDate(Date.now())}`
+      },
+      keyword4: {
+        value: `${lottery.id}`
+      }
+    }
+  };
+
+  return BaaS.sendTemplateMessage(data);
 };

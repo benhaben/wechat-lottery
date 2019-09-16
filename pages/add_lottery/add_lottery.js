@@ -186,6 +186,9 @@ Page({
   },
   onConfirm: async function(event) {
     try {
+      const formID = event.detail.formId;
+      wx.BaaS.wxReportTicket(formID);
+
       this.setData({
         loading: true
       });

@@ -86,7 +86,7 @@ exports.main = (function(t) {
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
         DEFAULT_URL:
-          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
+          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
         LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9],
         LOTTERY_NUM_PEOPLE: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
@@ -216,10 +216,10 @@ exports.main = (function(t) {
         return _;
       }),
       n.d(e, "i", function() {
-        return d;
+        return f;
       }),
       n.d(e, "j", function() {
-        return f;
+        return d;
       }),
       n.d(e, "f", function() {
         return s;
@@ -234,13 +234,13 @@ exports.main = (function(t) {
       i = new BaaS.TableObject(r.d.ERROR),
       c = new BaaS.User(),
       _ = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function d(t) {
+    async function f(t) {
       let e = new BaaS.Query();
       return (
         e.compare("lottery", "=", o.getWithoutData(t)), a.setQuery(e).count()
       );
     }
-    async function f() {
+    async function d() {
       let t = new BaaS.Query();
       return (
         t.compare("status", "=", 2),

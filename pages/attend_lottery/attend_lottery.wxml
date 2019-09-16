@@ -109,21 +109,25 @@
 
   </view>
 
-  <view class="action">
+  <form report-submit bindsubmit="onAttend" class="action">
     <view class="action__row">
       <view wx:if="{{!auth}}">
         <button
           class="action__btn circle-border-radius"
           type="warn"
           open-type="getUserInfo"
+          form-type="submit"
           bindgetuserinfo="userInfoHandler">
           <text wx:if="{{hasAttended}}">待开奖</text>
           <text wx:else>参与抽奖</text>
         </button>
       </view>
 
-      <button wx:else :loading="attendBtnLoading" class="action__btn circle-border-radius" type="warn"
-              bindtap="onAttend">
+      <button wx:else :loading="attendBtnLoading"
+              form-type="submit"
+              class="action__btn circle-border-radius"
+              type="warn"
+              >
         <text wx:if="{{hasAttended}}">待开奖</text>
         <text wx:else>参与抽奖</text>
       </button>
@@ -137,7 +141,7 @@
     <view class="action__row">
       <image class="action__avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
     </view>
-  </view>
+  </form>
 
   <view class="add-lottery" bindtap="goToAddLottery">
     我要发抽奖

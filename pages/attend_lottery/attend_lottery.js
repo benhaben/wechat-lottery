@@ -168,12 +168,17 @@ Page({
       url: `${ROUTE.ADD_LOTTERY}`
     });
   },
-  onAttend: async function(e) {
+  onAttend: async function(event) {
     // 调用云函数
+
+    const formID = event.detail.formId;
+    wx.BaaS.wxReportTicket(formID);
+    console.log(`event.detail.formId - ${event.detail.formId}`);
 
     if (this.data.hasAttended) {
       return;
     }
+
     try {
       this.setData({ attendBtnLoading: true });
 

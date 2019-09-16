@@ -1,71 +1,71 @@
-exports.main = (function(t) {
-  var e = {};
+exports.main = (function(e) {
+  var t = {};
   function n(r) {
-    if (e[r]) return e[r].exports;
-    var u = (e[r] = { i: r, l: !1, exports: {} });
-    return t[r].call(u.exports, u, u.exports, n), (u.l = !0), u.exports;
+    if (t[r]) return t[r].exports;
+    var u = (t[r] = { i: r, l: !1, exports: {} });
+    return e[r].call(u.exports, u, u.exports, n), (u.l = !0), u.exports;
   }
   return (
-    (n.m = t),
-    (n.c = e),
-    (n.d = function(t, e, r) {
-      n.o(t, e) || Object.defineProperty(t, e, { enumerable: !0, get: r });
+    (n.m = e),
+    (n.c = t),
+    (n.d = function(e, t, r) {
+      n.o(e, t) || Object.defineProperty(e, t, { enumerable: !0, get: r });
     }),
-    (n.r = function(t) {
+    (n.r = function(e) {
       "undefined" != typeof Symbol &&
         Symbol.toStringTag &&
-        Object.defineProperty(t, Symbol.toStringTag, { value: "Module" }),
-        Object.defineProperty(t, "__esModule", { value: !0 });
+        Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
+        Object.defineProperty(e, "__esModule", { value: !0 });
     }),
-    (n.t = function(t, e) {
-      if ((1 & e && (t = n(t)), 8 & e)) return t;
-      if (4 & e && "object" == typeof t && t && t.__esModule) return t;
+    (n.t = function(e, t) {
+      if ((1 & t && (e = n(e)), 8 & t)) return e;
+      if (4 & t && "object" == typeof e && e && e.__esModule) return e;
       var r = Object.create(null);
       if (
         (n.r(r),
-        Object.defineProperty(r, "default", { enumerable: !0, value: t }),
-        2 & e && "string" != typeof t)
+        Object.defineProperty(r, "default", { enumerable: !0, value: e }),
+        2 & t && "string" != typeof e)
       )
-        for (var u in t)
+        for (var u in e)
           n.d(
             r,
             u,
-            function(e) {
-              return t[e];
+            function(t) {
+              return e[t];
             }.bind(null, u)
           );
       return r;
     }),
-    (n.n = function(t) {
-      var e =
-        t && t.__esModule
+    (n.n = function(e) {
+      var t =
+        e && e.__esModule
           ? function() {
-              return t.default;
+              return e.default;
             }
           : function() {
-              return t;
+              return e;
             };
-      return n.d(e, "a", e), e;
+      return n.d(t, "a", t), t;
     }),
-    (n.o = function(t, e) {
-      return Object.prototype.hasOwnProperty.call(t, e);
+    (n.o = function(e, t) {
+      return Object.prototype.hasOwnProperty.call(e, t);
     }),
     (n.p = ""),
     n((n.s = 11))
   );
 })([
-  function(t, e, n) {
+  function(e, t, n) {
     "use strict";
-    n.d(e, "c", function() {
+    n.d(t, "c", function() {
       return r;
     }),
-      n.d(e, "d", function() {
+      n.d(t, "d", function() {
         return u;
       }),
-      n.d(e, "a", function() {
+      n.d(t, "a", function() {
         return o;
       }),
-      n.d(e, "b", function() {
+      n.d(t, "b", function() {
         return c;
       });
     const r = {
@@ -86,7 +86,7 @@ exports.main = (function(t) {
         ONE_LUCKY_NUM_WEIGHT: 2,
         GET_MORE_REDUCE_LUCKY_NUM: -10,
         DEFAULT_URL:
-          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
+          "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
         LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9],
         LOTTERY_NUM_PEOPLE: [1e3, 1500, 3500, 5e3, 6e3, 8e3, 8e3, 9e3],
         PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0],
@@ -195,36 +195,36 @@ exports.main = (function(t) {
         ]
       };
   },
-  function(t, e, n) {
+  function(e, t, n) {
     "use strict";
-    n.d(e, "g", function() {
+    n.d(t, "g", function() {
       return u;
     }),
-      n.d(e, "d", function() {
+      n.d(t, "d", function() {
         return o;
       }),
-      n.d(e, "b", function() {
+      n.d(t, "b", function() {
         return c;
       }),
-      n.d(e, "c", function() {
+      n.d(t, "c", function() {
         return _;
       }),
-      n.d(e, "h", function() {
+      n.d(t, "h", function() {
         return a;
       }),
-      n.d(e, "a", function() {
+      n.d(t, "a", function() {
         return i;
       }),
-      n.d(e, "i", function() {
+      n.d(t, "i", function() {
         return T;
       }),
-      n.d(e, "j", function() {
-        return O;
-      }),
-      n.d(e, "f", function() {
+      n.d(t, "j", function() {
         return f;
       }),
-      n.d(e, "e", function() {
+      n.d(t, "f", function() {
+        return O;
+      }),
+      n.d(t, "e", function() {
         return d;
       });
     var r = n(0);
@@ -234,23 +234,23 @@ exports.main = (function(t) {
       _ = new BaaS.TableObject(r.d.ERROR),
       a = new BaaS.User(),
       i = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function T(t) {
-      let e = new BaaS.Query();
-      return (
-        e.compare("lottery", "=", o.getWithoutData(t)), u.setQuery(e).count()
-      );
-    }
-    async function O() {
+    async function T(e) {
       let t = new BaaS.Query();
       return (
-        t.compare("status", "=", 2),
+        t.compare("lottery", "=", o.getWithoutData(e)), u.setQuery(t).count()
+      );
+    }
+    async function f() {
+      let e = new BaaS.Query();
+      return (
+        e.compare("status", "=", 2),
         o
-          .setQuery(t)
+          .setQuery(e)
           .limit(10)
           .find()
       );
     }
-    const f = [
+    const O = [
         0,
         1,
         2,
@@ -499,28 +499,28 @@ exports.main = (function(t) {
   ,
   ,
   ,
-  function(t, e, n) {
-    t.exports = n(12);
+  function(e, t, n) {
+    e.exports = n(12);
   },
-  function(t, e, n) {
+  function(e, t, n) {
     "use strict";
-    n.r(e),
-      n.d(e, "default", function() {
+    n.r(t),
+      n.d(t, "default", function() {
         return o;
       });
     var r = n(0),
       u = n(1);
-    async function o(t, e) {
-      const n = t.data,
-        o = t.request.user.id;
+    async function o(e, t) {
+      const n = e.data,
+        o = e.request.user.id;
       try {
         (n.lucky_num_open =
           n.lucky_num * (r.b.LUCKY_RATIO_SUCCESS / r.b.LUCKY_RATIO_OPEN)),
           (n.created_by = o);
-        const t = u.d.create();
-        e(null, await t.set(n).save());
-      } catch (t) {
-        e(t);
+        const e = u.d.create();
+        t(null, await e.set(n).save());
+      } catch (e) {
+        t(e);
       }
     }
   }
