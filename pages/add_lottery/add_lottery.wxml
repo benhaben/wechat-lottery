@@ -1,5 +1,5 @@
-<form class="container"
-      report-submit bindsubmit="onConfirm"
+<view class="container"
+
 >
   <view class="container__image" style="background-image: url('{{url}}')">
     <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain round>选择图片
@@ -74,15 +74,24 @@
 
   <!-- <button open-type="getUserInfo" bindgetuserinfo="userInfoHandler">用户授权</button> -->
 
-  <view class="container__bottom">
-    <view class="text-center bg-white text-gray">发起抽奖后不可取消</view>
-    <van-button wx:if="{{!auth}}" type="primary" size="large" icon="gift-card" open-type="getUserInfo" form-type="submit" bindgetuserinfo="userInfoHandler">发起抽奖
-    </van-button>
+  <form class="bottom"  report-submit name="add_lottery" bindsubmit="onConfirm">
+    <view class="bottom__info">发起抽奖后不可取消</view>
+    <button wx:if="{{!auth}}"
+            class="bottom__btn color-white bg-red"
+            size="large"
+            open-type="getUserInfo"
+            form-type="submit"
+            bindgetuserinfo="userInfoHandler">发起抽奖
+    </button>
 
-    <van-button wx:else type="primary" :loading="loading" size="large" color="darkgoldenrod" icon="gift-card" form-type="submit">发起抽奖
-    </van-button>
-  </view>
+    <button wx:else
+            loading="{{loading}}"
+            size="large"
+            form-type="submit"
+            class="bottom__btn color-white bg-red">发起抽奖
+    </button>
+  </form>
 
   <van-dialog id="van-dialog" />
   <van-toast id="van-toast" />
-</form>
+</view>

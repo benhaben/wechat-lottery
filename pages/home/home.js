@@ -1,7 +1,7 @@
 import lotteryRep from "../../utils/dao";
-import { ROUTE } from "../../utils/constants";
+import { ROUTE, ROUTE_DATA } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
-import main from "../../faas/checkLotteryStatusOpenTest";
+// import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -10,7 +10,17 @@ Page({
   data: {
     lucky_num: app.getLuckyNum(),
     offset: 0,
-    lotteries: []
+    lotteries: [],
+    showSharePopup: false,
+    actions: [
+      {
+        name: "分享",
+        openType: "share"
+      },
+      {
+        name: "获取小程序码图片"
+      }
+    ]
   },
 
   loadMore: async function() {
@@ -33,10 +43,13 @@ Page({
   onLoad: async function() {
     try {
       // 知晓云云函数调试比较麻烦，只能在前端模拟一下
-      await main({}, (err, msg) => {
-        debugger;
-        console.log(err);
-      });
+      // await main({}, (err, msg) => {
+      //   debugger;
+      //   console.log(err);
+      // });
+
+      const { inviter_uid } = this.options;
+      console.log(`inviter_uid: ${inviter_uid}`);
 
       await app.getUserInfo(app.getUserId());
       this.setData({
@@ -62,5 +75,31 @@ Page({
   onGotoSign: function() {},
   onMore: async function(event) {
     await this.loadMore();
+  },
+  onCloseSharePopup() {
+    let that = this;
+    this.setData({ showSharePopup: false });
+    setTimeout(() => {
+      that.getTabBar().show();
+    }, 100);
+  },
+  genPic(e) {
+    let that = this;
+    wx.navigateTo({
+      url: `${ROUTE.SHARE_PIC_HOME}`
+    });
+  },
+  onShare: function(e) {
+    this.setData({ showSharePopup: true });
+    this.getTabBar().hide();
+  },
+  onShareAppMessage: function() {
+    return {
+      title: `${app.getNickname()}邀请你参与红包抽奖活动`,
+      path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,
+      success: function(res) {
+        console.log("成功", res);
+      }
+    };
   }
 });

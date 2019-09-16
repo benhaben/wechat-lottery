@@ -173,6 +173,7 @@ Page({
 
     const formID = event.detail.formId;
     wx.BaaS.wxReportTicket(formID);
+
     console.log(`event.detail.formId - ${event.detail.formId}`);
 
     if (this.data.hasAttended) {

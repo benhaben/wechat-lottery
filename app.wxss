@@ -83,3 +83,40 @@ view{
 }
 
 
+
+.bottom{
+  margin: 30rpx 30rpx 120rpx 30rpx;
+}
+
+.bottom__btn{
+  width: 680rpx;
+  height: 80rpx;
+  font-size: 35rpx;
+  line-height: 80rpx;
+}
+.bottom__info{
+  text-align: center;
+  color: gray;
+  margin: 28rpx;
+}
+
+
+.popup{
+  background: white;
+  display: flex;
+  height: 200rpx;
+  align-items: center;
+  color:gray;
+  z-index: 9999;
+}
+.popup-item{
+  flex-grow: 1;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-item-btn{
+  margin: 20rpx;
+}
+

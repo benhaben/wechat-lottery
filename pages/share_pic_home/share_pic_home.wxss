@@ -1,0 +1,7 @@
+/* pages/share_pic_home/share_pic_home.wxss */
+
+.container{
+  height: 100%;
+}
+.share-pic-home{
+}

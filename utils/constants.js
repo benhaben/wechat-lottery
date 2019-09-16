@@ -7,7 +7,8 @@ export const ROUTE = {
   ADD_LOTTERY: "/pages/add_lottery/add_lottery",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
   USER: "/pages/user/user",
-  SHARE_PIC: "/pages/share_pic/share_pic"
+  SHARE_PIC: "/pages/share_pic/share_pic",
+  SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home"
 };
 
 export const ROUTE_DATA = {

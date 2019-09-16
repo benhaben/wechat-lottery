@@ -3,6 +3,7 @@ import { ROUTE } from "../utils/constants";
 Component({
   data: {
     active: 0,
+    hide: false,
     list: [
       {
         icon: "home-o",
@@ -39,7 +40,12 @@ Component({
         });
       }
     },
-
+    show() {
+      this.setData({ hide: false });
+    },
+    hide() {
+      this.setData({ hide: true });
+    },
     init() {
       const page = getCurrentPages().pop();
       this.setData({

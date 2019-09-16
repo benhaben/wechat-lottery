@@ -3,6 +3,7 @@ import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
+import { saveToAlbum } from "../../utils/uiFunction";
 
 const red = "rgb(222,26,24)";
 const app = getApp();
@@ -201,36 +202,13 @@ Page({
     });
   },
 
-  onSaveToAlbum(e) {
-    let that = this;
-
-    function save() {
-      wx.saveImageToPhotosAlbum({
-        filePath: that.data.url, //这个只是测试路径，没有效果
-        success(res) {
-          Toast.success("保存成功");
-          console.log("success");
-        },
-        fail: function(res) {
-          console.log(res);
-        }
-      });
+  async onSaveToAlbum(e) {
+    try {
+      await saveToAlbum(this.data.url);
+      Toast.success("保存成功");
+    } catch (e) {
+      console.log(e);
     }
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting["scope.writePhotosAlbum"]) {
-          wx.authorize({
-            scope: "scope.writePhotosAlbum",
-            success() {
-              console.log("授权成功");
-              save();
-            }
-          });
-        } else {
-          save();
-        }
-      }
-    });
   },
   onPosterFail(err) {
     console.error(err);

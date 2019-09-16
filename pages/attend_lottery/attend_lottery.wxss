@@ -174,20 +174,3 @@
 }
 
 
-.popup{
-  background: white;
-  display: flex;
-  height: 200rpx;
-  align-items: center;
-  color:gray;
-}
-.popup-item{
-  flex-grow: 1;
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.popup-item-btn{
-  margin: 20rpx;
-}

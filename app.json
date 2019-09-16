@@ -7,7 +7,8 @@
     "pages/tags/tags",
     "pages/pic_details/details",
     "pages/user/user",
-    "pages/share_pic/share_pic"
+    "pages/share_pic/share_pic",
+    "pages/share_pic_home/share_pic_home"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -52,7 +53,8 @@
     "copy-area": "/components/copy-area/copy-area",
     "van-progress": "lib/van/progress/index",
     "poster": "/components/poster-gen-canvas/poster/index",
-    "lottery-item":"/components/lottery-item/lottery-item"
+    "lottery-item": "/components/lottery-item/lottery-item",
+    "van-action-sheet": "lib/van/action-sheet/index"
   },
   "sitemapLocation": "sitemap.json"
 }

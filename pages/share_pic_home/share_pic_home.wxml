@@ -1,0 +1,12 @@
+<view class="h-flex flex-col container ">
+  <view class=" flex-grow-1 h-flex flex-align-center flex-justify-content-center">
+    <image mode="aspectFit" src="{{url}}"/>
+  </view>
+
+  <view class="album">
+    <van-button type="danger" size="large" class="album__btn" bindtap="onSaveToAlbum">保存到相册</van-button>
+  </view>
+</view>
+
+<van-dialog id="van-dialog"/>
+<van-toast id="van-toast"/>
