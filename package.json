@@ -40,7 +40,5 @@
       "git add"
     ]
   },
-  "dependencies": {
-    "debug": "^4.1.1"
-  }
+  "dependencies": {}
 }

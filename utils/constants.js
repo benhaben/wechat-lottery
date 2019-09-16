@@ -72,7 +72,7 @@ export const CONST = {
   ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重
   GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
   DEFAULT_URL:
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png",
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
   LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9], // 红包金额
   LOTTERY_NUM_PEOPLE: [1000, 1500, 3500, 5000, 6000, 8000, 8000, 9000], // 开奖人数
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
