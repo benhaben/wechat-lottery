@@ -1,4 +1,4 @@
-import lotteryRep from "../../utils/dao";
+import dao from "../../utils/dao";
 import { ROUTE, ROUTE_DATA } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
 // import main from "../../faas/checkLotteryStatusOpenTest";
@@ -12,6 +12,7 @@ Page({
     offset: 0,
     lotteries: [],
     showSharePopup: false,
+    overlay: true,
     actions: [
       {
         name: "分享",
@@ -24,7 +25,7 @@ Page({
   },
 
   loadMore: async function() {
-    let lotteries = await lotteryRep.getLottery(this.data.offset);
+    let lotteries = await dao.getLottery(this.data.offset);
     if (lotteries.data.objects <= 0) {
       return;
     }
@@ -49,7 +50,9 @@ Page({
       // });
 
       const { inviter_uid } = this.options;
-      console.log(`inviter_uid: ${inviter_uid}`);
+      if (inviter_uid) {
+        await dao.addInviter(inviter_uid, app.getUserId());
+      }
 
       await app.getUserInfo(app.getUserId());
       this.setData({
@@ -94,6 +97,8 @@ Page({
     this.getTabBar().hide();
   },
   onShareAppMessage: function() {
+    this.setData({ overlay: false, showSharePopup: false });
+
     return {
       title: `${app.getNickname()}邀请你参与红包抽奖活动`,
       path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,

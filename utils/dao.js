@@ -90,6 +90,19 @@ export default {
   async reduceLuckyNum(luckyNum, user_id) {
     let userUpdate = USER_TABLE.getWithoutData(user_id);
     userUpdate.incrementBy("lucky_num", CONST.GET_MORE_REDUCE_LUCKY_NUM);
-    userUpdate.update();
+    return userUpdate.update();
+  },
+
+  async addInviter(inviter_uid, user_id) {
+    debugger;
+    let userRes = await USER_TABLE.get(user_id);
+    let user = userRes.data;
+    if (user && !user.inviter_uid) {
+      let userUpdate = USER_TABLE.getWithoutData(user_id);
+      userUpdate.set("inviter_uid", parseInt(inviter_uid));
+      return userUpdate.update();
+    } else {
+      return "inviter_uid exist";
+    }
   }
 };

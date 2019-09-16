@@ -40,7 +40,7 @@
 <!--  bind:close="onCloseSharePopup"-->
 <!--/>-->
 
-<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup">
+<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup" overlay="{{overlay}}">
   <view class="popup">
     <view class="popup-item">
       <van-button class="popup-item-btn" icon="share" open-type="share" type="danger" hairline></van-button>
