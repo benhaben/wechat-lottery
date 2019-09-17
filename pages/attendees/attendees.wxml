@@ -1,0 +1,9 @@
+<view class="avatar-list">
+  <image class="big-avatar margin30-right" wx:for="{{image_list}}" wx:key="{{index}}"
+         src="{{item}}"></image>
+</view>
+
+<view class="link-text-arrow margin30-bottom text-center" bindtap="onMore">
+  加载更多
+  <van-icon class="arrow-vertical-align" name="arrow"/>
+</view>

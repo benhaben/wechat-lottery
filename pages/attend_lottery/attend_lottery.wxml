@@ -133,7 +133,7 @@
       </button>
     </view>
     <view class="action__row">
-      <view class="action__num">
+      <view class="action__num" bindtap="onGoToAttendees">
         已有 {{attend_num}} 人参与，查看全部
         <van-icon class="icon" name="arrow"/>
       </view>
@@ -151,7 +151,7 @@
   <view class="share">
     <button class="share__btn" bindtap="onShare">分享</button>
     <view class="share__tips">
-      每邀请一个朋友参与，倒计时加快一分钟
+      每邀请一个朋友参与，就可能获得更多运气值和奖励
     </view>
   </view>
 </view>

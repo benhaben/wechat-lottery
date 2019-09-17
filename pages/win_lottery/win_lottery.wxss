@@ -101,3 +101,34 @@
   justify-content: center;
   align-items: center;
 }
+
+.win-details{
+  margin: 30rpx;
+  width: 100%;
+  border: 1rpx solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.win-peoples-title{
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.avatar-list{
+  width: 100%;
+  height: 180rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.weight{
+  height: 100rpx;
+  padding: 0rpx 30rpx;
+  justify-content: space-between;
+}

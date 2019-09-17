@@ -112,7 +112,7 @@ const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
     LOTTERY_TABLE.getWithoutData(lottery.id)
   );
   let luckyRecord = USER_LOTTERY_RECORD_TABLE.getWithoutData(luckyQuery);
-  if (status === 1) {
+  if (status === CONST.GET_HONGBAO) {
     luckyRecord.set("balance", value);
   } else {
     luckyRecord.set("lucky_num", value);

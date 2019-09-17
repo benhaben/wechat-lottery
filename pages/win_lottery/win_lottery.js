@@ -13,6 +13,7 @@ Page({
     id: "",
     total: "",
     lucky_num: 0,
+    lucky_num_per: 0,
     countdownStr: "",
     open_people_num: 0,
     avatar: "",
@@ -26,12 +27,15 @@ Page({
     auth: false,
     lottery_id: null,
     attendBtnLoading: false,
-    hasAttended: true,
     selfLuckyNum: 0,
     open_date: null,
     showSharePopup: false,
     balance: 0.099,
-    showAd: false
+    showAd: false,
+    plans_lottery_package: 97,
+    plans_lucky_package: 100,
+    hongbao_image_list: [],
+    fudai_image_list: []
   },
 
   /**
@@ -39,48 +43,44 @@ Page({
    */
   onLoad: async function(options) {
     let that = this;
-    // let lottery_id = options.id;
-    let lottery_id = "5d7dc7bf9db6e805adc5ebfe";
+    let lottery_id = options.id;
+    // let lottery_id = "5d7dc7bf9db6e805adc5ebfe";
     // let lottery_id = "5d7612d71db94f5d2e68fd74";
-    await app.getUserInfo(app.getUserId());
-    this.setData({
-      selfLuckyNum: app.getLuckyNum(),
-      auth: app.hasAuth(),
-      lottery_id
-    });
 
     if (!lottery_id) {
       return;
     }
     // 获取数据
     try {
+      // 获取用户中奖信息
       let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
         lottery_id,
         app.getUserId()
       );
+
+      // 获取参加者信息
       let attendeesPromise = dao.getLotteryAttendees(lottery_id);
+      let getHongbaosPromise = dao.getAttendeesByResult(lottery_id);
+      let getFudaisPromise = dao.getAttendeesByResult(
+        lottery_id,
+        CONST.GET_FUDAI
+      );
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
       let retRecord = await retRecordPromise;
+      let hongbaos = await getHongbaosPromise;
+      let fudais = await getFudaisPromise;
 
-      let lottery, hasAttended;
-      if (retRecord.data.objects.length === 0) {
-        let ret = await dao.getLotteryById(lottery_id);
-        lottery = ret.data;
-        hasAttended = false;
-      } else {
-        lottery = retRecord.data.objects[0].lottery;
-        // 运气值发生了改变
-        let user = retRecord.data.objects[0].user;
-        app.setUserInfo(user);
-        hasAttended = true;
-      }
-
+      let lottery = retRecord.data.objects[0].lottery;
+      let user = retRecord.data.objects[0].user;
+      app.setUserInfo(user);
       this.setData({
+        lottery_id: lottery.id,
         id: lottery.id.substr(0, 10),
         total: `${lottery.total_prize}元/100人`,
         lucky_num: lottery.lucky_num,
+        lucky_num_per: lottery.lucky_num_per,
         open_people_num: lottery.open_people_num,
         avatar: lottery.avatar,
         nickname: lottery.nickname,
@@ -88,17 +88,34 @@ Page({
         desc_initiator: lottery.desc_initiator,
         pic_data: lottery.pic_data,
         open_date: lottery.open_date,
-        hasAttended,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
           item => item.avatar_cache
-        )
+        ),
+        hongbao_image_list: hongbaos.data.objects.map(
+          item => item.avatar_cache
+        ),
+        fudai_image_list: fudais.data.objects.map(item => item.avatar_cache)
       });
     } catch (e) {
       console.log(e);
     }
   },
-
+  onGotoHongbao() {
+    wx.navigateTo({
+      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery_id}&type=${CONST.GET_HONGBAO}`
+    });
+  },
+  onGotoFudai() {
+    wx.navigateTo({
+      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery_id}&type=${CONST.GET_FUDAI}`
+    });
+  },
+  onGotoAttendees() {
+    wx.navigateTo({
+      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery_id}&type=${CONST.GET_ATTENDEES}`
+    });
+  },
   showAdFalse() {
     this.setData({
       showAd: false

@@ -41,18 +41,19 @@ Page({
     let lottery_id = options.id;
     // let lottery_id = "5d75f93b1bb32a389a830414";
     // let lottery_id = "5d7612d71db94f5d2e68fd74";
-    await app.getUserInfo(app.getUserId());
-    this.setData({
-      selfLuckyNum: app.getLuckyNum(),
-      auth: app.hasAuth(),
-      lottery_id
-    });
 
     if (!lottery_id) {
       return;
     }
     // 获取数据
     try {
+      await app.getUserInfo(app.getUserId());
+      this.setData({
+        selfLuckyNum: app.getLuckyNum(),
+        auth: app.hasAuth(),
+        lottery_id
+      });
+
       let retRecordPromise = lotteryRep.getUserLotteryRecordByLotteryIdAndUserId(
         lottery_id,
         app.getUserId()
@@ -227,6 +228,11 @@ Page({
         // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
       }
     );
+  },
+  onGoToAttendees() {
+    wx.navigateTo({
+      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery_id}&type=${CONST.GET_ATTENDEES}`
+    });
   },
   onCloseSharePopup() {
     this.setData({ showSharePopup: false });

@@ -8,6 +8,7 @@ export const ROUTE = {
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
   USER: "/pages/user/user",
   SHARE_PIC: "/pages/share_pic/share_pic",
+  ATTENDEES: "/pages/attendees/attendees",
   SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home"
 };
 
@@ -67,7 +68,11 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
 export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
+//
 export const CONST = {
+  GET_ATTENDEES: 0, // 获取所有参与者
+  GET_FUDAI: 2, // 获取福袋获得者列表
+  GET_HONGBAO: 1, // 获取红包获得者列表
   HONHBAO_RATIO: 100, // 开奖金额总是除以 100，但是发出去多少看PLANS_LOTTERY_PACKAGE，剩下的是平台盈利
   ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
   ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重

@@ -1,0 +1,7 @@
+/* pages/attendees/attendees.wxss */
+
+.avatar-list{
+  padding: 30rpx;
+  display: flex;
+  justify-content: center;
+}

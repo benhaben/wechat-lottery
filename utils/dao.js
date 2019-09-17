@@ -1,4 +1,4 @@
-import { FUNCTION_NAME, PAGE_SIZE } from "./constants";
+import { FUNCTION_NAME, PAGE_SIZE, CONST } from "./constants";
 
 import { LOTTERY_TABLE, USER_LOTTERY_RECORD_TABLE, USER_TABLE } from "./table";
 
@@ -67,7 +67,7 @@ export default {
       .find();
   },
 
-  async getLotteryAttendees(id = "") {
+  async getLotteryAttendees(id = "", limit = 8, offset = 0) {
     if (!id) {
       throw TypeError("id or user invalid");
     }
@@ -76,8 +76,37 @@ export default {
     return USER_LOTTERY_RECORD_TABLE.setQuery(query)
       .select(["avatar_cache"])
       .expand(["user"])
-      .limit(8)
-      .offset(0)
+      .limit(limit)
+      .offset(offset)
+      .find();
+  },
+
+  /**
+   * 返回参与者的头像
+   * @param id
+   * @param reslut - CONST.GET_HONGBAO | CONST.GET_FUDAI
+   * @param limit
+   * @param offset
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async getAttendeesByResult(
+    id = "",
+    reslut = CONST.GET_HONGBAO,
+    limit = 8,
+    offset = 0
+  ) {
+    if (!id) {
+      throw TypeError("id or user invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    query.compare("lottery_result", "=", reslut);
+
+    return USER_LOTTERY_RECORD_TABLE.setQuery(query)
+      .select(["avatar_cache"])
+      .expand(["user"])
+      .limit(limit)
+      .offset(offset)
       .find();
   },
 

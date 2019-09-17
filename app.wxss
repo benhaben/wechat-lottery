@@ -22,8 +22,11 @@ view{
 .h2{font-size: 50rpx;}
 .h3{font-size: 45rpx;}
 .h4{font-size: 40rpx;}
+.height80{height: 80rpx;}
+.height180{height: 180rpx;}
 .padding30{padding: 30rpx;}
 .margin30{margin: 30rpx}
+.margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
 .border-red{border: 1rpx solid #E20F15}
 .text-center{text-align: center;}
@@ -57,9 +60,9 @@ view{
 .bg-base {background-color: #f0f0f0;}
 .bg-gray {background-color: #8a8a8a;}
 .bg-red {background-color: #E20F15;}
+.color-gray{color:#8a8a8a;}
 .color-red{color: #E20F15;}
 .color-white{color: white;}
-
 .img-s-4{
   width: 2.5rem;
   height: 2.5rem;
@@ -129,4 +132,20 @@ view{
   height: 50rpx;
   width: 50rpx;
   border-radius: 25px;
+}
+
+.big-avatar{
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 40rpx;
+}
+
+
+.link-text-arrow{
+  color: gray;
+  font-size: 30rpx;
+}
+.arrow-vertical-align{
+  color: gray;
+  vertical-align: -3rpx;
 }
