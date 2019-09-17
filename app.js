@@ -42,6 +42,9 @@ App({
     store.setUserInfo(userInfo);
   },
   getUserInfo: async function(uid) {
+    if (!uid) {
+      uid = this.getUserId();
+    }
     let MyUser = new wx.BaaS.User();
     let res = await MyUser.get(uid);
     var userInfo = res.data;

@@ -17,18 +17,24 @@ page{
 view{
   box-sizing: border-box;
 }
-
+.height-per100{  height: 100%;}
+.weight-per100{ width: 100%; }
 .h1{font-size: 55rpx;}
 .h2{font-size: 50rpx;}
 .h3{font-size: 45rpx;}
 .h4{font-size: 40rpx;}
+.info-text{font-size: 25rpx;color: #8a8a8a;}
 .height80{height: 80rpx;}
+.height120{height: 120rpx;}
+.height150{height: 150rpx;}
 .height180{height: 180rpx;}
 .padding30{padding: 30rpx;}
+.padding15-30{padding: 15rpx 30rpx;}
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
 .border-red{border: 1rpx solid #E20F15}
+.border-bottom{border-bottom: 1rpx solid lightgray}
 .text-center{text-align: center;}
 .text-break{word-break:break-all;word-wrap:break-word;}
 .h-flex{display: flex;}

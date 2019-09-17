@@ -1,0 +1,74 @@
+<view class="border-bottom height150 bg-white h-flex flex-align-center flex-justify-content-between">
+  <view class="h-flex flex-align-center margin30">
+    <van-icon class="bar__lucky-like color-red margin30-right" size="60rpx" name="like"/>
+    <view class="color-red">{{lucky_num}}</view>
+  </view>
+  <view class="margin30" bindtap="onGotoSign">
+    运气值明细
+    <van-icon class="arrow-vertical-align" name="arrow"/>
+  </view>
+</view>
+
+<view class="bg-white height150 h-flex flex-center margin30-bottom">
+  <form class="sign " report-submit name="sign" bindsubmit="onSign">
+    <button
+      loading="{{loading}}"
+      size="large"
+      form-type="submit"
+      class="bottom__btn color-red bg-red"
+      plain
+    >签到
+    </button>
+  </form>
+</view>
+
+<view class="rule margin30-bottom">
+  <view class="padding30 bg-white border-bottom">奖励规则</view>
+  <view class="h-flex flex-justify-content-between flex-align-center bg-white height120 padding15-30 border-bottom" wx:for="{{rules}}" wx:key="{{index}}">
+    <view class="item__left h-flex flex-col">
+      <view class="item__top">
+        <van-icon name="star-o" class="left-icon"/>
+        {{item.title}}
+      </view>
+      <view class="item__bottom info-text">
+        <view>
+          {{item.info}}
+        </view>
+      </view>
+    </view>
+
+    <view class="item-right">
+      <view class="round-view border-red color-red" data-index="{{index}}" data-name="{{item.title}}" bindtap="onGo">
+        {{item.btn}}
+      </view>
+    </view>
+
+
+  </view>
+</view>
+
+<view class="rule">
+  <view class="padding30 bg-white border-bottom">使用规则</view>
+  <view class="h-flex flex-justify-content-between flex-align-center bg-white height120 padding15-30 border-bottom" wx:for="{{use_rules}}" wx:key="{{index}}">
+    <view class="item__left h-flex flex-col">
+      <view class="item__top">
+        <van-icon name="star-o" class="left-icon"/>
+        {{item.title}}
+      </view>
+      <view class="item__bottom info-text">
+        <view>
+          {{item.info}}
+        </view>
+      </view>
+    </view>
+
+    <view class="item-right">
+      <view class="round-view border-red color-red" data-index="{{index}}" data-name="{{item.title}}" bindtap="onGo">
+        {{item.btn}}
+      </view>
+    </view>
+
+
+  </view>
+</view>
+<van-toast id="van-toast"/>

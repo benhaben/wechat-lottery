@@ -1,6 +1,6 @@
 // pages/attend_lottery/attend_lottery.js
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
-import lotteryRep from "../../utils/dao";
+import dao from "../../utils/dao";
 // import main from "../../faas/attendLotteryTest";
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -54,11 +54,11 @@ Page({
         lottery_id
       });
 
-      let retRecordPromise = lotteryRep.getUserLotteryRecordByLotteryIdAndUserId(
+      let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
         lottery_id,
         app.getUserId()
       );
-      let attendeesPromise = lotteryRep.getLotteryAttendees(lottery_id);
+      let attendeesPromise = dao.getLotteryAttendees(lottery_id);
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
@@ -66,7 +66,7 @@ Page({
 
       let lottery, hasAttended;
       if (retRecord.data.objects.length === 0) {
-        let ret = await lotteryRep.getLotteryById(lottery_id);
+        let ret = await dao.getLotteryById(lottery_id);
         lottery = ret.data;
         hasAttended = false;
       } else {
@@ -198,7 +198,7 @@ Page({
       //   }
       // );
 
-      let res = await lotteryRep.attendLottery({
+      let res = await dao.attendLottery({
         weight: this.data.weight,
         lottery_id: this.data.lottery_id
       });

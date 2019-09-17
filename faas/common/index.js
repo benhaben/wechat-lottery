@@ -31,10 +31,26 @@ export async function getOpenedLottery() {
     .find();
 }
 
-// prettier-ignore
 export const LUCKY_SEED_HONGBAO = [
-  0, 1, 2, 3, 5, 6, 7, 8, 9, 10,
-  12, 16, 18, 20, 22, 26, 28, 30, 32,
+  0,
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  12,
+  16,
+  18,
+  20,
+  22,
+  26,
+  28,
+  30,
+  32,
   36,
   38,
   40,
@@ -119,7 +135,6 @@ export const LUCKY_SEED_HONGBAO = [
   138 //没有倒数第二排的吉利，所以放在后面
 ];
 
-// prettier-ignore
 export const LUCKY_SEED_FUDAI = [
   4,
   11,

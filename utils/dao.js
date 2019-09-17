@@ -1,15 +1,23 @@
 import { FUNCTION_NAME, PAGE_SIZE, CONST } from "./constants";
 
-import { LOTTERY_TABLE, USER_LOTTERY_RECORD_TABLE, USER_TABLE } from "./table";
-
+import {
+  LOTTERY_TABLE,
+  USER_LOTTERY_RECORD_TABLE,
+  USER_TABLE,
+  DAILY_CHECKIN_TABLE
+} from "./table";
+import { formatDate } from "./function";
 export default {
   /**
    * 为了安全在服务端创建抽奖
    * @param data
    * @returns {Promise<*>}
    */
-  async createLottery(data) {
-    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.CREATE_LOTTERY, data);
+  async createLottery(lottery) {
+    let ret = await wx.BaaS.invokeFunction(
+      FUNCTION_NAME.CREATE_LOTTERY,
+      lottery
+    );
     return ret.data.data;
   },
 
@@ -20,7 +28,6 @@ export default {
    */
   async attendLottery(data) {
     let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
-    debugger;
     return ret.data.data;
   },
 
@@ -123,7 +130,6 @@ export default {
   },
 
   async addInviter(inviter_uid, user_id) {
-    debugger;
     let userRes = await USER_TABLE.get(user_id);
     let user = userRes.data;
     if (user && !user.inviter_uid) {
@@ -133,5 +139,22 @@ export default {
     } else {
       return "inviter_uid exist";
     }
+  },
+
+  async dailyCheckin(user_id) {
+    let ret;
+    try {
+      let date = formatDate(Date.now());
+      const createObject = DAILY_CHECKIN_TABLE.create();
+      ret = await createObject
+        .set({
+          user_id,
+          date
+        })
+        .save();
+    } catch (e) {
+      console.log(e);
+    }
+    return ret;
   }
 };

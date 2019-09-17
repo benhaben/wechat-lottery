@@ -1,92 +1,13 @@
-
-page {
-  background: #f3f3f3;
-  overflow-y: scroll !important;
+.header{
 }
 
-.candy-my-top {
- margin: 20rpx 0;
+.stats{
+  margin-top: 1rpx;
 }
-.candy-my-title-div {
-  background: #fff;
-  position: relative;
-  line-height: 200rpx;
-  height: 200rpx;
-  overflow: hidden;
- 
-  padding: 0 32rpx;
-  box-sizing: border-box;
-  font-weight: bold;
-  border-bottom: 2rpx solid #eee;
+.stats__area{
+  border-right: 1rpx solid lightgray;
 }
 
-.candy-my-avatar {
-  position: absolute;
-  top: 50%;
-  width: 90%;
-  transform: translateY(-50%);
-  height: 80rpx;
-  line-height: 80rpx;
-}
-
-.my-avatar {
-  width: 80rpx;
-  height: 80rpx;
-  float: left;
-  border-radius: 50%;
-  margin-right: 24rpx;
-}
-
-.candy-my-name {
-  font-size: 28rpx;
-  color: #4a4a4a;
-  float: left;
-  font-weight: bold;
-  margin-top: 3rpx;
-}
-
-.candy-my-wishsr {
-  font-size: 28rpx;
-  color: #4a4a4a;
-  float: right;
-  font-weight: bold;
-  margin-top: 3rpx;
-}
-
-.candy-my-top-info {
-  background: #fff;
-  position: relative;
-  overflow: hidden;
-  padding: 32rpx 0 32rpx 0;
-  box-sizing: border-box;
-  font-weight: bold;
-}
-
-.candy-my-top-info-nav .flex-item {
-  flex: 1;
-  padding: 10rpx 0;
-  border-right: 2rpx solid #eee;
-}
-
-.candy-my-top-info-nav :last-child {
-  border-right: none
-}
-.flex-item-nums {
-  font-size: 14;
-  color: #4a4a4a;
-}
-
-.flex-item-txt {
-  font-size: 10;
-  color: #4a4a4a;
-}
-
-
-.candy-my-list{
-  background: #fff;
-}
-.cand-my-copy-right {
-  height: 200rpx;
-  padding: 40rpx 0;
-
+.stats__title{
+  font-size: 25rpx;
 }

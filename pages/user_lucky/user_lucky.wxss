@@ -1,0 +1,15 @@
+/* pages/user/user_lucky/user_lucky.wxss */
+
+.round-view{
+  border-radius: 30rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  width: 100rpx;
+  font-size: 25rpx;
+  text-align: center;
+}
+
+.left-icon{
+  vertical-align: -3rpx;
+}
+

@@ -23,7 +23,7 @@ TODO: 云端配置
 
 ## 知晓云触发器
 
-### trrigerCheckLotteryStatus 
+### trrigerCheckLotteryOpen 
 
 检查开奖状态，调用云函数 CheckLotteryStatus 
 触发器触发时间 18 8,18,20 * * *
@@ -33,6 +33,10 @@ TODO: 云端配置
 2. 更新发起抽奖者的 user 表的 luck_num
 3. 随机抽出幸运儿，更新到（userLotteryTable，lottery_result），更新幸运儿的（user，balance或者lucky_num）
 4. 发起通知，通知所有参与抽奖的用户已经开奖
+
+### trrigerCheckLotteryTimeout
+
+每八小时检查过期状态
 
 ### trrigerWhenCreateLottery
 创建抽奖
@@ -47,6 +51,10 @@ TODO: 云端配置
 ### triggerVerifyPayment
 
 支付完以后验证支付金额，更新支付状态到（1，已经支付，等待审批）
+
+### triggerWhenDailyCheckin
+
+每日签到增加运气值和记录
 
 ## 知晓云云函数
 ### createLottery

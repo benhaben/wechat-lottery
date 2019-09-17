@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 6,
 			"list": [
 				{
 					"id": 0,
@@ -79,6 +79,20 @@
 					"pathName": "pages/win_lottery/win_lottery",
 					"query": "id=5d7dc7bf9db6e805adc5ebfe",
 					"scene": 1014
+				},
+				{
+					"id": -1,
+					"name": "pages/user/user",
+					"pathName": "pages/user/user",
+					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"scene": null
+				},
+				{
+					"id": 6,
+					"name": "pages/user_lucky/user_lucky",
+					"pathName": "pages/user_lucky/user_lucky",
+					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"scene": null
 				}
 			]
 		}

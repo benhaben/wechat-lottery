@@ -3,7 +3,7 @@ import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
-import lotteryRep from "../../utils/dao";
+import dao from "../../utils/dao";
 
 const { regeneratorRuntime } = global;
 
@@ -194,7 +194,7 @@ Page({
         loading: true
       });
       // （创建抽奖，创建订单）-> 支付，
-      let lottery = await lotteryRep.createLottery({
+      let lottery = await dao.createLottery({
         url: this.data.url,
         file: this.data.file,
         open_date: openDateTimeStamp(),
@@ -224,7 +224,7 @@ Page({
       console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
 
       // TODO: 有审批功能后移除
-      await lotteryRep.approveLottery(lottery.id);
+      await dao.approveLottery(lottery.id);
 
       this.setData({
         loading: false
