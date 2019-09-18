@@ -7,7 +7,7 @@
     </view>
     <view class="margin30 color-red" bindtap="onGotoSign">
       运气值
-      <van-icon class="arrow-vertical-align" name="arrow"/>
+      <van-icon class="link-arrow-vertical-align" name="arrow"/>
     </view>
   </view>
 
@@ -28,7 +28,9 @@
 
   <view class="group margin30-bottom">
     <van-cell-group>
-      <van-cell title="现金余额" icon="cashier-o" is-link/>
+      <van-cell title="现金余额" icon="cashier-o"
+                link-type="navigateTo"
+                url="/pages/user_balance/user_balance" is-link/>
       <van-cell title="粉丝列表" icon="friends-o" is-link/>
       <van-cell title="兴趣标签" icon="like-o" is-link/>
       <van-cell title="个人简介" icon="description" is-link/>

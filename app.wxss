@@ -28,6 +28,7 @@ view{
 .height120{height: 120rpx;}
 .height150{height: 150rpx;}
 .height180{height: 180rpx;}
+.height250{height: 250rpx;}
 .padding30{padding: 30rpx;}
 .padding15-30{padding: 15rpx 30rpx;}
 .margin30{margin: 30rpx}
@@ -151,7 +152,7 @@ view{
   color: gray;
   font-size: 30rpx;
 }
-.arrow-vertical-align{
+.link-arrow-vertical-align{
   color: gray;
   vertical-align: -3rpx;
 }

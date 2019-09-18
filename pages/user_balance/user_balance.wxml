@@ -1,0 +1,40 @@
+<view class="h-flex flex-col flex-center bg-white height250">
+  <view class="margin30 h2">{{balance}} 元
+  </view>
+  <view class="margin30-bottom info-text">当前余额</view>
+</view>
+
+<view class="info-text margin30">余额可用于发起抽奖或者直接提现。提现手续费%1，每人每天限提1笔，每笔最小1元，最大100元</view>
+
+<view class="margin30-bottom">
+  <form report-submit name="deposit" bindsubmit="onConfirm">
+    <view class="margin30-bottom">
+      <van-cell-group>
+        <van-field
+          type="number"
+          value="{{ money }}"
+          label="提现金额"
+          error-message="{{error}}"
+        />
+      </van-cell-group>
+    </view>
+
+    <button class="margin30"
+            loading="{{loading}}"
+            size="large"
+            form-type="submit"
+            class="bottom__btn color-white bg-red">提现
+    </button>
+  </form>
+</view>
+<view class="text-center link-text-arrow margin30-bottom" bindtap="onGotoBalanceDetails">
+  查看现金记录
+  <van-icon class="link-arrow-vertical-align" name="arrow"/>
+</view>
+
+
+<van-dialog
+  message="提现功能暂未开放"
+  show="{{ show }}"
+>
+</van-dialog>

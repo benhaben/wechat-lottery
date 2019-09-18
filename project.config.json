@@ -95,9 +95,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "pages/user_lucky_details/user_lucky_details",
-					"pathName": "pages/user_lucky_details/user_lucky_details",
+					"id": 7,
+					"name": "pages/user_balance/user_balance",
+					"pathName": "pages/user_balance/user_balance",
 					"query": "id=5d7dc7bf9db6e805adc5ebfe",
 					"scene": null
 				}

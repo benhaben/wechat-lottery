@@ -1,7 +1,6 @@
 // components/rich_text/rich_text.js
 import wxPromise from "../../utils/wxPromise.js";
 import Toast from "../../lib/van/toast/toast";
-import Dialog from "../../lib/van/dialog/dialog";
 const { regeneratorRuntime } = global;
 
 /**

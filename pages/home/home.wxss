@@ -12,7 +12,7 @@
 .bar__sign{
   color: gray;
 }
-.arrow-vertical-align{
+.link-arrow-vertical-align{
   color: gray;
   vertical-align: -3rpx;
 }

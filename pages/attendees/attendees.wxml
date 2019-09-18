@@ -5,5 +5,5 @@
 
 <view class="link-text-arrow margin30-bottom text-center" bindtap="onMore">
   加载更多
-  <van-icon class="arrow-vertical-align" name="arrow"/>
+  <van-icon class="link-arrow-vertical-align" name="arrow"/>
 </view>

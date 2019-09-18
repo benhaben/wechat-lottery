@@ -11,7 +11,8 @@ export const ROUTE = {
   SHARE_PIC: "/pages/share_pic/share_pic",
   ATTENDEES: "/pages/attendees/attendees",
   SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home",
-  USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details"
+  USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
+  USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details"
 };
 
 export const ROUTE_DATA = {

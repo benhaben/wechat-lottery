@@ -9,7 +9,7 @@
 
     <view class="bar__sign" bindtap="onGotoSign">
       去签到
-      <van-icon class="arrow-vertical-align" name="arrow"/>
+      <van-icon class="link-arrow-vertical-align" name="arrow"/>
     </view>
   </view>
 

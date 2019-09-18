@@ -5,7 +5,7 @@
   </view>
   <view class="margin30" bindtap="onGotoLuckyDetails">
     运气值明细
-    <van-icon class="arrow-vertical-align" name="arrow"/>
+    <van-icon class="link-arrow-vertical-align" name="arrow"/>
   </view>
 </view>
 
