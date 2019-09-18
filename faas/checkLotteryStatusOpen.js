@@ -53,7 +53,6 @@ export default async function checkLotteryStatus(event, callback) {
 
           let index_fudai = config.plans_lucky_package[lottery.plan_index];
           let seed_fudai = LUCKY_SEED_FUDAI.slice(0, index_fudai);
-          debugger;
           await updateUserLotteryRecords(
             seed_fudai,
             lottery,

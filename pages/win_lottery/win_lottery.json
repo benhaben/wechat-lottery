@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "navigation-bar": "/mp-navigation-bar"
+  },
+  "navigationStyle": "custom"
 }

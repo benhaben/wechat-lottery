@@ -11,7 +11,8 @@
     "pages/share_pic_home/share_pic_home",
     "pages/win_lottery/win_lottery",
     "pages/attendees/attendees",
-    "pages/user_lucky/user_lucky"
+    "pages/user_lucky/user_lucky",
+    "pages/user_lucky_details/user_lucky_details"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

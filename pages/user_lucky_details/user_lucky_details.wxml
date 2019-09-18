@@ -1,0 +1,17 @@
+<view class="height-per100">
+  <view class="h-flex flex-align-center height150 bg-white border-bottom flex-justify-content-between"
+        wx:for="{{records}}" wx:key="{{index}}">
+    <view class="left margin30">
+      <view class="">{{item.reason}}</view>
+      <view class="info-text">{{item.created_at}}</view>
+    </view>
+    <view class="margin30">{{item.lucky_num}}</view>
+  </view>
+
+
+  <view class="bottom h-flex flex-col flex-align-center" bindtap="onMore">
+    <view class="bottom__info">
+      点击加载更多
+    </view>
+  </view>
+</view>

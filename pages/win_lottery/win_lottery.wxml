@@ -1,169 +1,180 @@
-<view class="container__image" style="background-image: url('{{url}}')">
-  <view class="container__select-image">
-    <view class="container__select-image-icon">
-      <van-icon size="35rpx" name="gift"/>
-    </view>
-    <view>
-      <text>{{id}}</text>
-    </view>
-  </view>
-</view>
+<navigation-bar bindhome="handleHome">
 
-
-<view class="info margin30-bottom">
-  <view class="info-row">
-    <view class="info__row_left">
-      <view class="info__row_title">
-        总奖：
+  <view class="container__image" style="background-image: url('{{url}}')">
+    <view class="container__select-image">
+      <view class="container__select-image-icon">
+        <van-icon size="35rpx" name="gift"/>
       </view>
-      <view class="info__row_value">
-        {{total}}
+      <view>
+        <text>{{id}}</text>
       </view>
-    </view>
-
-    <view class="info__row_right">
-      <view class="info__row_value">
-        {{lucky_num}} 个
-      </view>
-      <view class="info__row_title">
-        福袋：
-      </view>
-
     </view>
   </view>
 
-  <view class="info-row">
-    <view class="info__row_left">
-      <view class="info__row_title">
-        倒计时：
-      </view>
-      <view class="info__row_value">
-        {{countdownStr}}
-      </view>
-    </view>
 
-    <view class="info__row_right">
-      <view class="info__row_value">
-        {{open_people_num}} 人
-      </view>
-      <view class="info__row_title">
-        开奖人数：
-      </view>
-
-    </view>
-  </view>
-
-  <view class="info-row">
-    <view class="info__row_left">
-      <image class="avatar" src="{{avatar}}"></image>
-      <text>{{nickname}}</text>
-    </view>
-    <view class="info__row_right">
-      发起人
-    </view>
-  </view>
-</view>
-
-<view class="h-flex flex-justify-content-around switch margin30-bottom">
-  <view class="switch__item bg-red color-white" bindtap="showAdFalse">开奖结果</view>
-  <view class="switch__item bg-gray color-white" bindtap="showAd">发起人广告</view>
-</view>
-
-<view wx:if="{{!showAd}}" class="bg-base">
-  <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
-    <view class="h1 margin30-bottom color-red">恭喜，您已经中奖</view>
-    <view class="h3 margin30-bottom">奖品：好运红包
-      <text class="color-red">{{balance}}</text>
-      元
-    </view>
-    <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
-      <view class="win-switch__item bg-red color-white">
-        <van-icon name="gift-o"></van-icon>
-        <view>去查看</view>
-      </view>
-      <view class="win-switch__item border-red color-red">
-        <van-icon name="friends-o"></van-icon>
-        <view>炫耀一下</view>
-      </view>
-    </view>
-
-    <view class="h4">中奖者名单:</view>
-    <view class="h-flex flex-col flex-align-center">
-      <view class="win-details">
-        <view class="win-peoples-title bg-base">奖品：好运红包<text class="color-red">{{balance}}</text>元 X <text class="color-red">{{plans_lottery_package}}</text>名</view>
-        <view class="avatar-list">
-          <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}"
-                 src="{{item}}"></image>
+  <view class="info margin30-bottom">
+    <view class="info-row">
+      <view class="info__row_left">
+        <view class="info__row_title">
+          总奖：
         </view>
-        <view class="link-text-arrow margin30-bottom" bindtap="onGotoHongbao">
-          查看全部
-          <van-icon class="arrow-vertical-align" name="arrow"/>
+        <view class="info__row_value">
+          {{total}}
         </view>
       </view>
 
-      <view class="win-details">
-        <view class="win-peoples-title bg-base">奖品：好运福袋<text class="color-red">{{lucky_num_per}}</text>个运气值 X <text class="color-red">{{plans_lucky_package}}名</text></view>
-        <view class="avatar-list">
-          <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
-                 src="{{item}}"></image>
+      <view class="info__row_right">
+        <view class="info__row_value">
+          {{lucky_num}} 个
         </view>
-        <view class="link-text-arrow margin30-bottom" bindtap="onGotoFudai">
-          查看全部
-          <van-icon class="arrow-vertical-align" name="arrow"/>
+        <view class="info__row_title">
+          福袋：
+        </view>
+
+      </view>
+    </view>
+
+    <view class="info-row">
+      <view class="info__row_left">
+        <view class="info__row_title">
+          倒计时：
+        </view>
+        <view class="info__row_value">
+          {{countdownStr}}
+        </view>
+      </view>
+
+      <view class="info__row_right">
+        <view class="info__row_value">
+          {{open_people_num}} 人
+        </view>
+        <view class="info__row_title">
+          开奖人数：
+        </view>
+
+      </view>
+    </view>
+
+    <view class="info-row">
+      <view class="info__row_left">
+        <image class="avatar" src="{{avatar}}"></image>
+        <text>{{nickname}}</text>
+      </view>
+      <view class="info__row_right">
+        发起人
+      </view>
+    </view>
+  </view>
+
+  <view class="h-flex flex-justify-content-around switch margin30-bottom">
+    <view class="switch__item bg-red color-white" bindtap="showAdFalse">开奖结果</view>
+    <view class="switch__item bg-gray color-white" bindtap="showAd">发起人广告</view>
+  </view>
+
+  <view wx:if="{{!showAd}}" class="bg-base">
+    <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
+      <view class="h1 margin30-bottom color-red">恭喜，您已经中奖</view>
+      <view class="h3 margin30-bottom">奖品：好运红包
+        <text class="color-red">{{balance}}</text>
+        元
+      </view>
+      <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
+        <view class="win-switch__item bg-red color-white">
+          <van-icon name="gift-o"></van-icon>
+          <view>去查看</view>
+        </view>
+        <view class="win-switch__item border-red color-red">
+          <van-icon name="friends-o"></van-icon>
+          <view>炫耀一下</view>
+        </view>
+      </view>
+
+      <view class="h4">中奖者名单:</view>
+      <view class="h-flex flex-col flex-align-center">
+        <view class="win-details">
+          <view class="win-peoples-title bg-base">奖品：好运红包
+            <text class="color-red">{{balance}}</text>
+            元 X
+            <text class="color-red">{{plans_lottery_package}}</text>
+            名
+          </view>
+          <view class="avatar-list">
+            <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}"
+                   src="{{item}}"></image>
+          </view>
+          <view class="link-text-arrow margin30-bottom" bindtap="onGotoHongbao">
+            查看全部
+            <van-icon class="arrow-vertical-align" name="arrow"/>
+          </view>
+        </view>
+
+        <view class="win-details">
+          <view class="win-peoples-title bg-base">奖品：好运福袋
+            <text class="color-red">{{lucky_num_per}}</text>
+            个运气值 X
+            <text class="color-red">{{plans_lucky_package}}名</text>
+          </view>
+          <view class="avatar-list">
+            <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
+                   src="{{item}}"></image>
+          </view>
+          <view class="link-text-arrow margin30-bottom" bindtap="onGotoFudai">
+            查看全部
+            <van-icon class="arrow-vertical-align" name="arrow"/>
+          </view>
         </view>
       </view>
     </view>
-  </view>
 
-  <view class="weight h-flex flex-row flex-align-center bg-white margin30-bottom">
-    <view>中奖权重 ：{{weight}}</view>
-  </view>
-
-  <view class="h-flex flex-col flex-align-center height180 bg-white margin30-bottom">
-    <view class="link-text-arrow margin30" bindtap="onGotoAttendees">
-      {{attend_num}} 人参与，查看全部
-      <van-icon class="arrow-vertical-align" name="arrow"/>
+    <view class="weight h-flex flex-row flex-align-center bg-white margin30-bottom">
+      <view>中奖权重 ：{{weight}}</view>
     </view>
-    <view class="margin30-bottom">
-      <image class="margin30-right avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
-    </view>
-  </view>
 
-</view>
-
-<view class="ad" wx:else>
-
-  <view class="container__tag" wx:if="{{tag_items}}">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
-        发起人标签：
+    <view class="h-flex flex-col flex-align-center height180 bg-white margin30-bottom">
+      <view class="link-text-arrow margin30" bindtap="onGotoAttendees">
+        {{attend_num}} 人参与，查看全部
+        <van-icon class="arrow-vertical-align" name="arrow"/>
+      </view>
+      <view class="margin30-bottom">
+        <image class="margin30-right avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
       </view>
     </view>
-    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
-      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
-        {{item}}
+
+  </view>
+
+  <view class="ad" wx:else>
+
+    <view class="container__tag" wx:if="{{tag_items}}">
+      <view class="container__tag_bar">
+        <view class="container__tag_title">
+          发起人标签：
+        </view>
+      </view>
+      <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
+        <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="container__tag" wx:if="{{desc_initiator}}">
+      <view class="container__tag_bar">
+        <view class="container__tag_title">
+          发起人简介：
+        </view>
+      </view>
+      <view class="container__desc h-flex flex-row flex-wrap flex-justify-content-center">
+        <text>{{desc_initiator}}</text>
+      </view>
+    </view>
+
+    <view class="container__tag" wx:if="{{pic_data.length>0}}">
+      <view class="container__tag_bar">
+        发起人广告：
+      </view>
+      <view class="">
+        <x-richtext isReadOnly initList="{{pic_data}}"/>
       </view>
     </view>
   </view>
-
-  <view class="container__tag" wx:if="{{desc_initiator}}">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
-        发起人简介：
-      </view>
-    </view>
-    <view class="container__desc h-flex flex-row flex-wrap flex-justify-content-center">
-      <text>{{desc_initiator}}</text>
-    </view>
-  </view>
-
-  <view class="container__tag" wx:if="{{pic_data.length>0}}">
-    <view class="container__tag_bar">
-      发起人广告：
-    </view>
-    <view class="">
-      <x-richtext isReadOnly initList="{{pic_data}}"/>
-    </view>
-  </view>
-</view>
-
+</navigation-bar>

@@ -15,7 +15,6 @@ Page({
     this.getTabBar().init();
   },
   onGotoSign() {
-    debugger;
     wx.navigateTo({
       url: ROUTE.USER_LUCKY
     });

@@ -10,7 +10,8 @@ export const ROUTE = {
   USER_LUCKY: "/pages/user_lucky/user_lucky",
   SHARE_PIC: "/pages/share_pic/share_pic",
   ATTENDEES: "/pages/attendees/attendees",
-  SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home"
+  SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home",
+  USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details"
 };
 
 export const ROUTE_DATA = {
@@ -33,7 +34,8 @@ export const TABLE_ID = {
   USER_LOTTERY_RECORD: 81892,
   LOTTERY: 81873,
   CONFIG: 83587,
-  DAILY_CHECKIN: 84214
+  DAILY_CHECKIN: 84214,
+  BALANCE_LUCKY_RECORD: 83371
 };
 
 export const CONFIG_ID = "5d7917899d8da5229c037105";

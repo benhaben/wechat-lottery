@@ -193,7 +193,6 @@ Page({
       //     request: { user: { id: app.getUserId() } }
       //   },
       //   (err, ret) => {
-      //     debugger;
       //     console.log(err);
       //   }
       // );

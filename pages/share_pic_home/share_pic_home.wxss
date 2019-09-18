@@ -5,3 +5,6 @@
 }
 .share-pic-home{
 }
+.btn {
+  width: 300rpx;
+}

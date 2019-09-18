@@ -1,42 +1,45 @@
-<view class="header height180 bg-white h-flex flex-align-center flex-justify-content-between">
-  <view class="h-flex flex-align-center">
-    <image class="big-avatar margin30" src="{{url}}"></image>
-    <view class="nickname">{{nickname}}</view>
-  </view>
-  <view class="margin30 color-red" bindtap="onGotoSign">
-    运气值
-    <van-icon class="arrow-vertical-align" name="arrow"/>
-  </view>
-</view>
+<navigation-bar title="我的" bindhome="handleHome">
 
-<view class="stats bg-white height180 h-flex flex-align-center">
-  <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
-    <view class="stats__value">{{total}}</view>
-    <view class="stats__title">全部抽奖</view>
+  <view class="header height180 bg-white h-flex flex-align-center flex-justify-content-between">
+    <view class="h-flex flex-align-center">
+      <image class="big-avatar margin30" src="{{url}}"></image>
+      <view class="nickname">{{nickname}}</view>
+    </view>
+    <view class="margin30 color-red" bindtap="onGotoSign">
+      运气值
+      <van-icon class="arrow-vertical-align" name="arrow"/>
+    </view>
   </view>
-  <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
-    <view class="stats__value">{{send_num}}</view>
-    <view class="stats__title">发起抽奖</view>
-  </view>
-  <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
-    <view class="stats__value">{{get_num}}</view>
-    <view class="stats__title">中奖记录</view>
-  </view>
-</view>
 
-<view class="group margin30-bottom">
+  <view class="stats bg-white height180 h-flex flex-align-center">
+    <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
+      <view class="stats__value">{{total}}</view>
+      <view class="stats__title">全部抽奖</view>
+    </view>
+    <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
+      <view class="stats__value">{{send_num}}</view>
+      <view class="stats__title">发起抽奖</view>
+    </view>
+    <view class="stats__area flex-grow-1 h-flex flex-col flex-center">
+      <view class="stats__value">{{get_num}}</view>
+      <view class="stats__title">中奖记录</view>
+    </view>
+  </view>
+
+  <view class="group margin30-bottom">
+    <van-cell-group>
+      <van-cell title="现金余额" icon="cashier-o" is-link/>
+      <van-cell title="粉丝列表" icon="friends-o" is-link/>
+      <van-cell title="兴趣标签" icon="like-o" is-link/>
+      <van-cell title="个人简介" icon="description" is-link/>
+      <van-cell title="消息提醒" icon="envelop-o" is-link/>
+      <van-cell title="常见问题" icon="question-o" is-link/>
+    </van-cell-group>
+  </view>
+
   <van-cell-group>
-    <van-cell title="现金余额" icon="cashier-o" is-link/>
-    <van-cell title="粉丝列表" icon="friends-o" is-link/>
-    <van-cell title="兴趣标签" icon="like-o" is-link/>
-    <van-cell title="个人简介" icon="description" is-link/>
-    <van-cell title="消息提醒" icon="envelop-o" is-link/>
-    <van-cell title="常见问题" icon="envelop-o" is-link/>
+    <van-cell title="推荐审查" icon="award-o" is-link/>
+    <van-cell title="提现审核" icon="award-o" is-link/>
+    <van-cell title="分成管理" icon="award-o" is-link/>
   </van-cell-group>
-</view>
-
-<van-cell-group>
-  <van-cell title="推荐审查" icon="location-o" is-link/>
-  <van-cell title="提现审核" icon="location-o" is-link/>
-  <van-cell title="分成管理" icon="location-o" is-link/>
-</van-cell-group>
+</navigation-bar>

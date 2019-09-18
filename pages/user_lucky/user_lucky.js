@@ -1,6 +1,7 @@
 // pages/user/user_lucky/user_lucky.js
 import Toast from "../../lib/van/toast/toast";
 import dao from "../../utils/dao";
+import { ROUTE } from "../../utils/constants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -25,12 +26,12 @@ Page({
       },
       {
         title: "福袋奖励",
-        info: "+ 100个运气值/人",
+        info: "+ 总奖金额 X 10 个运气值",
         btn: "去发起"
       },
       {
         title: "邀请朋友加入",
-        info: "+ 总奖金额 X 10 个运气值",
+        info: "+ 100个运气值/人",
         btn: "去邀请"
       },
       {
@@ -100,10 +101,38 @@ Page({
     }
   },
   onGo(event) {
-    debugger;
-    console.log(
-      `${event.currentTarget.dataset.index} - ${event.currentTarget.dataset.name}`
-    );
+    let index = event.currentTarget.dataset.index;
+    let name = event.currentTarget.dataset.name;
+
+    console.log(`${index} - ${name}`);
+
+    if (index === 0 || index === 1 || index === 2) {
+      wx.navigateTo({
+        url: ROUTE.ADD_LOTTERY
+      });
+    } else if (index === 3) {
+      wx.navigateTo({
+        url: ROUTE.SHARE_PIC_HOME
+      });
+    } else if (index === 4) {
+      wx.navigateTo({
+        url: ROUTE.USER_LUCKY_DETAILS
+      });
+    }
+  },
+  onGotoLuckyDetails() {
+    wx.navigateTo({
+      url: ROUTE.USER_LUCKY_DETAILS
+    });
+  },
+  onGoRule(event) {
+    let index = event.currentTarget.dataset.index;
+    let name = event.currentTarget.dataset.name;
+
+    console.log(`${index} - ${name}`);
+
+    if (index === 0) {
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

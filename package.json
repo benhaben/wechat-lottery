@@ -40,5 +40,7 @@
       "git add"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "mp-navigation-bar": "0.0.11"
+  }
 }

@@ -4,7 +4,8 @@ import {
   LOTTERY_TABLE,
   USER_LOTTERY_RECORD_TABLE,
   USER_TABLE,
-  DAILY_CHECKIN_TABLE
+  DAILY_CHECKIN_TABLE,
+  BALANCE_LUCKY_RECORD_TABLE
 } from "./table";
 import { formatDate } from "./function";
 export default {
@@ -156,5 +157,21 @@ export default {
       console.log(e);
     }
     return ret;
+  },
+
+  async getLuckyDetails(user_id, limit = 8, offset = 0) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+    query.exists("lucky_num");
+
+    return BALANCE_LUCKY_RECORD_TABLE.setQuery(query)
+      .select(["created_at", "reason", "lucky_num"])
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
   }
 };

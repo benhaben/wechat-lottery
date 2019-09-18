@@ -155,3 +155,7 @@ view{
   color: gray;
   vertical-align: -3rpx;
 }
+
+.isIPXActives {
+  padding-bottom: 68rpx;
+}

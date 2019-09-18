@@ -1,9 +1,12 @@
 import { ROUTE } from "../utils/constants";
+import { mobileAdapter, getStatusBarHeight } from "../utils/function";
 
 Component({
   data: {
     active: 0,
     hide: false,
+    isIPhoneX: false,
+    statusBarHeight: 0,
     list: [
       {
         icon: "home-o",
@@ -22,7 +25,20 @@ Component({
       }
     ]
   },
-
+  options: {
+    // 允许接受外部样式，根据个人喜好来处理
+    addGlobalClass: true
+  },
+  created() {
+    let that = this;
+    this.setData({
+      isIPhoneX: mobileAdapter.isIPhoneX()
+    });
+  },
+  attached() {
+    // 当组件挂载到页面时，才会执行初始化
+    let that = this;
+  },
   methods: {
     onChange(event) {
       this.setData({

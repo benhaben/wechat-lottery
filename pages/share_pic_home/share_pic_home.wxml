@@ -3,8 +3,9 @@
     <image mode="aspectFit" src="{{url}}"/>
   </view>
 
-  <view class="album">
-    <van-button type="danger" size="large" class="album__btn" bindtap="onSaveToAlbum">保存到相册</van-button>
+  <view class="album height120 h-flex flex-justify-content-around flex-align-center">
+    <van-button custom-class="btn" type="danger" size="normal" icon="photo-o" class="album__btn" bindtap="onSaveToAlbum">保存到相册</van-button>
+    <van-button custom-class="btn" icon="share" open-type="share" type="primary" hairline>分享</van-button>
   </view>
 </view>
 
