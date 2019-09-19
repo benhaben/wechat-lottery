@@ -41,11 +41,11 @@ export default {
     return lotteryRecord.update();
   },
 
-  async getLottery(offset) {
+  async getLottery(limit = PAGE_SIZE, offset = 0) {
     let query = new wx.BaaS.Query();
     query.compare("status", "=", 2);
     return LOTTERY_TABLE.setQuery(query)
-      .limit(PAGE_SIZE)
+      .limit(limit)
       .offset(offset)
       .find();
   },
@@ -75,7 +75,7 @@ export default {
       .find();
   },
 
-  async getLotteryAttendees(id = "", limit = 8, offset = 0) {
+  async getLotteryAttendees(id = "", limit = PAGE_SIZE, offset = 0) {
     if (!id) {
       throw TypeError("id or user invalid");
     }
@@ -159,7 +159,7 @@ export default {
     return ret;
   },
 
-  async getLuckyDetails(user_id, limit = 8, offset = 0) {
+  async getLuckyDetails(user_id, limit = PAGE_SIZE, offset = 0) {
     if (!user_id) {
       throw TypeError("user_id invalid");
     }
@@ -175,7 +175,7 @@ export default {
       .find();
   },
 
-  async getBalanceDetails(user_id, limit = 8, offset = 0) {
+  async getBalanceDetails(user_id, limit = PAGE_SIZE, offset = 0) {
     if (!user_id) {
       throw TypeError("user_id invalid");
     }

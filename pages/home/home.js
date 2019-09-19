@@ -1,5 +1,5 @@
 import dao from "../../utils/dao";
-import { ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { PAGE_SIZE, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
@@ -9,7 +9,8 @@ const app = getApp();
 Page({
   data: {
     lucky_num: app.getLuckyNum(),
-    offset: 0,
+    offset: 0, // 加载更多的时候偏移量
+    page_size: PAGE_SIZE, // 注意这个是让下拉的时候保持至少有当前的数量
     lotteries: [],
     showSharePopup: false,
     overlay: true,
@@ -23,9 +24,35 @@ Page({
       }
     ]
   },
+  onPullDownRefresh: throttle(async function() {
+    // 上拉刷新
+    debugger;
+    try {
+      let lotteries = await dao.getLottery(this.data.page_size + PAGE_SIZE, 0);
+      if (lotteries.data.objects <= 0) {
+        return;
+      }
 
-  loadMore: async function() {
-    let lotteries = await dao.getLottery(this.data.offset);
+      let add = lotteries.data.objects.map(lottery => {
+        lottery.hash = lottery.id.substr(0, 10);
+        lottery.total = `${lottery.total_prize}元/100人`;
+        lottery.countdownStr = countDown(lottery.open_date);
+        return lottery;
+      });
+      this.setData({
+        lotteries: add,
+        offset: add.length,
+        page_size: add.length
+      });
+      wx.stopPullDownRefresh();
+    } catch (e) {
+      console.log(e);
+      wx.stopPullDownRefresh();
+    }
+  }),
+
+  loadMore: async function(event) {
+    let lotteries = await dao.getLottery(PAGE_SIZE, this.data.offset);
     if (lotteries.data.objects <= 0) {
       return;
     }
@@ -38,7 +65,8 @@ Page({
     });
     this.setData({
       lotteries: this.data.lotteries.concat(add),
-      offset: this.data.offset + add.length
+      offset: this.data.offset + add.length,
+      page_size: this.data.page_size + add.length
     });
   },
   onLoad: async function() {
@@ -77,6 +105,11 @@ Page({
   }),
   onGotoSign: function() {},
   onMore: async function(event) {
+    const formId = event.detail.formId;
+    if (formId) {
+      wx.BaaS.wxReportTicket(formId);
+      console.log(`event.detail.formId - ${event.detail.formId}`);
+    }
     await this.loadMore();
   },
   onCloseSharePopup() {

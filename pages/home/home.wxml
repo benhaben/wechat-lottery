@@ -26,10 +26,12 @@
   </view>
 
   <view class="bottom h-flex flex-col flex-align-center">
-    <button class="bottom__btn color-white bg-red" bindtap="onMore">
-      点击加载更多抽奖
-    </button>
-    <view class="bottom__info"></view>
+    <form report-submit name="deposit" bindsubmit="onMore">
+      <button class="bottom__btn color-white bg-red"  form-type="submit">
+        点击加载更多抽奖
+      </button>
+      <view class="bottom__info"></view>
+    </form>
   </view>
 </view>
 

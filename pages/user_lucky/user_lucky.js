@@ -72,10 +72,11 @@ Page({
   },
 
   async onSign(event) {
-    const formID = event.detail.formId;
-    wx.BaaS.wxReportTicket(formID);
-
-    console.log(`event.detail.formId - ${event.detail.formId}`);
+    const formId = event.detail.formId;
+    if (formId) {
+      wx.BaaS.wxReportTicket(formId);
+      console.log(`event.detail.formId - ${event.detail.formId}`);
+    }
     this.setData({
       loading: true
     });

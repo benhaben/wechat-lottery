@@ -26,10 +26,17 @@ Page({
       url: ROUTE.USER_BALANCE_DETAILS
     });
   },
-  async onConfirm() {
+  async onConfirm(event) {
     // 检查是否是数字，键盘是number，已经保证了
     // 检查余额是否足够
     // 检查是否在1~100之间是整数
+
+    const formId = event.detail.formId;
+    if (formId) {
+      wx.BaaS.wxReportTicket(formId);
+      console.log(`event.detail.formId - ${event.detail.formId}`);
+    }
+
     try {
       let balance = this.data.balance;
       let money = this.data.money;

@@ -172,10 +172,11 @@ Page({
   onAttend: async function(event) {
     // 调用云函数
 
-    const formID = event.detail.formId;
-    wx.BaaS.wxReportTicket(formID);
-
-    console.log(`event.detail.formId - ${event.detail.formId}`);
+    const formId = event.detail.formId;
+    if (formId) {
+      wx.BaaS.wxReportTicket(formId);
+      console.log(`event.detail.formId - ${event.detail.formId}`);
+    }
 
     if (this.data.hasAttended) {
       return;
