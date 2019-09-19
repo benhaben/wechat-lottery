@@ -189,5 +189,22 @@ export default {
       .offset(offset)
       .orderBy("-created_at")
       .find();
+  },
+
+  /**
+   * 邀请的下线
+   */
+  async getFriends(user_id, limit = PAGE_SIZE, offset = 0) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("inviter_uid", "=", user_id);
+    return USER_TABLE.setQuery(query)
+      .select(["created_at", "avatar", "nickname"])
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
   }
 };

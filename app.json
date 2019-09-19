@@ -14,7 +14,8 @@
     "pages/user_lucky/user_lucky",
     "pages/user_lucky_details/user_lucky_details",
     "pages/user_balance/user_balance",
-    "pages/user_balance_details/user_balance_details"
+    "pages/user_balance_details/user_balance_details",
+    "pages/user_fans/user_fans"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

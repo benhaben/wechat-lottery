@@ -26,7 +26,6 @@ Page({
   },
   onPullDownRefresh: throttle(async function() {
     // 上拉刷新
-    debugger;
     try {
       let lotteries = await dao.getLottery(this.data.page_size + PAGE_SIZE, 0);
       if (lotteries.data.objects <= 0) {

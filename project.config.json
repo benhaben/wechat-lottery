@@ -96,8 +96,8 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/user_balance/user_balance",
-					"pathName": "pages/user_balance/user_balance",
+					"name": "pages/user_fans/user_fans",
+					"pathName": "pages/user_fans/user_fans",
 					"query": "id=5d7dc7bf9db6e805adc5ebfe",
 					"scene": null
 				}

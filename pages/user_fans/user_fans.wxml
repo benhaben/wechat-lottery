@@ -1,0 +1,26 @@
+<view class="bg-white h-flex flex-justify-content-between height150 flex-align-center margin30-bottom">
+  <view class="margin30">邀请我的人</view>
+  <view class="right h-flex flex-align-center margin30">
+    <image class="big-avatar margin30-right" src="{{url}}"></image>
+    <view>{{nickname}}</view>
+  </view>
+</view>
+
+<view class="h3 margin30">我邀请的人：</view>
+
+<view wx:for="{{friends}}" wx:key="{{index}}"
+      class="h-flex flex-justify-content-between height80 flex-align-center bg-white border-bottom"
+>
+  <view class="h-flex flex-align-center margin15-30">
+    <image class="avatar margin30-right" src="{{item.avatar}}"></image>
+    <view>{{item.nickname}}</view>
+  </view>
+  <view class="margin15-30 color-gray">{{item.created_at}}</view>
+</view>
+
+
+<view class="bottom h-flex flex-col flex-align-center" bindtap="onMore">
+  <view class="bottom__info">
+    点击加载更多
+  </view>
+</view>
