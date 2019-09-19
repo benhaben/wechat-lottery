@@ -38,6 +38,10 @@ App({
     let user = store.getUserInfo();
     return user.lucky_num;
   },
+  getTagItems: function() {
+    let user = store.getUserInfo();
+    return user.tag_items;
+  },
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);
   },

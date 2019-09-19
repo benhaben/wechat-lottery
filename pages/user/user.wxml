@@ -36,7 +36,10 @@
                 link-type="navigateTo"
                 url="/pages/user_fans/user_fans"
                 is-link/>
-      <van-cell title="兴趣标签" icon="like-o" is-link/>
+      <van-cell title="兴趣标签" icon="like-o"
+                link-type="navigateTo"
+                url="/pages/user_tags/user_tags"
+                is-link/>
       <van-cell title="个人简介" icon="description" is-link/>
       <van-cell title="消息提醒" icon="envelop-o" is-link/>
       <van-cell title="常见问题" icon="question-o" is-link/>

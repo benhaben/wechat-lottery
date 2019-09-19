@@ -26,7 +26,7 @@ Page({
     lucky_num_per: CONST.LOTTERY_PRIZE_LIST[0] * 10,
     show_plan: false,
     open_people_num: 1000,
-    tag_items: CONST.DEFAULT_TAG_ITEMS,
+    tag_items: app.getTagItems(),
     desc_checked: false,
     desc_initiator: "",
     ad_checked: false,

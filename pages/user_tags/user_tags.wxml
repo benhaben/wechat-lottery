@@ -1,0 +1,27 @@
+<view class="tags">
+  <view class="title">选择的标签（最多8个）</view>
+  <view class="tags__selected-list h-flex flex-row flex-wrap flex-justify-content-center">
+    <view wx:for="{{selected_tags}}" wx:key="{{index}}" bindtap='onUnSelect' data-index='{{index}}' data-tag='{{item}}' class="top-selected tags-item text-center">
+      {{item}}
+    </view>
+  </view>
+
+
+  <view class="title">标签库</view>
+  <view class="tags__list h-flex flex-row flex-wrap flex-justify-content-center">
+    <view wx:for="{{tags}}" wx:key="{{index}}" bindtap='onSelect' data-index='{{index}}' data-tag='{{item}}' class="tags-item text-center {{classes_switch[flags[index]]}}">
+      {{item}}
+    </view>
+  </view>
+</view>
+
+<view class="bottom h-flex flex-col flex-align-center">
+  <form report-submit name="deposit" bindsubmit="onConfirm">
+    <button class="bottom__btn color-white bg-red"  form-type="submit">
+      确定
+    </button>
+    <view class="bottom__info"></view>
+  </form>
+</view>
+
+<van-toast id="van-toast" />

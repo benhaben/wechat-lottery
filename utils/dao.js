@@ -206,5 +206,14 @@ export default {
       .offset(offset)
       .orderBy("-created_at")
       .find();
+  },
+
+  async saveTagItems(user_id, tag_items) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let userUpdate = USER_TABLE.getWithoutData(user_id);
+    userUpdate.set({ tag_items });
+    return userUpdate.update();
   }
 };

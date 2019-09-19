@@ -1,6 +1,9 @@
-// pages/tags/tags.js
+// pages/user_tags/user_tags.js
 import Toast from "../../lib/van/toast/toast";
+import dao from "../../utils/dao";
 import { CONST, ROUTE_DATA } from "../../utils/constants";
+const { regeneratorRuntime } = global;
+const app = getApp();
 
 Page({
   /**
@@ -19,16 +22,15 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
-    that.eventChannel = that.getOpenerEventChannel();
-    that.eventChannel.on(ROUTE_DATA.FROM_ADD_LOTTERY_TO_TAGS, data => {
-      console.log(data);
-      for (let item of data) {
-        let tagsIndex = that.data.tags.indexOf(item);
-        that.data.flags[tagsIndex] = 1;
-        that.data.selected_tags.push(item);
-      }
-      that.setData(that.data);
-    });
+
+    debugger;
+    let data = app.getTagItems();
+    for (let item of data) {
+      let tagsIndex = that.data.tags.indexOf(item);
+      that.data.flags[tagsIndex] = 1;
+      that.data.selected_tags.push(item);
+    }
+    that.setData(that.data);
   },
 
   onUnSelect: function(e) {
@@ -64,5 +66,19 @@ Page({
     this.eventChannel.emit(ROUTE_DATA.BACK_TAGS_TO_ADD_LOTTERY, {
       data: this.data.selected_tags
     });
+  },
+
+  async onConfirm() {
+    try {
+      let ret = await dao.saveTagItems(
+        app.getUserId(),
+        this.data.selected_tags
+      );
+      debugger;
+      app.setUserInfo(ret.data);
+      Toast.success("保存成功");
+    } catch (e) {
+      console.log(e);
+    }
   }
 });
