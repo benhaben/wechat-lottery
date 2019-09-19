@@ -173,5 +173,21 @@ export default {
       .offset(offset)
       .orderBy("-created_at")
       .find();
+  },
+
+  async getBalanceDetails(user_id, limit = 8, offset = 0) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+    query.exists("balance");
+
+    return BALANCE_LUCKY_RECORD_TABLE.setQuery(query)
+      .select(["created_at", "reason", "balance"])
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
   }
 };

@@ -1,8 +1,7 @@
 // pages/user_lucky_details/user_lucky_details.js
 
-import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import dao from "../../utils/dao";
-import { countDown, formatDate, formatTime } from "../../utils/function";
+import { formatTime } from "../../utils/function";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -43,21 +42,6 @@ Page({
     });
   },
   async onMore() {
-    try {
-      await this.loadMore();
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: async function() {
     try {
       await this.loadMore();
     } catch (e) {
