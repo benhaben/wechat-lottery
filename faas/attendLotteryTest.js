@@ -3,7 +3,7 @@ import {
   USER_LOTTERY_RECORD_TABLE,
   USER_TABLE,
   BALANCE_LUCKY_RECORD_TABLE
-} from "./common";
+} from "../utils/table";
 import { CONST, ERR_TYPE } from "../utils/constants";
 /**
  * 参加抽奖，需要在 user_lottery_record 增加一条记录，记录参与者，参与的抽奖，中奖的权重
@@ -43,7 +43,6 @@ export default async function attendLottery(event, callback) {
     let userUpdate = USER_TABLE.getWithoutData(user_id);
     userUpdate.incrementBy("lucky_num", -cost);
     await userUpdate.update();
-
     const createBalanceRecord = BALANCE_LUCKY_RECORD_TABLE.create();
     await createBalanceRecord
       .set({

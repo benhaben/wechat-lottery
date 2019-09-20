@@ -1,0 +1,5 @@
+<view class="container-body">
+  <x-richtext bind:getDataList="onConfirm" initList="{{pic_data}}" />
+</view>
+
+<van-toast id="van-toast" />

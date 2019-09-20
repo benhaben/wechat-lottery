@@ -32,6 +32,7 @@ export default {
     return ret.data.data;
   },
 
+  // 客户端不能修改，移到服务端
   async approveLottery(id = "") {
     if (!id) {
       throw TypeError("id invalid");
@@ -214,6 +215,24 @@ export default {
     }
     let userUpdate = USER_TABLE.getWithoutData(user_id);
     userUpdate.set({ tag_items });
+    return userUpdate.update();
+  },
+
+  async saveDesc(user_id, desc) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let userUpdate = USER_TABLE.getWithoutData(user_id);
+    userUpdate.set({ desc });
+    return userUpdate.update();
+  },
+
+  async saveAdsData(user_id, pic_data) {
+    if (!user_id) {
+      throw TypeError("user_id invalid");
+    }
+    let userUpdate = USER_TABLE.getWithoutData(user_id);
+    userUpdate.set({ pic_data });
     return userUpdate.update();
   }
 };

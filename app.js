@@ -42,6 +42,14 @@ App({
     let user = store.getUserInfo();
     return user.tag_items;
   },
+  getDesc: function() {
+    let user = store.getUserInfo();
+    return user.desc;
+  },
+  getAdsData: function() {
+    let user = store.getUserInfo();
+    return user.pic_data;
+  },
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);
   },

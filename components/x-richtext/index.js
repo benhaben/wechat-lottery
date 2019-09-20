@@ -61,6 +61,13 @@ Component({
     insertIndex: 0,
     width: 375
   },
+  observers: {
+    initList: function() {
+      this.data.dataList = [];
+      this._initRichText();
+    }
+  },
+
   created() {
     let that = this;
     that.data.addImgView = that.selectComponent("#addimg");
@@ -71,7 +78,6 @@ Component({
     that.setData({
       width: app.globalData.systemInfo.windowWidth
     });
-    that._initRichText();
   },
   /**
    * 组件的方法列表

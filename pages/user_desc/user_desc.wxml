@@ -1,0 +1,22 @@
+<view>
+  <view class="margin30 text-center info-text">
+    请填写个人简介，不超过100个字。
+  </view>
+  <textarea class="bg-white padding30 height250"
+         maxlength="100"
+            bindinput='onInputDesc'
+            value="{{desc}}"
+         />
+</view>
+
+
+<view class="bottom h-flex flex-col flex-align-center">
+  <form report-submit name="deposit" bindsubmit="onConfirm">
+    <button class="bottom__btn color-white bg-red"  form-type="submit">
+      确定
+    </button>
+    <view class="bottom__info"></view>
+  </form>
+</view>
+
+<van-toast id="van-toast" />

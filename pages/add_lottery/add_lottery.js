@@ -27,16 +27,17 @@ Page({
     show_plan: false,
     open_people_num: 1000,
     tag_items: app.getTagItems(),
-    desc_checked: false,
-    desc_initiator: "",
-    ad_checked: false,
-    pic_data: null,
+    desc_checked: !!app.getDesc(),
+    desc_initiator: app.getDesc(),
+    ad_checked: !!app.getAdsData(),
+    pic_data: app.getAdsData(),
     auth: false,
     loading: false
   },
   onLoad: function() {
     this.setData({
-      auth: app.hasAuth()
+      auth: app.hasAuth(),
+      pic_data: app.getAdsData()
     });
   },
   onUnload: function() {},
@@ -46,9 +47,16 @@ Page({
   },
   onDescChange: function(event) {
     // 需要手动对 checked 状态进行更新
-    this.setData({
-      desc_checked: event.detail
-    });
+    if (event.detail) {
+      this.setData({
+        desc_checked: event.detail
+      });
+    } else {
+      this.setData({
+        desc_checked: event.detail,
+        desc_initiator: null
+      });
+    }
   },
   onAdChange: function(event) {
     // 需要手动对 checked 状态进行更新
@@ -132,6 +140,13 @@ Page({
             });
           }
         }
+      },
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit(
+          ROUTE_DATA.FROM_ADD_LOTTERY_TO_PIC_DETAILS,
+          that.data.pic_data
+        );
       }
     });
   },

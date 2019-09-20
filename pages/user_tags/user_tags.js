@@ -23,7 +23,6 @@ Page({
   onLoad: function(options) {
     let that = this;
 
-    debugger;
     let data = app.getTagItems();
     for (let item of data) {
       let tagsIndex = that.data.tags.indexOf(item);
@@ -68,13 +67,17 @@ Page({
     });
   },
 
-  async onConfirm() {
+  async onConfirm(event) {
     try {
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
       let ret = await dao.saveTagItems(
         app.getUserId(),
         this.data.selected_tags
       );
-      debugger;
       app.setUserInfo(ret.data);
       Toast.success("保存成功");
     } catch (e) {

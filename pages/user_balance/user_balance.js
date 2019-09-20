@@ -10,8 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    balance: 1.99,
-    money: 1,
+    balance: 0,
+    money: 0,
     error: null,
     loading: false,
     show: false

@@ -6,10 +6,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    eventChannel: null
+    eventChannel: null,
+    pic_data: null
   },
   onLoad: function(option) {
     this.eventChannel = this.getOpenerEventChannel();
+    let that = this;
+    this.eventChannel.on(ROUTE_DATA.FROM_ADD_LOTTERY_TO_PIC_DETAILS, function(
+      data
+    ) {
+      that.setData({ pic_data: data });
+      console.log(data);
+    });
   },
 
   onConfirm: function(event) {

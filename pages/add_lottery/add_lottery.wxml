@@ -2,7 +2,8 @@
 
 >
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain round>选择图片
+    <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
+                round>选择图片
     </van-button>
   </view>
 
@@ -14,7 +15,8 @@
 
     <view class="container__lucky-num">发起奖励：{{lucky_num}} 运气值</view>
     <view class="container__prize-list">
-      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-index='{{index}}' class="prize-list-item" style="background:{{prize_colors_switch[prize_colors[index]]}}">
+      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-index='{{index}}'
+            class="prize-list-item" style="background:{{prize_colors_switch[prize_colors[index]]}}">
         {{item}}
       </view>
     </view>
@@ -22,15 +24,16 @@
 
   <view class="container__plan">
     <van-cell-group>
-      <van-cell title="选择红包派发方案" value="{{plans[plan_index]}}" bind:click="onPlanSelect" use-label-slot="true" is-link arrow-direction="down">
+      <van-cell title="选择红包派发方案" value="{{plans[plan_index]}}" bind:click="onPlanSelect" use-label-slot="true" is-link
+                arrow-direction="down">
         <view class="container__plan-label" slot="label">每个福袋有{{lucky_num_per}}运气值</view>
       </van-cell>
-      <van-cell title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关" />
+      <van-cell title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关"/>
 
     </van-cell-group>
 
     <van-popup show="{{ show_plan }}" position="bottom" bind:close="onClosePlan">
-      <van-picker columns="{{ plans }}" default-index="0" bind:change="onPlanChange" />
+      <van-picker columns="{{ plans }}" default-index="0" bind:change="onPlanChange"/>
     </van-popup>
   </view>
 
@@ -39,7 +42,7 @@
       <view class="container__tag_title">
         发起人标签：
       </view>
-      <van-icon class="container__tag_update" size="45rpx" name="add-o"  bindtap='onSelectTag'/>
+      <van-icon class="container__tag_update" size="45rpx" name="add-o" bindtap='onSelectTag'/>
     </view>
     <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
       <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
@@ -52,7 +55,8 @@
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
       <view class="container__desc-title" slot="title">发起人简介</view>
     </van-switch-cell>
-    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea"  bindinput='onInputDesc' placeholder="请输入发起人简介" value="{{desc_initiator}}">
+    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"
+              value="{{desc_initiator}}">
     </textarea>
   </van-cell-group>
 
@@ -63,18 +67,19 @@
       </van-switch-cell>
     </van-cell-group>
 
-    <view class="container__ad-button" wx:if="{{ad_checked && !pic_data }}">
-      <van-button type="danger" size="small" icon="add-o" bindtap="addDetails" plain round>添加图文介绍/一键复制
+    <view class="container__ad-button" wx:if="{{ad_checked  }}">
+      <van-button type="danger" size="small" icon="add-o" bindtap="addDetails" plain round>
+        <text wx:if="{{pic_data }}">修改</text><text wx:else>添加</text>图文介绍/一键复制
       </van-button>
     </view>
     <view class="container__ad-rich">
-    <x-richtext wx:if="{{ad_checked && pic_data }}" isReadOnly initList="{{pic_data}}" />
+      <x-richtext wx:if="{{ad_checked && pic_data }}" isReadOnly initList="{{pic_data}}"/>
     </view>
   </view>
 
   <!-- <button open-type="getUserInfo" bindgetuserinfo="userInfoHandler">用户授权</button> -->
 
-  <form class="bottom"  report-submit name="add_lottery" bindsubmit="onConfirm">
+  <form class="bottom" report-submit name="add_lottery" bindsubmit="onConfirm">
     <view class="bottom__info">发起抽奖后不可取消</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"
@@ -92,6 +97,6 @@
     </button>
   </form>
 
-  <van-dialog id="van-dialog" />
-  <van-toast id="van-toast" />
+  <van-dialog id="van-dialog"/>
+  <van-toast id="van-toast"/>
 </view>

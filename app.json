@@ -16,7 +16,9 @@
     "pages/user_balance/user_balance",
     "pages/user_balance_details/user_balance_details",
     "pages/user_fans/user_fans",
-    "pages/user_tags/user_tags"
+    "pages/user_tags/user_tags",
+    "pages/user_desc/user_desc",
+    "pages/user_ads/user_ads"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
