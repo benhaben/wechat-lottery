@@ -96,8 +96,8 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/user_fans/user_fans",
-					"pathName": "pages/user_fans/user_fans",
+					"name": "pages/user_question/user_question",
+					"pathName": "pages/user_question/user_question",
 					"query": "id=5d7dc7bf9db6e805adc5ebfe",
 					"scene": null
 				}

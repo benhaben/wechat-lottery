@@ -5,7 +5,8 @@ import {
   USER_LOTTERY_RECORD_TABLE,
   USER_TABLE,
   DAILY_CHECKIN_TABLE,
-  BALANCE_LUCKY_RECORD_TABLE
+  BALANCE_LUCKY_RECORD_TABLE,
+  QUESTIONS_TABLE
 } from "./table";
 import { formatDate } from "./function";
 export default {
@@ -222,5 +223,12 @@ export default {
     let userUpdate = USER_TABLE.getWithoutData(user_id);
     userUpdate.set({ pic_data });
     return userUpdate.update();
+  },
+
+  async getQuestions() {
+    let query = new wx.BaaS.Query();
+    return QUESTIONS_TABLE.select(["title", "content"])
+      .setQuery(query)
+      .find();
   }
 };

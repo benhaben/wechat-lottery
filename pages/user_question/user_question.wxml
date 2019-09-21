@@ -1,0 +1,10 @@
+<view class="bg-white padding30 margin30-bottom" wx:for="{{questions}}" wx:key="{{index}}">
+  <view class="h4">
+   {{item.title}}
+  </view>
+  <text>
+    {{item.content}}
+  </text>
+</view>
+
+<van-toast id="van-toast"/>

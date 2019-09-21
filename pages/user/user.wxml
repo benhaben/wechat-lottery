@@ -49,7 +49,10 @@
                 url="/pages/user_ads/user_ads"
                 is-link/>
       <van-cell title="消息提醒" icon="envelop-o" is-link/>
-      <van-cell title="常见问题" icon="question-o" is-link/>
+      <van-cell title="常见问题" icon="question-o" 
+                link-type="navigateTo"
+                url="/pages/user_question/user_question"
+      is-link/>
     </van-cell-group>
   </view>
 
