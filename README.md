@@ -14,12 +14,33 @@ mincloud
 - mincloud: v1.0.5
 - node: v8.10.0
 
+## 设置为只读的数据
+
+http://support.minapp.com/hc/request/view/1824/
+
+1.user表的：balance，lucky_num，这两个只能被触发器修改。
+2.lottery设置为不开放，只能通过云函数修改，这样可以服务端检查一遍参数。
+3.user_lottery_record设置为不开放，只能通过云函数修改。
+4.balance_lucky_record设置为不开放
+5.config设置为不开放
+6.error设置为不开放
+
 ## 云端配置
 TODO: 云端配置
 1. 参与抽奖消耗x个运气值，x=1，x在云端可配置
 2. 1个运气值增加x个权重，x=2，x在云端可配置
 3. 每个金额参与抽奖的人数，<金额，人数> 在云端可配置
 4. 红包福袋比例方案可以配置，现在目前有三个，可以增加
+
+## 抽奖状态的变迁
+
+ * 由于抽奖不是商品，只能支付一次，所以不需要格外产生订单了，只需要改表抽奖状态即可
+ * 状态变化是： status ： (0,没有支付）->（1，已经支付，等待审批）->（2，已经审批，抽奖中）->（3，已经开奖）
+ * 2 的时候通过触发器更新记录表增加运气值。
+ * 0是调用createLottery产生的，
+ * 1是支付回调verifyPayment改的，
+ * 2是管理员修改的，为了保证status安全，虽然approveLottery比较简单，也在云函数实现，status设置为只读
+ * 3是checkLotteryStatusOpen中，开奖的时候修改的
 
 ## 知晓云触发器
 
@@ -56,7 +77,8 @@ TODO: 云端配置
 
 每日签到增加运气值和记录
 
-## 知晓云云函数
+## 知晓云云函数和其测试数据
+
 ### createLottery
 
 ```json

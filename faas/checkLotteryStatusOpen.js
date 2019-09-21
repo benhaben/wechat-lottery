@@ -10,7 +10,7 @@ import {
   LUCKY_SEED_FUDAI
 } from "./common";
 
-export default async function checkLotteryStatus(event, callback) {
+export default async function checkLotteryStatusOpen(event, callback) {
   console.log(`checkLotteryStatus - event: ${event}`);
 
   try {

@@ -37,9 +37,9 @@ export default {
     if (!id) {
       throw TypeError("id invalid");
     }
-    let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
-    lotteryRecord.set({ status: 2 });
-    return lotteryRecord.update();
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.APPROVE_LOTTERY, id);
+    debugger;
+    return ret.data.data;
   },
 
   async getLottery(limit = PAGE_SIZE, offset = 0) {
@@ -117,18 +117,6 @@ export default {
       .limit(limit)
       .offset(offset)
       .find();
-  },
-
-  /**
-   * 下拉减少运气值，需要在服务端做，感觉没必要，因为参与抽奖需要消耗运气值，尽量减少计算，减少复杂度
-   * @param luckyNum
-   * @param user_id
-   * @returns {Promise<void>}
-   */
-  async reduceLuckyNum(luckyNum, user_id) {
-    let userUpdate = USER_TABLE.getWithoutData(user_id);
-    userUpdate.incrementBy("lucky_num", CONST.GET_MORE_REDUCE_LUCKY_NUM);
-    return userUpdate.update();
   },
 
   async addInviter(inviter_uid, user_id) {

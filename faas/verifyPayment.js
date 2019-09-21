@@ -2,11 +2,15 @@
 import { LOTTERY_TABLE, ERROR_TABLE } from "./common";
 
 /**
- * 1. 调用  createLottery 云函数创建订单
- * 2. 拿到创建订单成功的回调数据后，发起支付（客户端才能发起支付）
- * 3. 支付成功之后，由触发器自动调用 verifyPayment 云函数，校验实付金额是否跟该商品的价格一致，若一致则更新该订单为已支付状态。
- * @param event
- * @param callback
+ * 支付成功之后，由触发器自动调用 verifyPayment 云函数，校验实付金额是否跟该商品的价格一致，若一致则更新该订单为已支付状态。
+ *
+ * 由于抽奖不是商品，只能支付一次，所以不需要格外产生订单了，只需要改表抽奖状态即可
+ * 状态变化是： status ： (0,没有支付）->（1，已经支付，等待审批）->（2，已经审批，抽奖中）->（3，已经开奖）
+ * 2 的时候通过触发器更新记录表增加运气值。
+ * 0是调用createLottery产生的，
+ * 1是支付回调verifyPayment改的，
+ * 2是管理员修改的，为了保证status安全，虽然approveLottery比较简单，也在云函数实现，status设置为只读
+ * 3是checkLotteryStatusOpen中，开奖的时候修改的
  */
 export default async function verifyPayment(event, callback) {
   console.log(`verifyPayment event.data: ${JSON.stringify(event.data)}`);

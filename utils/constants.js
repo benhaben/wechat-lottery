@@ -44,7 +44,8 @@ export const CONFIG_ID = "5d7917899d8da5229c037105";
 
 export const FUNCTION_NAME = {
   CREATE_LOTTERY: "createLottery",
-  ATTEND_LOTTERY: "attendLottery"
+  ATTEND_LOTTERY: "attendLottery",
+  APPROVE_LOTTERY: "approveLottery"
 };
 export const WECHAT_SCENE = {
   FROM_CHAT: "FROM_CHAT",
