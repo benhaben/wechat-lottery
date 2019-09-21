@@ -34,19 +34,43 @@ export default {
   },
 
   // 客户端不能修改，移到服务端
-  async approveLottery(id = "") {
-    if (!id) {
+  async approveLottery(id = "", status = 2) {
+    if (!id && (status === -1 || status === 2)) {
       throw TypeError("id invalid");
     }
-    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.APPROVE_LOTTERY, id);
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.APPROVE_LOTTERY, {
+      id,
+      status
+    });
     debugger;
     return ret.data.data;
   },
 
-  async getLottery(limit = PAGE_SIZE, offset = 0) {
+  /**
+   * 获取抽奖列表
+   * @param limit
+   * @param offset
+   * @param status ： (0,没有支付）->（1，已经支付，等待审批）->（2，已经审批，抽奖中）->（3，已经开奖）
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async getLottery(limit = PAGE_SIZE, offset = 0, status = 2) {
     let query = new wx.BaaS.Query();
-    query.compare("status", "=", 2);
+    query.compare("status", "=", status);
     return LOTTERY_TABLE.setQuery(query)
+      .limit(limit)
+      .offset(offset)
+      .find();
+  },
+
+  async queryLottery(limit = PAGE_SIZE, offset = 0, queryString) {
+    let query = new wx.BaaS.Query();
+    const regExp = new RegExp(`^${queryString}`, "i");
+    query.matches("id_str", regExp);
+    let query1 = new wx.BaaS.Query();
+    const regExpNickname = new RegExp(`^${queryString}`, "i");
+    query1.matches("nickname", regExpNickname);
+    let orQuery = wx.BaaS.Query.or(query1, query);
+    return LOTTERY_TABLE.setQuery(orQuery)
       .limit(limit)
       .offset(offset)
       .find();

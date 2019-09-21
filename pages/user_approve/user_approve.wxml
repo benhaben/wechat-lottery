@@ -1,0 +1,79 @@
+<van-search
+  value="{{ search_data }}"
+  placeholder="请输入昵称/抽奖编号搜索"
+  show-action
+  bind:search="onSearch"
+  bind:cancel="onCancel"
+/>
+<van-tabs bind:change="onChange" wx:if="{{showTab}}">
+  <van-tab title="待审核">
+    <view>
+      <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{waitApprovalList}}"
+            wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+        <view class="item">
+          <view>{{item.id}}</view>
+          <view>昵称：{{item.nickname}}</view>
+          <view>总奖：{{item.total}}</view>
+          <view>倒计时：{{item.countdownStr}}</view>
+        </view>
+      </view>
+      <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreWaitApprovalList">
+        <view class="bottom__info">
+          点击加载更多
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="已通过">
+    <view>
+      <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{approvalList}}"
+            wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+        <view class="item">
+          <view>{{item.id}}</view>
+          <view>昵称：{{item.nickname}}</view>
+          <view>总奖：{{item.total}}</view>
+          <view>倒计时：{{item.countdownStr}}</view>
+        </view>
+      </view>
+      <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreApprovalList">
+        <view class="bottom__info">
+          点击加载更多
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="已驳回">
+    <view>
+      <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{rejectList}}"
+            wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+        <view class="item">
+          <view>{{item.id}}</view>
+          <view>昵称：{{item.nickname}}</view>
+          <view>总奖：{{item.total}}</view>
+          <view>倒计时：{{item.countdownStr}}</view>
+        </view>
+      </view>
+      <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreRejectList">
+        <view class="bottom__info">
+          点击加载更多
+        </view>
+      </view>
+    </view>
+  </van-tab>
+</van-tabs>
+
+
+<view wx:else>
+  <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{queryList}}"
+        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+    <view class="item">
+      <view>{{item.id}}</view>
+      <view>昵称：{{item.nickname}}</view>
+      <view>总奖：{{item.total}}</view>
+      <view>倒计时：{{item.countdownStr}}</view>
+    </view>
+  </view>
+</view>
+<van-toast id="van-toast"/>
+
+

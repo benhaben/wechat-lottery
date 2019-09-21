@@ -1,5 +1,6 @@
 import { LOTTERY_TABLE } from "./common";
-
+import { CONST } from "../utils/constants";
+import { formatDate } from "../utils/function";
 /**
  * 修改状态到2
  * 由于抽奖不是商品，只能支付一次，所以不需要格外产生订单了，只需要改表抽奖状态即可
@@ -13,14 +14,53 @@ import { LOTTERY_TABLE } from "./common";
 
 export default async function approveLottery(event, callback) {
   console.log(`event.data : ${event.data}`);
-  const id = event.data;
+  const id = event.data.id;
+  const user_id = event.request.user.id;
+  const status = event.data.status;
 
   try {
+    // 状态只能从1到2或者从1到-1
+    if (!(status === CONST.REJECTED || status === CONST.APPROVED)) {
+      throw new Error("status状态错误");
+    }
+
+    let resLottery = await LOTTERY_TABLE.get(id);
+    let lottery = resLottery.data;
+    if (lottery.status !== CONST.WAIT_APPROVE) {
+      throw new Error("抽奖未支付");
+    }
+
     let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
-    lotteryRecord.set({ status: 2 });
-    return lotteryRecord.update();
+    lotteryRecord.set({ status: status });
+    lotteryRecord.update();
+
+    // 驳回通知用户，到修改界面
+    let data = {
+      recipient_type: "user_list",
+      user_list: [id],
+      template_id: "EESiZK3g7xV0xtTYQWaCBhl-s6ElflHpD1Gqsfn6-6E",
+      submission_type: "form_id",
+      page: `pages/win_lottery/win_lottery?id=${lottery.id}`,
+      keywords: {
+        keyword1: {
+          value: `${lottery.nickname}发起的抽奖`
+        },
+        keyword2: {
+          value: "恭喜你，已经抽中红包"
+        },
+        keyword3: {
+          value: `${formatDate(Date.now())}`
+        },
+        keyword4: {
+          value: `${lottery.id}`
+        }
+      }
+    };
+
+    return BaaS.sendTemplateMessage(data);
     callback(null, ret);
   } catch (e) {
+    console.log(e);
     callback(e);
   }
 }

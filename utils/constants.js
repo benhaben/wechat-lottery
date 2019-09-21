@@ -12,7 +12,8 @@ export const ROUTE = {
   ATTENDEES: "/pages/attendees/attendees",
   SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home",
   USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
-  USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details"
+  USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
+  USER_APPROVE_DETAIL: "/pages/user_approve_detail/user_approve_detail"
 };
 
 export const ROUTE_DATA = {
@@ -76,6 +77,9 @@ export const PAGE_SIZE = 10;
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 //
 export const CONST = {
+  WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1
+  APPROVED: 2, // 审批通过，只能从1到2
+  REJECTED: -1, // 审批不通过，只能从1到-1
   GET_ATTENDEES: 0, // 获取所有参与者
   GET_FUDAI: 2, // 获取福袋获得者列表
   GET_HONGBAO: 1, // 获取红包获得者列表
