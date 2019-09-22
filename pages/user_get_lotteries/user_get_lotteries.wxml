@@ -1,2 +1,20 @@
-<!--pages/user_get_lotteries/user_get_lotteries.wxml-->
-<text>pages/user_get_lotteries/user_get_lotteries.wxml</text>
+<view>
+  <view class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-around" wx:for="{{lotteries}}"
+        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+    <view class="left flex-basis50">
+      <image mode="aspectFit" class="height220 width220" src="{{item.url}}"></image>
+    </view>
+    <view class="right small-text flex-basis50">
+      <view>编号：{{item.hash}}</view>
+      <view>总奖：{{item.total}}</view>
+      <view wx:if="{{item.lottery_result===1}}">中奖：{{item.balance}}元</view>
+      <view wx:if="{{item.lottery_result===2}}">中福袋:{{item.lucky_num}}个运气值</view>
+      <view >发起者：{{item.nickname}}</view>
+    </view>
+  </view>
+  <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMore">
+    <view class="bottom__info">
+      点击加载更多
+    </view>
+  </view>
+</view>

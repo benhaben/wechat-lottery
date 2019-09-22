@@ -117,6 +117,33 @@ export default {
       .find();
   },
 
+  async getWinLotteries(limit = PAGE_SIZE, offset = 0, user_id) {
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+    let queryFudai = new wx.BaaS.Query();
+    queryFudai.compare("lottery_result", "=", CONST.GET_FUDAI);
+    let queryHongbao = new wx.BaaS.Query();
+    queryHongbao.compare("lottery_result", "=", CONST.GET_HONGBAO);
+
+    let orQuery = wx.BaaS.Query.or(queryFudai, queryHongbao);
+    let andQuery = wx.BaaS.Query.and(query, orQuery);
+
+    return USER_LOTTERY_RECORD_TABLE.select([
+      "lottery_result",
+      "weight",
+      "lucky_num",
+      "balance",
+      "user_id",
+      "lottery"
+    ])
+      .setQuery(andQuery)
+      .expand(["lottery"])
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
+  },
+
   async queryLottery(limit = PAGE_SIZE, offset = 0, queryString) {
     let query = new wx.BaaS.Query();
     const regExp = new RegExp(`^${queryString}`, "i");

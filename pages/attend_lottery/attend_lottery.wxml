@@ -96,7 +96,7 @@
     </view>
   </view>
 
-  <view>
+  <view class="margin30-bottom">
     <view class="weight h-flex flex-row flex-align-center bg-white">
       <view>中奖权重 ：{{weight}}</view>
       <van-icon wx:if="{{status===2}}" name="add" size="60rpx" bind:click="onAddWeight"/>
