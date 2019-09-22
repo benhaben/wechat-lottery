@@ -59,6 +59,31 @@ export default {
     return LOTTERY_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)
+      .orderBy("-created_at")
+      .find();
+  },
+
+  /**
+   * 参加的所有列表，USER_LOTTERY_RECORD_TABLE 中获取
+   * @param limit
+   * @param offset
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async getAllAttendLotteries(limit = PAGE_SIZE, offset = 0, user_id) {
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+    return USER_LOTTERY_RECORD_TABLE.select([
+      "lottery_result",
+      "weight",
+      "lucky_num",
+      "balance",
+      "user_id",
+      "lottery"
+    ])
+      .expand(["lottery"])
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
       .find();
   },
 
@@ -73,6 +98,7 @@ export default {
     return LOTTERY_TABLE.setQuery(orQuery)
       .limit(limit)
       .offset(offset)
+      .orderBy("-created_at")
       .find();
   },
 

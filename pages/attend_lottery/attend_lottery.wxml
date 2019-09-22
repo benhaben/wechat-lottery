@@ -99,7 +99,7 @@
   <view>
     <view class="weight h-flex flex-row flex-align-center bg-white">
       <view>中奖权重 ：{{weight}}</view>
-      <van-icon name="add" size="60rpx" bind:click="onAddWeight"/>
+      <van-icon wx:if="{{status===2}}" name="add" size="60rpx" bind:click="onAddWeight"/>
     </view>
 
     <view class="container-info">
@@ -109,7 +109,7 @@
 
   </view>
 
-  <form report-submit bindsubmit="onAttend" class="action">
+  <form report-submit bindsubmit="onAttend" class="action" wx:if="{{status===2}}">
     <view class="action__row">
       <view wx:if="{{!auth}}">
         <button
@@ -148,7 +148,7 @@
     <van-icon class="icon" name="arrow"/>
   </view>
 
-  <view class="share">
+  <view class="share" wx:if="{{status===2}}">
     <button class="share__btn" bindtap="onShare">分享</button>
     <view class="share__tips">
       每邀请一个朋友参与，就可能获得更多运气值和奖励

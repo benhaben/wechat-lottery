@@ -13,7 +13,10 @@ export const ROUTE = {
   SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home",
   USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
   USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
-  USER_APPROVE_DETAIL: "/pages/user_approve_detail/user_approve_detail"
+  USER_APPROVE_DETAIL: "/pages/user_approve_detail/user_approve_detail",
+  USER_ALL_LOTTERIES: "/pages/user_all_lotteries/user_all_lotteries",
+  USER_GET_LOTTERIES: "/pages/user_get_lotteries/user_get_lotteries",
+  USER_SEND_LOTTERIES: "/pages/user_send_lotteries/user_send_lotteries"
 };
 
 export const ROUTE_DATA = {

@@ -89,6 +89,7 @@ Page({
         pic_data: lottery.pic_data,
         open_date: lottery.open_date,
         hasAttended,
+        status: lottery.status,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
           item => item.avatar_cache

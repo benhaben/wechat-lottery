@@ -18,5 +18,20 @@ Page({
     wx.navigateTo({
       url: ROUTE.USER_LUCKY
     });
+  },
+  onAllLotteries() {
+    wx.navigateTo({
+      url: ROUTE.USER_ALL_LOTTERIES
+    });
+  },
+  onSendLotteries() {
+    wx.navigateTo({
+      url: ROUTE.USER_SEND_LOTTERIES
+    });
+  },
+  onGetLotteries() {
+    wx.navigateTo({
+      url: ROUTE.USER_GET_LOTTERIES
+    });
   }
 });
