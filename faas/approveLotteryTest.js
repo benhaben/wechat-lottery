@@ -1,4 +1,4 @@
-import { LOTTERY_TABLE } from "./common";
+import { LOTTERY_TABLE } from "../utils/table";
 import { CONST } from "../utils/constants";
 /**
  * 修改状态到2

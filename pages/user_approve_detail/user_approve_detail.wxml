@@ -4,7 +4,7 @@
       <van-icon size="35rpx" name="gift"/>
     </view>
     <view>
-      <text>{{id}}</text>
+      <text>{{hash}}</text>
     </view>
   </view>
 </view>
@@ -146,7 +146,7 @@
 
 </view>
 
-<view class="height150 h-flex flex-justify-content-around">
+<view class="height150 h-flex flex-justify-content-around" wx:if="{{status===1}}">
   <view>
     <van-button class="bottom__btn" size="normal" bind:click="onReject">驳回</van-button>
   </view>
@@ -156,3 +156,4 @@
 </view>
 
 
+<van-toast id="van-toast"/>

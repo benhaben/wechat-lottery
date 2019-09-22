@@ -7,10 +7,6 @@ import { countDown } from "../../utils/function";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
-const WAIT_APPROVE = 1;
-const APPROVED = 2;
-const REJECTED = -1;
-
 Page({
   /**
    * 页面的初始数据
@@ -47,9 +43,20 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function(options) {
+  onShow: async function(options) {
     // load 待审核的抽奖
     try {
+      //reset
+      this.setData({
+        waitApprovalList: [],
+        waitApprovalListOffset: 0,
+        approvalList: [],
+        approvalListOffset: 0,
+        rejectList: [],
+        rejectListOffset: 0,
+        queryList: [],
+        showTab: true
+      });
       await this.loadMoreWaitApprovalList();
       await this.loadMoreApprovalList();
       await this.loadMoreRejectList();
@@ -73,7 +80,7 @@ Page({
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
       this.data.rejectListOffset,
-      REJECTED
+      CONST.REJECTED
     );
     if (lotteries.data.objects <= 0) {
       return;
@@ -93,7 +100,7 @@ Page({
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
       this.data.approvalListOffset,
-      APPROVED
+      CONST.APPROVED
     );
     if (lotteries.data.objects <= 0) {
       return;
@@ -113,7 +120,7 @@ Page({
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
       this.data.waitApprovalListOffset,
-      WAIT_APPROVE
+      CONST.WAIT_APPROVE
     );
     if (lotteries.data.objects <= 0) {
       return;
