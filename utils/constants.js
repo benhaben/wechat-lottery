@@ -49,6 +49,7 @@ export const CONFIG_ID = "5d7917899d8da5229c037105";
 
 export const FUNCTION_NAME = {
   CREATE_LOTTERY: "createLottery",
+  UPDATE_LOTTERY: "updateLottery",
   ATTEND_LOTTERY: "attendLottery",
   APPROVE_LOTTERY: "approveLottery"
 };

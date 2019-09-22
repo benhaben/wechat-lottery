@@ -4,6 +4,7 @@ import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
 import dao from "../../utils/dao";
+import Toast from "../../lib/van/toast/toast";
 
 const { regeneratorRuntime } = global;
 
@@ -12,6 +13,8 @@ const app = getApp();
 
 Page({
   data: {
+    create: true,
+    id: null,
     url: CONST.DEFAULT_URL,
     file: null, // 知晓云返回的服务端文件对象
     total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0]), //默认第一个 9.9
@@ -34,14 +37,46 @@ Page({
     auth: false,
     loading: false
   },
-  onLoad: function() {
-    this.setData({
-      auth: app.hasAuth(),
-      pic_data: app.getAdsData()
-    });
+  onLoad: async function(options) {
+    try {
+      let that = this;
+      let lottery_id = options.id;
+      // let lottery_id = "5d7612d71db94f5d2e68fd74";
+
+      if (lottery_id) {
+        // 修改
+        let ret = await dao.getLotteryById(lottery_id);
+        let lottery = ret.data;
+        that.setData({
+          create: false,
+          id: lottery.id,
+          hash: lottery.id.substr(0, 10),
+          url: lottery.url,
+          total: `${lottery.total_prize}元/100人`,
+          lucky_num: lottery.lucky_num,
+          open_people_num: lottery.open_people_num,
+          plan_index: lottery.plan_index,
+          lucky_num_per: lottery.lucky_num_per,
+          tag_items: lottery.tag_items,
+          desc_checked: !!lottery.desc_initiator,
+          desc_initiator: lottery.desc_initiator,
+          ad_checked: !!lottery.pic_data,
+          pic_data: lottery.pic_data,
+          open_date: lottery.open_date,
+          status: lottery.status
+        });
+      } else {
+        // 增加
+        this.setData({
+          create: true,
+          auth: app.hasAuth(),
+          pic_data: app.getAdsData()
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   },
-  onUnload: function() {},
-  onReady: function() {},
   onInputDesc: function(e) {
     this.data.desc_initiator = e.detail.value;
   },
@@ -72,6 +107,12 @@ Page({
     }
   },
   onPlanSelect: function() {
+    if (this.data.id) {
+      Dialog.alert({
+        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
+      });
+      return;
+    }
     this.setData({
       show_plan: true
     });
@@ -82,6 +123,12 @@ Page({
     });
   },
   onPlanChange: function(event) {
+    if (this.data.id) {
+      Dialog.alert({
+        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
+      });
+      return;
+    }
     const { picker, value, index } = event.detail;
     console.log(`当前值：${value}, 当前索引：${index}`);
 
@@ -112,6 +159,12 @@ Page({
     });
   },
   onSelectPrize: function(e) {
+    if (this.data.id) {
+      Dialog.alert({
+        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
+      });
+      return;
+    }
     var index = e.currentTarget.dataset.index;
     for (let i in this.data.prize_colors) {
       this.data.prize_colors[i] = 0;
@@ -185,13 +238,6 @@ Page({
         console.log(e);
       });
       this.data.file = uploadTask.data.file;
-      // cdn_path: "1i5h6hpru0CZ8tVP.png"
-      // created_at: 1567648963
-      // id: "5d706cc35fcc734afc5d6198"
-      // mime_type: "image/png"
-      // name: "wxb7fb2c1219817db3.o6zAJszUi-hE6mgEhbg7Lhx4ZFLA.jU1Z2g17NS7fac5fb5e904ea92ae289f6f4db131c1c4.png"
-      // path: "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i5h6hpru0CZ8tVP.png"
-      // size: 29027
       this.setData({
         url: this.data.file.path
       });
@@ -240,12 +286,7 @@ Page({
       let res = await wx.BaaS.pay(params);
       console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
 
-      // TODO: 有审批功能后移除
-      await dao.approveLottery(lottery.id);
-
-      this.setData({
-        loading: false
-      });
+      this.setData({ loading: false });
 
       wx.navigateTo({
         url: `${ROUTE.ATTEND_LOTTERY}?id=${lottery.id}`
@@ -254,13 +295,32 @@ Page({
       this.setData({
         loading: false
       });
-      // Dialog.alert({
-      //   title: "发起抽奖失败，请联系客服",
-      //   message: err.message
-      // });
     }
   },
-  //TODO: 可以做一个共享的behavior
+  onUpdate: async function(event) {
+    try {
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
+
+      this.setData({ loading: true });
+      // 只能修改宣传信息
+      let lottery = await dao.updateLottery({
+        id: this.data.id,
+        pic_data: this.data.pic_data,
+        tag_items: this.data.tag_items,
+        desc_initiator: this.data.desc_initiator
+      });
+
+      this.setData({ loading: false });
+      Toast.success("更新成功");
+    } catch (err) {
+      this.setData({ loading: false });
+      Toast.fail("更新失败");
+    }
+  },
   userInfoHandler(data) {
     let that = this;
     wx.BaaS.auth.loginWithWechat(data).then(

@@ -2,8 +2,8 @@ exports.main = (function(t) {
   var e = {};
   function n(r) {
     if (e[r]) return e[r].exports;
-    var a = (e[r] = { i: r, l: !1, exports: {} });
-    return t[r].call(a.exports, a, a.exports, n), (a.l = !0), a.exports;
+    var u = (e[r] = { i: r, l: !1, exports: {} });
+    return t[r].call(u.exports, u, u.exports, n), (u.l = !0), u.exports;
   }
   return (
     (n.m = t),
@@ -26,13 +26,13 @@ exports.main = (function(t) {
         Object.defineProperty(r, "default", { enumerable: !0, value: t }),
         2 & e && "string" != typeof t)
       )
-        for (var a in t)
+        for (var u in t)
           n.d(
             r,
-            a,
+            u,
             function(e) {
               return t[e];
-            }.bind(null, a)
+            }.bind(null, u)
           );
       return r;
     }),
@@ -51,7 +51,7 @@ exports.main = (function(t) {
       return Object.prototype.hasOwnProperty.call(t, e);
     }),
     (n.p = ""),
-    n((n.s = 25))
+    n((n.s = 23))
   );
 })({
   0: function(t, e, n) {
@@ -60,19 +60,19 @@ exports.main = (function(t) {
       return r;
     }),
       n.d(e, "d", function() {
-        return a;
+        return u;
       }),
       n.d(e, "a", function() {
         return o;
       }),
       n.d(e, "b", function() {
-        return u;
+        return a;
       });
     const r = {
         GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
         OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
       },
-      a = {
+      u = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
         CONFIG: 83587,
@@ -81,7 +81,7 @@ exports.main = (function(t) {
         QUESTIONS: 84573
       },
       o = "5d7917899d8da5229c037105",
-      u = {
+      a = {
         WAIT_APPROVE: 1,
         APPROVED: 2,
         REJECTED: -1,
@@ -205,49 +205,49 @@ exports.main = (function(t) {
   1: function(t, e, n) {
     "use strict";
     n.d(e, "g", function() {
-      return a;
+      return u;
     }),
       n.d(e, "d", function() {
         return o;
       }),
       n.d(e, "b", function() {
-        return u;
+        return a;
       }),
       n.d(e, "c", function() {
-        return i;
+        return c;
       }),
       n.d(e, "h", function() {
-        return c;
+        return i;
       }),
       n.d(e, "a", function() {
         return _;
       }),
       n.d(e, "i", function() {
-        return f;
-      }),
-      n.d(e, "j", function() {
         return E;
       }),
+      n.d(e, "j", function() {
+        return T;
+      }),
       n.d(e, "f", function() {
-        return d;
+        return O;
       }),
       n.d(e, "e", function() {
-        return T;
+        return d;
       });
     var r = n(0);
-    const a = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
+    const u = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
       o = new BaaS.TableObject(r.d.LOTTERY),
-      u = new BaaS.TableObject(r.d.CONFIG),
-      i = new BaaS.TableObject(r.d.ERROR),
-      c = new BaaS.User(),
+      a = new BaaS.TableObject(r.d.CONFIG),
+      c = new BaaS.TableObject(r.d.ERROR),
+      i = new BaaS.User(),
       _ = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function f(t) {
+    async function E(t) {
       let e = new BaaS.Query();
       return (
-        e.compare("lottery", "=", o.getWithoutData(t)), a.setQuery(e).count()
+        e.compare("lottery", "=", o.getWithoutData(t)), u.setQuery(e).count()
       );
     }
-    async function E() {
+    async function T() {
       let t = new BaaS.Query();
       return (
         t.compare("status", "=", 2),
@@ -257,7 +257,7 @@ exports.main = (function(t) {
           .find()
       );
     }
-    const d = [
+    const O = [
         0,
         1,
         2,
@@ -360,7 +360,7 @@ exports.main = (function(t) {
         136,
         138
       ],
-      T = [
+      d = [
         4,
         11,
         13,
@@ -497,51 +497,35 @@ exports.main = (function(t) {
         228
       ];
   },
-  25: function(t, e, n) {
-    t.exports = n(26);
+  23: function(t, e, n) {
+    t.exports = n(24);
   },
-  26: function(t, e, n) {
+  24: function(t, e, n) {
     "use strict";
     n.r(e),
       n.d(e, "default", function() {
-        return a;
+        return o;
       });
-    var r = n(1);
-    async function a(t, e) {
-      console.log(`verifyPayment event.data: ${JSON.stringify(t.data)}`);
-      const n = t.data,
-        a = n.total_cost,
-        o = n.transaction_no,
-        u = n.merchandise_snapshot.id;
+    var r = n(1),
+      u = n(0);
+    async function o(t, e) {
+      console.log(`event : ${JSON.stringify(t)}`);
       try {
-        new BaaS.Query();
-        let t = (await r.d.get(u)).data;
-        if (t && t.total_prize === a) {
-          let t = r.d.getWithoutData(u);
-          t.set("status", 1),
-            t.set("transaction_no", o),
-            e(null, await t.update());
-        } else {
-          let n = {
-            error: "支付金额和抽奖金额不一致",
-            action: "verifyPayment",
-            created_by: t.created_by,
-            lottery: r.d.getWithoutData(u)
-          };
-          const a = r.c.create();
-          await a.set(n).save();
-          e(new Error(JSON.stringify(n)));
-        }
-      } catch (n) {
-        let a = {
-          error: `verifyPayment event.data: ${JSON.stringify(
-            t.data
-          )} - Error: ${n.message}`,
-          lottery: r.d.getWithoutData(u),
-          action: "verifyPayment"
-        };
-        const o = r.c.create();
-        await o.set(a).save(), e(new Error(JSON.stringify(a)));
+        const { id: n } = t.data;
+        let o = t.data,
+          a = (await r.d.get(n)).data;
+        if (a.status !== u.b.REJECTED && a.status !== u.b.WAIT_APPROVE)
+          throw new Error("status状态错误，lottery.status - ${lottery.status}");
+        let c = r.d.getWithoutData(n);
+        c.set({
+          pic_data: o.pic_data,
+          tag_items: o.tag_items,
+          desc_initiator: o.desc_initiator,
+          status: u.b.WAIT_APPROVE
+        }),
+          e(null, await c.update());
+      } catch (t) {
+        console.log(t), e(t);
       }
     }
   }

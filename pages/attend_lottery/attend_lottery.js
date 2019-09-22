@@ -39,7 +39,6 @@ Page({
   onLoad: async function(options) {
     let that = this;
     let lottery_id = options.id;
-    // let lottery_id = "5d75f93b1bb32a389a830414";
     // let lottery_id = "5d7612d71db94f5d2e68fd74";
 
     if (!lottery_id) {

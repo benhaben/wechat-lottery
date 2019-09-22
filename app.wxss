@@ -43,6 +43,7 @@ view{
 .text-center{text-align: center;}
 .text-break{word-break:break-all;word-wrap:break-word;}
 .h-flex{display: flex;}
+.flex-basis50{flex-basis: 50%;}
 .h-block{display: block;}
 .p-relative{position: relative;}
 .p-absolute{position: absolute;}

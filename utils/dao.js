@@ -24,6 +24,20 @@ export default {
   },
 
   /**
+   * 更新抽奖的宣传信息，状态从-1改为2
+   * @param lottery
+   * @returns {Promise<*>}
+   */
+  async updateLottery(lottery) {
+    let ret = await wx.BaaS.invokeFunction(
+      FUNCTION_NAME.UPDATE_LOTTERY,
+      lottery
+    );
+    debugger;
+    return ret.data.data;
+  },
+
+  /**
    * 为了安全在服务端参与抽奖，减少运气值
    * @param data
    * @returns {Promise<*>}
@@ -42,7 +56,6 @@ export default {
       id,
       status
     });
-    debugger;
     return ret.data.data;
   },
 
@@ -56,6 +69,23 @@ export default {
   async getLottery(limit = PAGE_SIZE, offset = 0, status = 2) {
     let query = new wx.BaaS.Query();
     query.compare("status", "=", status);
+    return LOTTERY_TABLE.setQuery(query)
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
+  },
+
+  /**
+   * 自己发起的抽奖
+   * @param limit
+   * @param offset
+   * @param status
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async getSendLotteries(limit = PAGE_SIZE, offset = 0, user_id) {
+    let query = new wx.BaaS.Query();
+    query.compare("created_by", "=", user_id);
     return LOTTERY_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)

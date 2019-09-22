@@ -1,8 +1,6 @@
-<view class="container"
-
->
+<view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
+    <van-button wx:if="{{create}}" class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
                 round>选择图片
     </van-button>
   </view>
@@ -79,7 +77,7 @@
 
   <!-- <button open-type="getUserInfo" bindgetuserinfo="userInfoHandler">用户授权</button> -->
 
-  <form class="bottom" report-submit name="add_lottery" bindsubmit="onConfirm">
+  <form class="bottom" report-submit name="add_lottery" bindsubmit="onConfirm" wx:if="{{create}}">
     <view class="bottom__info">发起抽奖后不可取消</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"
@@ -94,6 +92,23 @@
             size="large"
             form-type="submit"
             class="bottom__btn color-white bg-red">发起抽奖
+    </button>
+  </form>
+  <form class="bottom" report-submit name="add_lottery" bindsubmit="onUpdate" wx:if="{{!create && (status === -1 || status === 1)}}">
+    <view class="bottom__info">更新抽奖需要再次审批</view>
+    <button wx:if="{{!auth}}"
+            class="bottom__btn color-white bg-red"
+            size="large"
+            open-type="getUserInfo"
+            form-type="submit"
+            bindgetuserinfo="userInfoHandler">更新抽奖
+    </button>
+
+    <button wx:else
+            loading="{{loading}}"
+            size="large"
+            form-type="submit"
+            class="bottom__btn color-white bg-red">更新抽奖
     </button>
   </form>
 
