@@ -1,78 +1,78 @@
-exports.main = (function(t) {
+exports.main = (function(n) {
   var e = {};
-  function n(r) {
+  function t(r) {
     if (e[r]) return e[r].exports;
-    var a = (e[r] = { i: r, l: !1, exports: {} });
-    return t[r].call(a.exports, a, a.exports, n), (a.l = !0), a.exports;
+    var u = (e[r] = { i: r, l: !1, exports: {} });
+    return n[r].call(u.exports, u, u.exports, t), (u.l = !0), u.exports;
   }
   return (
-    (n.m = t),
-    (n.c = e),
-    (n.d = function(t, e, r) {
-      n.o(t, e) || Object.defineProperty(t, e, { enumerable: !0, get: r });
+    (t.m = n),
+    (t.c = e),
+    (t.d = function(n, e, r) {
+      t.o(n, e) || Object.defineProperty(n, e, { enumerable: !0, get: r });
     }),
-    (n.r = function(t) {
+    (t.r = function(n) {
       "undefined" != typeof Symbol &&
         Symbol.toStringTag &&
-        Object.defineProperty(t, Symbol.toStringTag, { value: "Module" }),
-        Object.defineProperty(t, "__esModule", { value: !0 });
+        Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }),
+        Object.defineProperty(n, "__esModule", { value: !0 });
     }),
-    (n.t = function(t, e) {
-      if ((1 & e && (t = n(t)), 8 & e)) return t;
-      if (4 & e && "object" == typeof t && t && t.__esModule) return t;
+    (t.t = function(n, e) {
+      if ((1 & e && (n = t(n)), 8 & e)) return n;
+      if (4 & e && "object" == typeof n && n && n.__esModule) return n;
       var r = Object.create(null);
       if (
-        (n.r(r),
-        Object.defineProperty(r, "default", { enumerable: !0, value: t }),
-        2 & e && "string" != typeof t)
+        (t.r(r),
+        Object.defineProperty(r, "default", { enumerable: !0, value: n }),
+        2 & e && "string" != typeof n)
       )
-        for (var a in t)
-          n.d(
+        for (var u in n)
+          t.d(
             r,
-            a,
+            u,
             function(e) {
-              return t[e];
-            }.bind(null, a)
+              return n[e];
+            }.bind(null, u)
           );
       return r;
     }),
-    (n.n = function(t) {
+    (t.n = function(n) {
       var e =
-        t && t.__esModule
+        n && n.__esModule
           ? function() {
-              return t.default;
+              return n.default;
             }
           : function() {
-              return t;
+              return n;
             };
-      return n.d(e, "a", e), e;
+      return t.d(e, "a", e), e;
     }),
-    (n.o = function(t, e) {
-      return Object.prototype.hasOwnProperty.call(t, e);
+    (t.o = function(n, e) {
+      return Object.prototype.hasOwnProperty.call(n, e);
     }),
-    (n.p = ""),
-    n((n.s = 27))
+    (t.p = ""),
+    t((t.s = 23))
   );
 })({
-  0: function(t, e, n) {
+  0: function(n, e, t) {
     "use strict";
-    n.d(e, "c", function() {
+    t.d(e, "c", function() {
       return r;
     }),
-      n.d(e, "d", function() {
-        return a;
+      t.d(e, "d", function() {
+        return u;
       }),
-      n.d(e, "a", function() {
+      t.d(e, "a", function() {
         return o;
       }),
-      n.d(e, "b", function() {
-        return u;
+      t.d(e, "b", function() {
+        return c;
       });
     const r = {
         GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
         OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
       },
-      a = {
+      u = {
         USER_LOTTERY_RECORD: 81892,
         LOTTERY: 81873,
         CONFIG: 83587,
@@ -81,7 +81,7 @@ exports.main = (function(t) {
         QUESTIONS: 84573
       },
       o = "5d7917899d8da5229c037105",
-      u = {
+      c = {
         WAIT_APPROVE: 1,
         APPROVED: 2,
         REJECTED: -1,
@@ -202,62 +202,62 @@ exports.main = (function(t) {
         ]
       };
   },
-  1: function(t, e, n) {
+  1: function(n, e, t) {
     "use strict";
-    n.d(e, "g", function() {
-      return a;
+    t.d(e, "g", function() {
+      return u;
     }),
-      n.d(e, "d", function() {
+      t.d(e, "d", function() {
         return o;
       }),
-      n.d(e, "b", function() {
-        return u;
-      }),
-      n.d(e, "c", function() {
-        return i;
-      }),
-      n.d(e, "h", function() {
+      t.d(e, "b", function() {
         return c;
       }),
-      n.d(e, "a", function() {
+      t.d(e, "c", function() {
         return _;
       }),
-      n.d(e, "i", function() {
-        return f;
+      t.d(e, "h", function() {
+        return i;
       }),
-      n.d(e, "j", function() {
+      t.d(e, "a", function() {
+        return T;
+      }),
+      t.d(e, "i", function() {
         return E;
       }),
-      n.d(e, "f", function() {
-        return d;
+      t.d(e, "j", function() {
+        return a;
       }),
-      n.d(e, "e", function() {
-        return T;
+      t.d(e, "f", function() {
+        return O;
+      }),
+      t.d(e, "e", function() {
+        return f;
       });
-    var r = n(0);
-    const a = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
+    var r = t(0);
+    const u = new BaaS.TableObject(r.d.USER_LOTTERY_RECORD),
       o = new BaaS.TableObject(r.d.LOTTERY),
-      u = new BaaS.TableObject(r.d.CONFIG),
-      i = new BaaS.TableObject(r.d.ERROR),
-      c = new BaaS.User(),
-      _ = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
-    async function f(t) {
+      c = new BaaS.TableObject(r.d.CONFIG),
+      _ = new BaaS.TableObject(r.d.ERROR),
+      i = new BaaS.User(),
+      T = new BaaS.TableObject(r.d.BALANCE_LUCKY_RECORD);
+    async function E(n) {
       let e = new BaaS.Query();
       return (
-        e.compare("lottery", "=", o.getWithoutData(t)), a.setQuery(e).count()
+        e.compare("lottery", "=", o.getWithoutData(n)), u.setQuery(e).count()
       );
     }
-    async function E() {
-      let t = new BaaS.Query();
+    async function a() {
+      let n = new BaaS.Query();
       return (
-        t.compare("status", "=", 2),
+        n.compare("status", "=", 2),
         o
-          .setQuery(t)
+          .setQuery(n)
           .limit(10)
           .find()
       );
     }
-    const d = [
+    const O = [
         0,
         1,
         2,
@@ -360,7 +360,7 @@ exports.main = (function(t) {
         136,
         138
       ],
-      T = [
+      f = [
         4,
         11,
         13,
@@ -497,51 +497,24 @@ exports.main = (function(t) {
         228
       ];
   },
-  27: function(t, e, n) {
-    t.exports = n(28);
+  23: function(n, e, t) {
+    n.exports = t(24);
   },
-  28: function(t, e, n) {
+  24: function(n, e, t) {
     "use strict";
-    n.r(e),
-      n.d(e, "default", function() {
-        return a;
+    t.r(e),
+      t.d(e, "default", function() {
+        return r;
       });
-    var r = n(1);
-    async function a(t, e) {
-      console.log(`verifyPayment event.data: ${JSON.stringify(t.data)}`);
-      const n = t.data,
-        a = n.total_cost,
-        o = n.transaction_no,
-        u = n.merchandise_snapshot.id;
+    t(1), t(0);
+    async function r(n, e) {
+      console.log(`event : ${JSON.stringify(n)}`);
       try {
-        new BaaS.Query();
-        let t = (await r.d.get(u)).data;
-        if (t && t.total_prize === a) {
-          let t = r.d.getWithoutData(u);
-          t.set("status", 1),
-            t.set("transaction_no", o),
-            e(null, await t.update());
-        } else {
-          let n = {
-            error: "支付金额和抽奖金额不一致",
-            action: "verifyPayment",
-            created_by: t.created_by,
-            lottery: r.d.getWithoutData(u)
-          };
-          const a = r.c.create();
-          await a.set(n).save();
-          e(new Error(JSON.stringify(n)));
-        }
+        const t = n.request.user.id;
+        console.log(`user_id : ${t}`),
+          e(null, 87829981979003 == t || 81550584324453 == t);
       } catch (n) {
-        let a = {
-          error: `verifyPayment event.data: ${JSON.stringify(
-            t.data
-          )} - Error: ${n.message}`,
-          lottery: r.d.getWithoutData(u),
-          action: "verifyPayment"
-        };
-        const o = r.c.create();
-        await o.set(a).save(), e(new Error(JSON.stringify(a)));
+        console.log(n), e(n);
       }
     }
   }

@@ -39,7 +39,7 @@ export default async function approveLottery(event, callback) {
     lotteryRecord.set({ status: status });
     let ret = await lotteryRecord.update();
 
-    // 驳回通知用户，到修改界面
+    // TODO：驳回通知用户，到修改界面；成功，到参加抽奖页面
     // let data = {
     //   recipient_type: "user_list",
     //   user_list: [id],

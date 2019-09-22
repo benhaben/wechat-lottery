@@ -24,6 +24,16 @@ export default {
   },
 
   /**
+   * 是否是管理员，有审批权限
+   * @param lottery
+   * @returns {Promise<*>}
+   */
+  async isAdmin() {
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.IS_ADMIN);
+    return ret.data;
+  },
+
+  /**
    * 更新抽奖的宣传信息，状态从-1改为2
    * @param lottery
    * @returns {Promise<*>}
@@ -33,7 +43,6 @@ export default {
       FUNCTION_NAME.UPDATE_LOTTERY,
       lottery
     );
-    debugger;
     return ret.data.data;
   },
 

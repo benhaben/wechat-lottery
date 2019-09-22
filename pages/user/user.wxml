@@ -48,7 +48,7 @@
                 link-type="navigateTo"
                 url="/pages/user_ads/user_ads"
                 is-link/>
-      <van-cell title="消息提醒" icon="envelop-o" is-link/>
+<!--      <van-cell title="消息提醒" icon="envelop-o" is-link/>-->
       <van-cell title="常见问题" icon="question-o"
                 link-type="navigateTo"
                 url="/pages/user_question/user_question"
@@ -56,7 +56,7 @@
     </van-cell-group>
   </view>
 
-  <van-cell-group>
+  <van-cell-group wx:if="{{admin}}">
     <van-cell title="推荐审查" icon="award-o"
               link-type="navigateTo"
               url="/pages/user_approve/user_approve"

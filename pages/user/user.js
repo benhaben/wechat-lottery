@@ -1,5 +1,5 @@
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
-import dap from "../../utils/dao";
+import dao from "../../utils/dao";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -9,7 +9,18 @@ Page({
     nickname: app.getNickname(),
     total: 60,
     send_num: 1,
-    get_num: 2
+    get_num: 2,
+    admin: false
+  },
+  async onLoad() {
+    try {
+      let admin = await dao.isAdmin();
+      this.setData({
+        admin
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
   onShow() {
     this.getTabBar().init();

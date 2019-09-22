@@ -51,7 +51,8 @@ export const FUNCTION_NAME = {
   CREATE_LOTTERY: "createLottery",
   UPDATE_LOTTERY: "updateLottery",
   ATTEND_LOTTERY: "attendLottery",
-  APPROVE_LOTTERY: "approveLottery"
+  APPROVE_LOTTERY: "approveLottery",
+  IS_ADMIN: "isAdmin"
 };
 export const WECHAT_SCENE = {
   FROM_CHAT: "FROM_CHAT",
