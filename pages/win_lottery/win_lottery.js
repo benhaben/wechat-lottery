@@ -30,10 +30,10 @@ Page({
     selfLuckyNum: 0,
     open_date: null,
     showSharePopup: false,
-    balance: 0.099,
+    balance: 0,
     showAd: false,
-    plans_lottery_package: 97,
-    plans_lucky_package: 100,
+    plans_lottery_package: 0,
+    plans_lucky_package: 0,
     hongbao_image_list: [],
     fudai_image_list: []
   },
@@ -78,7 +78,7 @@ Page({
       this.setData({
         lottery_id: lottery.id,
         id: lottery.id.substr(0, 10),
-        total: `${lottery.total_prize}元/100人`,
+        total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
         lucky_num: lottery.lucky_num,
         lucky_num_per: lottery.lucky_num_per,
         open_people_num: lottery.open_people_num,

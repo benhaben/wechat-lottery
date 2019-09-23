@@ -1,7 +1,10 @@
 // pages/attend_lottery/attend_lottery.js
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import dao from "../../utils/dao";
+import Toast from "../../lib/van/toast/toast";
+
 // import main from "../../faas/attendLotteryTest";
+// import main from "../../faas/approveLotteryTest";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -10,8 +13,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    admin: false, // 管理员可以审批
     url: CONST.DEFAULT_URL,
     id: "",
+    hash: "",
     total: "",
     lucky_num: 0,
     countdownStr: "",
@@ -60,6 +65,7 @@ Page({
       let attendeesPromise = dao.getLotteryAttendees(lottery_id);
 
       //并行获取数据，防止一个一个获取
+      let adminPromise = dao.isAdmin();
       let attendees = await attendeesPromise;
       let retRecord = await retRecordPromise;
 
@@ -76,9 +82,12 @@ Page({
         hasAttended = true;
       }
 
+      let admin = await adminPromise;
+
       this.setData({
-        id: lottery.id.substr(0, 10),
-        total: `${lottery.total_prize}元/100人`,
+        id: lottery.id,
+        hash: lottery.id.substr(0, 10),
+        total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
         lucky_num: lottery.lucky_num,
         open_people_num: lottery.open_people_num,
         avatar: lottery.avatar,
@@ -88,6 +97,8 @@ Page({
         pic_data: lottery.pic_data,
         open_date: lottery.open_date,
         hasAttended,
+        admin,
+        dudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
         status: lottery.status,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
@@ -263,5 +274,37 @@ Page({
         console.log("成功", res);
       }
     };
+  },
+  async onApprove() {
+    try {
+      // await main(
+      //   {
+      //     data: {
+      //       id: "5d83295f09e085798d1879ef",
+      //       status: 2
+      //     },
+      //     request: { user: { id: "81550584324453" } }
+      //   },
+      //   (err, msg) => {
+      //     debugger;
+      //     console.log(err);
+      //   }
+      // );
+
+      let ret = await dao.approveLottery(this.data.id, CONST.APPROVED);
+      Toast.success("审批通过成功");
+      wx.navigateBack();
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async onReject() {
+    try {
+      await dao.approveLottery(this.data.id, CONST.REJECTED);
+      Toast.success("已驳回");
+      wx.navigateBack();
+    } catch (e) {
+      console.log(e);
+    }
   }
 });

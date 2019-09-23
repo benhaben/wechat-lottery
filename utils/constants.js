@@ -13,7 +13,6 @@ export const ROUTE = {
   SHARE_PIC_HOME: "/pages/share_pic_home/share_pic_home",
   USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
   USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
-  USER_APPROVE_DETAIL: "/pages/user_approve_detail/user_approve_detail",
   USER_ALL_LOTTERIES: "/pages/user_all_lotteries/user_all_lotteries",
   USER_GET_LOTTERIES: "/pages/user_get_lotteries/user_get_lotteries",
   USER_SEND_LOTTERIES: "/pages/user_send_lotteries/user_send_lotteries"
@@ -40,6 +39,7 @@ export const TABLE_ID = {
   USER_LOTTERY_RECORD: 81892,
   LOTTERY: 81873,
   CONFIG: 83587,
+  ERROR: 83510,
   DAILY_CHECKIN: 84214,
   BALANCE_LUCKY_RECORD: 83371,
   QUESTIONS: 84573
@@ -82,8 +82,10 @@ export const PAGE_SIZE = 10;
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 //
 export const CONST = {
+  BALANCE_TIMES: 1000, // 余额用整数表示，需要除以1000
   WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1
   APPROVED: 2, // 审批通过，只能从1到2
+  OPENED: 3, // 已经开奖
   REJECTED: -1, // 审批不通过，只能从1到-1
   GET_ATTENDEES: 0, // 获取所有参与者
   GET_FUDAI: 2, // 获取福袋获得者列表
@@ -94,7 +96,7 @@ export const CONST = {
   GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
   DEFAULT_URL:
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
-  LOTTERY_PRIZE_LIST: [9.9, 16.8, 33.3, 51.8, 66.6, 86.8, 88.8, 99.9], // 红包金额
+  LOTTERY_PRIZE_LIST: [9900, 16800, 33300, 51800, 66600, 86800, 88800, 99900], // 红包金额
   LOTTERY_NUM_PEOPLE: [1000, 1500, 3500, 5000, 6000, 8000, 8000, 9000], // 开奖人数
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
   PLANS: ["红包95个/福袋100个", "红包97个/福袋50个", "红包98个/福袋25个"], // 福袋比例
@@ -102,7 +104,7 @@ export const CONST = {
   PLANS_LOTTERY_PACKAGE: [95, 97, 98], // 不同方案红包个数
   LUCKY_RATIO_OPEN: 100, // 发起抽奖运气值奖励，金额乘以该值
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
-  LUCKY_RATIO_LUCKY_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值
+  LUCKY_RATIO_FUDAI_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值
   LUCKY_RATIO_INVITATION: 100, // 邀请朋友增加此数值运气值
   LUCKY_RATIO_INVITATION_OPEN: 10, // 线人发起抽奖，你获得运气值 = 抽奖金额 * 该值
   MAX_SELECTED: 8,

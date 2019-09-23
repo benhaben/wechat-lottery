@@ -68,7 +68,7 @@ Page({
     let lotteries = await dao.queryLottery(PAGE_SIZE * 10, 0, queryString);
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       return lottery;
     });
@@ -87,7 +87,7 @@ Page({
     }
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       return lottery;
     });
@@ -107,7 +107,7 @@ Page({
     }
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       return lottery;
     });
@@ -127,7 +127,7 @@ Page({
     }
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       return lottery;
     });
@@ -139,7 +139,7 @@ Page({
   onTap(event) {
     let id = event.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `${ROUTE.USER_APPROVE_DETAIL}?id=${id}`
+      url: `${ROUTE.ATTEND_LOTTERY}?id=${id}`
     });
   }
 });

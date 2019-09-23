@@ -16,43 +16,63 @@ export default async function checkLotteryStatusOpen(event, callback) {
   try {
     // 获取
     let ret = await getOpenedLottery();
+    console.log(`checkLotteryStatus - 1`);
+
     let openedLotteries = ret.data.objects;
     console.log(
-      `openedLotteries: ${JSON.stringify(openedLotteries.map(item => item.id))}`
+      `checkLotteryStatus openedLotteries: ${JSON.stringify(
+        openedLotteries.map(item => item.id)
+      )}`
     );
     if (openedLotteries) {
+      console.log(`checkLotteryStatus - 2`);
+
       let configRes = await CONFIG_TABLE.get(CONFIG_ID);
       let config = configRes.data;
 
       for (let lotteryIndex in openedLotteries) {
+        console.log(`checkLotteryStatus - 3 for`);
+
         let lottery = openedLotteries[lotteryIndex];
         let count = await getAttendeesCount(lottery.id);
-        console.log(`getAttendeesCount: ${count}`);
+        console.log(`checkLotteryStatus - 3 getAttendeesCount: ${count}`);
         let time_end = Math.round(Date.parse(lottery.open_date) / 1000);
         let time_now = Math.round(new Date() / 1000);
         let time_distance = time_end - time_now;
 
         if (count >= lottery.open_people_num) {
-          console.log(`开奖 - lottery.id: ${lottery.id}`);
+          console.log(`checkLotteryStatus 4 -开奖 - lottery.id: ${lottery.id}`);
           let lotteryUpdate = LOTTERY_TABLE.getWithoutData(lottery.id);
 
           // 更新 lottery status 为 3
           // 更新发起抽奖者的 user 表的 lucky_num，在触发器里面更新
-          lotteryUpdate.set("status", 3);
+          lotteryUpdate.set("status", CONST.OPENED);
           await lotteryUpdate.update();
 
           // 随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新幸运儿的 balance 或者运气值
 
           let index_hongbao = config.plans_lottery_package[lottery.plan_index];
           let seed_hongbao = LUCKY_SEED_HONGBAO.slice(0, index_hongbao);
-          let price_per = Number(
-            toFixed3(lottery.total_prize / CONST.HONHBAO_RATIO)
+
+          // 每个人中奖的金额，是总奖金额除以 HONHBAO_RATIO，使用 BALANCE_TIMES 是因为乘以 BALANCE_TIMES 保存为integer
+          let price_per =
+            (lottery.total_prize / CONST.BALANCE_TIMES / CONST.HONHBAO_RATIO) *
+            CONST.BALANCE_TIMES;
+
+          console.log(
+            `checkLotteryStatus 4 - 开奖红包 - index_hongbao: ${index_hongbao} - price_per: ${price_per} - seed_hongbao: ${seed_hongbao} `
           );
+
           // 发起通知通知所有参与抽奖的用户已经开奖
           await updateUserLotteryRecords(seed_hongbao, lottery, 1, price_per);
 
           let index_fudai = config.plans_lucky_package[lottery.plan_index];
           let seed_fudai = LUCKY_SEED_FUDAI.slice(0, index_fudai);
+
+          console.log(
+            `checkLotteryStatus 4 - 开奖福袋 - index_fudai: ${index_fudai} - lucky_num_per: ${lottery.lucky_num_per} - seed_fudai: ${seed_fudai}`
+          );
+
           await updateUserLotteryRecords(
             seed_fudai,
             lottery,

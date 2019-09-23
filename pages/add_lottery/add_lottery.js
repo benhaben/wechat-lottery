@@ -17,16 +17,20 @@ Page({
     id: null,
     url: CONST.DEFAULT_URL,
     file: null, // 知晓云返回的服务端文件对象
-    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0]), //默认第一个 9.9
+    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES), //默认第一个 9.9
     lucky_num: toFixed1(
-      new Big(CONST.LOTTERY_PRIZE_LIST[0]).times(CONST.LUCKY_RATIO_OPEN)
+      new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES).times(
+        CONST.LUCKY_RATIO_OPEN
+      )
+    ), // 开奖奖励的运气值，触发器使用
+    prize_list: CONST.LOTTERY_PRIZE_LIST.map(
+      item => item / CONST.BALANCE_TIMES
     ),
-    prize_list: CONST.LOTTERY_PRIZE_LIST,
     prize_colors: CONST.PRIZE_COLORS,
     prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
     plan_index: 0,
     plans: CONST.PLANS,
-    lucky_num_per: CONST.LOTTERY_PRIZE_LIST[0] * 10,
+    lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES) * 10, // 每个人的奖励运气值
     show_plan: false,
     open_people_num: 1000,
     tag_items: app.getTagItems(),
@@ -52,7 +56,7 @@ Page({
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
-          total: `${lottery.total_prize}元/100人`,
+          total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
           lucky_num: lottery.lucky_num,
           open_people_num: lottery.open_people_num,
           plan_index: lottery.plan_index,
@@ -170,12 +174,15 @@ Page({
       this.data.prize_colors[i] = 0;
     }
     this.data.prize_colors[index] = 1;
-    this.data.total_prize = toFixed1(CONST.LOTTERY_PRIZE_LIST[index]);
+    this.data.total_prize = toFixed1(
+      CONST.LOTTERY_PRIZE_LIST[index] / CONST.BALANCE_TIMES
+    );
     this.data.lucky_num = toFixed1(
-      new Big(CONST.LOTTERY_PRIZE_LIST[index]).times(CONST.LUCKY_RATIO_OPEN)
+      new Big(this.data.total_prize).times(CONST.LUCKY_RATIO_OPEN)
     );
     this.data.open_people_num = CONST.LOTTERY_NUM_PEOPLE[index];
-    this.data.lucky_num_per = this.data.total_prize * 10;
+    this.data.lucky_num_per =
+      this.data.total_prize * CONST.LUCKY_RATIO_FUDAI_PACKAGE;
 
     this.setData(this.data);
   },
@@ -256,13 +263,14 @@ Page({
       this.setData({
         loading: true
       });
+
       // （创建抽奖，创建订单）-> 支付，
       let lottery = await dao.createLottery({
         url: this.data.url,
         file: this.data.file,
         open_date: openDateTimeStamp(),
         pic_data: this.data.pic_data,
-        total_prize: Number(this.data.total_prize),
+        total_prize: Number(this.data.total_prize) * CONST.BALANCE_TIMES,
         lucky_num: Number(this.data.lucky_num),
         lucky_num_per: Number(this.data.lucky_num_per),
         plan_index: this.data.plan_index,
@@ -274,27 +282,49 @@ Page({
         nickname: app.getNickname()
       });
 
-      const params = {
-        // totalCost: add_lottery.total_prize,
-        totalCost: 0.1,
-        merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
-        merchandiseSchemaID: TABLE_ID.LOTTERY,
-        merchandiseRecordID: lottery.id,
-        merchandiseSnapshot: lottery
-      };
-
-      let res = await wx.BaaS.pay(params);
-      console.log(`wx.BaaS.pay(params) ：${res.transaction_no}`);
+      // 用户可能取消支付，产生一个未支付订单
+      await this.pay(lottery, 0.01);
 
       this.setData({ loading: false });
 
-      wx.navigateTo({
-        url: `${ROUTE.ATTEND_LOTTERY}?id=${lottery.id}`
-      });
+      wx.navigateBack();
     } catch (err) {
       this.setData({
         loading: false
       });
+    }
+  },
+  async pay(lottery, cost) {
+    const params = {
+      // totalCost: add_lottery.total_prize,
+      totalCost: 0.01,
+      merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
+      merchandiseSchemaID: TABLE_ID.LOTTERY,
+      merchandiseRecordID: lottery.id,
+      merchandiseSnapshot: lottery
+    };
+
+    return wx.BaaS.pay(params);
+  },
+  onPay: async function(event) {
+    try {
+      this.setData({
+        loading: true
+      });
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
+      await this.pay(this.data, 0.01);
+      this.setData({
+        loading: false
+      });
+      wx.navigateBack();
+    } catch (err) {
+      console.log(err);
+      this.setData({ loading: false });
+      Toast.fail("支付失败");
     }
   },
   onUpdate: async function(event) {
@@ -316,6 +346,7 @@ Page({
 
       this.setData({ loading: false });
       Toast.success("更新成功");
+      wx.navigateBack();
     } catch (err) {
       this.setData({ loading: false });
       Toast.fail("更新失败");

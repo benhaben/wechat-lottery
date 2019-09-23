@@ -4,7 +4,7 @@
       <van-icon size="35rpx" name="gift"/>
     </view>
     <view>
-      <text>{{id}}</text>
+      <text>{{hash}}</text>
     </view>
   </view>
 </view>
@@ -23,7 +23,7 @@
 
     <view class="info__row_right">
       <view class="info__row_value">
-        {{lucky_num}} 个
+        {{dudai_num}} 个
       </view>
       <view class="info__row_title">
         福袋：
@@ -154,6 +154,16 @@
       每邀请一个朋友参与，就可能获得更多运气值和奖励
     </view>
   </view>
+
+  <view class="height150 h-flex flex-justify-content-around" wx:if="{{status===1 && admin}}">
+    <view>
+      <van-button class="bottom__btn" size="normal" bind:click="onReject">驳回</van-button>
+    </view>
+    <view>
+      <van-button class="bottom__btn" size="normal" bind:click="onApprove" type="primary">通过</van-button>
+    </view>
+  </view>
+
 </view>
 
 

@@ -21,7 +21,6 @@
     "pages/user_ads/user_ads",
     "pages/user_question/user_question",
     "pages/user_approve/user_approve",
-    "pages/user_approve_detail/user_approve_detail",
     "pages/user_all_lotteries/user_all_lotteries",
     "pages/user_send_lotteries/user_send_lotteries",
     "pages/user_get_lotteries/user_get_lotteries"

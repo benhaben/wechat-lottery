@@ -91,30 +91,3 @@ export function throttle(fn, gapTime) {
     }
   };
 }
-
-export const MobileAdpater = () => {
-  const systemInfo = wx.getSystemInfoSync();
-  const deviceModel = systemInfo.model;
-  const MOBILE_REG = {
-    "iPhone X": /iPhone X/
-  };
-
-  return {
-    isIPhoneX: () => {
-      return MOBILE_REG["iPhone X"].test(deviceModel);
-    }
-  };
-};
-
-export const mobileAdapter = {
-  ...MobileAdpater()
-};
-
-export const getStatusBarHeight = () => {
-  const systemInfo = wx.getSystemInfoSync();
-  try {
-    return systemInfo.statusbarHeight || systemInfo.statusBarHeight;
-  } catch (e) {
-    return 20;
-  }
-};

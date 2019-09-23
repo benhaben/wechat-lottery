@@ -1,5 +1,5 @@
 import dao from "../../utils/dao";
-import { PAGE_SIZE, ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { PAGE_SIZE, ROUTE, ROUTE_DATA, CONST } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
@@ -34,8 +34,9 @@ Page({
 
       let add = lotteries.data.objects.map(lottery => {
         lottery.hash = lottery.id.substr(0, 10);
-        lottery.total = `${lottery.total_prize}元/100人`;
+        lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
         lottery.countdownStr = countDown(lottery.open_date);
+        lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
         return lottery;
       });
       this.setData({
@@ -58,8 +59,9 @@ Page({
 
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
+      lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
       return lottery;
     });
     this.setData({

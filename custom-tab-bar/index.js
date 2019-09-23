@@ -1,5 +1,5 @@
 import { ROUTE } from "../utils/constants";
-import { mobileAdapter, getStatusBarHeight } from "../utils/function";
+import { mobileAdapter, getStatusBarHeight } from "../utils/uiFunction";
 
 Component({
   data: {

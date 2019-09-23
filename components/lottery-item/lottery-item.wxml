@@ -22,7 +22,7 @@
 
       <view class="info__row_right">
         <view class="info__row_value">
-          {{lottery.lucky_num}} 个
+          {{lottery.dudai_num}} 个
         </view>
         <view class="info__row_title">
           福袋：
