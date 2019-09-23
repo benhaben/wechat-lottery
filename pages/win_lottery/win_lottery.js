@@ -1,6 +1,7 @@
 // pages/win_lottery/win_lottery.js
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import dao from "../../utils/dao";
+import { toFixed3 } from "../../utils/function";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -43,8 +44,8 @@ Page({
    */
   onLoad: async function(options) {
     let that = this;
-    let lottery_id = options.id;
-    // let lottery_id = "5d7dc7bf9db6e805adc5ebfe";
+    // let lottery_id = options.id;
+    let lottery_id = "5d87acdd55c8573ccfdf96de";
     // let lottery_id = "5d7612d71db94f5d2e68fd74";
 
     if (!lottery_id) {
@@ -72,16 +73,25 @@ Page({
       let hongbaos = await getHongbaosPromise;
       let fudais = await getFudaisPromise;
 
+      let result = retRecord.data.objects[0];
       let lottery = retRecord.data.objects[0].lottery;
       let user = retRecord.data.objects[0].user;
       app.setUserInfo(user);
       this.setData({
         lottery_id: lottery.id,
         id: lottery.id.substr(0, 10),
-        total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
+        total: `${lottery.total_prize / CONST.BALANCE_TIMES}元`,
+        dudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+        get_balance:
+          result.lottery_result === 1
+            ? toFixed3(result.balance / CONST.BALANCE_TIMES)
+            : 0,
+        get_lucky_num: result.lottery_result === 2 ? result.lucky_num : 0,
         lucky_num: lottery.lucky_num,
         lucky_num_per: lottery.lucky_num_per,
         open_people_num: lottery.open_people_num,
+        plans_lottery_package: CONST.PLANS_LOTTERY_PACKAGE[lottery.plan_index],
+        plans_lucky_package: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
         avatar: lottery.avatar,
         nickname: lottery.nickname,
         tag_items: lottery.tag_items,

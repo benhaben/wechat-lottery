@@ -1,4 +1,4 @@
-<navigation-bar bindhome="handleHome">
+<navigation-bar bindhome="handleHome" title="恭喜中奖">
 
   <view class="container__image" style="background-image: url('{{url}}')">
     <view class="container__select-image">
@@ -25,7 +25,7 @@
 
       <view class="info__row_right">
         <view class="info__row_value">
-          {{lucky_num}} 个
+          {{dudai_num}} 个
         </view>
         <view class="info__row_title">
           福袋：
@@ -37,10 +37,10 @@
     <view class="info-row">
       <view class="info__row_left">
         <view class="info__row_title">
-          倒计时：
+          发起者得：
         </view>
         <view class="info__row_value">
-          {{countdownStr}}
+         {{lucky_num}}运气值
         </view>
       </view>
 
@@ -75,7 +75,7 @@
     <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
       <view class="h1 margin30-bottom color-red">恭喜，您已经中奖</view>
       <view class="h3 margin30-bottom">奖品：好运红包
-        <text class="color-red">{{balance}}</text>
+        <text class="color-red">{{get_balance}}</text>
         元
       </view>
       <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
@@ -93,7 +93,7 @@
       <view class="h-flex flex-col flex-align-center">
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运红包
-            <text class="color-red">{{balance}}</text>
+            <text class="color-red">{{get_balance}}</text>
             元 X
             <text class="color-red">{{plans_lottery_package}}</text>
             名
