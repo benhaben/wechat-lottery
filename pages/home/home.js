@@ -104,7 +104,11 @@ Page({
       url: `${ROUTE.ATTEND_LOTTERY}?id=${event.detail}`
     });
   }),
-  onGotoSign: function() {},
+  onGotoSign: function() {
+    wx.navigateTo({
+      url: ROUTE.USER_LUCKY
+    });
+  },
   onMore: async function(event) {
     const formId = event.detail.formId;
     if (formId) {
