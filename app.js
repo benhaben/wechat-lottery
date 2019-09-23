@@ -1,5 +1,8 @@
+import { toFixed3 } from "./utils/function";
+
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 import store from "./utils/store.js";
+import { CONST } from "./utils/constants";
 
 App({
   onLaunch: function() {
@@ -49,6 +52,10 @@ App({
   getAdsData: function() {
     let user = store.getUserInfo();
     return user.pic_data;
+  },
+  getBalance: function() {
+    let user = store.getUserInfo();
+    return toFixed3(user.balance / CONST.BALANCE_TIMES);
   },
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);

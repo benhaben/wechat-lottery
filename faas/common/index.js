@@ -14,6 +14,7 @@ export const USER_TABLE = new BaaS.User();
 export const BALANCE_LUCKY_RECORD_TABLE = new BaaS.TableObject(
   TABLE_ID.BALANCE_LUCKY_RECORD
 );
+export const WITHDRAW_TABLE = new BaaS.TableObject(TABLE_ID.WITHDRAW);
 
 export async function getAttendeesCount(id) {
   let query = new BaaS.Query();

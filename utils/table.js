@@ -13,3 +13,4 @@ export const DAILY_CHECKIN_TABLE = new wx.BaaS.TableObject(
   TABLE_ID.DAILY_CHECKIN
 );
 export const QUESTIONS_TABLE = new wx.BaaS.TableObject(TABLE_ID.QUESTIONS);
+export const WITHDRAW_TABLE = new wx.BaaS.TableObject(TABLE_ID.WITHDRAW);
