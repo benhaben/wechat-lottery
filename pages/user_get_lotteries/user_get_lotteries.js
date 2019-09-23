@@ -1,7 +1,7 @@
 // pages/user_get_lotteries/user_get_lotteries.js
 import dao from "../../utils/dao";
 import { PAGE_SIZE, ROUTE, CONST } from "../../utils/constants";
-import { countDown } from "../../utils/function";
+import { countDown, toFixed3 } from "../../utils/function";
 const { regeneratorRuntime } = global;
 const app = getApp();
 Page({
@@ -31,7 +31,7 @@ Page({
       lottery.lottery_result = item.lottery_result;
       lottery.weight = item.weight;
       lottery.lucky_num = item.lucky_num;
-      lottery.balance = item.balance;
+      lottery.balance = toFixed3(item.balance / CONST.BALANCE_TIMES);
       return lottery;
     });
     this.setData({
