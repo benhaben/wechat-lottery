@@ -16,10 +16,10 @@
       <view class="stats__value">{{total}}</view>
       <view class="stats__title">全部抽奖</view>
     </view>
-    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">
-      <view class="stats__value">{{send_num}}</view>
-      <view class="stats__title">发起抽奖</view>
-    </view>
+<!--    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">-->
+<!--      <view class="stats__value">{{send_num}}</view>-->
+<!--      <view class="stats__title">发起抽奖</view>-->
+<!--    </view>-->
     <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onGetLotteries">
       <view class="stats__value">{{get_num}}</view>
       <view class="stats__title">中奖记录</view>
@@ -44,15 +44,15 @@
                 link-type="navigateTo"
                 url="/pages/user_desc/user_desc"
                 is-link/>
-      <van-cell title="发起人广告" icon="good-job-o"
-                link-type="navigateTo"
-                url="/pages/user_ads/user_ads"
-                is-link/>
+<!--      <van-cell title="发起人广告" icon="good-job-o"-->
+<!--                link-type="navigateTo"-->
+<!--                url="/pages/user_ads/user_ads"-->
+<!--                is-link/>-->
 <!--      <van-cell title="消息提醒" icon="envelop-o" is-link/>-->
-      <van-cell title="常见问题" icon="question-o"
-                link-type="navigateTo"
-                url="/pages/user_question/user_question"
-      is-link/>
+<!--      <van-cell title="常见问题" icon="question-o"-->
+<!--                link-type="navigateTo"-->
+<!--                url="/pages/user_question/user_question"-->
+<!--      is-link/>-->
     </van-cell-group>
   </view>
 
@@ -62,6 +62,6 @@
               url="/pages/user_approve/user_approve"
               is-link/>
     <van-cell title="提现审核" icon="award-o" is-link/>
-    <van-cell title="分成管理" icon="award-o" is-link/>
+<!--    <van-cell title="分成管理" icon="award-o" is-link/>-->
   </van-cell-group>
 </navigation-bar>

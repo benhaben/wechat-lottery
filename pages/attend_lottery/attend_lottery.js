@@ -265,8 +265,10 @@ Page({
     });
   },
   onShareAppMessage: function() {
+    this.setData({ overlay: false, showSharePopup: false });
+
     return {
-      title: `${app.getNickname()}邀请你参与[${this.data.nickname}]发起的抽奖`,
+      title: `${app.getNickname()}邀请你参与小米官方粉丝代表发起的抽奖`,
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery_id
       }&nickname=${app.getNickname()}`,

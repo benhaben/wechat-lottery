@@ -63,18 +63,18 @@
     </view>
   </view>
 
-  <view class="container__tag" wx:if="{{tag_items}}">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
-        发起人标签：
-      </view>
-    </view>
-    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
-      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
-        {{item}}
-      </view>
-    </view>
-  </view>
+<!--  <view class="container__tag" wx:if="{{tag_items}}">-->
+<!--    <view class="container__tag_bar">-->
+<!--      <view class="container__tag_title">-->
+<!--        发起人标签：-->
+<!--      </view>-->
+<!--    </view>-->
+<!--    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
+<!--      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
+<!--        {{item}}-->
+<!--      </view>-->
+<!--    </view>-->
+<!--  </view>-->
 
   <view class="container__tag" wx:if="{{desc_initiator}}">
     <view class="container__tag_bar">
@@ -167,7 +167,7 @@
 </view>
 
 
-<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup">
+<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup" overlay="{{overlay}}">
 
   <view class="popup">
     <view class="popup-item">

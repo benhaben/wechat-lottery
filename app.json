@@ -40,9 +40,6 @@
         "pagePath": "pages/home/home"
       },
       {
-        "pagePath": "pages/add_lottery/lottery_wrap"
-      },
-      {
         "pagePath": "pages/user/user"
       }
     ]

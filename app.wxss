@@ -96,7 +96,7 @@ view{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  height: 350rpx;
+  height: 400rpx;
   width: 100%;
   background-size: 750rpx 450rpx;
   background-repeat: no-repeat;

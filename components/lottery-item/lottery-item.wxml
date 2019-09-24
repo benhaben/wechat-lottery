@@ -52,14 +52,16 @@
       </view>
     </view>
 
-    <view class="info-row">
-      <view class="info__row_left">
-        <image src="{{lottery.avatar}}"></image>
-        <text>{{lottery.nickname}}</text>
-      </view>
-      <view class="info__row_right">
-        发起人
-      </view>
+    <view class="info-row text-center">
+      <text>小米官方商城赞助此次活动</text>
+
+<!--      <view class="info__row_left text-center">-->
+<!--        <image src="{{lottery.avatar}}"></image>-->
+<!--        <text>小米官方商城赞助此次活动</text>-->
+<!--      </view>-->
+<!--      <view class="info__row_right">-->
+<!--        发起人-->
+<!--      </view>-->
     </view>
   </view>
 </view>

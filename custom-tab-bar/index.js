@@ -13,11 +13,11 @@ Component({
         text: "首页",
         url: ROUTE.HOME
       },
-      {
-        icon: "point-gift-o",
-        text: "发起抽奖",
-        url: "/pages/add_lottery/lottery_wrap"
-      },
+      // {
+      //   icon: "point-gift-o",
+      //   text: "发起抽奖",
+      //   url: "/pages/add_lottery/lottery_wrap"
+      // },
       {
         icon: "setting-o",
         text: "我的",

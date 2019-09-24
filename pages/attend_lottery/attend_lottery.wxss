@@ -61,7 +61,7 @@
 }
 
 .container__tag_items {
-  background: lightgoldenrodyellow;
+  background: white;
   padding: 20rpx;
 }
 
