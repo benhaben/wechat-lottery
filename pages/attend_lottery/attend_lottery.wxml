@@ -87,9 +87,9 @@
     </view>
   </view>
 
-  <view class="container__tag" wx:if="{{pic_data}}">
+  <view class="container__tag" wx:if="{{pic_data.length}}">
     <view class="container__tag_bar">
-      发起人广告：
+      图文介绍：
     </view>
     <view class="">
       <x-richtext isReadOnly initList="{{pic_data}}"/>
@@ -143,15 +143,15 @@
     </view>
   </form>
 
-  <view class="add-lottery" bindtap="goToAddLottery">
-    我要发抽奖
-    <van-icon class="icon" name="arrow"/>
-  </view>
+<!--  <view class="add-lottery" bindtap="goToAddLottery">-->
+<!--    我要发抽奖-->
+<!--    <van-icon class="icon" name="arrow"/>-->
+<!--  </view>-->
 
   <view class="share" wx:if="{{status===2}}">
     <button class="share__btn" bindtap="onShare">分享</button>
     <view class="share__tips">
-      每邀请一个朋友参与，就可能获得更多运气值和奖励
+<!--      每邀请一个朋友参与，就可能获得更多运气值和奖励-->
     </view>
   </view>
 

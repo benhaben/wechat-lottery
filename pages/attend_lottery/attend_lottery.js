@@ -87,6 +87,7 @@ Page({
       this.setData({
         id: lottery.id,
         hash: lottery.id.substr(0, 10),
+        url: lottery.url,
         total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
         lucky_num: lottery.lucky_num,
         open_people_num: lottery.open_people_num,
@@ -268,7 +269,7 @@ Page({
     this.setData({ overlay: false, showSharePopup: false });
 
     return {
-      title: `${app.getNickname()}邀请你参与小米官方粉丝代表发起的抽奖`,
+      title: `${app.getNickname()}邀请你参与【好运码头官方粉丝代表】发起的抽奖`,
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery_id
       }&nickname=${app.getNickname()}`,

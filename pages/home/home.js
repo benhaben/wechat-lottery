@@ -138,7 +138,7 @@ Page({
     this.setData({ overlay: false, showSharePopup: false });
 
     return {
-      title: `${app.getNickname()}邀请你参与小米赞助的红包抽奖活动`,
+      title: `${app.getNickname()}邀请你参与【好运码头】赞助的红包抽奖活动`,
       path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,
       success: function(res) {
         console.log("成功", res);

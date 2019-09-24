@@ -53,7 +53,7 @@
     </view>
 
     <view class="info-row text-center">
-      <text>小米官方商城赞助此次活动</text>
+      <text>【好运码头】官方商城赞助此次活动</text>
 
 <!--      <view class="info__row_left text-center">-->
 <!--        <image src="{{lottery.avatar}}"></image>-->
