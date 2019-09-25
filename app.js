@@ -23,7 +23,7 @@ App({
   },
   hasAuth: function() {
     let user = store.getUserInfo();
-    return !!user.nickname;
+    return user.is_authorized;
   },
   getAvatar: function() {
     let user = store.getUserInfo();
@@ -55,7 +55,11 @@ App({
   },
   getBalance: function() {
     let user = store.getUserInfo();
-    return toFixed3(user.balance / CONST.BALANCE_TIMES);
+    if (!user) {
+      return 0;
+    } else {
+      return toFixed3(user.balance / CONST.BALANCE_TIMES);
+    }
   },
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);

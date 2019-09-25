@@ -355,9 +355,9 @@ Page({
   userInfoHandler(data) {
     let that = this;
     wx.BaaS.auth.loginWithWechat(data).then(
-      user => {
+      async user => {
         // user 包含用户完整信息，详见下方描述
-        app.getUserInfo(user.get("id"));
+        await app.getUserInfo(user.get("id"));
         that.setData({
           auth: app.hasAuth()
         });

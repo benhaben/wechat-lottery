@@ -32,13 +32,19 @@ view{
 .height220{height: 220rpx;}
 .width220{width: 220rpx;}
 .height250{height: 250rpx;}
+.height350{height: 350rpx;}
+.height450{height: 450rpx;}
+.width600{width: 600rpx;}
+.width650{width: 650rpx;}
 .padding30{padding: 30rpx;}
 .padding15-30{padding: 15rpx 30rpx;}
+.padding10-30{padding: 10rpx 30rpx;}
 .margin15-30{margin: 15rpx 30rpx}
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
 .border-red{border: 1rpx solid #E20F15}
+.border-gray{border: 1rpx solid gray; border-radius: 10rpx}
 .border-bottom{border-bottom: 1rpx solid lightgray}
 .text-center{text-align: center;}
 .text-break{word-break:break-all;word-wrap:break-word;}

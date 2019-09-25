@@ -24,12 +24,14 @@ Page({
     let that = this;
 
     let data = app.getTagItems();
-    for (let item of data) {
-      let tagsIndex = that.data.tags.indexOf(item);
-      that.data.flags[tagsIndex] = 1;
-      that.data.selected_tags.push(item);
+    if (data) {
+      for (let item of data) {
+        let tagsIndex = that.data.tags.indexOf(item);
+        that.data.flags[tagsIndex] = 1;
+        that.data.selected_tags.push(item);
+      }
+      that.setData(that.data);
     }
-    that.setData(that.data);
   },
 
   onUnSelect: function(e) {

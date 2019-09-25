@@ -83,11 +83,13 @@ Page({
         await dao.addInviter(inviter_uid, app.getUserId());
       }
 
-      await app.getUserInfo(app.getUserId());
-      this.setData({
-        lucky_num: app.getLuckyNum()
-      });
-
+      let user_id = app.getUserId();
+      if (user_id) {
+        await app.getUserInfo(app.getUserId());
+        this.setData({
+          lucky_num: app.getLuckyNum()
+        });
+      }
       await this.loadMore();
     } catch (e) {
       console.log(e);
@@ -119,7 +121,9 @@ Page({
   },
   onCloseSharePopup() {
     let that = this;
-    this.setData({ showSharePopup: false });
+    this.setData({
+      showSharePopup: false
+    });
     setTimeout(() => {
       that.getTabBar().show();
     }, 100);
@@ -131,11 +135,16 @@ Page({
     });
   },
   onShare: function(e) {
-    this.setData({ showSharePopup: true });
+    this.setData({
+      showSharePopup: true
+    });
     this.getTabBar().hide();
   },
   onShareAppMessage: function() {
-    this.setData({ overlay: false, showSharePopup: false });
+    this.setData({
+      overlay: false,
+      showSharePopup: false
+    });
 
     return {
       title: `${app.getNickname()}邀请你参与【好运码头】赞助的红包抽奖活动`,

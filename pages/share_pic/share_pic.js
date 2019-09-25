@@ -123,14 +123,14 @@ let posterConfig = {
       x: 59,
       y: 210,
       url:
-        "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i7auKEbZcA4F7rD.png"
+        "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCzPPGDITeALdRc.png"
     },
     {
-      url: "",
       width: 220,
       height: 220,
       x: 92,
-      y: 1020
+      y: 1020,
+      url: ""
     }
   ]
 };

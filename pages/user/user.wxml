@@ -1,9 +1,12 @@
 <navigation-bar title="我的" bindhome="handleHome">
 
   <view class="header height180 bg-white h-flex flex-align-center flex-justify-content-between">
-    <view class="h-flex flex-align-center">
+    <view class="h-flex flex-align-center" wx:if="{{!!nickname}}">
       <image class="big-avatar margin30" src="{{url}}"></image>
       <view class="nickname">{{nickname}}</view>
+    </view>
+    <view wx:else class="h-flex flex-align-center margin30" bindtap="onWantLogin">
+      未登录
     </view>
     <view class="margin30 color-red" bindtap="onGotoSign">
       运气值
@@ -16,10 +19,10 @@
       <view class="stats__value">{{total}}</view>
       <view class="stats__title">全部抽奖</view>
     </view>
-<!--    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">-->
-<!--      <view class="stats__value">{{send_num}}</view>-->
-<!--      <view class="stats__title">发起抽奖</view>-->
-<!--    </view>-->
+    <!--    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">-->
+    <!--      <view class="stats__value">{{send_num}}</view>-->
+    <!--      <view class="stats__title">发起抽奖</view>-->
+    <!--    </view>-->
     <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onGetLotteries">
       <view class="stats__value">{{get_num}}</view>
       <view class="stats__title">中奖记录</view>
@@ -28,31 +31,21 @@
 
   <view class="group margin30-bottom">
     <van-cell-group>
-      <van-cell title="现金余额" icon="cashier-o"
-                link-type="navigateTo"
-                url="/pages/user_balance/user_balance"
+      <van-cell title="{{item.title}}" icon="{{item.icon}}"
+                bind:click="onCellClick"
+                data-url="{{item.url}}"
+                wx:for="{{cells}}"
+                wx:key="{{index}}"
                 is-link/>
-      <van-cell title="粉丝列表" icon="friends-o"
-                link-type="navigateTo"
-                url="/pages/user_fans/user_fans"
-                is-link/>
-      <van-cell title="兴趣标签" icon="like-o"
-                link-type="navigateTo"
-                url="/pages/user_tags/user_tags"
-                is-link/>
-      <van-cell title="个人简介" icon="description"
-                link-type="navigateTo"
-                url="/pages/user_desc/user_desc"
-                is-link/>
-<!--      <van-cell title="发起人广告" icon="good-job-o"-->
-<!--                link-type="navigateTo"-->
-<!--                url="/pages/user_ads/user_ads"-->
-<!--                is-link/>-->
-<!--      <van-cell title="消息提醒" icon="envelop-o" is-link/>-->
-<!--      <van-cell title="常见问题" icon="question-o"-->
-<!--                link-type="navigateTo"-->
-<!--                url="/pages/user_question/user_question"-->
-<!--      is-link/>-->
+      <!--      <van-cell title="发起人广告" icon="good-job-o"-->
+      <!--                link-type="navigateTo"-->
+      <!--                url="/pages/user_ads/user_ads"-->
+      <!--                is-link/>-->
+      <!--      <van-cell title="消息提醒" icon="envelop-o" is-link/>-->
+      <!--      <van-cell title="常见问题" icon="question-o"-->
+      <!--                link-type="navigateTo"-->
+      <!--                url="/pages/user_question/user_question"-->
+      <!--      is-link/>-->
     </van-cell-group>
   </view>
 
@@ -62,6 +55,25 @@
               url="/pages/user_approve/user_approve"
               is-link/>
     <van-cell title="提现审核" icon="award-o" is-link/>
-<!--    <van-cell title="分成管理" icon="award-o" is-link/>-->
+    <!--    <van-cell title="分成管理" icon="award-o" is-link/>-->
   </van-cell-group>
 </navigation-bar>
+
+
+<van-popup show="{{ showLogin }}">
+    <form class="bottom" report-submit name="add_lottery" class="height450 width650 text-center h-flex flex-col flex-center">
+      <view class="h3 margin30">您还未登陆</view>
+      <view class="info-text margin30-bottom">相关操作设计到用户信息，请登陆后再试</view>
+      <button
+        class="margin30-bottom width600"
+        type="primary"
+        size="normal"
+        open-type="getUserInfo"
+        form-type="submit"
+        bindgetuserinfo="userInfoHandler">立即登陆
+      </button>
+
+      <view class="margin30-bottom border-gray padding15-30" bindtap="onClosePopup">暂不登录</view>
+    </form>
+
+</van-popup>

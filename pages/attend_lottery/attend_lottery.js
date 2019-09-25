@@ -229,9 +229,9 @@ Page({
   userInfoHandler(data) {
     let that = this;
     wx.BaaS.auth.loginWithWechat(data).then(
-      user => {
+      async user => {
         // user 包含用户完整信息，详见下方描述
-        app.getUserInfo(user.get("id"));
+        await app.getUserInfo(user.get("id"));
         that.setData({
           auth: app.hasAuth()
         });
@@ -247,10 +247,10 @@ Page({
     });
   },
   onCloseSharePopup() {
-    this.setData({ showSharePopup: false });
+    this.setData({ overlay: false, showSharePopup: false });
   },
   onShare: function(e) {
-    this.setData({ showSharePopup: true });
+    this.setData({ overlay: true, showSharePopup: true });
   },
   genPic: function(e) {
     let that = this;

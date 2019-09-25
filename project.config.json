@@ -2,7 +2,7 @@
 	"description": "好运码头",
 	"compileType": "miniprogram",
 	"appid": "wxb7fb2c1219817db3",
-	"projectname": "my-candy",
+	"projectname": "wechat-money-lottery",
 	"simulatorType": "wechat",
 	"setting": {
 		"urlCheck": true,
