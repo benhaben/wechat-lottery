@@ -1,8 +1,4 @@
 /**app.wxss**/
-/**
-*参考bootstrap自行编写自己常用的一些公用样式文件
-*其中带有boy和girl是用于男女不同主题的切换使用
-**/
 
 page{
   width: 100%;
@@ -11,7 +7,7 @@ page{
   margin: 0px;
   color: #323233;
   background-color: #f0f0f0;
-  font-size: 35rpx;
+  font-size: 28rpx;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 view{
@@ -23,7 +19,8 @@ view{
 .h2{font-size: 50rpx;}
 .h3{font-size: 45rpx;}
 .h4{font-size: 40rpx;}
-.small-text{font-size: 30rpx;}
+.h5{font-size: 35rpx;}
+.h6{font-size: 30rpx;}
 .info-text{font-size: 25rpx;color: #8a8a8a;}
 .height80{height: 80rpx;}
 .height120{height: 120rpx;}

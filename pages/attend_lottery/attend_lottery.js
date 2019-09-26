@@ -105,7 +105,7 @@ Page({
         open_date: lottery.open_date,
         hasAttended,
         admin,
-        dudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+        fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
         status: lottery.status,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(

@@ -79,7 +79,7 @@ Page({
         id: lottery.id,
         hash: lottery.id.substr(0, 10),
         total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
-        dudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+        fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
         get_balance:
           result.lottery_result === 1
             ? toFixed3(result.balance / CONST.MONEY_UNIT)

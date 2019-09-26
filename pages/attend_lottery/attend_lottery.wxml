@@ -8,83 +8,80 @@
     </view>
   </view>
 </view>
-
-
-<view class="info">
-
-  <view wx:if="{{lottery_type===1}}" class="info-row">
-    <view class="info__row_left">
-      <view class="info__row_title">
-        奖品名称：
-      </view>
-      <view class="info__row_value">
-        {{product_name}}
-      </view>
+<view wx:if="{{lottery_type===1}}" class="info-row">
+  <view class="info__row_left">
+    <view class="info__row_title">
+      奖品名称：
     </view>
-
-    <view class="info__row_right">
-      <view class="info__row_value">
-        {{product_num}} 个
-      </view>
-      <view class="info__row_title">
-        奖品数目：
-      </view>
-
+    <view class="info__row_value">
+      {{product_name}}
     </view>
   </view>
 
-  <view wx:else class="info-row">
-    <view class="info__row_left">
-      <view class="info__row_title">
-        总奖：
-      </view>
-      <view class="info__row_value">
-        {{total}}
-      </view>
+  <view class="info__row_right">
+    <view class="info__row_value">
+      {{product_num}} 个
+    </view>
+    <view class="info__row_title">
+      奖品数目：
     </view>
 
-    <view class="info__row_right">
-      <view class="info__row_value">
-        {{dudai_num}} 个
-      </view>
-      <view class="info__row_title">
-        福袋：
-      </view>
+  </view>
+</view>
 
+<view wx:else class="info-row">
+  <view class="info__row_left">
+    <view class="info__row_title">
+      总奖：
+    </view>
+    <view class="info__row_value">
+      {{total}}
     </view>
   </view>
 
-  <view class="info-row">
-    <view class="info__row_left">
-      <view class="info__row_title">
-        倒计时：
-      </view>
-      <view class="info__row_value">
-        {{countdownStr}}
-      </view>
+  <view class="info__row_right">
+    <view class="info__row_value">
+      {{fudai_num}} 个
+    </view>
+    <view class="info__row_title">
+      福袋：
     </view>
 
-    <view class="info__row_right">
-      <view class="info__row_value">
-        {{open_people_num}} 人
-      </view>
-      <view class="info__row_title">
-        开奖人数：
-      </view>
+  </view>
+</view>
 
+<view class="info-row">
+  <view class="info__row_left">
+    <view class="info__row_title">
+      倒计时：
+    </view>
+    <view class="info__row_value">
+      {{countdownStr}}
     </view>
   </view>
 
-  <view class="info-row margin30-bottom info-text">
-    <view class="info__row_left">
-      <image class="avatar margin30-right" src="{{avatar}}"></image>
-      <text>发起人：{{nickname}}</text>
+  <view class="info__row_right">
+    <view class="info__row_value">
+      {{open_people_num}} 人
     </view>
-    <view class="info__row_right" wx:if="{{sponsor}}">
-      <text >赞助商：{{sponsor}}</text>
+    <view class="info__row_title">
+      开奖人数：
     </view>
-  </view>
 
+  </view>
+</view>
+
+<view class="info-row margin30-bottom info-text">
+  <view class="info__row_left">
+    <image class="avatar margin30-right" src="{{avatar}}"></image>
+    <text>发起人：{{nickname}}</text>
+  </view>
+  <view class="info__row_right" wx:if="{{sponsor}}">
+    <text >赞助商：{{sponsor}}</text>
+  </view>
+</view>
+
+<view>
   <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{desc_initiator}}">
     <view class="container__tag_bar">
       <view class="container__tag_title">

@@ -21,7 +21,7 @@
 
 
   <view class="container">
-    <lottery-item class="container__lottery-item" bindtap="onLotteryItem" wx:for="{{lotteries}}" wx:key="{{index}}"
+    <lottery-item class="margin30-bottom" bindtap="onLotteryItem" wx:for="{{lotteries}}" wx:key="{{index}}"
                   lottery="{{item}}"></lottery-item>
   </view>
 

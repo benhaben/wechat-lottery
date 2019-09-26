@@ -4,7 +4,7 @@
       <view class="left flex-basis40">
         <image mode="aspectFit" class="height220 width220" src="{{item.url}}"></image>
       </view>
-      <view class="right small-text flex-basis60">
+      <view class="right h6 flex-basis60">
         <view>编号：{{item.hash}}</view>
         <view>总奖：{{item.total}}</view>
         <view wx:if="{{item.status===0}}">状态：等待支付</view>

@@ -25,7 +25,7 @@
 
       <view class="info__row_right">
         <view class="info__row_value">
-          {{dudai_num}} 个
+          {{fudai_num}} 个
         </view>
         <view class="info__row_title">
           福袋：

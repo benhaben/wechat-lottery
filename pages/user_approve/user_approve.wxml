@@ -1,3 +1,5 @@
+<import src="../../templates/simple_list_item/simple_list_item.wxml"/>
+
 <van-search
   value="{{ search_data }}"
   placeholder="请输入昵称/抽奖编号搜索"
@@ -5,29 +7,14 @@
   bind:search="onSearch"
   bind:cancel="onCancel"
 />
-<van-tabs bind:change="onChange" wx:if="{{showTab}}">
+<van-tabs wx:if="{{showTab}}" bind:change="onChange">
   <van-tab title="待审核">
     <view>
       <view
         class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
         wx:for="{{waitApprovalList}}"
         wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <view class="left flex-basis40">
-          <image mode="aspectFit" class="height220 width220" src="{{item.url}}"></image>
-        </view>
-        <view class="right small-text flex-basis60">
-          <view wx:if="{{item.lottery_type===0}}">红包抽奖</view>
-          <view wx:else>实物抽奖</view>
-          <view>编号：{{item.hash}}</view>
-          <view wx:if="{{item.lottery_type===0}}">总奖：{{item.total}}</view>
-          <view wx:else>奖品：【{{item.product_name}}】{{item.product_num}}个</view>
-          <view wx:if="{{item.status===0}}">状态：等待支付</view>
-          <view wx:elif="{{item.status===1}}">状态：等待审批</view>
-          <view wx:elif="{{item.status===2}}">状态：等待开奖</view>
-          <view wx:elif="{{item.status===-1}}">状态：审批驳回</view>
-          <view wx:else>状态：已经开奖</view>
-          <view wx:if="{{item.status===2}}">倒计时：{{item.countdownStr}}</view>
-        </view>
+        <template is="simple_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreWaitApprovalList">
         <view class="bottom__info">
@@ -38,15 +25,11 @@
   </van-tab>
   <van-tab title="已通过">
     <view>
-      <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{approvalList}}"
-            wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <view class="item">
-          <view>{{item.id}}</view>
-          <view>昵称：{{item.nickname}}</view>
-          <view wx:if="{{item.lottery_type===0}}">总奖：{{item.total}}</view>
-          <view wx:else>奖品：【{{item.product_name}}】{{item.product_num}}个</view>
-          <view>倒计时：{{item.countdownStr}}</view>
-        </view>
+      <view
+        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        wx:for="{{approvalList}}"
+        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+        <template is="simple_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreApprovalList">
         <view class="bottom__info">
@@ -57,15 +40,11 @@
   </van-tab>
   <van-tab title="已驳回">
     <view>
-      <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{rejectList}}"
-            wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <view class="item">
-          <view>{{item.id}}</view>
-          <view>昵称：{{item.nickname}}</view>
-          <view wx:if="{{item.lottery_type===0}}">总奖：{{item.total}}</view>
-          <view wx:else>奖品：【{{item.product_name}}】{{item.product_num}}个</view>
-          <view>倒计时：{{item.countdownStr}}</view>
-        </view>
+      <view
+        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        wx:for="{{rejectList}}"
+        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
+        <template is="simple_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreRejectList">
         <view class="bottom__info">
@@ -89,5 +68,4 @@
   </view>
 </view>
 <van-toast id="van-toast"/>
-
 

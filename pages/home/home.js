@@ -36,7 +36,7 @@ Page({
         lottery.hash = lottery.id.substr(0, 10);
         lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
         lottery.countdownStr = countDown(lottery.open_date);
-        lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
+        lottery.fudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
         return lottery;
       });
       this.setData({
@@ -61,7 +61,7 @@ Page({
       lottery.hash = lottery.id.substr(0, 10);
       lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
-      lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
+      lottery.fudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
       return lottery;
     });
     this.setData({

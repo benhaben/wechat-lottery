@@ -24,7 +24,6 @@
   align-self: flex-end;
   margin-left: 20rpx;
   margin-right: 20rpx;
-  font-size: 30rpx;
   color: gray;
 }
 
@@ -101,12 +100,3 @@
 .container__ad-rich{
   margin: 20rpx;
 }
-
-/* TODO: 可以全部重命名为title */
-.container__desc-title,
-.container__tag_title,
-.container__total-prize-title,
-.container__ad-title {
-  font-size: 35rpx;
-}
-

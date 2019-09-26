@@ -18,6 +18,7 @@ Page({
    */
   data: {
     create: true,
+    status: 0,
     id: null,
     error_product_name: true,
     error_product_num: true,
@@ -25,7 +26,6 @@ Page({
     product_name: null,
     product_num: null,
     url: CONST.DEFAULT_URL,
-    default_open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
     open_people_num:
       CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
     slide_open_people_num:

@@ -45,8 +45,7 @@
         input-align="right"
         error="{{error_product_num}}"
       />
-      <van-cell wx:if="create" title="开奖人数" value="默认{{default_open_people_num}}人"/>
-      <van-cell wx:else title="开奖人数" value="{{open_people_num}}人"/>
+      <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num * 10000}}人"/>
 
     </van-cell-group>
   </view>
