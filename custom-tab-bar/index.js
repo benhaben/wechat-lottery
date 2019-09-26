@@ -13,11 +13,11 @@ Component({
         text: "首页",
         url: ROUTE.HOME
       },
-      // {
-      //   icon: "point-gift-o",
-      //   text: "发起抽奖",
-      //   url: "/pages/add_lottery/lottery_wrap"
-      // },
+      {
+        icon: "point-gift-o",
+        text: "发起实物抽奖",
+        url: "/pages/add_product_lottery/lottery_wrap"
+      },
       {
         icon: "setting-o",
         text: "我的",
@@ -45,10 +45,11 @@ Component({
         active: event.detail
       });
       if (
-        this.data.list[event.detail].url === "/pages/add_lottery/lottery_wrap"
+        this.data.list[event.detail].url ===
+        "/pages/add_product_lottery/lottery_wrap"
       ) {
         wx.navigateTo({
-          url: ROUTE.ADD_LOTTERY
+          url: ROUTE.ADD_PRODUCT_LOTTERY
         });
       } else {
         wx.switchTab({

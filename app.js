@@ -51,7 +51,7 @@ App({
   },
   getAdsData: function() {
     let user = store.getUserInfo();
-    return user.pic_data;
+    return user.pic_data ? user.pic_data : [];
   },
   getBalance: function() {
     let user = store.getUserInfo();

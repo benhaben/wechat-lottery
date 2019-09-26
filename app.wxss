@@ -9,7 +9,7 @@ page{
   height: 100%;
   padding: 0px;
   margin: 0px;
-  color: rgb(22,22,22);
+  color: #323233;
   background-color: #f0f0f0;
   font-size: 35rpx;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
@@ -43,7 +43,7 @@ view{
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
-.border-red{border: 1rpx solid #E20F15}
+.border-red{border: 1rpx solid #EB132D}
 .border-gray{border: 1rpx solid gray; border-radius: 10rpx}
 .border-bottom{border-bottom: 1rpx solid lightgray}
 .text-center{text-align: center;}
@@ -77,9 +77,9 @@ view{
 .bg-white{background-color: white;}
 .bg-base {background-color: #f0f0f0;}
 .bg-gray {background-color: #8a8a8a;}
-.bg-red {background-color: #E20F15;}
+.bg-red {background-color: #EB132D;}
 .color-gray{color:#8a8a8a;}
-.color-red{color: #E20F15;}
+.color-red{color: #EB132D;}
 .color-white{color: white;}
 .img-s-4{
   width: 2.5rem;

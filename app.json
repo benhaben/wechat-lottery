@@ -3,7 +3,7 @@
     "pages/home/home",
     "pages/attend_lottery/attend_lottery",
     "pages/add_lottery/add_lottery",
-    "pages/add_lottery/lottery_wrap",
+    "pages/add_product_lottery/lottery_wrap",
     "pages/tags/tags",
     "pages/pic_details/details",
     "pages/user/user",
@@ -23,7 +23,8 @@
     "pages/user_approve/user_approve",
     "pages/user_all_lotteries/user_all_lotteries",
     "pages/user_send_lotteries/user_send_lotteries",
-    "pages/user_get_lotteries/user_get_lotteries"
+    "pages/user_get_lotteries/user_get_lotteries",
+    "pages/add_product_lottery/add_product_lottery"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -38,6 +39,9 @@
     "list": [
       {
         "pagePath": "pages/home/home"
+      },
+      {
+        "pagePath": "pages/add_product_lottery/lottery_wrap"
       },
       {
         "pagePath": "pages/user/user"
@@ -69,7 +73,8 @@
     "van-progress": "lib/van/progress/index",
     "poster": "/components/poster-gen-canvas/poster/index",
     "lottery-item": "/components/lottery-item/lottery-item",
-    "van-action-sheet": "lib/van/action-sheet/index"
+    "van-action-sheet": "lib/van/action-sheet/index",
+    "van-slider": "lib/van/slider/index"
   },
   "sitemapLocation": "sitemap.json"
 }

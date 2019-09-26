@@ -1,3 +1,4 @@
+// pages/add_product_lottery/add_product_lottery.js
 import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
@@ -7,32 +8,30 @@ import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 
 const { regeneratorRuntime } = global;
-
-//获取应用实例
 const app = getApp();
 
+// TODO：BaaS.wxCensorText
+
 Page({
+  /**
+   * 页面的初始数据
+   */
   data: {
     create: true,
     id: null,
+    error_product_name: true,
+    error_product_num: true,
+    product_name: null,
+    product_num: null,
     url: CONST.DEFAULT_URL,
-    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES), //默认第一个 9.9
-    lucky_num: toFixed1(
-      new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES).times(
-        CONST.LUCKY_RATIO_OPEN
-      )
-    ), // 开奖奖励的运气值，触发器使用
-    prize_list: CONST.LOTTERY_PRIZE_LIST.map(
-      item => item / CONST.BALANCE_TIMES
-    ),
-    prize_colors: CONST.PRIZE_COLORS,
-    prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
-    plan_index: 0,
-    plans: CONST.PLANS,
-    lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES) * 10, // 每个人的奖励运气值
-    show_plan: false,
-    open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
-    tag_items: app.getTagItems(),
+    default_open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
+    open_people_num:
+      CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM /
+      CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO,
+    slide_open_people_num: CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM,
+    ad_fee:
+      CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM /
+      CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO,
     desc_checked: !!app.getDesc(),
     desc_initiator: app.getDesc(),
     ad_checked: app.getAdsData().length > 0,
@@ -40,6 +39,10 @@ Page({
     auth: false,
     loading: false
   },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
   onLoad: async function(options) {
     try {
       let that = this;
@@ -52,18 +55,15 @@ Page({
         let lottery = ret.data;
         that.setData({
           create: false,
+          product_name: lottery.product_name,
+          product_num: lottery.product_num,
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
-          total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
-          lucky_num: lottery.lucky_num,
           open_people_num: lottery.open_people_num,
-          plan_index: lottery.plan_index,
-          lucky_num_per: lottery.lucky_num_per,
-          tag_items: lottery.tag_items,
           desc_checked: !!lottery.desc_initiator,
           desc_initiator: lottery.desc_initiator,
-          ad_checked: lottery.pic_data && lottery.pic_data > 0,
+          ad_checked: lottery.pic_data && lottery.pic_data.length > 0,
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
           status: lottery.status
@@ -80,81 +80,28 @@ Page({
       console.log(e);
     }
   },
-  onPlanSelect: function() {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    this.setData({
-      show_plan: true
-    });
-  },
-  onClosePlan: function() {
-    this.setData({
-      show_plan: false
-    });
-  },
-  onPlanChange: function(event) {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    const { picker, value, index } = event.detail;
-    console.log(`当前值：${value}, 当前索引：${index}`);
 
+  onOpenPeopleDrag(event) {
+    let res = event.detail.value / CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO;
     this.setData({
-      plan_index: index
+      slide_open_people_num: event.detail.value,
+      open_people_num: res,
+      ad_fee: res
     });
   },
-  onSelectTag: function(e) {
-    let that = this;
-    wx.navigateTo({
-      url: ROUTE.TAGS,
-      events: {
-        [ROUTE_DATA.BACK_TAGS_TO_ADD_LOTTERY]: function(e) {
-          if (e && e.data) {
-            that.setData({
-              tag_items: e.data
-            });
-          }
-        }
-      },
-      success: function(res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit(
-          ROUTE_DATA.FROM_ADD_LOTTERY_TO_TAGS,
-          that.data.tag_items
-        );
-      }
-    });
-  },
-  onSelectPrize: function(e) {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    var index = e.currentTarget.dataset.index;
-    for (let i in this.data.prize_colors) {
-      this.data.prize_colors[i] = 0;
-    }
-    this.data.prize_colors[index] = 1;
-    this.data.total_prize = toFixed1(
-      CONST.LOTTERY_PRIZE_LIST[index] / CONST.BALANCE_TIMES
-    );
-    this.data.lucky_num = toFixed1(
-      new Big(this.data.total_prize).times(CONST.LUCKY_RATIO_OPEN)
-    );
-    this.data.open_people_num = CONST.LOTTERY_NUM_PEOPLE[index];
-    this.data.lucky_num_per =
-      this.data.total_prize * CONST.LUCKY_RATIO_FUDAI_PACKAGE;
 
-    this.setData(this.data);
+  onProductNameChange(event) {
+    this.setData({
+      product_name: event.detail,
+      error_product_name: false
+    });
+  },
+
+  onProductNumChange(event) {
+    this.setData({
+      product_num: event.detail,
+      error_product_num: false
+    });
   },
   addDetails: function(event) {
     let that = this;
@@ -258,6 +205,15 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
+      debugger;
+      if (!(this.data.product_name && this.data.product_num)) {
+        Toast.fail("请输入奖品名称和数目");
+        this.setData({
+          error_product_name: !!this.data.product_name,
+          error_product_num: !!this.data.product_num
+        });
+        return;
+      }
       this.setData({
         loading: true
       });
@@ -267,16 +223,14 @@ Page({
         url: this.data.url,
         open_date: openDateTimeStamp(),
         pic_data: this.data.pic_data,
-        total_prize: Number(this.data.total_prize) * CONST.BALANCE_TIMES,
-        lucky_num: Number(this.data.lucky_num),
-        lucky_num_per: Number(this.data.lucky_num_per),
-        plan_index: this.data.plan_index,
-        plan: this.data.plans[this.data.plan_index],
-        open_people_num: this.data.open_people_num,
-        tag_items: this.data.tag_items,
+        open_people_num:
+          this.data.open_people_num * CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
-        nickname: app.getNickname()
+        nickname: app.getNickname(),
+        product_name: this.data.product_name,
+        product_num: this.data.product_num,
+        lottery_type: 1
       });
 
       // 用户可能取消支付，产生一个未支付订单
@@ -286,6 +240,7 @@ Page({
 
       wx.navigateBack();
     } catch (err) {
+      console.log(err);
       this.setData({
         loading: false
       });
@@ -303,52 +258,6 @@ Page({
 
     return wx.BaaS.pay(params);
   },
-  onPay: async function(event) {
-    try {
-      this.setData({
-        loading: true
-      });
-      const formId = event.detail.formId;
-      if (formId) {
-        wx.BaaS.wxReportTicket(formId);
-        console.log(`event.detail.formId - ${event.detail.formId}`);
-      }
-      await this.pay(this.data, 0.01);
-      this.setData({
-        loading: false
-      });
-      wx.navigateBack();
-    } catch (err) {
-      console.log(err);
-      this.setData({ loading: false });
-      Toast.fail("支付失败");
-    }
-  },
-  onUpdate: async function(event) {
-    try {
-      const formId = event.detail.formId;
-      if (formId) {
-        wx.BaaS.wxReportTicket(formId);
-        console.log(`event.detail.formId - ${event.detail.formId}`);
-      }
-
-      this.setData({ loading: true });
-      // 只能修改宣传信息
-      let lottery = await dao.updateLottery({
-        id: this.data.id,
-        pic_data: this.data.pic_data,
-        tag_items: this.data.tag_items,
-        desc_initiator: this.data.desc_initiator
-      });
-
-      this.setData({ loading: false });
-      Toast.success("更新成功");
-      wx.navigateBack();
-    } catch (err) {
-      this.setData({ loading: false });
-      Toast.fail("更新失败");
-    }
-  },
   userInfoHandler(data) {
     let that = this;
     wx.BaaS.auth.loginWithWechat(data).then(
@@ -361,5 +270,9 @@ Page({
       },
       err => {}
     );
-  }
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {}
 });

@@ -5,6 +5,7 @@ export const ROUTE = {
   PIC_DETAILS: "/pages/pic_details/details",
   TAGS: "/pages/tags/tags",
   ADD_LOTTERY: "/pages/add_lottery/add_lottery",
+  ADD_PRODUCT_LOTTERY: "/pages/add_product_lottery/add_product_lottery",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
   USER: "/pages/user/user",
   USER_LUCKY: "/pages/user_lucky/user_lucky",
@@ -87,6 +88,10 @@ export const PAGE_SIZE = 10;
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 //
 export const CONST = {
+  PRODUCT_LOTTERY_PEOPLE_UNIT: 10000, // 开奖人数为5，则是5w人
+  PRODUCT_LOTTERY_FEE_PEOPLE_RATIO: 10, // 推广人数silder为50，5w人，收费5块，50/PRODUCT_LOTTERY_FEE_PEOPLE_RATIO
+  PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM: 50, // 滑条默认的开奖人数，50 实际上是 5w 人，
+  DEFAULT_OPEN_PEOPLE_NUM: 1000, // 默认的开奖人数
   BALANCE_TIMES: 1000, // 余额用整数表示，需要除以1000
   WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1
   APPROVED: 2, // 审批通过，只能从1到2
@@ -100,7 +105,7 @@ export const CONST = {
   ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重
   GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
   DEFAULT_URL:
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1i9fpj58fLEqdfsG.png",
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCf5gwsXZOPr2uG.png",
   LOTTERY_PRIZE_LIST: [9900, 16800, 33300, 51800, 66600, 86800, 88800, 99900], // 红包金额
   LOTTERY_NUM_PEOPLE: [1000, 1500, 3500, 5000, 6000, 8000, 8000, 9000], // 开奖人数
   PRIZE_COLORS: [1, 0, 0, 0, 0, 0, 0, 0], // 选择价格界面颜色相关
