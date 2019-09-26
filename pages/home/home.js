@@ -34,7 +34,7 @@ Page({
 
       let add = lotteries.data.objects.map(lottery => {
         lottery.hash = lottery.id.substr(0, 10);
-        lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
+        lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
         lottery.countdownStr = countDown(lottery.open_date);
         lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
         return lottery;
@@ -59,7 +59,7 @@ Page({
 
     let add = lotteries.data.objects.map(lottery => {
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       lottery.dudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
       return lottery;

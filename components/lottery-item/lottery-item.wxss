@@ -1,23 +1,4 @@
 
-.container__select-image {
-  height: 70rpx;
-  line-height: 60rpx;
-  width: 250rpx;
-  margin: 12rpx;
-  background: black;
-  opacity: 0.7;
-  color: white;
-  font-size: 30rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container__select-image-icon {
-  color: red;
-  height: 50rpx;
-  width: 50rpx;
-}
 
 .info-row {
   display: flex;

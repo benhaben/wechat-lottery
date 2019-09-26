@@ -2,6 +2,7 @@
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
+import { countDown } from "../../utils/function";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -23,6 +24,7 @@ Page({
     open_people_num: 0,
     avatar: "",
     nickname: "",
+    sponsor: null,
     tag_items: CONST.DEFAULT_TAG_ITEMS,
     desc_initiator: "",
     weight: 0,
@@ -88,11 +90,15 @@ Page({
         id: lottery.id,
         hash: lottery.id.substr(0, 10),
         url: lottery.url,
-        total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
+        total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
         lucky_num: lottery.lucky_num,
         open_people_num: lottery.open_people_num,
         avatar: lottery.avatar,
         nickname: lottery.nickname,
+        sponsor: lottery.sponsor,
+        product_name: lottery.product_name,
+        product_num: lottery.product_num,
+        lottery_type: lottery.lottery_type,
         tag_items: lottery.tag_items,
         desc_initiator: lottery.desc_initiator,
         pic_data: lottery.pic_data,
@@ -104,61 +110,11 @@ Page({
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
           item => item.avatar_cache
-        )
+        ),
+        countdownStr: countDown(lottery.open_date)
       });
-      this.countDown();
     } catch (e) {
       console.log(e);
-    }
-  },
-
-  countDown: function() {
-    let that = this;
-    startclock();
-    let timerID = null;
-    let timerRunning = false;
-
-    function stopclock() {
-      if (timerRunning) clearTimeout(timerID);
-      timerRunning = false;
-    }
-
-    function startclock() {
-      stopclock();
-      show_time();
-    }
-
-    function show_time() {
-      let open_date = that.data.open_date;
-      let time_end = Math.round(Date.parse(open_date) / 1000);
-      let time_now = Math.round(new Date() / 1000);
-      let time_distance = time_end - time_now;
-
-      if (time_distance > 0) {
-        let int_day = Math.floor(time_distance / (60 * 60 * 24));
-        let int_hour = Math.floor(time_distance / (60 * 60)) - int_day * 24;
-        let int_minute =
-          Math.floor(time_distance / 60) - int_day * 24 * 60 - int_hour * 60;
-        let int_second =
-          Math.floor(time_distance) -
-          int_day * 24 * 60 * 60 -
-          int_hour * 60 * 60 -
-          int_minute * 60;
-        if (int_hour < 10) int_hour = "0" + int_hour;
-        if (int_minute < 10) int_minute = "0" + int_minute;
-        if (int_second < 10) int_second = "0" + int_second;
-        let str_time = int_hour + "小时" + int_minute + "分钟";
-        that.setData({
-          countdownStr: str_time
-        });
-        timerID = setTimeout(show_time, 1000 * 60);
-        timerRunning = true;
-      } else {
-        that.setData({
-          countdownStr: "已过期"
-        });
-        clearTimeout(timerID);
-      }
     }
   },
 

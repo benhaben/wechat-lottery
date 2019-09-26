@@ -19,10 +19,10 @@
       <view class="stats__value">{{total}}</view>
       <view class="stats__title">全部抽奖</view>
     </view>
-    <!--    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">-->
-    <!--      <view class="stats__value">{{send_num}}</view>-->
-    <!--      <view class="stats__title">发起抽奖</view>-->
-    <!--    </view>-->
+    <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">
+      <view class="stats__value">{{send_num}}</view>
+      <view class="stats__title">发起抽奖</view>
+    </view>
     <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onGetLotteries">
       <view class="stats__value">{{get_num}}</view>
       <view class="stats__title">中奖记录</view>

@@ -54,10 +54,10 @@ export default async function checkLotteryStatusOpen(event, callback) {
           let index_hongbao = config.plans_lottery_package[lottery.plan_index];
           let seed_hongbao = LUCKY_SEED_HONGBAO.slice(0, index_hongbao);
 
-          // 每个人中奖的金额，是总奖金额除以 HONHBAO_RATIO，使用 BALANCE_TIMES 是因为乘以 BALANCE_TIMES 保存为integer
+          // 每个人中奖的金额，是总奖金额除以 HONHBAO_RATIO，使用 MONEY_UNIT 是因为乘以 MONEY_UNIT 保存为integer
           let price_per =
-            (lottery.total_prize / CONST.BALANCE_TIMES / CONST.HONHBAO_RATIO) *
-            CONST.BALANCE_TIMES;
+            (lottery.total_prize / CONST.MONEY_UNIT / CONST.HONHBAO_RATIO) *
+            CONST.MONEY_UNIT;
 
           console.log(
             `checkLotteryStatus 4 - 开奖红包 - index_hongbao: ${index_hongbao} - price_per: ${price_per} - seed_hongbao: ${seed_hongbao} `

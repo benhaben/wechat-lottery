@@ -21,17 +21,17 @@ Page({
     id: null,
     error_product_name: true,
     error_product_num: true,
+    sponsor: null,
     product_name: null,
     product_num: null,
     url: CONST.DEFAULT_URL,
     default_open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
     open_people_num:
-      CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM /
-      CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO,
-    slide_open_people_num: CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM,
-    ad_fee:
-      CONST.PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM /
-      CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO,
+      CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
+    slide_open_people_num:
+      CONST.DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
+    total_prize:
+      CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT, //一万人一块钱
     desc_checked: !!app.getDesc(),
     desc_initiator: app.getDesc(),
     ad_checked: app.getAdsData().length > 0,
@@ -56,11 +56,17 @@ Page({
         that.setData({
           create: false,
           product_name: lottery.product_name,
+          error_product_name: !lottery.product_name,
           product_num: lottery.product_num,
+          error_product_num: !lottery.product_num,
+          sponsor: lottery.sponsor,
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
-          open_people_num: lottery.open_people_num,
+          open_people_num:
+            lottery.open_people_num / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
+          slide_open_people_num:
+            lottery.open_people_num / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
           desc_checked: !!lottery.desc_initiator,
           desc_initiator: lottery.desc_initiator,
           ad_checked: lottery.pic_data && lottery.pic_data.length > 0,
@@ -82,11 +88,18 @@ Page({
   },
 
   onOpenPeopleDrag(event) {
-    let res = event.detail.value / CONST.PRODUCT_LOTTERY_FEE_PEOPLE_RATIO;
+    // 滑块是10~100之间 ~ 1w人到10w人
+    let res = event.detail.value / 10;
     this.setData({
       slide_open_people_num: event.detail.value,
       open_people_num: res,
-      ad_fee: res
+      total_prize: res
+    });
+  },
+
+  onSponsorChange(event) {
+    this.setData({
+      sponsor: event.detail
     });
   },
 
@@ -205,18 +218,19 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
-      debugger;
       if (!(this.data.product_name && this.data.product_num)) {
         Toast.fail("请输入奖品名称和数目");
         this.setData({
-          error_product_name: !!this.data.product_name,
-          error_product_num: !!this.data.product_num
+          error_product_name: !this.data.product_name,
+          error_product_num: !this.data.product_num
         });
         return;
       }
       this.setData({
         loading: true
       });
+
+      let totalCost = this.data.total_prize;
 
       // （创建抽奖，创建订单）-> 支付，
       let lottery = await dao.createLottery({
@@ -230,10 +244,12 @@ Page({
         nickname: app.getNickname(),
         product_name: this.data.product_name,
         product_num: this.data.product_num,
-        lottery_type: 1
+        lottery_type: 1,
+        sponsor: this.data.sponsor,
+        total_prize: this.data.total_prize * CONST.MONEY_UNIT
       });
 
-      // 用户可能取消支付，产生一个未支付订单
+      // 用户可能取消支付，产生一个未支付订单 TODO: totalCost
       await this.pay(lottery, 0.01);
 
       this.setData({ loading: false });
@@ -248,7 +264,6 @@ Page({
   },
   async pay(lottery, cost) {
     const params = {
-      // totalCost: add_lottery.total_prize,
       totalCost: 0.01,
       merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
       merchandiseSchemaID: TABLE_ID.LOTTERY,
@@ -257,6 +272,63 @@ Page({
     };
 
     return wx.BaaS.pay(params);
+  },
+  onPay: async function(event) {
+    try {
+      this.setData({
+        loading: true
+      });
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
+      await this.pay(this.data, 0.01);
+      this.setData({
+        loading: false
+      });
+      wx.navigateBack();
+    } catch (err) {
+      console.log(err);
+      this.setData({ loading: false });
+      Toast.fail("支付失败");
+    }
+  },
+  onUpdate: async function(event) {
+    try {
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
+
+      if (!(this.data.product_name && this.data.product_num)) {
+        Toast.fail("请输入奖品名称和数目");
+        this.setData({
+          error_product_name: !this.data.product_name,
+          error_product_num: !this.data.product_num
+        });
+        return;
+      }
+      this.setData({ loading: true });
+      // 只能修改宣传信息
+      let lottery = await dao.updateLottery({
+        id: this.data.id,
+        product_num: this.data.product_num,
+        product_name: this.data.product_name,
+        sponsor: this.data.sponsor,
+        pic_data: this.data.pic_data,
+        tag_items: this.data.tag_items,
+        desc_initiator: this.data.desc_initiator
+      });
+
+      this.setData({ loading: false });
+      Toast.success("更新成功");
+      wx.navigateBack();
+    } catch (err) {
+      this.setData({ loading: false });
+      Toast.fail("更新失败");
+    }
   },
   userInfoHandler(data) {
     let that = this;

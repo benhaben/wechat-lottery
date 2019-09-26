@@ -1,8 +1,8 @@
 <navigation-bar bindhome="handleHome" title="恭喜中奖">
 
   <view class="container__image" style="background-image: url('{{url}}')">
-    <view class="container__select-image">
-      <view class="container__select-image-icon">
+    <view class="container__hash">
+      <view class="container__hash-image-icon">
         <van-icon size="35rpx" name="gift"/>
       </view>
       <view>
@@ -144,18 +144,18 @@
 
   <view class="ad" wx:else>
 
-    <view class="container__tag" wx:if="{{tag_items}}">
-      <view class="container__tag_bar">
-        <view class="container__tag_title">
-          发起人标签：
-        </view>
-      </view>
-      <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
-        <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
-          {{item}}
-        </view>
-      </view>
-    </view>
+<!--    <view class="container__tag" wx:if="{{tag_items}}">-->
+<!--      <view class="container__tag_bar">-->
+<!--        <view class="container__tag_title">-->
+<!--          发起人标签：-->
+<!--        </view>-->
+<!--      </view>-->
+<!--      <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
+<!--        <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
+<!--          {{item}}-->
+<!--        </view>-->
+<!--      </view>-->
+<!--    </view>-->
 
     <view class="container__tag" wx:if="{{desc_initiator}}">
       <view class="container__tag_bar">

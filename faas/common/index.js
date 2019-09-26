@@ -31,6 +31,7 @@ export async function getOpenedLottery() {
     .limit(10)
     .find();
 }
+export const ADMIN_GROUP_ID = 5074;
 
 export const LUCKY_SEED_HONGBAO = [
   0,

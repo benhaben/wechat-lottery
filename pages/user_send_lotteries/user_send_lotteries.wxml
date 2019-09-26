@@ -1,12 +1,15 @@
 <view>
   <view class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between" wx:for="{{lotteries}}"
-        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-    <view class="left flex-basis50">
+        wx:key="{{index}}" data-id="{{item.id}}" data-type="{{item.lottery_type}}" bindtap="onTap">
+    <view class="left flex-basis40">
       <image mode="aspectFit" class="height220 width220" src="{{item.url}}"></image>
     </view>
-    <view class="right small-text flex-basis50">
+    <view class="right small-text flex-basis60">
+      <view wx:if="{{item.lottery_type===0}}" >红包抽奖</view>
+      <view wx:else >实物抽奖</view>
       <view>编号：{{item.hash}}</view>
-      <view>总奖：{{item.total}}</view>
+      <view wx:if="{{item.lottery_type===0}}">总奖：{{item.total}}</view>
+      <view wx:else>奖品：【{{item.product_name}}】{{item.product_num}}个</view>
       <view wx:if="{{item.status===0}}">状态：等待支付</view>
       <view wx:elif="{{item.status===1}}">状态：等待审批</view>
       <view wx:elif="{{item.status===2}}">状态：等待开奖</view>

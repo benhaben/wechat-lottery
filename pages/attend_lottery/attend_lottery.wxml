@@ -1,6 +1,6 @@
 <view class="container__image" style="background-image: url('{{url}}')">
-  <view class="container__select-image">
-    <view class="container__select-image-icon">
+  <view class="container__hash">
+    <view class="container__hash-image-icon">
       <van-icon size="35rpx" name="gift"/>
     </view>
     <view>
@@ -11,7 +11,29 @@
 
 
 <view class="info">
-  <view class="info-row">
+
+  <view wx:if="{{lottery_type===1}}" class="info-row">
+    <view class="info__row_left">
+      <view class="info__row_title">
+        奖品名称：
+      </view>
+      <view class="info__row_value">
+        {{product_name}}
+      </view>
+    </view>
+
+    <view class="info__row_right">
+      <view class="info__row_value">
+        {{product_num}} 个
+      </view>
+      <view class="info__row_title">
+        奖品数目：
+      </view>
+
+    </view>
+  </view>
+
+  <view wx:else class="info-row">
     <view class="info__row_left">
       <view class="info__row_title">
         总奖：
@@ -53,30 +75,17 @@
     </view>
   </view>
 
-  <view class="info-row">
+  <view class="info-row margin30-bottom info-text">
     <view class="info__row_left">
-      <image class="avatar" src="{{avatar}}"></image>
-      <text>{{nickname}}</text>
+      <image class="avatar margin30-right" src="{{avatar}}"></image>
+      <text>发起人：{{nickname}}</text>
     </view>
-    <view class="info__row_right">
-      发起人
+    <view class="info__row_right" wx:if="{{sponsor}}">
+      <text >赞助商：{{sponsor}}</text>
     </view>
   </view>
 
-<!--  <view class="container__tag" wx:if="{{tag_items}}">-->
-<!--    <view class="container__tag_bar">-->
-<!--      <view class="container__tag_title">-->
-<!--        发起人标签：-->
-<!--      </view>-->
-<!--    </view>-->
-<!--    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
-<!--      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
-<!--        {{item}}-->
-<!--      </view>-->
-<!--    </view>-->
-<!--  </view>-->
-
-  <view class="container__tag" wx:if="{{desc_initiator}}">
+  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{desc_initiator}}">
     <view class="container__tag_bar">
       <view class="container__tag_title">
         发起人简介：
@@ -87,7 +96,7 @@
     </view>
   </view>
 
-  <view class="container__tag" wx:if="{{pic_data.length}}">
+  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{pic_data && pic_data.length}}">
     <view class="container__tag_bar">
       图文介绍：
     </view>
@@ -106,7 +115,6 @@
       <view class="lucky-info">运气值：{{selfLuckyNum}}</view>
       <view class="weight-info">一个运气值，增加两个权重</view>
     </view>
-
   </view>
 
   <form report-submit bindsubmit="onAttend" class="action" wx:if="{{status===2}}">

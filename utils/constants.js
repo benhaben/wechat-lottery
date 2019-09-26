@@ -88,11 +88,12 @@ export const PAGE_SIZE = 10;
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 //
 export const CONST = {
+  LOTTERY_TYPE_PRODUCT: 1,
+  LOTTERY_TYPE_MONEY: 0,
   PRODUCT_LOTTERY_PEOPLE_UNIT: 10000, // 开奖人数为5，则是5w人
-  PRODUCT_LOTTERY_FEE_PEOPLE_RATIO: 10, // 推广人数silder为50，5w人，收费5块，50/PRODUCT_LOTTERY_FEE_PEOPLE_RATIO
-  PRODUCT_LOTTERY_DEFAULT_SLIDER_OPEN_PEOPLE_NUM: 50, // 滑条默认的开奖人数，50 实际上是 5w 人，
+  PRODUCT_DEFAULT_OPEN_PEOPLE_NUM: 50000,
   DEFAULT_OPEN_PEOPLE_NUM: 1000, // 默认的开奖人数
-  BALANCE_TIMES: 1000, // 余额用整数表示，需要除以1000
+  MONEY_UNIT: 1000, // 余额用整数表示，需要除以1000
   WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1
   APPROVED: 2, // 审批通过，只能从1到2
   OPENED: 3, // 已经开奖

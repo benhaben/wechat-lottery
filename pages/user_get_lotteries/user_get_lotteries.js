@@ -26,12 +26,12 @@ Page({
     let add = lotteries.data.objects.map(item => {
       let lottery = item.lottery;
       lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`;
+      lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
       lottery.countdownStr = countDown(lottery.open_date);
       lottery.lottery_result = item.lottery_result;
       lottery.weight = item.weight;
       lottery.lucky_num = item.lucky_num;
-      lottery.balance = toFixed3(item.balance / CONST.BALANCE_TIMES);
+      lottery.balance = toFixed3(item.balance / CONST.MONEY_UNIT);
       return lottery;
     });
     this.setData({

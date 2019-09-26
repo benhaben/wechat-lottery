@@ -3,8 +3,13 @@
     <van-button wx:if="{{create}}" class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
                 round>选择图片
     </van-button>
-    <view wx:else>
-      {{hash}}
+    <view wx:else class="container__hash">
+      <view class="container__hash-image-icon">
+        <van-icon size="35rpx" name="gift"/>
+      </view>
+      <view>
+        <text>{{hash}}</text>
+      </view>
     </view>
   </view>
 
@@ -38,19 +43,19 @@
     </van-popup>
   </view>
 
-  <view class="container__tag">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
-        发起人标签：
-      </view>
-      <van-icon class="container__tag_update" size="45rpx" name="add-o" bindtap='onSelectTag'/>
-    </view>
-    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
-      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">
-        {{item}}
-      </view>
-    </view>
-  </view>
+<!--  <view class="container__tag">-->
+<!--    <view class="container__tag_bar">-->
+<!--      <view class="container__tag_title">-->
+<!--        发起人标签：-->
+<!--      </view>-->
+<!--      <van-icon class="container__tag_update" size="45rpx" name="add-o" bindtap='onSelectTag'/>-->
+<!--    </view>-->
+<!--    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
+<!--      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
+<!--        {{item}}-->
+<!--      </view>-->
+<!--    </view>-->
+<!--  </view>-->
 
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">

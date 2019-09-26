@@ -51,7 +51,6 @@
 }
 
 .container__tag {
-  margin: 30rpx 0rpx;
   background: white;
   display: flex;
   flex-direction: column;

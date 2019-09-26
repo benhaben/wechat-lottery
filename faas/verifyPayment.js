@@ -39,7 +39,7 @@ export default async function verifyPayment(event, callback) {
     const query = new BaaS.Query();
     let resLottery = await LOTTERY_TABLE.get(lotteryId);
     let lottery = resLottery.data;
-    if (lottery && lottery.total_prize === totalCost * CONST.BALANCE_TIMES) {
+    if (lottery && lottery.total_prize === totalCost * CONST.MONEY_UNIT) {
       let lotteryUpdate = LOTTERY_TABLE.getWithoutData(lotteryId);
       lotteryUpdate.set("status", CONST.WAIT_APPROVE);
       lotteryUpdate.set("transaction_no", transactionNo);
@@ -47,7 +47,7 @@ export default async function verifyPayment(event, callback) {
       callback(null, updateRes);
     } else if (totalCost === 0.01) {
       console.log("测试支付！！！");
-      let want = lottery.total_prize / CONST.BALANCE_TIMES;
+      let want = lottery.total_prize / CONST.MONEY_UNIT;
       let err = {
         error: `支付金额和抽奖金额不一致：want - ${want} | actual - ${totalCost}`,
         action: "verifyPayment",
@@ -69,7 +69,7 @@ export default async function verifyPayment(event, callback) {
       console.log("测试支付4！！！更新状态到 WAIT_APPROVE");
       callback(null, updateRes);
     } else {
-      let want = lottery.total_prize / CONST.BALANCE_TIMES;
+      let want = lottery.total_prize / CONST.MONEY_UNIT;
       let err = {
         error: `支付金额和抽奖金额不一致：want - ${want} | actual - ${totalCost}`,
         action: "verifyPayment",

@@ -4,52 +4,74 @@
                 bindtap="selectImage" plain
                 round>选择图片
     </van-button>
-    <view wx:else>
-      {{hash}}
+    <view wx:else class="container__hash">
+      <view class="container__hash-image-icon">
+        <van-icon size="35rpx" name="gift"/>
+      </view>
+      <view>
+        <text>{{hash}}</text>
+      </view>
     </view>
   </view>
 
-  <van-cell-group class="margin30-bottom">
-    <van-field
-      value="{{ product_name }}"
-      label="奖品名称"
-      placeholder="请输入奖品名称"
-      clearable
-      bind:change="onProductNameChange"
-      input-align="right"
-      maxlength="50"
-      error="{{error_product_name}}"
-    />
-    <van-field
-      value="{{ product_num }}"
-      label="奖品数量"
-      placeholder="请输入奖品数量"
-      clearable
-      type="number"
-      bind:change="onProductNumChange"
-      input-align="right"
-      error="{{error_product_num}}"
-    />
-    <van-cell wx:if="create" title="开奖人数" value="默认{{default_open_people_num}}人"/>
-    <van-cell wx:else title="开奖人数" value="{{open_people_num}}人"/>
-  </van-cell-group>
+  <view class="margin30-bottom">
+    <van-cell-group>
+      <van-field
+        value="{{ sponsor }}"
+        label="赞助商"
+        placeholder="请输入赞助商"
+        clearable
+        bind:change="onSponsorChange"
+        input-align="right"
+        maxlength="50"
+      />
+      <van-field
+        value="{{ product_name }}"
+        label="奖品名称"
+        placeholder="请输入奖品名称"
+        clearable
+        bind:change="onProductNameChange"
+        input-align="right"
+        maxlength="50"
+        error="{{error_product_name}}"
+      />
+      <van-field
+        value="{{ product_num }}"
+        label="奖品数量"
+        placeholder="请输入奖品数量"
+        clearable
+        type="number"
+        bind:change="onProductNumChange"
+        input-align="right"
+        error="{{error_product_num}}"
+      />
+      <van-cell wx:if="create" title="开奖人数" value="默认{{default_open_people_num}}人"/>
+      <van-cell wx:else title="开奖人数" value="{{open_people_num}}人"/>
 
-  <view wx:if="create" class="bg-white margin30-bottom height250 padding15-30 h-flex flex-col flex-justify-content-between">
-    <view >增加开奖人数，单位（万人）</view>
-      <van-slider
-        min="10"
-        value="{{ slide_open_people_num }}"
-        bind:drag="onOpenPeopleDrag"
-        use-button-slot
-        active-color="#ee0a24">
-        <view class="silder-btn" slot="button">
-          {{ open_people_num }}
-        </view>
-      </van-slider>
+    </van-cell-group>
+  </view>
+
+  <view wx:if="{{create && status === 0 }}"
+        class="bg-white margin30-bottom height250 padding15-30 h-flex flex-col flex-justify-content-between">
+    <view>增加开奖人数，单位（万人）</view>
+    <van-slider
+      min="10"
+      value="{{ slide_open_people_num }}"
+      bind:drag="onOpenPeopleDrag"
+      use-button-slot
+      active-color="#ee0a24">
+      <view class="silder-btn" slot="button">
+        {{ open_people_num }}
+      </view>
+    </van-slider>
     <view class=" h-flex flex-justify-content-between">
       <view>推广费用</view>
-      <view>{{ad_fee}} 元</view>
+      <view>{{total_prize}} 元</view>
     </view>
+  </view>
+  <view wx:else class="bg-white h-flex flex-justify-content-between padding15-30 margin30-bottom">
+    <view>推广费用</view>
+    <view>{{total_prize}} 元</view>
   </view>
 
 
@@ -101,7 +123,8 @@
     </button>
   </form>
 
-  <form class="bottom" report-submit name="add_product_lottery" bindsubmit="onPay" wx:if="{{!create && (status === 0)}}">
+  <form class="bottom" report-submit name="add_product_lottery" bindsubmit="onPay"
+        wx:if="{{!create && (status === 0)}}">
     <view class="bottom__info">支付抽奖</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"

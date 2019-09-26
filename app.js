@@ -58,7 +58,7 @@ App({
     if (!user) {
       return 0;
     } else {
-      return toFixed3(user.balance / CONST.BALANCE_TIMES);
+      return toFixed3(user.balance / CONST.MONEY_UNIT);
     }
   },
   setUserInfo: function(userInfo) {

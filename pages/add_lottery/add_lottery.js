@@ -16,20 +16,18 @@ Page({
     create: true,
     id: null,
     url: CONST.DEFAULT_URL,
-    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES), //默认第一个 9.9
+    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT), //默认第一个 9.9
     lucky_num: toFixed1(
-      new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES).times(
+      new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT).times(
         CONST.LUCKY_RATIO_OPEN
       )
     ), // 开奖奖励的运气值，触发器使用
-    prize_list: CONST.LOTTERY_PRIZE_LIST.map(
-      item => item / CONST.BALANCE_TIMES
-    ),
+    prize_list: CONST.LOTTERY_PRIZE_LIST.map(item => item / CONST.MONEY_UNIT),
     prize_colors: CONST.PRIZE_COLORS,
     prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
     plan_index: 0,
     plans: CONST.PLANS,
-    lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.BALANCE_TIMES) * 10, // 每个人的奖励运气值
+    lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT) * 10, // 每个人的奖励运气值
     show_plan: false,
     open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
     tag_items: app.getTagItems(),
@@ -55,7 +53,7 @@ Page({
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
-          total: `${lottery.total_prize / CONST.BALANCE_TIMES}元/100人`,
+          total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
           lucky_num: lottery.lucky_num,
           open_people_num: lottery.open_people_num,
           plan_index: lottery.plan_index,
@@ -145,7 +143,7 @@ Page({
     }
     this.data.prize_colors[index] = 1;
     this.data.total_prize = toFixed1(
-      CONST.LOTTERY_PRIZE_LIST[index] / CONST.BALANCE_TIMES
+      CONST.LOTTERY_PRIZE_LIST[index] / CONST.MONEY_UNIT
     );
     this.data.lucky_num = toFixed1(
       new Big(this.data.total_prize).times(CONST.LUCKY_RATIO_OPEN)
@@ -267,7 +265,7 @@ Page({
         url: this.data.url,
         open_date: openDateTimeStamp(),
         pic_data: this.data.pic_data,
-        total_prize: Number(this.data.total_prize) * CONST.BALANCE_TIMES,
+        total_prize: Number(this.data.total_prize) * CONST.MONEY_UNIT,
         lucky_num: Number(this.data.lucky_num),
         lucky_num_per: Number(this.data.lucky_num_per),
         plan_index: this.data.plan_index,
