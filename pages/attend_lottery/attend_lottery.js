@@ -67,7 +67,6 @@ Page({
       let attendeesPromise = dao.getLotteryAttendees(lottery_id);
 
       //并行获取数据，防止一个一个获取
-      let adminPromise = dao.isAdmin();
       let attendees = await attendeesPromise;
       let retRecord = await retRecordPromise;
 
@@ -84,7 +83,7 @@ Page({
         hasAttended = true;
       }
 
-      let admin = await adminPromise;
+      let admin = await dao.isAdmin();
 
       this.setData({
         id: lottery.id,

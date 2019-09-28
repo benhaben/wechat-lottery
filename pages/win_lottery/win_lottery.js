@@ -10,26 +10,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url: CONST.DEFAULT_URL,
-    id: "",
-    hash: "",
-    total: "",
-    lucky_num: 0,
-    lucky_num_per: 0,
-    countdownStr: "",
-    open_people_num: 0,
-    avatar: "",
-    nickname: "",
-    tag_items: CONST.DEFAULT_TAG_ITEMS,
-    desc_initiator: "",
+    // 抽奖信息
+    lottery: {
+      url: CONST.DEFAULT_URL,
+      id: "",
+      hash: "",
+      total: "",
+      lucky_num: 0,
+      lucky_num_per: 0,
+      countdownStr: "",
+      open_people_num: 0,
+      avatar: "",
+      nickname: "",
+      tag_items: CONST.DEFAULT_TAG_ITEMS,
+      desc_initiator: "",
+      pic_data: null,
+      open_date: null
+    },
+
+    // 中奖信息
     weight: 0,
-    pic_data: null,
     attend_num: 0,
     attend_avatar_list: [],
     auth: false,
     attendBtnLoading: false,
     selfLuckyNum: 0,
-    open_date: null,
     showSharePopup: false,
     balance: 0,
     showAd: false,
@@ -45,7 +50,6 @@ Page({
   onLoad: async function(options) {
     let that = this;
     let lottery_id = options.id;
-    // lottery_id = "5d7612d71db94f5d2e68fd74";
 
     if (!lottery_id) {
       return;
@@ -58,6 +62,7 @@ Page({
         app.getUserId()
       );
       let retRecord = await retRecordPromise;
+      debugger;
       let result = retRecord.data.objects[0];
       let lottery = retRecord.data.objects[0].lottery;
       let user = retRecord.data.objects[0].user;
@@ -80,28 +85,32 @@ Page({
 
       app.setUserInfo(user);
       this.setData({
-        id: lottery.id,
-        hash: lottery.id.substr(0, 10),
-        total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
-        fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
-        lottery_result: result.lottery_result,
-        product_name: lottery.product_name,
+        lottery: {
+          id: lottery.id,
+          url: lottery.url,
+          lottery_type: lottery.type,
+          hash: lottery.id.substr(0, 10),
+          total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
+          fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+          product_name: lottery.product_name,
+          lucky_num: lottery.lucky_num,
+          lucky_num_per: lottery.lucky_num_per,
+          open_people_num: lottery.open_people_num,
+          avatar: lottery.avatar,
+          nickname: lottery.nickname,
+          tag_items: lottery.tag_items,
+          desc_initiator: lottery.desc_initiator,
+          pic_data: lottery.pic_data,
+          open_date: lottery.open_date
+        },
         get_balance:
           result.lottery_result === 1
             ? toFixed3(result.balance / CONST.MONEY_UNIT)
             : 0,
         get_lucky_num: result.lottery_result === 2 ? result.lucky_num : 0,
-        lucky_num: lottery.lucky_num,
-        lucky_num_per: lottery.lucky_num_per,
-        open_people_num: lottery.open_people_num,
+        lottery_result: result.lottery_result,
         plans_lottery_package: CONST.PLANS_LOTTERY_PACKAGE[lottery.plan_index],
         plans_lucky_package: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
-        avatar: lottery.avatar,
-        nickname: lottery.nickname,
-        tag_items: lottery.tag_items,
-        desc_initiator: lottery.desc_initiator,
-        pic_data: lottery.pic_data,
-        open_date: lottery.open_date,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
           item => item.avatar_cache
@@ -128,6 +137,16 @@ Page({
   onGotoAttendees() {
     wx.navigateTo({
       url: `${ROUTE.ATTENDEES}?id=${this.data.id}&type=${CONST.GET_ATTENDEES}`
+    });
+  },
+  onGoLottery() {
+    wx.navigateTo({
+      url: `${ROUTE.ATTEND_LOTTERY}?id=${this.data.id}`
+    });
+  },
+  onGoHome() {
+    wx.navigateTo({
+      url: `${ROUTE.HOME}`
     });
   },
   showAdFalse() {

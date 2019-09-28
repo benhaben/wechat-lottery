@@ -75,11 +75,11 @@
 
     <view class="container__ad-button" wx:if="{{ad_checked  }}">
       <van-button type="danger" size="small" icon="add-o" bindtap="addDetails" plain round>
-        <text wx:if="{{pic_data }}">修改</text><text wx:else>添加</text>图文介绍/一键复制
+        <text wx:if="{{pic_data && pic_data.length > 0}}">修改</text><text wx:else>添加</text>图文介绍/一键复制
       </van-button>
     </view>
     <view class="container__ad-rich">
-      <x-richtext wx:if="{{ad_checked && pic_data }}" isReadOnly initList="{{pic_data}}"/>
+      <x-richtext wx:if="{{ad_checked && pic_data && pic_data.length > 0 }}" isReadOnly initList="{{pic_data}}"/>
     </view>
   </view>
 

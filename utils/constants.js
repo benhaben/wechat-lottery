@@ -16,6 +16,7 @@ export const ROUTE = {
   USER_BALANCE: "/pages/user_balance/user_balance",
   USER_FANS: "/pages/user_fans/user_fans",
   USER_TAGS: "/pages/user_tags/user_tags",
+  USER_ADS: "/pages/user_ads/user_ads",
   USER_DESC: "/pages/user_desc/user_desc",
   USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
   USER_ALL_LOTTERIES: "/pages/user_all_lotteries/user_all_lotteries",

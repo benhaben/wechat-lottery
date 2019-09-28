@@ -2,6 +2,7 @@
 
 import dao from "../../utils/dao";
 import { formatTime } from "../../utils/function";
+import { CONST } from "../../utils/constants";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -34,6 +35,7 @@ Page({
     );
     let add = ret.data.objects.map(item => {
       item.created_at = formatTime(item.created_at * 1000);
+      item.balance = item.balance / CONST.MONEY_UNIT;
       return item;
     });
     this.setData({

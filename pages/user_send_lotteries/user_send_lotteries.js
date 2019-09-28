@@ -2,7 +2,6 @@
 import dao from "../../utils/dao";
 import { PAGE_SIZE, ROUTE, ROUTE_DATA, CONST } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
-// import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
 const app = getApp();

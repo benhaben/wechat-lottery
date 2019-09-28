@@ -37,25 +37,23 @@
                 wx:for="{{cells}}"
                 wx:key="{{index}}"
                 is-link/>
-      <!--      <van-cell title="发起人广告" icon="good-job-o"-->
-      <!--                link-type="navigateTo"-->
-      <!--                url="/pages/user_ads/user_ads"-->
-      <!--                is-link/>-->
-      <!--      <van-cell title="消息提醒" icon="envelop-o" is-link/>-->
-      <!--      <van-cell title="常见问题" icon="question-o"-->
-      <!--                link-type="navigateTo"-->
-      <!--                url="/pages/user_question/user_question"-->
-      <!--      is-link/>-->
     </van-cell-group>
   </view>
 
   <van-cell-group wx:if="{{admin}}">
-    <van-cell title="推荐审查" icon="award-o"
+    <van-cell title="推荐审查"
+              icon="thumb-circle-o"
               link-type="navigateTo"
               url="/pages/user_approve/user_approve"
               is-link/>
-    <van-cell title="提现审核" icon="award-o" is-link/>
-    <!--    <van-cell title="分成管理" icon="award-o" is-link/>-->
+    <van-cell title="管理员发起平台红包"
+              icon="point-gift-o"
+              link-type="navigateTo"
+              url="/pages/add_lottery/add_lottery"
+              is-link/>
+    <van-cell title="提现审核"
+              icon="award-o"
+              is-link/>
   </van-cell-group>
 </navigation-bar>
 

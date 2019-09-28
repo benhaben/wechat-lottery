@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 6,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -74,10 +74,10 @@
 					"scene": 1007
 				},
 				{
-					"id": -1,
+					"id": 4,
 					"name": "pages/win_lottery/win_lottery",
 					"pathName": "pages/win_lottery/win_lottery",
-					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"query": "id=5d8cdccb8c3a4a171efc40ab",
 					"scene": 1014
 				},
 				{

@@ -198,10 +198,11 @@ async function sendNotGetMessage(resUpdate, lottery) {
   console.log(
     `sendNotGetMessage userIdsNotIn : ${JSON.stringify(userIdsNotIn)}`
   );
+  let sponsor = lottery.sponsor || lottery.nickname;
 
   let dataNotIn = {
     recipient_type: "user_list",
-    user_list: userIdsResNotIn,
+    user_list: userIdsNotIn,
     template_id: "PGXKodkuaE7k1bmXsQ9c-gPEcmnPY0am97nd9cOuI_0",
     submission_type: "form_id",
     page: `pages/win_lottery/win_lottery?id=${lottery.id}`,
@@ -220,7 +221,7 @@ async function sendNotGetMessage(resUpdate, lottery) {
       }
     }
   };
-  let sendNotIn = await BaaS.sendTemplateMessage(userIdsNotIn);
+  let sendNotIn = await BaaS.sendTemplateMessage(dataNotIn);
 
   console.log(
     `sendMessage sendTemplateMessage [sendNotIn] res : ${JSON.stringify(

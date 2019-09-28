@@ -14,31 +14,11 @@ Page({
     lucky_num: app.getLuckyNum(),
     loading: false,
     rules: [
-      // {
-      //   title: "发起奖励",
-      //   info: "+ 总奖金额 X 100 个运气值",
-      //   btn: "去发起"
-      // },
-      // {
-      //   title: "开奖奖励",
-      //   info: "+ 总奖金额 X 1000 个运气值",
-      //   btn: "去发起"
-      // },
-      {
-        title: "福袋奖励",
-        info: "+ 总奖金额 X 10 个运气值",
-        btn: "去发起"
-      },
       {
         title: "邀请朋友加入",
         info: "+ 100个运气值/人",
         btn: "去邀请"
       }
-      // {
-      //   title: "线人发起抽奖",
-      //   info: "+ 总奖金额 X 10 个运气值",
-      //   btn: "去查看"
-      // }
     ],
     use_rules: [
       {
@@ -49,11 +29,6 @@ Page({
       {
         title: "加中奖权重",
         info: "- 1个运气值，+ 2个权重",
-        btn: "去使用"
-      },
-      {
-        title: "更多抽奖",
-        info: "- 10个运气值/次",
         btn: "去使用"
       }
     ]
@@ -102,17 +77,9 @@ Page({
 
     console.log(`${index} - ${name}`);
 
-    if (index === 0 || index === 1 || index === 2) {
-      wx.navigateTo({
-        url: ROUTE.ADD_LOTTERY
-      });
-    } else if (index === 3) {
+    if (index === 0) {
       wx.navigateTo({
         url: ROUTE.SHARE_PIC_HOME
-      });
-    } else if (index === 4) {
-      wx.navigateTo({
-        url: ROUTE.USER_LUCKY_DETAILS
       });
     }
   },
@@ -127,8 +94,9 @@ Page({
 
     console.log(`${index} - ${name}`);
 
-    if (index === 0) {
-    }
+    wx.switchTab({
+      url: ROUTE.HOME
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

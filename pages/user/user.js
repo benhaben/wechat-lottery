@@ -21,13 +21,13 @@ Page({
       },
       {
         title: "粉丝列表",
-        icon: "cashier-o",
+        icon: "like-o",
         url: ROUTE.USER_FANS
       },
       {
-        title: "兴趣标签",
-        icon: "like-o",
-        url: ROUTE.USER_TAGS
+        title: "图文信息",
+        icon: "photo-o",
+        url: ROUTE.USER_ADS
       },
       {
         title: "个人简介",

@@ -53,7 +53,7 @@ export const countDown = function(open_date) {
     let str_time = int_hour + "小时" + int_minute + "分钟";
     return str_time;
   } else {
-    return "已过期";
+    return "正在开奖";
   }
 };
 

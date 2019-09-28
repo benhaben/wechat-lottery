@@ -11,7 +11,10 @@
 
   <view wx:if="{{!showAd}}" class="bg-base">
     <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
-      <view class="h1 margin30-bottom color-red">恭喜，您已经中奖</view>
+      <view class="h1 margin30-bottom color-red">
+        <text wx:if="{{lottery_result == 0}}">很遗憾，这次没有中奖</text>
+        <text wx:else>恭喜，您已经中奖</text>
+      </view>
       <view wx:if="{{lottery_result == 1}}" class="h3 margin30-bottom">奖品：好运红包
         <text class="color-red">{{get_balance}}</text>
         元
@@ -25,18 +28,18 @@
       </view>
 
       <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
-        <view class="win-switch__item bg-red color-white">
-          <van-icon name="gift-o"></van-icon>
+        <view class="win-switch__item bg-red color-white" bindtap="onGoLottery">
+          <van-icon name="gift-o" size="35rpx"></van-icon>
           <view>去查看</view>
         </view>
-        <view class="win-switch__item border-red color-red">
-          <van-icon name="friends-o"></van-icon>
-          <view>炫耀一下</view>
+        <view class="win-switch__item border-gray color-gray bg-base" bindtap="onGoHome">
+          <van-icon name="wap-home" size="35rpx" color="#EB132D" />
+          <view>再抽一次</view>
         </view>
       </view>
 
       <view class="h4">中奖者名单:</view>
-      <view wx:if="{{lottery_result == 1 || lottery_result == 2}}" class="h-flex flex-col flex-align-center" >
+      <view wx:if="{{lottery_type == 0}}" class="h-flex flex-col flex-align-center" >
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运红包
             <text class="color-red">{{get_balance}}</text>
@@ -70,7 +73,7 @@
         </view>
       </view>
 
-      <view wx:elif="{{lottery_result == 3}}" class="h-flex flex-col flex-align-center"
+      <view wx:elif="{{lottery_type == 1}}" class="h-flex flex-col flex-align-center"
       >
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运奖品
