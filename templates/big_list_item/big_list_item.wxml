@@ -56,23 +56,22 @@
 
 <view class="info-row">
 
-<!--  获得奖品且是现金抽奖-->
-  <view wx:if="{{lottery_type == 0 && status != 2}}"  class="info__row_left">
-    <view class="info__row_title">
-      发起者得：
-    </view>
-    <view class="info__row_value">
-      {{lucky_num}}运气值
-    </view>
-  </view>
-
 <!--  正在抽奖显示倒计时-->
-  <view wx:elif="{{status == 2}}" class="info__row_left">
+  <view wx:if="{{status == 2}}" class="info__row_left">
     <view class="info__row_title">
       倒计时：
     </view>
     <view class="info__row_value">
       {{countdownStr}}
+    </view>
+  </view>
+
+  <view wx:else  class="info__row_left">
+    <view class="info__row_title">
+      抽奖日期：
+    </view>
+    <view class="info__row_value">
+      {{open_data_str}}
     </view>
   </view>
 

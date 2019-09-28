@@ -117,7 +117,7 @@ export default async function checkLotteryStatusOpen(event, callback) {
   }
 }
 
-const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
+async function genWinners(lottery, offsets) {
   let results = [];
 
   let luckyQuery = new BaaS.Query();
@@ -140,6 +140,13 @@ const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
   let ids = results.map(ret => {
     return ret.id;
   });
+  return ids;
+}
+
+const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
+  let ids = await genWinners(lottery, offsets);
+
+  console.log(`updateUserLotteryRecords - ids : ${JSON.stringify(ids)}`);
 
   if (ids.length <= 0) {
     return;
@@ -150,13 +157,8 @@ const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
   // 通过 id in 查询来更新
   luckyQueryUpdate.in("id", ids);
   luckyQueryUpdate.compare("lottery_result", "=", 0);
-  luckyQueryUpdate.compare(
-    "lottery",
-    "=",
-    LOTTERY_TABLE.getWithoutData(lottery.id)
-  );
 
-  let luckyRecord = USER_LOTTERY_RECORD_TABLE.getWithoutData(luckyQuery);
+  let luckyRecord = USER_LOTTERY_RECORD_TABLE.getWithoutData(luckyQueryUpdate);
 
   let congratulations = "";
   if (status === CONST.GET_HONGBAO) {
@@ -171,10 +173,13 @@ const updateUserLotteryRecords = async (offsets, lottery, status, value) => {
 
   luckyRecord.set("lottery_result", status);
   let resUpdate = await luckyRecord.update();
+  console.log(
+    `updateUserLotteryRecords resUpdate : ${JSON.stringify(resUpdate)}`
+  );
 
-  await sendMessage(resUpdate, lottery, congratulations);
-  await sendNotGetMessage(resUpdate, lottery);
-  return;
+  let sendMessageRes = await sendMessage(resUpdate, lottery, congratulations);
+  let sendNotGetMessageRes = await sendNotGetMessage(resUpdate, lottery);
+  return { sendMessageRes, sendNotGetMessageRes };
 };
 
 async function sendNotGetMessage(resUpdate, lottery) {

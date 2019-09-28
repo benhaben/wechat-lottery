@@ -24,7 +24,7 @@
         个
       </view>
       <view wx:elif="{{lottery_result == 3}}" class="h3 margin30-bottom">奖品：好运奖品
-        <text class="color-red">{{product_name}}</text>
+        <text class="color-red">{{lottery.product_name}}</text>
       </view>
 
       <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
@@ -39,47 +39,45 @@
       </view>
 
       <view class="h4">中奖者名单:</view>
-      <view wx:if="{{lottery_type == 0}}" class="h-flex flex-col flex-align-center" >
+      <view wx:if="{{lottery.lottery_type == 0}}" class="h-flex flex-col flex-align-center" >
         <view class="win-details">
-          <view class="win-peoples-title bg-base">奖品：好运红包
-            <text class="color-red">{{get_balance}}</text>
-            元 X
-            <text class="color-red">{{plans_lottery_package}}</text>
-            名
-          </view>
+          <view class="win-peoples-title bg-base">奖品：好运红包<text class="color-red">{{get_balance}}</text>元</view>
           <view class="avatar-list">
-            <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}"
-                   src="{{item}}"></image>
+            <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
           </view>
-          <view class="link-text-arrow margin30-bottom" bindtap="onGotoHongbao">
+          <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoHongbao">
             查看全部
             <van-icon class="link-arrow-vertical-align" name="arrow"/>
           </view>
         </view>
         <view class="win-details">
-          <view class="win-peoples-title bg-base">奖品：好运福袋
-            <text class="color-red">{{lucky_num_per}}</text>
-            个运气值 X
-            <text class="color-red">{{plans_lucky_package}}名</text>
+          <view class="win-peoples-title bg-base">奖品：好运福袋<text class="color-red">{{lottery.lucky_num_per}}</text>个运气值 X<text class="color-red">{{lottery.plans_lucky_package}}名</text>
           </view>
           <view class="avatar-list">
             <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
                    src="{{item}}"></image>
           </view>
-          <view class="link-text-arrow margin30-bottom" bindtap="onGotoFudai">
+          <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoFudai">
             查看全部
             <van-icon class="link-arrow-vertical-align" name="arrow"/>
           </view>
         </view>
       </view>
 
-      <view wx:elif="{{lottery_type == 1}}" class="h-flex flex-col flex-align-center"
+      <view wx:elif="{{lottery.lottery_type == 1}}" class="h-flex flex-col flex-align-center"
       >
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运奖品
-            <text class="color-red">{{product_name}}</text>
+            <text class="color-red">{{lottery.product_name}}</text>
           </view>
         </view>
+      </view>
+      <view class="avatar-list">
+        <image class="big-avatar margin30-right" wx:for="{{products_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
+      </view>
+      <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoProducts">
+        查看全部
+        <van-icon class="link-arrow-vertical-align" name="arrow"/>
       </view>
     </view>
 
@@ -101,23 +99,23 @@
   </view>
 
   <view class="ad" wx:else>
-    <view class="container__tag" wx:if="{{desc_initiator}}">
+    <view class="container__tag" wx:if="{{lottery.desc_initiator}}">
       <view class="container__tag_bar">
         <view class="container__tag_title">
           发起人简介：
         </view>
       </view>
       <view class="container__desc h-flex flex-row flex-wrap flex-justify-content-center">
-        <text>{{desc_initiator}}</text>
+        <text>{{lottery.desc_initiator}}</text>
       </view>
     </view>
 
-    <view class="container__tag" wx:if="{{pic_data.length>0}}">
+    <view class="container__tag" wx:if="{{lottery.pic_data.length>0}}">
       <view class="container__tag_bar">
         发起人广告：
       </view>
       <view class="">
-        <x-richtext isReadOnly initList="{{pic_data}}"/>
+        <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
       </view>
     </view>
   </view>
