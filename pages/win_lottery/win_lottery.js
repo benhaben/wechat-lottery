@@ -45,6 +45,7 @@ Page({
   onLoad: async function(options) {
     let that = this;
     let lottery_id = options.id;
+    // lottery_id = "5d7612d71db94f5d2e68fd74";
 
     if (!lottery_id) {
       return;
@@ -56,10 +57,17 @@ Page({
         lottery_id,
         app.getUserId()
       );
+      let retRecord = await retRecordPromise;
+      let result = retRecord.data.objects[0];
+      let lottery = retRecord.data.objects[0].lottery;
+      let user = retRecord.data.objects[0].user;
 
       // 获取参加者信息
       let attendeesPromise = dao.getLotteryAttendees(lottery_id);
-      let getHongbaosPromise = dao.getAttendeesByResult(lottery_id);
+      let getHongbaosPromise = dao.getAttendeesByResult(
+        lottery_id,
+        CONST.GET_HONGBAO
+      );
       let getFudaisPromise = dao.getAttendeesByResult(
         lottery_id,
         CONST.GET_FUDAI
@@ -67,19 +75,17 @@ Page({
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
-      let retRecord = await retRecordPromise;
       let hongbaos = await getHongbaosPromise;
       let fudais = await getFudaisPromise;
 
-      let result = retRecord.data.objects[0];
-      let lottery = retRecord.data.objects[0].lottery;
-      let user = retRecord.data.objects[0].user;
       app.setUserInfo(user);
       this.setData({
         id: lottery.id,
         hash: lottery.id.substr(0, 10),
         total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
         fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+        lottery_result: result.lottery_result,
+        product_name: lottery.product_name,
         get_balance:
           result.lottery_result === 1
             ? toFixed3(result.balance / CONST.MONEY_UNIT)

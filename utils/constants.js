@@ -98,9 +98,10 @@ export const CONST = {
   APPROVED: 2, // 审批通过，只能从1到2
   OPENED: 3, // 已经开奖
   REJECTED: -1, // 审批不通过，只能从1到-1
-  GET_ATTENDEES: 0, // 获取所有参与者
-  GET_FUDAI: 2, // 获取福袋获得者列表
-  GET_HONGBAO: 1, // 获取红包获得者列表
+  GET_ATTENDEES: 0, // 获取还没有中奖的参与者，user_lottery_record的lottery_result
+  GET_PRODUCT: 3, // 获取实物获得者列表，user_lottery_record的lottery_result
+  GET_FUDAI: 2, // 获取福袋获得者列表，user_lottery_record的lottery_result
+  GET_HONGBAO: 1, // 获取红包获得者列表，user_lottery_record的lottery_result
   HONHBAO_RATIO: 100, // 开奖金额总是除以 100，但是发出去多少看PLANS_LOTTERY_PACKAGE，剩下的是平台盈利
   ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
   ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重

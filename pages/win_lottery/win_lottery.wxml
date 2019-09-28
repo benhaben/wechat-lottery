@@ -1,70 +1,8 @@
+<import src="../../templates/big_list_item/big_list_item.wxml"/>
+
 <navigation-bar bindhome="handleHome" title="恭喜中奖">
 
-  <view class="container__image" style="background-image: url('{{url}}')">
-    <view class="container__hash">
-      <view class="container__hash-image-icon">
-        <van-icon size="35rpx" name="gift"/>
-      </view>
-      <view>
-        <text>{{id}}</text>
-      </view>
-    </view>
-  </view>
-
-
-  <view class="info margin30-bottom">
-    <view class="info-row">
-      <view class="info__row_left">
-        <view class="info__row_title">
-          总奖：
-        </view>
-        <view class="info__row_value">
-          {{total}}
-        </view>
-      </view>
-
-      <view class="info__row_right">
-        <view class="info__row_value">
-          {{fudai_num}} 个
-        </view>
-        <view class="info__row_title">
-          福袋：
-        </view>
-
-      </view>
-    </view>
-
-    <view class="info-row">
-      <view class="info__row_left">
-        <view class="info__row_title">
-          发起者得：
-        </view>
-        <view class="info__row_value">
-         {{lucky_num}}运气值
-        </view>
-      </view>
-
-      <view class="info__row_right">
-        <view class="info__row_value">
-          {{open_people_num}} 人
-        </view>
-        <view class="info__row_title">
-          开奖人数：
-        </view>
-
-      </view>
-    </view>
-
-    <view class="info-row">
-      <view class="info__row_left">
-        <image class="avatar" src="{{avatar}}"></image>
-        <text>{{nickname}}</text>
-      </view>
-      <view class="info__row_right">
-        发起人
-      </view>
-    </view>
-  </view>
+  <template is="big_list_item" data="{{...lottery}}"></template>
 
   <view class="h-flex flex-justify-content-around switch margin30-bottom">
     <view class="switch__item bg-red color-white" bindtap="showAdFalse">开奖结果</view>
@@ -74,10 +12,18 @@
   <view wx:if="{{!showAd}}" class="bg-base">
     <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
       <view class="h1 margin30-bottom color-red">恭喜，您已经中奖</view>
-      <view class="h3 margin30-bottom">奖品：好运红包
+      <view wx:if="{{lottery_result == 1}}" class="h3 margin30-bottom">奖品：好运红包
         <text class="color-red">{{get_balance}}</text>
         元
       </view>
+      <view wx:elif="{{lottery_result == 2}}" class="h3 margin30-bottom">奖品：好运福袋
+        <text class="color-red">{{get_lucky_num}}</text>
+        个
+      </view>
+      <view wx:elif="{{lottery_result == 3}}" class="h3 margin30-bottom">奖品：好运奖品
+        <text class="color-red">{{product_name}}</text>
+      </view>
+
       <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
         <view class="win-switch__item bg-red color-white">
           <van-icon name="gift-o"></van-icon>
@@ -90,7 +36,7 @@
       </view>
 
       <view class="h4">中奖者名单:</view>
-      <view class="h-flex flex-col flex-align-center">
+      <view wx:if="{{lottery_result == 1 || lottery_result == 2}}" class="h-flex flex-col flex-align-center" >
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运红包
             <text class="color-red">{{get_balance}}</text>
@@ -107,7 +53,6 @@
             <van-icon class="link-arrow-vertical-align" name="arrow"/>
           </view>
         </view>
-
         <view class="win-details">
           <view class="win-peoples-title bg-base">奖品：好运福袋
             <text class="color-red">{{lucky_num_per}}</text>
@@ -124,7 +69,17 @@
           </view>
         </view>
       </view>
+
+      <view wx:elif="{{lottery_result == 3}}" class="h-flex flex-col flex-align-center"
+      >
+        <view class="win-details">
+          <view class="win-peoples-title bg-base">奖品：好运奖品
+            <text class="color-red">{{product_name}}</text>
+          </view>
+        </view>
+      </view>
     </view>
+
 
     <view class="weight h-flex flex-row flex-align-center bg-white margin30-bottom">
       <view>中奖权重 ：{{weight}}</view>
@@ -143,20 +98,6 @@
   </view>
 
   <view class="ad" wx:else>
-
-<!--    <view class="container__tag" wx:if="{{tag_items}}">-->
-<!--      <view class="container__tag_bar">-->
-<!--        <view class="container__tag_title">-->
-<!--          发起人标签：-->
-<!--        </view>-->
-<!--      </view>-->
-<!--      <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
-<!--        <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
-<!--          {{item}}-->
-<!--        </view>-->
-<!--      </view>-->
-<!--    </view>-->
-
     <view class="container__tag" wx:if="{{desc_initiator}}">
       <view class="container__tag_bar">
         <view class="container__tag_title">
