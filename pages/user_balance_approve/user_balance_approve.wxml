@@ -1,4 +1,4 @@
-<import src="../../templates/simple_list_item/simple_list_item.wxml"/>
+<import src="../../templates/withdraw_list_item/withdraw_list_item.wxml"/>
 
 <van-search
   value="{{ search_data }}"
@@ -11,10 +11,10 @@
   <van-tab title="待审核">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class="bg-white height280 margin30-bottom h-flex flex-col flex-center  padding15-30 "
         wx:for="{{waitApprovalList}}"
-        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <template is="simple_list_item" data="{{...item}}"></template>
+        wx:key="{{index}}" data-id="{{item.id}}">
+        <template is="withdraw_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreWaitApprovalList">
         <view class="bottom__info">
@@ -26,10 +26,10 @@
   <van-tab title="已通过">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class="bg-white height280 margin30-bottom h-flex flex-col flex-center padding15-30 "
         wx:for="{{approvalList}}"
-        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <template is="simple_list_item" data="{{...item}}"></template>
+        wx:key="{{index}}" data-id="{{item.id}}">
+        <template is="withdraw_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreApprovalList">
         <view class="bottom__info">
@@ -41,10 +41,10 @@
   <van-tab title="已驳回">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class="bg-white height280 margin30-bottom h-flex flex-col flex-center padding15-30 "
         wx:for="{{rejectList}}"
-        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-        <template is="simple_list_item" data="{{...item}}"></template>
+        wx:key="{{index}}" data-id="{{item.id}}">
+        <template is="withdraw_list_item" data="{{...item}}"></template>
       </view>
       <view class="bottom h-flex flex-col flex-align-center" bindtap="loadMoreRejectList">
         <view class="bottom__info">
@@ -54,10 +54,12 @@
     </view>
   </van-tab>
 </van-tabs>
+
+
 <view wx:else>
-  <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{queryList}}"
-        wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
-    <template is="simple_list_item" data="{{...item}}"></template>
+  <view class="bg-white height280 margin30-bottom h-flex flex-col flex-center" wx:for="{{queryList}}"
+        wx:key="{{index}}" data-id="{{item.id}}">
+    <template is="withdraw_list_item" data="{{...item}}"></template>
   </view>
 </view>
 <van-toast id="van-toast"/>

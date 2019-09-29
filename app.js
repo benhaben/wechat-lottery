@@ -58,12 +58,17 @@ App({
     if (!user) {
       return 0;
     } else {
-      return toFixed3(user.balance / CONST.MONEY_UNIT);
+      return user.balance;
     }
   },
   setUserInfo: function(userInfo) {
     store.setUserInfo(userInfo);
   },
+  /**
+   * 从云端拿到最新的数据
+   * @param uid
+   * @returns {Promise<*>}
+   */
   getUserInfo: async function(uid) {
     if (!uid) {
       uid = this.getUserId();

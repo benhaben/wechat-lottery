@@ -29,6 +29,7 @@ view{
 .height220{height: 220rpx;}
 .width220{width: 220rpx;}
 .height250{height: 250rpx;}
+.height280{height: 280rpx;}
 .height350{height: 350rpx;}
 .height450{height: 450rpx;}
 .width600{width: 600rpx;}
@@ -40,6 +41,7 @@ view{
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
+.margin30-top{margin-top: 30rpx;}
 .border-red{border: 1rpx solid #EB132D}
 .border-gray{border: 1rpx solid gray; border-radius: 10rpx}
 .border-bottom{border-bottom: 1rpx solid lightgray}

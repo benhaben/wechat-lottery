@@ -24,7 +24,8 @@ export default async function attendLottery(event, callback) {
 
   try {
     let cost = weight / CONST.ONE_LUCKY_NUM_WEIGHT;
-    let user = await USER_TABLE.get(user_id);
+    let userRes = await USER_TABLE.get(user_id);
+    let user = userRes.data;
 
     //TODO: 没有事务，感觉不保险；参数配置在云端
     let reason;

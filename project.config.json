@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -60,16 +60,16 @@
 					"scene": 1001
 				},
 				{
-					"id": -1,
-					"name": "pages/share_pic_home/share_pic_home",
-					"pathName": "pages/share_pic_home/share_pic_home",
+					"id": 2,
+					"name": "pages/user_balance/user_balance",
+					"pathName": "pages/user_balance/user_balance",
 					"query": "id=5d7612d71db94f5d2e68fd74",
 					"scene": null
 				},
 				{
 					"id": 3,
-					"name": "pages/home/home",
-					"pathName": "pages/home/home",
+					"name": "pages/user_balance_approve/user_balance_approve",
+					"pathName": "pages/user_balance_approve/user_balance_approve",
 					"query": "inviter_uid =1",
 					"scene": 1007
 				},

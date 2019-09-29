@@ -1,0 +1,20 @@
+<template name="withdraw_list_item">
+  <view class="margin30">
+    <view>
+      <view>编号：{{id}}</view>
+      <view class="h-flex">
+        <view class="margin30-right">余额：{{balance}}</view>
+        <view>时间：{{date}}</view>
+      </view>
+      <view>用户id：{{user_id}}</view>
+      <view>用户昵称：{{nickname}}</view>
+    </view>
+
+    <view wx:if="{{status===0}}" class="h-flex flex-justify-content-between margin30-top">
+      <view class="bg-gray text-center width220" data-id="{{id}}" bindtap="onReject">驳回</view>
+      <view class="bg-red text-center width220 " data-id="{{id}}" bindtap="onApprove">通过</view>
+    </view>
+  </view>
+
+
+</template>

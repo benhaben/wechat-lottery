@@ -4,13 +4,20 @@
   <view class="margin30-bottom info-text">当前余额</view>
 </view>
 
-<view class="info-text margin30">余额可用于发起抽奖或者直接提现。提现手续费%1，每人每天限提1笔，每笔最小1元，最大100元</view>
+<view class="info-text padding30 margin30-bottom">
+  <text>
+    1. 中奖后余额可以提现。
+    2. 每人每天限提1笔，每笔最小1元，最大100元。
+    3. 提现需要审批，如果超过两天没有到账请联系客服。
+  </text>
+</view>
 
 <view class="margin30-bottom">
   <form report-submit name="deposit" bindsubmit="onConfirm">
     <view class="margin30-bottom">
       <van-cell-group>
         <van-field
+          bind:change="onMoneyChange"
           type="number"
           value="{{ money }}"
           label="提现金额"
@@ -38,3 +45,4 @@
   show="{{ show }}"
 >
 </van-dialog>
+<van-toast id="van-toast"/>

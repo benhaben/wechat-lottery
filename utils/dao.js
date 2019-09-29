@@ -6,10 +6,24 @@ import {
   USER_TABLE,
   DAILY_CHECKIN_TABLE,
   BALANCE_LUCKY_RECORD_TABLE,
-  QUESTIONS_TABLE
+  QUESTIONS_TABLE,
+  WITHDRAW_TABLE
 } from "./table";
 import { formatDate } from "./function";
 export default {
+  /**
+   * 创建提现申请
+   * @param money
+   * @returns {Promise<*>}
+   */
+  async createWithdraw(money) {
+    let ret = await wx.BaaS.invokeFunction(
+      FUNCTION_NAME.CREATE_WITHDRAW,
+      money
+    );
+    return ret.data;
+  },
+
   /**
    * 为了安全在服务端创建抽奖
    * @param data
@@ -58,10 +72,25 @@ export default {
 
   // 客户端不能修改，移到服务端
   async approveLottery(id = "", status = 2) {
-    if (!id && (status === -1 || status === 2)) {
-      throw TypeError("id invalid");
+    if (!id && (status === CONST.REJECTED || status === CONST.APPROVED)) {
+      //TODO: 使用const里面的errtype
+      throw TypeError("id invalid or status");
     }
     let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.APPROVE_LOTTERY, {
+      id,
+      status
+    });
+    return ret.data.data;
+  },
+
+  async approveWithdraw(id = "", status = 1) {
+    if (
+      !id &&
+      (status === CONST.WITHDRAW_REJECT || status === CONST.WITHDRAW_APPROVE)
+    ) {
+      throw TypeError("id invalid or status");
+    }
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.APPROVE_WITHDRAW, {
       id,
       status
     });
@@ -79,6 +108,16 @@ export default {
     let query = new wx.BaaS.Query();
     query.compare("status", "=", status);
     return LOTTERY_TABLE.setQuery(query)
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
+  },
+
+  async getWithdraw(limit = PAGE_SIZE, offset = 0, status = 0) {
+    let query = new wx.BaaS.Query();
+    query.compare("status", "=", status);
+    return WITHDRAW_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)
       .orderBy("-created_at")
@@ -167,7 +206,16 @@ export default {
       .orderBy("-created_at")
       .find();
   },
-
+  async queryWithdraw(limit = PAGE_SIZE, offset = 0, queryString) {
+    let query = new wx.BaaS.Query();
+    const regExpNickname = new RegExp(`^${queryString}`, "i");
+    query.matches("nickname", regExpNickname);
+    return WITHDRAW_TABLE.setQuery(query)
+      .limit(limit)
+      .offset(offset)
+      .orderBy("-created_at")
+      .find();
+  },
   async getLotteryById(id = "") {
     if (!id) {
       throw TypeError("id or user invalid");

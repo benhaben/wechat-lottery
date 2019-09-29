@@ -36,7 +36,19 @@ export const ERR_TYPE = {
   INSUFFICIENT_AUTHORITY: "Insufficient authority",
   APPROVE_LOTTERY_STATUS_ERROR: "status 状态错误；状态只能从1到2或者从1到-1",
   NOT_PAID: "抽奖未支付",
-  APPROVED: "抽奖已经审批通过"
+  APPROVED: "抽奖已经审批通过",
+  WITHDRAW_NOT_INTEGER: "提现值不是整数",
+  WITHDRAW_NOT_IN_RANGE: "提现值不在范围内",
+  WITHDRAW_INSUFFICIENT_BALANCE: "余额不足",
+  WITHDRAW_DAILY_ONCE: "提现失败，每日只能提现一次",
+  WITHDRAW_STATUS_ERROR: "status 状态错误；修改的目标状态只能是1或者-1",
+  WITHDRAW_APPROVED: "提现已经审批通过了",
+  WITHDRAW_STATUS_CURRENT_ERROR:
+    "status 状态错误；状态只能从0到1或者从0到-1，当前不是0"
+};
+
+export const SUCCESS_TYPE = {
+  WITHDRAW_CREATE_SUCCESS: "提现申请成功"
 };
 
 // 活动规则内容库 id
@@ -57,6 +69,8 @@ export const TABLE_ID = {
 export const CONFIG_ID = "5d7917899d8da5229c037105";
 
 export const FUNCTION_NAME = {
+  CREATE_WITHDRAW: "createWithdraw",
+  APPROVE_WITHDRAW: "approveWithdraw",
   CREATE_LOTTERY: "createLottery",
   UPDATE_LOTTERY: "updateLottery",
   ATTEND_LOTTERY: "attendLottery",
@@ -90,14 +104,23 @@ export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 
+/**
+ * 用在模板消息，界面上的字符串，未来可能需要翻译的（想多了）
+ */
 export const WORD_LIST = {
   LOTTERY_TYPE_PRODUCT: "实物抽奖",
   LOTTERY_TYPE_MONEY: "现金抽奖",
+  WITHDRAW: "提现",
   APPROVED: "审批通过",
   REJECTED: "审批不通过"
 };
 
 export const CONST = {
+  WITHDRAW_MAX: 100, // 提现最大值
+  WITHDRAW_MIN: 1, // 提现最小值
+  WITHDRAW_REJECT: -1, // 提现驳回
+  WITHDRAW_APPROVE: 1, // 提现通过
+  WITHDRAW_WAIT_APPROVE: 0, // 等待提现审核
   LOTTERY_TYPE_PRODUCT: 1,
   LOTTERY_TYPE_MONEY: 0,
   PRODUCT_LOTTERY_PEOPLE_UNIT: 10000, // 开奖人数为5，则是5w人

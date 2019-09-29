@@ -22,7 +22,8 @@
     "pages/user_all_lotteries/user_all_lotteries",
     "pages/user_send_lotteries/user_send_lotteries",
     "pages/user_get_lotteries/user_get_lotteries",
-    "pages/add_product_lottery/add_product_lottery"
+    "pages/add_product_lottery/add_product_lottery",
+    "pages/user_balance_approve/user_balance_approve"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

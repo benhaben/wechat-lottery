@@ -53,6 +53,8 @@
               is-link/>
     <van-cell title="提现审核"
               icon="award-o"
+              link-type="navigateTo"
+              url="/pages/user_balance_approve/user_balance_approve"
               is-link/>
   </van-cell-group>
 </navigation-bar>

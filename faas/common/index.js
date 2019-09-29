@@ -6,7 +6,8 @@ import { CONST, TABLE_ID } from "../../utils/constants";
 
 const MAX_GET_OPENED_LOTTERIES = 100;
 export const ADMIN_GROUP_ID = 5074;
-
+export const APPROVE_TEMPLATE_ID =
+  "EESiZK3g7xV0xtTYQWaCBr-beZ8R6GxDaqIFpeShOLA";
 export const USER_LOTTERY_RECORD_TABLE = new BaaS.TableObject(
   TABLE_ID.USER_LOTTERY_RECORD
 );

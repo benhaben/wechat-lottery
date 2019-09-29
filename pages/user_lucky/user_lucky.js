@@ -68,7 +68,7 @@ Page({
         that.setData({
           lucky_num: app.getLuckyNum()
         });
-      }, 3000);
+      }, 1000);
     }
   },
   onGo(event) {

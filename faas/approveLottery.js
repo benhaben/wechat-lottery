@@ -1,4 +1,4 @@
-import { inAdminGroup, LOTTERY_TABLE } from "./common";
+import { APPROVE_TEMPLATE_ID, inAdminGroup, LOTTERY_TABLE } from "./common";
 import { CONST, ERR_TYPE, ROUTE, WORD_LIST } from "../utils/constants";
 import { formatDate } from "../utils/function";
 
@@ -50,7 +50,7 @@ export default async function approveLottery(event, callback) {
 
     // 驳回通知用户，到修改界面；成功，到参加抽奖页面
     let data;
-    const TEMPLATE_ID = "EESiZK3g7xV0xtTYQWaCBr-beZ8R6GxDaqIFpeShOLA";
+    const TEMPLATE_ID = APPROVE_TEMPLATE_ID;
     let content =
       lottery.lottery_type == CONST.LOTTERY_TYPE_MONEY
         ? WORD_LIST.LOTTERY_TYPE_MONEY
@@ -66,7 +66,7 @@ export default async function approveLottery(event, callback) {
       let dateStr = `${formatDate(Date.now())}`;
       data = {
         recipient_type: "user_list",
-        user_list: [id],
+        user_list: [user_id],
         template_id: TEMPLATE_ID,
         submission_type: "form_id",
         page: `${route}?id=${lottery.id}`,
@@ -91,7 +91,7 @@ export default async function approveLottery(event, callback) {
       let dateStr = `${formatDate(Date.now())}`;
       data = {
         recipient_type: "user_list",
-        user_list: [id],
+        user_list: [user_id],
         template_id: TEMPLATE_ID,
         submission_type: "form_id",
         page: `${route}?id=${lottery.id}`,
