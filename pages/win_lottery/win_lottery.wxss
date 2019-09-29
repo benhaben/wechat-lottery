@@ -1,31 +1,7 @@
 /* pages/win_lottery/win_lottery.wxss */
 
-.info-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 60rpx;
-  background-color: white;
-  padding: 10rpx 20rpx;
-}
+@import "../../templates/big_list_item/big_list_item.wxss";
 
-.info__row_left {
-  flex-basis: 50%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-}
-
-.info__row_left image{
-  margin-right: 20rpx;
-}
-
-.info__row_right {
-  flex-basis: 50%;
-  display: flex;
-  flex-direction: row-reverse;
-}
 
 
 .container__tag {
@@ -104,10 +80,4 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-
-.weight{
-  height: 100rpx;
-  padding: 0rpx 30rpx;
-  justify-content: space-between;
 }

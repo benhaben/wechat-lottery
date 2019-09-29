@@ -3,7 +3,6 @@
 export const ROUTE = {
   HOME: "/pages/home/home",
   PIC_DETAILS: "/pages/pic_details/details",
-  TAGS: "/pages/tags/tags",
   ADD_LOTTERY: "/pages/add_lottery/add_lottery",
   ADD_PRODUCT_LOTTERY: "/pages/add_product_lottery/add_product_lottery",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
@@ -15,7 +14,6 @@ export const ROUTE = {
   USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
   USER_BALANCE: "/pages/user_balance/user_balance",
   USER_FANS: "/pages/user_fans/user_fans",
-  USER_TAGS: "/pages/user_tags/user_tags",
   USER_ADS: "/pages/user_ads/user_ads",
   USER_DESC: "/pages/user_desc/user_desc",
   USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
@@ -33,8 +31,12 @@ export const ROUTE_DATA = {
 };
 
 export const ERR_TYPE = {
-  GET_LOTTERY_FAILED: "GET_LOTTERY_FAILED",
-  OUT_OF_LUCKY_NUM: "OUT_OF_LUCKY_NUM"
+  GET_LOTTERY_FAILED: "get lottery failed",
+  OUT_OF_LUCKY_NUM: "out of lucky num",
+  INSUFFICIENT_AUTHORITY: "Insufficient authority",
+  APPROVE_LOTTERY_STATUS_ERROR: "status 状态错误；状态只能从1到2或者从1到-1",
+  NOT_PAID: "抽奖未支付",
+  APPROVED: "抽奖已经审批通过"
 };
 
 // 活动规则内容库 id
@@ -87,7 +89,14 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
 export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
-//
+
+export const WORD_LIST = {
+  LOTTERY_TYPE_PRODUCT: "实物抽奖",
+  LOTTERY_TYPE_MONEY: "现金抽奖",
+  APPROVED: "审批通过",
+  REJECTED: "审批不通过"
+};
+
 export const CONST = {
   LOTTERY_TYPE_PRODUCT: 1,
   LOTTERY_TYPE_MONEY: 0,
@@ -119,100 +128,5 @@ export const CONST = {
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
   LUCKY_RATIO_FUDAI_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值
   LUCKY_RATIO_INVITATION: 100, // 邀请朋友增加此数值运气值
-  LUCKY_RATIO_INVITATION_OPEN: 10, // 线人发起抽奖，你获得运气值 = 抽奖金额 * 该值
-  MAX_SELECTED: 8,
-  TAGS: [
-    "人工智能",
-    "商业管理",
-    "化妆品",
-    "亲子教育",
-    "科技",
-    "互联网",
-    "旅游",
-    "美食",
-    "动漫",
-    "程序开发",
-    "微商",
-    "自由职业",
-    "健身",
-    "篮球",
-    "足球",
-    "购物",
-    "翻译",
-    "英语",
-    "脱口秀",
-    "美剧",
-    "音乐",
-    "吉他",
-    "摇滚",
-    "阿拉贝卡",
-    "区块链",
-    "A股",
-    "美股",
-    "港股",
-    "美女",
-    "帅哥",
-    "模特",
-    "腔调",
-    "北上广深",
-    "来自农村",
-    "二三四线",
-    "火星",
-    "60后",
-    "70后",
-    "80后",
-    "90后"
-  ],
-  TAG_FLAGS: [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-  ],
-  DEFAULT_TAG_ITEMS: [
-    "80后",
-    "A股",
-    "微商",
-    "足球",
-    "音乐",
-    "亲子教育",
-    "美食",
-    "美女"
-  ]
+  LUCKY_RATIO_INVITATION_OPEN: 10 // 线人发起抽奖，你获得运气值 = 抽奖金额 * 该值
 };

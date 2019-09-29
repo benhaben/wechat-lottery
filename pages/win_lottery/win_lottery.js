@@ -23,7 +23,6 @@ Page({
       open_people_num: 0,
       avatar: "",
       nickname: "",
-      tag_items: CONST.DEFAULT_TAG_ITEMS,
       desc_initiator: "",
       pic_data: null,
       open_date: null
@@ -35,7 +34,6 @@ Page({
     attend_avatar_list: [],
     auth: false,
     attendBtnLoading: false,
-    selfLuckyNum: 0,
     showSharePopup: false,
     balance: 0,
     showAd: false,
@@ -108,7 +106,6 @@ Page({
           open_people_num: lottery.open_people_num,
           avatar: lottery.avatar,
           nickname: lottery.nickname,
-          tag_items: lottery.tag_items,
           desc_initiator: lottery.desc_initiator,
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
@@ -167,7 +164,7 @@ Page({
     });
   },
   onGoHome() {
-    wx.navigateTo({
+    wx.switchTab({
       url: `${ROUTE.HOME}`
     });
   },

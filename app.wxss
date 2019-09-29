@@ -44,6 +44,8 @@ view{
 .border-gray{border: 1rpx solid gray; border-radius: 10rpx}
 .border-bottom{border-bottom: 1rpx solid lightgray}
 .text-center{text-align: center;}
+.text-left{text-align: left;}
+.text-right{text-align: right;}
 .text-break{word-break:break-all;word-wrap:break-word;}
 .h-flex{display: flex;}
 .flex-basis40{flex-basis: 40%;}

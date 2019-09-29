@@ -318,7 +318,6 @@ Page({
         product_name: this.data.product_name,
         sponsor: this.data.sponsor,
         pic_data: this.data.pic_data,
-        tag_items: this.data.tag_items,
         desc_initiator: this.data.desc_initiator
       });
 

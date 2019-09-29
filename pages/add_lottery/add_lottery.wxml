@@ -43,20 +43,6 @@
     </van-popup>
   </view>
 
-<!--  <view class="container__tag">-->
-<!--    <view class="container__tag_bar">-->
-<!--      <view class="container__tag_title">-->
-<!--        发起人标签：-->
-<!--      </view>-->
-<!--      <van-icon class="container__tag_update" size="45rpx" name="add-o" bindtap='onSelectTag'/>-->
-<!--    </view>-->
-<!--    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">-->
-<!--      <view class="container__tag_item" wx:for="{{tag_items}}" wx:key="{{index}}">-->
-<!--        {{item}}-->
-<!--      </view>-->
-<!--    </view>-->
-<!--  </view>-->
-
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
       <view class="container__desc-title" slot="title">发起人简介</view>

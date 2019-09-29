@@ -1,6 +1,6 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
 
-<navigation-bar bindhome="handleHome" title="恭喜中奖">
+<navigation-bar bindhome="handleHome" title="中奖详情">
 
   <template is="big_list_item" data="{{...lottery}}"></template>
 
@@ -11,9 +11,9 @@
 
   <view wx:if="{{!showAd}}" class="bg-base">
     <view class="win padding30 bg-white h-flex flex-col margin30-bottom">
-      <view class="h1 margin30-bottom color-red">
-        <text wx:if="{{lottery_result == 0}}">很遗憾，这次没有中奖</text>
-        <text wx:else>恭喜，您已经中奖</text>
+      <view class="h1 margin30-bottom">
+        <text wx:if="{{lottery_result == 0}}" class="color-gray">很遗憾，这次没有中奖</text>
+        <text wx:else class="color-red">恭喜，您已经中奖</text>
       </view>
       <view wx:if="{{lottery_result == 1}}" class="h3 margin30-bottom">奖品：好运红包
         <text class="color-red">{{get_balance}}</text>
@@ -82,8 +82,11 @@
     </view>
 
 
-    <view class="weight h-flex flex-row flex-align-center bg-white margin30-bottom">
-      <view>中奖权重 ：{{weight}}</view>
+    <view class="margin30-bottom bg-white height80 h-flex flex-col padding15-30 flex-justify-content-around">
+      <view class="h-flex flex-row flex-justify-content-between flex-align-center bg-white">
+        <view>中奖权重 ：</view>
+        <view>{{weight}}</view>
+      </view>
     </view>
 
     <view class="h-flex flex-col flex-align-center height180 bg-white margin30-bottom">

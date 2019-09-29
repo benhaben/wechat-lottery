@@ -1,5 +1,4 @@
-import { LOTTERY_TABLE, USER_TABLE, ADMIN_GROUP_ID } from "./common";
-import { CONST } from "../utils/constants";
+import { inAdminGroup } from "./common";
 
 /**
  * 判断是否是管理员
@@ -13,22 +12,10 @@ export default async function isAdmin(event, callback) {
 
   try {
     const user_id = event.request.user.id;
-    console.log(`user_id : ${user_id}`);
+    console.log(`isAdmin user_id : ${user_id}`);
     // 人多了使用用户组管理
-
-    let query = new BaaS.Query();
-
-    // 查询用户组 [123, 456, 789] 下的用户
-    query.in("_group", [ADMIN_GROUP_ID]);
-
-    let adminRes = await USER_TABLE.setQuery(query).find();
-    let isAdmin = false;
-    for (let item of adminRes.data.objects) {
-      if (item.id === user_id) {
-        isAdmin = true;
-        break;
-      }
-    }
+    let isAdmin = await inAdminGroup(user_id);
+    console.log(`isAdmin  inAdminGroup result : ${isAdmin}`);
     callback(null, isAdmin);
   } catch (e) {
     console.log(e);

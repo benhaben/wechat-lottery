@@ -2,7 +2,7 @@
 
 <template name="big_list_item">
 
-<view class="container__image" bindtap="_onTap" style="background-image: url('{{url}}')">
+<view class="container__image" bindtap="_onTap" style="background-image: url('{{url}}');background-repeat:no-repeat;background-size: cover;">
   <view class="container__hash">
     <view class="container__hash-image-icon">
       <van-icon size="35rpx" name="gift"/>

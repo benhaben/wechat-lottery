@@ -37,24 +37,20 @@ Page({
     let type = this.data.type;
     let limit = this.data.limit;
     let offset = this.data.offset;
-    if (type === CONST.GET_HONGBAO) {
+    if (
+      type === CONST.GET_HONGBAO ||
+      type === CONST.GET_FUDAI ||
+      type === CONST.GET_PRODUCT
+    ) {
       let getHongbaosPromise = await dao.getAttendeesByResult(
         lottery_id,
-        CONST.GET_HONGBAO,
+        type,
         limit,
         offset
       );
       image_list = getHongbaosPromise.data.objects.map(
         item => item.avatar_cache
       );
-    } else if (type === CONST.GET_FUDAI) {
-      let getFudaisPromise = await dao.getAttendeesByResult(
-        lottery_id,
-        CONST.GET_FUDAI,
-        limit,
-        offset
-      );
-      image_list = getFudaisPromise.data.objects.map(item => item.avatar_cache);
     } else {
       let attendeesPromise = await dao.getLotteryAttendees(
         lottery_id,

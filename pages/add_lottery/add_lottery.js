@@ -30,7 +30,6 @@ Page({
     lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT) * 10, // 每个人的奖励运气值
     show_plan: false,
     open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
-    tag_items: app.getTagItems(),
     desc_checked: !!app.getDesc(),
     desc_initiator: app.getDesc(),
     ad_checked: app.getAdsData().length > 0,
@@ -58,7 +57,6 @@ Page({
           open_people_num: lottery.open_people_num,
           plan_index: lottery.plan_index,
           lucky_num_per: lottery.lucky_num_per,
-          tag_items: lottery.tag_items,
           desc_checked: !!lottery.desc_initiator,
           desc_initiator: lottery.desc_initiator,
           ad_checked: lottery.pic_data && lottery.pic_data > 0,
@@ -106,28 +104,6 @@ Page({
 
     this.setData({
       plan_index: index
-    });
-  },
-  onSelectTag: function(e) {
-    let that = this;
-    wx.navigateTo({
-      url: ROUTE.TAGS,
-      events: {
-        [ROUTE_DATA.BACK_TAGS_TO_ADD_LOTTERY]: function(e) {
-          if (e && e.data) {
-            that.setData({
-              tag_items: e.data
-            });
-          }
-        }
-      },
-      success: function(res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit(
-          ROUTE_DATA.FROM_ADD_LOTTERY_TO_TAGS,
-          that.data.tag_items
-        );
-      }
     });
   },
   onSelectPrize: function(e) {
@@ -271,7 +247,6 @@ Page({
         plan_index: this.data.plan_index,
         plan: this.data.plans[this.data.plan_index],
         open_people_num: this.data.open_people_num,
-        tag_items: this.data.tag_items,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
         nickname: app.getNickname()
@@ -335,7 +310,6 @@ Page({
       let lottery = await dao.updateLottery({
         id: this.data.id,
         pic_data: this.data.pic_data,
-        tag_items: this.data.tag_items,
         desc_initiator: this.data.desc_initiator
       });
 

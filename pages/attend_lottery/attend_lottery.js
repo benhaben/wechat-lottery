@@ -2,7 +2,7 @@
 import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
-import { countDown } from "../../utils/function";
+import { countDown, formatDate } from "../../utils/function";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -14,30 +14,33 @@ Page({
    * 页面的初始数据
    */
   data: {
-    admin: false, // 管理员可以审批
-    url: CONST.DEFAULT_URL,
-    id: "",
-    hash: "",
-    total: "",
-    lucky_num: 0,
-    countdownStr: "",
-    open_people_num: 0,
-    avatar: "",
-    nickname: "",
-    sponsor: null,
-    tag_items: CONST.DEFAULT_TAG_ITEMS,
-    desc_initiator: "",
-    weight: 0,
-    pic_data: null,
-    attend_num: 0,
-    attend_avatar_list: [],
-    auth: false,
-    lottery_id: null,
-    attendBtnLoading: false,
+    lottery: {
+      url: CONST.DEFAULT_URL,
+      id: "",
+      hash: "",
+      total: "",
+      lucky_num: 0,
+      open_date: null,
+      countdownStr: "",
+      open_data_str: "",
+      open_people_num: 0,
+      avatar: "",
+      nickname: "",
+      sponsor: null,
+      desc_initiator: "",
+      pic_data: null,
+      attend_num: 0,
+      attend_avatar_list: [],
+      lottery_id: null,
+      attendBtnLoading: false,
+      selfLuckyNum: 0
+    },
     hasAttended: true,
-    selfLuckyNum: 0,
-    open_date: null,
-    showSharePopup: false
+    weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
+    auth: false,
+    admin: false, // 管理员可以审批
+    showSharePopup: false,
+    overlay: false
   },
 
   /**
@@ -86,31 +89,33 @@ Page({
       let admin = await dao.isAdmin();
 
       this.setData({
-        id: lottery.id,
-        hash: lottery.id.substr(0, 10),
-        url: lottery.url,
-        total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
-        lucky_num: lottery.lucky_num,
-        open_people_num: lottery.open_people_num,
-        avatar: lottery.avatar,
-        nickname: lottery.nickname,
-        sponsor: lottery.sponsor,
-        product_name: lottery.product_name,
-        product_num: lottery.product_num,
-        lottery_type: lottery.lottery_type,
-        tag_items: lottery.tag_items,
-        desc_initiator: lottery.desc_initiator,
-        pic_data: lottery.pic_data,
-        open_date: lottery.open_date,
+        lottery: {
+          id: lottery.id,
+          hash: lottery.id.substr(0, 10),
+          url: lottery.url,
+          total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
+          lucky_num: lottery.lucky_num,
+          open_people_num: lottery.open_people_num,
+          avatar: lottery.avatar,
+          nickname: lottery.nickname,
+          sponsor: lottery.sponsor,
+          product_name: lottery.product_name,
+          product_num: lottery.product_num,
+          lottery_type: lottery.lottery_type,
+          desc_initiator: lottery.desc_initiator,
+          pic_data: lottery.pic_data,
+          open_date: lottery.open_date,
+          fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+          status: lottery.status,
+          attend_num: attendees.data.meta.total_count,
+          attend_avatar_list: attendees.data.objects.map(
+            item => item.avatar_cache
+          ),
+          countdownStr: countDown(lottery.open_date),
+          open_data_str: formatDate(Date.parse(lottery.open_date))
+        },
         hasAttended,
-        admin,
-        fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
-        status: lottery.status,
-        attend_num: attendees.data.meta.total_count,
-        attend_avatar_list: attendees.data.objects.map(
-          item => item.avatar_cache
-        ),
-        countdownStr: countDown(lottery.open_date)
+        admin
       });
     } catch (e) {
       console.log(e);

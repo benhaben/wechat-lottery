@@ -5,6 +5,8 @@
 import { CONST, TABLE_ID } from "../../utils/constants";
 
 const MAX_GET_OPENED_LOTTERIES = 100;
+export const ADMIN_GROUP_ID = 5074;
+
 export const USER_LOTTERY_RECORD_TABLE = new BaaS.TableObject(
   TABLE_ID.USER_LOTTERY_RECORD
 );
@@ -32,7 +34,26 @@ export async function getOpenedLottery() {
     .limit(MAX_GET_OPENED_LOTTERIES)
     .find();
 }
-export const ADMIN_GROUP_ID = 5074;
+export async function inAdminGroup(user_id) {
+  let query = new BaaS.Query();
+  const cloudAdmin = "78355122";
+  if (user_id == cloudAdmin) {
+    console.log("inAdminGroup : cloudAdmin call...");
+    return true;
+  }
+  // 查询用户组 [ADMIN_GROUP_ID] 下的用户
+  query.in("_group", [ADMIN_GROUP_ID]);
+
+  let adminRes = await USER_TABLE.setQuery(query).find();
+  let isAdmin = false;
+  for (let item of adminRes.data.objects) {
+    if (item.id === user_id) {
+      isAdmin = true;
+      break;
+    }
+  }
+  return isAdmin;
+}
 
 export const LUCKY_SEED_HONGBAO = [
   0,

@@ -1,5 +1,7 @@
-import { LOTTERY_TABLE } from "./common";
-import { CONST } from "../utils/constants";
+import { inAdminGroup, LOTTERY_TABLE } from "./common";
+import { CONST, ERR_TYPE, ROUTE, WORD_LIST } from "../utils/constants";
+import { formatDate } from "../utils/function";
+
 /**
  * 修改状态到2
  * 由于抽奖不是商品，只能支付一次，所以不需要格外产生订单了，只需要改表抽奖状态即可
@@ -14,7 +16,7 @@ import { CONST } from "../utils/constants";
 // {
 //   "id":"5d83295f09e085798d1879ef",
 //     "status":2,
-//   "request":{"user":{"id":"81550584324453"}}
+//   "request":{"user":{"id":"94581109019031"}}
 // }
 
 export default async function approveLottery(event, callback) {
@@ -23,46 +25,97 @@ export default async function approveLottery(event, callback) {
   try {
     const { id, status } = event.data;
     const user_id = event.request.user.id;
+    let isAdmin = await inAdminGroup(user_id);
 
+    if (!isAdmin) {
+      throw new Error(ERR_TYPE.INSUFFICIENT_AUTHORITY);
+    }
     // 状态只能从1到2或者从1到-1
     if (!(status === CONST.REJECTED || status === CONST.APPROVED)) {
-      throw new Error("status状态错误");
+      throw new Error(ERR_TYPE.APPROVE_LOTTERY_STATUS_ERROR);
     }
 
     let resLottery = await LOTTERY_TABLE.get(id);
     let lottery = resLottery.data;
-    if (lottery.status !== CONST.WAIT_APPROVE) {
-      throw new Error("抽奖未支付");
+
+    if (lottery.status === CONST.APPROVED) {
+      throw new Error(ERR_TYPE.APPROVED);
+    } else if (lottery.status !== CONST.WAIT_APPROVE) {
+      throw new Error(ERR_TYPE.NOT_PAID);
     }
 
     let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
     lotteryRecord.set({ status: status });
     let ret = await lotteryRecord.update();
 
-    // TODO：驳回通知用户，到修改界面；成功，到参加抽奖页面
-    // let data = {
-    //   recipient_type: "user_list",
-    //   user_list: [id],
-    //   template_id: "EESiZK3g7xV0xtTYQWaCBhl-s6ElflHpD1Gqsfn6-6E",
-    //   submission_type: "form_id",
-    //   page: `pages/win_lottery/win_lottery?id=${lottery.id}`,
-    //   keywords: {
-    //     keyword1: {
-    //       value: `${lottery.nickname}发起的抽奖`
-    //     },
-    //     keyword2: {
-    //       value: "恭喜你，已经抽中红包"
-    //     },
-    //     keyword3: {
-    //       value: `${formatDate(Date.now())}`
-    //     },
-    //     keyword4: {
-    //       value: `${lottery.id}`
-    //     }
-    //   }
-    // };
-    //
-    //  BaaS.sendTemplateMessage(data);
+    // 驳回通知用户，到修改界面；成功，到参加抽奖页面
+    let data;
+    const TEMPLATE_ID = "EESiZK3g7xV0xtTYQWaCBr-beZ8R6GxDaqIFpeShOLA";
+    let content =
+      lottery.lottery_type == CONST.LOTTERY_TYPE_MONEY
+        ? WORD_LIST.LOTTERY_TYPE_MONEY
+        : WORD_LIST.LOTTERY_TYPE_PRODUCT;
+
+    if (status === CONST.REJECTED) {
+      let route =
+        lottery.lottery_type == CONST.LOTTERY_TYPE_MONEY
+          ? ROUTE.ADD_LOTTERY
+          : ROUTE.ADD_PRODUCT_LOTTERY;
+
+      let result = WORD_LIST.REJECTED;
+      let dateStr = `${formatDate(Date.now())}`;
+      data = {
+        recipient_type: "user_list",
+        user_list: [id],
+        template_id: TEMPLATE_ID,
+        submission_type: "form_id",
+        page: `${route}?id=${lottery.id}`,
+        keywords: {
+          keyword1: {
+            value: `${lottery.id}`
+          },
+          keyword3: {
+            value: result
+          },
+          keyword2: {
+            value: content
+          },
+          keyword4: {
+            value: dateStr
+          }
+        }
+      };
+    } else if (status === CONST.APPROVED) {
+      let route = ROUTE.ATTEND_LOTTERY;
+      let result = WORD_LIST.APPROVED;
+      let dateStr = `${formatDate(Date.now())}`;
+      data = {
+        recipient_type: "user_list",
+        user_list: [id],
+        template_id: TEMPLATE_ID,
+        submission_type: "form_id",
+        page: `${route}?id=${lottery.id}`,
+        keywords: {
+          keyword1: {
+            value: `${lottery.id}`
+          },
+          keyword3: {
+            value: result
+          },
+          keyword2: {
+            value: content
+          },
+          keyword4: {
+            value: dateStr
+          }
+        }
+      };
+    }
+
+    console.log(
+      `approveLottery - sendTemplateMessage data : ${JSON.stringify(data)}`
+    );
+    BaaS.sendTemplateMessage(data);
     callback(null, ret);
   } catch (e) {
     console.log(e);
