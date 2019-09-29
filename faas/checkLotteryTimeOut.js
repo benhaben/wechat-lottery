@@ -18,7 +18,9 @@ export default async function checkLotteryStatus(event, callback) {
     if (openedLotteries) {
       for (let lotteryIndex in openedLotteries) {
         console.log(
-          `openedLotteries[lotteryIndex] - ${openedLotteries[lotteryIndex]}`
+          `openedLotteries[lotteryIndex] - ${JSON.stringify(
+            openedLotteries[lotteryIndex]
+          )}`
         );
         let lottery = openedLotteries[lotteryIndex];
         let count = await getAttendeesCount(lottery.id);
@@ -37,6 +39,9 @@ export default async function checkLotteryStatus(event, callback) {
           let lotteryUpdate = LOTTERY_TABLE.getWithoutData(lottery.id);
           lotteryUpdate.set("open_date", time);
           let updateRes = await lotteryUpdate.update();
+          console.log(
+            `openedLotteries[updateRes] - ${JSON.stringify(updateRes)}`
+          );
         }
       }
       callback(null, "success");

@@ -2,8 +2,9 @@
  * 服务端转用,BaaS不需要加wx.前缀
  */
 
-import { TABLE_ID } from "../../utils/constants";
+import { CONST, TABLE_ID } from "../../utils/constants";
 
+const MAX_GET_OPENED_LOTTERIES = 100;
 export const USER_LOTTERY_RECORD_TABLE = new BaaS.TableObject(
   TABLE_ID.USER_LOTTERY_RECORD
 );
@@ -26,9 +27,9 @@ export async function getAttendeesCount(id) {
 export async function getOpenedLottery() {
   let query = new BaaS.Query();
   // 处于开奖的状态
-  query.compare("status", "=", 2);
+  query.compare("status", "=", CONST.APPROVED);
   return LOTTERY_TABLE.setQuery(query)
-    .limit(10)
+    .limit(MAX_GET_OPENED_LOTTERIES)
     .find();
 }
 export const ADMIN_GROUP_ID = 5074;
