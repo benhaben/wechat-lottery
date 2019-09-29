@@ -179,7 +179,7 @@ view{
   line-height: 60rpx;
   width: 250rpx;
   margin: 12rpx;
-  background: black;
+  background: gray;
   opacity: 0.7;
   color: white;
   font-size: 30rpx;
@@ -189,7 +189,7 @@ view{
 }
 
 .container__hash-image-icon {
-  color: red;
+  color: #EB132D;
   height: 50rpx;
   width: 50rpx;
 }

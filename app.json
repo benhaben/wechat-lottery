@@ -48,7 +48,7 @@
   },
   "plugins": {
     "sdkPlugin": {
-      "version": "2.7.0",
+      "version": "2.8.0",
       "provider": "wxc6b86e382a1e3294"
     }
   },

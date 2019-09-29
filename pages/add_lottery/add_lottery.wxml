@@ -5,7 +5,7 @@
     </van-button>
     <view wx:else class="container__hash">
       <view class="container__hash-image-icon">
-        <van-icon size="35rpx" name="gift"/>
+        <van-icon size="35rpx" name="point-gift"/>
       </view>
       <view>
         <text>{{hash}}</text>

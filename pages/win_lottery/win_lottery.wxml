@@ -29,7 +29,7 @@
 
       <view class="h-flex flex-justify-content-between win-switch margin30-bottom">
         <view class="win-switch__item bg-red color-white" bindtap="onGoLottery">
-          <van-icon name="gift-o" size="35rpx"></van-icon>
+          <van-icon name="point-gift" size="35rpx"></van-icon>
           <view>去查看</view>
         </view>
         <view class="win-switch__item border-gray color-gray bg-base" bindtap="onGoHome">
