@@ -1,7 +1,8 @@
 // pages/win_lottery/win_lottery.js
-import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import { formatDate, toFixed3 } from "../../utils/function";
+import { ROUTE_DATA } from "../../utils/uiConstants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();

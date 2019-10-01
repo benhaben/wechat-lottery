@@ -1,16 +1,10 @@
 // pages/user_balance/user_balance.js
 import Toast from "../../lib/van/toast/toast";
 import dao from "../../utils/dao";
-import {
-  CONST,
-  ERR_TYPE,
-  PAGE_SIZE,
-  ROUTE,
-  ROUTE_DATA,
-  SUCCESS_TYPE
-} from "../../utils/constants";
+import { CONST, ERR_TYPE, ROUTE, SUCCESS_TYPE } from "../../utils/constants";
 import { countDown } from "../../utils/function";
 import { vWithdrawMoney } from "../../utils/validateFn";
+import { PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();

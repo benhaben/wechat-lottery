@@ -1,9 +1,10 @@
 // pages/share_pic/share_pic.js
 import Poster from "../../components/poster-gen-canvas/poster/poster";
-import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { CONST, ROUTE } from "../../utils/constants";
 import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
 import { saveToAlbum } from "../../utils/uiFunction";
+import { ROUTE_DATA } from "../../utils/uiConstants";
 
 const red = "rgb(222,26,24)";
 const app = getApp();

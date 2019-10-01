@@ -1,8 +1,9 @@
 // pages/attend_lottery/attend_lottery.js
-import { CONST, ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { countDown, formatDate } from "../../utils/function";
+import { ROUTE_DATA, WECHAT_SCENE } from "../../utils/uiConstants";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -47,17 +48,29 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function(options) {
-    let that = this;
-    let { id, inviter_uid } = options;
-    // let id = "5d7612d71db94f5d2e68fd74";
+    let { scene, id, inviter_uid } = options;
+
+    // 假设扫码过来的 query 在 onLoad 可以拿到
+    if (inviter_uid && id) {
+      let ret = await dao.addInviter(inviter_uid);
+      console.log(ret);
+      // 从分享会话进入
+      app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
+    } else if (scene) {
+      let sceneStr = decodeURIComponent(scene);
+      inviter_uid = sceneStr.substring(0, 8);
+      id = sceneStr.substring(8, 32);
+      let ret = await dao.addInviter(inviter_uid);
+      console.log(ret);
+      // 从分享海报进入
+      app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
+    } else {
+      // 默认进入
+      app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
+    }
 
     if (!id) {
       return;
-    }
-
-    if (inviter_uid) {
-      let ret = await dao.addInviter(inviter_uid);
-      console.log(ret);
     }
 
     // 获取数据
@@ -180,6 +193,8 @@ Page({
         weight: this.data.weight,
         lottery_id: this.data.lottery_id
       });
+
+      app.sendAttendLotteryEvent(this.data.lottery_id, this.data.lottery_type);
       if (res) {
         this.setData({ attendBtnLoading: false, hasAttended: true });
       } else {

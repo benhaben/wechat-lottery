@@ -1,5 +1,5 @@
 // pages/details.js
-import { ROUTE_DATA } from "../../utils/constants";
+import { ROUTE_DATA } from "../../utils/uiConstants";
 
 Page({
   /**

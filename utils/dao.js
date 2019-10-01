@@ -1,4 +1,4 @@
-import { FUNCTION_NAME, PAGE_SIZE, CONST, ERR_TYPE } from "./constants";
+import { FUNCTION_NAME, CONST, ERR_TYPE } from "./constants";
 
 import {
   LOTTERY_TABLE,
@@ -10,6 +10,7 @@ import {
   WITHDRAW_TABLE
 } from "./table";
 import { formatDate } from "./function";
+import { PAGE_SIZE } from "./uiConstants";
 export default {
   /**
    * 增加100运气值给inviter_uid

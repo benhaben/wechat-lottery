@@ -1,10 +1,11 @@
 import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
-import { ROUTE, ROUTE_DATA, CONST, TABLE_ID } from "../../utils/constants";
+import { ROUTE, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
 import { toFixed1, openDateTimeStamp } from "../../utils/function";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
+import { ROUTE_DATA } from "../../utils/uiConstants";
 
 const { regeneratorRuntime } = global;
 

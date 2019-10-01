@@ -1,13 +1,8 @@
 import Toast from "../../lib/van/toast/toast";
 import dao from "../../utils/dao";
-import {
-  CONST,
-  PAGE_SIZE,
-  ROUTE,
-  ROUTE_DATA,
-  WORD_LIST
-} from "../../utils/constants";
+import { CONST, ROUTE, WORD_LIST } from "../../utils/constants";
 import { countDown } from "../../utils/function";
+import { PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
 const { regeneratorRuntime } = global;
 const app = getApp();
 

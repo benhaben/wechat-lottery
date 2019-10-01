@@ -1,7 +1,8 @@
 // pages/user_all_lotteries/user_all_lotteries.js
 import dao from "../../utils/dao";
-import { CONST, PAGE_SIZE, ROUTE } from "../../utils/constants";
+import { CONST, ROUTE } from "../../utils/constants";
 import { countDown } from "../../utils/function";
+import { PAGE_SIZE } from "../../utils/uiConstants";
 const { regeneratorRuntime } = global;
 const app = getApp();
 

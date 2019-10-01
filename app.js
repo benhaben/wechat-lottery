@@ -2,7 +2,11 @@ import { toFixed3 } from "./utils/function";
 
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 import store from "./utils/store.js";
-import { CONST } from "./utils/constants";
+import {
+  WECHAT_REPORT_ANALYTICS_MAP,
+  WECHAT_SCENE,
+  ATTEND_LOTTERY_EVENT
+} from "./utils/uiConstants";
 
 App({
   onLaunch: function() {
@@ -91,6 +95,31 @@ App({
       uid,
       lotteryID
     };
+  },
+  /**
+   * 事件上报
+   * @param {String} eventName
+   * @param {String} key
+   * @param {String} value
+   */
+  wxReportAnalytics(eventName, key, value = "1") {
+    wx.reportAnalytics(eventName, {
+      key: value
+    });
+  },
+  sendAttendLotteryEvent(id, lottery_type) {
+    wx.reportAnalytics(ATTEND_LOTTERY_EVENT, {
+      lottery_type: lottery_type,
+      id: id
+    });
+  },
+  sendReportAnalytics(scene) {
+    let actions =
+      WECHAT_REPORT_ANALYTICS_MAP[scene] ||
+      WECHAT_REPORT_ANALYTICS_MAP[WECHAT_SCENE.FROM_DEFAULT];
+    actions.map(item => {
+      this.wxReportAnalytics(...item);
+    });
   },
   onShow: function(options) {
     // 上报模版消息卡片点击事

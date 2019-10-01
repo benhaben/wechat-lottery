@@ -1,7 +1,8 @@
 // pages/user_desc/user_desc.js
 import Toast from "../../lib/van/toast/toast";
 import dao from "../../utils/dao";
-import { CONST, ROUTE_DATA } from "../../utils/constants";
+import { CONST } from "../../utils/constants";
+import { ROUTE_DATA } from "../../utils/uiConstants";
 const { regeneratorRuntime } = global;
 
 const app = getApp();

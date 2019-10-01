@@ -1,6 +1,7 @@
 import dao from "../../utils/dao";
-import { PAGE_SIZE, ROUTE, ROUTE_DATA, CONST } from "../../utils/constants";
+import { ROUTE, CONST } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
+import { PAGE_SIZE, ROUTE_DATA, WECHAT_SCENE } from "../../utils/uiConstants";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
@@ -70,7 +71,7 @@ Page({
       page_size: this.data.page_size + add.length
     });
   },
-  onLoad: async function() {
+  onLoad: async function(options) {
     try {
       // 知晓云云函数调试比较麻烦，只能在前端模拟一下
       // await main({}, (err, msg) => {
@@ -78,10 +79,24 @@ Page({
       //   console.log(err);
       // });
 
-      const { inviter_uid } = this.options;
+      let { scene, inviter_uid } = options;
+
+      // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid) {
         let ret = await dao.addInviter(inviter_uid);
         console.log(ret);
+        // 从分享会话进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
+      } else if (scene) {
+        let sceneStr = decodeURIComponent(scene);
+        inviter_uid = sceneStr.substring(0, 8);
+        let ret = await dao.addInviter(inviter_uid);
+        console.log(ret);
+        // 从分享海报进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
+      } else {
+        // 默认进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
       }
 
       let user_id = app.getUserId();

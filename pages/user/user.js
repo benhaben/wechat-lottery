@@ -1,5 +1,6 @@
-import { CONST, PAGE_SIZE, ROUTE, ROUTE_DATA } from "../../utils/constants";
+import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
+import { PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();

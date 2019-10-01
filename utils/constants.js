@@ -22,14 +22,6 @@ export const ROUTE = {
   USER_SEND_LOTTERIES: "/pages/user_send_lotteries/user_send_lotteries"
 };
 
-export const ROUTE_DATA = {
-  FROM_ADD_LOTTERY_TO_TAGS: "ADD_LOTTERY_TO_TAGS",
-  BACK_PIC_DETAILS_TO_ADD_LOTTERY: "BACK_PIC_DETAILS_TO_ADD_LOTTERY",
-  FROM_ADD_LOTTERY_TO_PIC_DETAILS: "FROM_ADD_LOTTERY_TO_PIC_DETAILS",
-  BACK_TAGS_TO_ADD_LOTTERY: "BACK_TAGS_TO_ADD_LOTTERY",
-  FROM_ATTEND_LOTTERY_TO_SHARE_PIC: "FROM_ATTEND_LOTTERY_TO_SHARE_PIC"
-};
-
 export const ERR_TYPE = {
   GET_LOTTERY_FAILED: "get lottery failed",
   OUT_OF_LUCKY_NUM: "out of lucky num",
@@ -81,30 +73,6 @@ export const FUNCTION_NAME = {
   APPROVE_LOTTERY: "approveLottery",
   IS_ADMIN: "isAdmin"
 };
-export const WECHAT_SCENE = {
-  FROM_CHAT: "FROM_CHAT",
-  FROM_POSTER: "FROM_POSTER",
-  FROM_DEFAULT: "FROM_DEFAULT"
-};
-
-export const WECHAT_REPORT_ANALYTICS_MAP = {
-  [WECHAT_SCENE.FROM_CHAT]: [
-    ["ana_user_source", "user_source", "Link"],
-    ["ana_user_source_link", "link"],
-    ["ana_user_source_share", "share"]
-  ],
-  [WECHAT_SCENE.FROM_POSTER]: [
-    ["ana_user_source", "user_source", "QR"],
-    ["ana_user_source_qrcode", "qrcode"],
-    ["ana_user_source_share", "share"]
-  ],
-  [WECHAT_SCENE.FROM_DEFAULT]: [
-    ["ana_user_source", "user_source", "default"],
-    ["ana_user_source_default", "default"]
-  ]
-};
-
-export const PAGE_SIZE = 10;
 
 // TODO：一些参数最好在服务端配置，如果再服务端计算就要有接口，现在都在小程序侧做，重客户端
 

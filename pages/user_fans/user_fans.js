@@ -1,8 +1,9 @@
 // pages/user_fans/user_fans.js
 
 import dao from "../../utils/dao";
-import { PAGE_SIZE, ROUTE } from "../../utils/constants";
+import { ROUTE } from "../../utils/constants";
 import { countDown, formatDate } from "../../utils/function";
+import { PAGE_SIZE } from "../../utils/uiConstants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
