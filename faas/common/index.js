@@ -2,7 +2,7 @@
  * 服务端转用,BaaS不需要加wx.前缀
  */
 
-import { CONST, TABLE_ID } from "../../utils/constants";
+import { CONFIG_ID, CONST, TABLE_ID } from "../../utils/constants";
 
 const MAX_GET_OPENED_LOTTERIES = 100;
 export const ADMIN_GROUP_ID = 5074;
@@ -55,6 +55,16 @@ export async function inAdminGroup(user_id) {
   }
   return isAdmin;
 }
+
+export async function getConfigByKey(key) {
+  let configRes = await CONFIG_TABLE.get(CONFIG_ID);
+  let config = configRes.data;
+  return config[key];
+}
+
+export const RECORD_CREATE_REASON = {
+  ADD_INVITER: "邀请好友，增加运气值"
+};
 
 export const LUCKY_SEED_HONGBAO = [
   0,

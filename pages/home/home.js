@@ -80,7 +80,8 @@ Page({
 
       const { inviter_uid } = this.options;
       if (inviter_uid) {
-        await dao.addInviter(inviter_uid, app.getUserId());
+        let ret = await dao.addInviter(inviter_uid);
+        console.log(ret);
       }
 
       let user_id = app.getUserId();

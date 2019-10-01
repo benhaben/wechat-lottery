@@ -44,7 +44,10 @@ export const ERR_TYPE = {
   WITHDRAW_STATUS_ERROR: "status 状态错误；修改的目标状态只能是1或者-1",
   WITHDRAW_APPROVED: "提现已经审批通过了",
   WITHDRAW_STATUS_CURRENT_ERROR:
-    "status 状态错误；状态只能从0到1或者从0到-1，当前不是0"
+    "status 状态错误；状态只能从0到1或者从0到-1，当前不是0",
+  ADD_INVITER_ID_SAME: "邀请人和被邀请人不能是同一人",
+  ADD_INVITER_UID_EXIST: "已经存在邀请人",
+  UID_NOT_EXIST: "找不到该用户"
 };
 
 export const SUCCESS_TYPE = {
@@ -69,6 +72,7 @@ export const TABLE_ID = {
 export const CONFIG_ID = "5d7917899d8da5229c037105";
 
 export const FUNCTION_NAME = {
+  ADD_INVITER: "addInviter",
   CREATE_WITHDRAW: "createWithdraw",
   APPROVE_WITHDRAW: "approveWithdraw",
   CREATE_LOTTERY: "createLottery",
@@ -113,6 +117,10 @@ export const WORD_LIST = {
   WITHDRAW: "提现",
   APPROVED: "审批通过",
   REJECTED: "审批不通过"
+};
+
+export const CONFIG_KEY = {
+  LUCKY_RATIO_INVITATION: "lucky_ratio_invitation"
 };
 
 export const CONST = {

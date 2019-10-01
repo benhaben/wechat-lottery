@@ -1,4 +1,4 @@
-import { FUNCTION_NAME, PAGE_SIZE, CONST } from "./constants";
+import { FUNCTION_NAME, PAGE_SIZE, CONST, ERR_TYPE } from "./constants";
 
 import {
   LOTTERY_TABLE,
@@ -11,6 +11,20 @@ import {
 } from "./table";
 import { formatDate } from "./function";
 export default {
+  /**
+   * 增加100运气值给inviter_uid
+   * @param inviter_uid
+   * @param user_id
+   * @returns {Promise<string|*>}
+   */
+  async addInviter(inviter_uid) {
+    let ret = await wx.BaaS.invokeFunction(
+      FUNCTION_NAME.ADD_INVITER,
+      inviter_uid
+    );
+    console.log(ret);
+    return ret.data;
+  },
   /**
    * 创建提现申请
    * @param money
@@ -282,18 +296,6 @@ export default {
       .limit(limit)
       .offset(offset)
       .find();
-  },
-
-  async addInviter(inviter_uid, user_id) {
-    let userRes = await USER_TABLE.get(user_id);
-    let user = userRes.data;
-    if (user && !user.inviter_uid) {
-      let userUpdate = USER_TABLE.getWithoutData(user_id);
-      userUpdate.set("inviter_uid", parseInt(inviter_uid));
-      return userUpdate.update();
-    } else {
-      return "inviter_uid exist";
-    }
   },
 
   async dailyCheckin(user_id) {
