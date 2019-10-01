@@ -42,7 +42,6 @@ Page({
     try {
       let that = this;
       let lottery_id = options.id;
-      // let lottery_id = "5d7612d71db94f5d2e68fd74";
 
       if (lottery_id) {
         // 修改

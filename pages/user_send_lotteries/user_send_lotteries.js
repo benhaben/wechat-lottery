@@ -51,15 +51,28 @@ Page({
   onTap(event) {
     let id = event.currentTarget.dataset.id;
     let type = event.currentTarget.dataset.type;
+    let status = event.currentTarget.dataset.status;
 
     if (type == CONST.LOTTERY_TYPE_PRODUCT) {
-      wx.navigateTo({
-        url: `${ROUTE.ADD_PRODUCT_LOTTERY}?id=${id}`
-      });
-    } else {
-      wx.navigateTo({
-        url: `${ROUTE.ADD_LOTTERY}?id=${id}`
-      });
+      if (status == CONST.OPENED) {
+        wx.navigateTo({
+          url: `${ROUTE.LOTTERY_FINISHED}?id=${id}`
+        });
+      } else {
+        wx.navigateTo({
+          url: `${ROUTE.ADD_PRODUCT_LOTTERY}?id=${id}`
+        });
+      }
+    } else if (type == CONST.LOTTERY_TYPE_MONEY) {
+      if (status == CONST.OPENED) {
+        wx.navigateTo({
+          url: `${ROUTE.LOTTERY_FINISHED}?id=${id}`
+        });
+      } else {
+        wx.navigateTo({
+          url: `${ROUTE.ADD_LOTTERY}?id=${id}`
+        });
+      }
     }
   }
 });

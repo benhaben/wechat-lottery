@@ -34,6 +34,7 @@
       <van-cell title="{{item.title}}" icon="{{item.icon}}"
                 bind:click="onCellClick"
                 data-url="{{item.url}}"
+                data-title="{{item.title}}"
                 wx:for="{{cells}}"
                 wx:key="{{index}}"
                 is-link/>

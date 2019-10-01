@@ -1,6 +1,6 @@
 <view>
   <view class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between" wx:for="{{lotteries}}"
-        wx:key="{{index}}" data-id="{{item.id}}" data-type="{{item.lottery_type}}" bindtap="onTap">
+        wx:key="{{index}}" data-id="{{item.id}}" data-status="{{item.status}}" data-type="{{item.lottery_type}}" bindtap="onTap">
     <view class="left flex-basis40">
       <image mode="aspectFit" class="height220 width220" src="{{item.url}}"></image>
     </view>

@@ -1,4 +1,4 @@
-import { FUNCTION_NAME, CONST, ERR_TYPE } from "./constants";
+import { FUNCTION_NAME, CONST } from "./constants";
 
 import {
   LOTTERY_TABLE,
@@ -7,7 +7,8 @@ import {
   DAILY_CHECKIN_TABLE,
   BALANCE_LUCKY_RECORD_TABLE,
   QUESTIONS_TABLE,
-  WITHDRAW_TABLE
+  WITHDRAW_TABLE,
+  ADDRESS_BOOK_TABLE
 } from "./table";
 import { formatDate } from "./function";
 import { PAGE_SIZE } from "./uiConstants";
@@ -25,6 +26,77 @@ export default {
     );
     console.log(ret);
     return ret.data;
+  },
+
+  async getAddressByUserId(user_id) {
+    console.log(`createOrUpdateAddress - user_id : ${user_id}`);
+
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+
+    let addressRes = await ADDRESS_BOOK_TABLE.select([
+      "user_id",
+      "user_name",
+      "postal_code",
+      "province_name",
+      "city_name",
+      "county_name",
+      "detail_info",
+      "national_code",
+      "national_code"
+    ])
+      .setQuery(query)
+      .find();
+    let address = addressRes.data.objects[0];
+    return address;
+  },
+
+  async createOrUpdateAddress(data, user_id) {
+    console.log(
+      `createOrUpdateAddress - data : ${JSON.stringify(
+        data
+      )} - user_id : ${user_id}`
+    );
+
+    let query = new wx.BaaS.Query();
+    query.compare("user_id", "=", user_id);
+    let addressRes = await ADDRESS_BOOK_TABLE.setQuery(query).find();
+    let address = addressRes.data.objects[0];
+    let ret;
+    if (address) {
+      let updateObject = ADDRESS_BOOK_TABLE.getWithoutData(address.id);
+
+      updateObject.set({
+        user_id,
+        user_name: data.userName,
+        postal_code: data.postalCode,
+        province_name: data.provinceName,
+        city_name: data.cityName,
+        county_name: data.countyName,
+        detail_info: data.detailInfo,
+        national_code: data.nationalCode,
+        tel_number: data.telNumber
+      });
+
+      ret = await updateObject.update();
+    } else {
+      let createObject = ADDRESS_BOOK_TABLE.create();
+      createObject.set({
+        user_id,
+        user_name: data.userName,
+        postal_code: data.postalCode,
+        province_name: data.provinceName,
+        city_name: data.cityName,
+        county_name: data.countyName,
+        detail_info: data.detailInfo,
+        national_code: data.nationalCode,
+        tel_number: data.telNumber
+      });
+
+      ret = await createObject.save();
+    }
+    console.log(`createOrUpdateAddress - ${JSON.stringify(ret)}`);
+    return ret;
   },
   /**
    * 创建提现申请
@@ -239,7 +311,7 @@ export default {
   },
 
   /**
-   * 从参加抽奖记录表拿抽奖记录，拿到说明参加过了，拿不到说明没参加过
+   * 查询自己是否中奖，从参加抽奖记录表拿抽奖记录，拿到说明参加过了，拿不到说明没参加过
    * @param id
    * @param user_id
    * @returns {Promise<*|NodePath<Node>|number|bigint|T|T>}
@@ -251,6 +323,23 @@ export default {
     let query = new wx.BaaS.Query();
     query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
     query.compare("user", "=", USER_TABLE.getWithoutData(user_id));
+    return USER_LOTTERY_RECORD_TABLE.setQuery(query)
+      .expand(["user", "lottery"])
+      .find();
+  },
+
+  /**
+   * 查询实物中奖者
+   * @param id
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async getProductWinnerByLotteryId(id = "") {
+    if (!id) {
+      throw TypeError("id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    query.compare("lottery_result", "=", CONST.GET_PRODUCT);
     return USER_LOTTERY_RECORD_TABLE.setQuery(query)
       .expand(["user", "lottery"])
       .find();

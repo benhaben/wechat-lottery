@@ -1,6 +1,7 @@
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
-import { PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
+import { ADDRESS, PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
+import wxPromise from "../../utils/wxPromise";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -34,6 +35,10 @@ Page({
         title: "个人简介",
         icon: "description",
         url: ROUTE.USER_DESC
+      },
+      {
+        title: ADDRESS,
+        icon: "free-postage"
       }
     ]
   },
@@ -114,13 +119,31 @@ Page({
       url: ROUTE.USER_GET_LOTTERIES
     });
   },
-  onCellClick(event) {
+  async onCellClick(event) {
     if (this.showLoginPopup()) {
       return;
     } else {
-      wx.navigateTo({
-        url: event.currentTarget.dataset.url
-      });
+      if (ADDRESS === event.currentTarget.dataset.title) {
+        try {
+          let address;
+          let res = await wxPromise.getSetting();
+          if (!res.authSetting["scope.address"]) {
+            await wx.authorize({ scope: "scope.address" });
+            address = await wxPromise.chooseAddress();
+          } else {
+            address = await wxPromise.chooseAddress();
+          }
+          if (address) {
+            await dao.createOrUpdateAddress(address, app.getUserId());
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        wx.navigateTo({
+          url: event.currentTarget.dataset.url
+        });
+      }
     }
   },
   userInfoHandler(data) {

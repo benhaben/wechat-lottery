@@ -67,8 +67,8 @@
 				},
 				{
 					"id": 3,
-					"name": "pages/share_pic/share_pic",
-					"pathName": "pages/share_pic/share_pic",
+					"name": "pages/user_send_lotteries/user_send_lotteries",
+					"pathName": "pages/user_send_lotteries/user_send_lotteries",
 					"query": "inviter_uid =1",
 					"scene": 1007
 				},

@@ -164,7 +164,7 @@ view{
 
 .link-text-arrow{
   color: gray;
-  font-size: 30rpx;
+  font-size: 25rpx;
 }
 .link-arrow-vertical-align{
   color: gray;

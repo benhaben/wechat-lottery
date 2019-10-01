@@ -37,7 +37,6 @@ Page({
       pic_data: null,
       attend_num: 0,
       attend_avatar_list: [],
-      lottery_id: null,
       attendBtnLoading: false,
       selfLuckyNum: 0
     },
@@ -66,7 +65,7 @@ Page({
         debugger;
         let deRet = deSceneOfAttendPage(scene);
         inviter_uid = deRet.inviter_uid;
-        let prefix_id = deRet.lottery_id;
+        let prefix_id = deRet.prefix_lottery_id;
         let fullIdRes = await dao.queryLottery(1, 0, prefix_id);
         id = fullIdRes.data.objects[0].id;
         let ret = await dao.addInviter(inviter_uid);
@@ -85,8 +84,7 @@ Page({
       await app.getUserInfo(app.getUserId());
       this.setData({
         selfLuckyNum: app.getLuckyNum(),
-        auth: app.hasAuth(),
-        lottery_id: id
+        auth: app.hasAuth()
       });
 
       let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
@@ -187,7 +185,7 @@ Page({
       //   {
       //     data: {
       //       weight: this.data.weight,
-      //       lottery_id: this.data.lottery_id
+      //       lottery_id: this.data.lottery.id
       //     },
       //     request: { user: { id: app.getUserId() } }
       //   },
@@ -198,10 +196,10 @@ Page({
 
       let res = await dao.attendLottery({
         weight: this.data.weight,
-        lottery_id: this.data.lottery_id
+        lottery_id: this.data.lottery.id
       });
 
-      app.sendAttendLotteryEvent(this.data.lottery_id, this.data.lottery_type);
+      app.sendAttendLotteryEvent(this.data.lottery.id, this.data.lottery_type);
       if (res) {
         this.setData({ attendBtnLoading: false, hasAttended: true });
       } else {
@@ -231,7 +229,7 @@ Page({
   },
   onGoToAttendees() {
     wx.navigateTo({
-      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery_id}&type=${CONST.GET_ATTENDEES}`
+      url: `${ROUTE.ATTENDEES}?id=${this.data.lottery.id}&type=${CONST.GET_ATTENDEES}`
     });
   },
   onCloseSharePopup() {
@@ -260,7 +258,7 @@ Page({
     return {
       title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
-        this.data.lottery_id
+        this.data.lottery.id
       }&nickname=${app.getNickname()}`,
       success: function(res) {
         console.log("成功", res);
@@ -283,7 +281,7 @@ Page({
       //   }
       // );
 
-      let ret = await dao.approveLottery(this.data.id, CONST.APPROVED);
+      let ret = await dao.approveLottery(this.data.lottery.id, CONST.APPROVED);
       Toast.success("审批通过成功");
       wx.navigateBack();
     } catch (e) {
@@ -292,7 +290,7 @@ Page({
   },
   async onReject() {
     try {
-      await dao.approveLottery(this.data.id, CONST.REJECTED);
+      await dao.approveLottery(this.data.lottery.id, CONST.REJECTED);
       Toast.success("已驳回");
       wx.navigateBack();
     } catch (e) {

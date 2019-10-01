@@ -19,5 +19,6 @@ export const WECHAT_REPORT_ANALYTICS_MAP = {
 
 export const ATTEND_LOTTERY_EVENT = "attend_lottery_event";
 export const DEFAULT_SPONSOR = "好运码头";
+export const ADDRESS = "收货地址";
 
 export const PAGE_SIZE = 10;

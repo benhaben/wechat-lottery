@@ -5,6 +5,7 @@ export const ROUTE = {
   PIC_DETAILS: "/pages/pic_details/details",
   ADD_LOTTERY: "/pages/add_lottery/add_lottery",
   ADD_PRODUCT_LOTTERY: "/pages/add_product_lottery/add_product_lottery",
+  LOTTERY_FINISHED: "/pages/lottery_finished/lottery_finished",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
   USER: "/pages/user/user",
   USER_LUCKY: "/pages/user_lucky/user_lucky",
@@ -58,7 +59,8 @@ export const TABLE_ID = {
   DAILY_CHECKIN: 84214,
   BALANCE_LUCKY_RECORD: 83371,
   QUESTIONS: 84573,
-  WITHDRAW: 84648
+  WITHDRAW: 84648,
+  ADDRESS_BOOK: 84947
 };
 
 export const CONFIG_ID = "5d7917899d8da5229c037105";

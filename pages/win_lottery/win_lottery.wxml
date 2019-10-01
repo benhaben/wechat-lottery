@@ -90,12 +90,12 @@
     </view>
 
     <view class="h-flex flex-col flex-align-center height180 bg-white margin30-bottom">
-      <view class="link-text-arrow margin30" bindtap="onGotoAttendees">
+      <view class="margin30 ">
+        <image class="margin30-right avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
+      </view>
+      <view class="link-text-arrow margin30-bottom" bindtap="onGotoAttendees">
         {{attend_num}} 人参与，查看全部
         <van-icon class="link-arrow-vertical-align" name="arrow"/>
-      </view>
-      <view class="margin30-bottom">
-        <image class="margin30-right avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
       </view>
     </view>
 

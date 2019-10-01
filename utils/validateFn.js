@@ -28,9 +28,9 @@ export function genSceneOfAttendPage(user_id, lottery_id) {
 export function deSceneOfAttendPage(scene) {
   let sceneStr = decodeURIComponent(scene);
   let inviter_uid = sceneStr.substring(0, 14);
-  let lottery_id = sceneStr.substring(14, 32);
+  let prefix_lottery_id = sceneStr.substring(14, 32);
   return {
     inviter_uid,
-    lottery_id
+    prefix_lottery_id
   };
 }
