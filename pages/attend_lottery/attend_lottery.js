@@ -3,7 +3,11 @@ import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { countDown, formatDate } from "../../utils/function";
-import { ROUTE_DATA, WECHAT_SCENE } from "../../utils/uiConstants";
+import {
+  DEFAULT_SPONSOR,
+  ROUTE_DATA,
+  WECHAT_SCENE
+} from "../../utils/uiConstants";
 import { deSceneOfAttendPage } from "../../utils/validateFn";
 
 // import main from "../../faas/attendLotteryTest";
@@ -41,8 +45,7 @@ Page({
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
     auth: false,
     admin: false, // 管理员可以审批
-    showSharePopup: false,
-    overlay: false
+    showSharePopup: false
   },
 
   /**
@@ -232,10 +235,10 @@ Page({
     });
   },
   onCloseSharePopup() {
-    this.setData({ overlay: false, showSharePopup: false });
+    this.setData({ showSharePopup: false });
   },
   onShare: function(e) {
-    this.setData({ overlay: true, showSharePopup: true });
+    this.setData({ showSharePopup: true });
   },
   genPic: function(e) {
     let that = this;
@@ -249,12 +252,13 @@ Page({
         );
       }
     });
+    this.setData({ showSharePopup: false });
   },
   onShareAppMessage: function() {
-    this.setData({ overlay: false, showSharePopup: false });
+    this.setData({ showSharePopup: false });
 
     return {
-      title: `${app.getNickname()}邀请你参与【好运码头官方粉丝代表】发起的抽奖`,
+      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery_id
       }&nickname=${app.getNickname()}`,

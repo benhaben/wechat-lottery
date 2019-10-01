@@ -88,11 +88,14 @@
 
 <view class="info-row margin30-bottom info-text">
   <view class="info__row_left">
-    <image class="avatar margin30-right" src="{{avatar}}"></image>
-    <text>发起人：{{nickname}}</text>
+<!--    <image class="avatar margin30-right" src="{{avatar}}"></image>-->
+<!--    <text>发起人：{{nickname}}</text>-->
   </view>
   <view class="info__row_right" wx:if="{{sponsor}}">
     <text >赞助商：{{sponsor}}</text>
+  </view>
+  <view class="info__row_right" wx:else>
+    <text >赞助商：好运码头</text>
   </view>
 </view>
 </template>

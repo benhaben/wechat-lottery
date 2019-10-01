@@ -24,24 +24,27 @@ let posterConfig = {
   ],
   texts: [
     {
-      x: 224,
+      x: 300,
       y: 75,
+      textAlign: "center",
       baseLine: "middle",
       text: "好运码头",
       fontSize: 38,
       color: "#EB132D"
     },
     {
-      x: 88,
+      x: 300,
       y: 177,
+      textAlign: "center",
       baseLine: "middle",
       text: "一个免费抽奖，带来好运的工具",
       fontSize: 30,
       color: "#323233"
     },
     {
-      x: 160,
+      x: 300,
       y: 600,
+      textAlign: "center",
       fontSize: 28,
       baseLine: "middle",
       text: "长按识别小程序，参与抽奖",
@@ -51,10 +54,10 @@ let posterConfig = {
   ],
   images: [
     {
-      width: 220,
-      height: 220,
-      x: 200,
-      y: 305,
+      width: 250,
+      height: 250,
+      x: 175,
+      y: 265,
       url: ""
     }
   ]

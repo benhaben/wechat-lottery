@@ -4,7 +4,7 @@ import { CONST, ROUTE } from "../../utils/constants";
 import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
 import { saveToAlbum } from "../../utils/uiFunction";
-import { ROUTE_DATA } from "../../utils/uiConstants";
+import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
 import { genSceneOfAttendPage } from "../../utils/validateFn";
 
 const red = "#C42731";
@@ -59,8 +59,8 @@ let posterConfig = {
     },
     {
       x: 70,
-      y: 700,
-      fontSize: 25,
+      y: 705,
+      fontSize: 22,
       baseLine: "middle",
       text: "麦辣鸡腿堡发起",
       color: gray,
@@ -69,10 +69,10 @@ let posterConfig = {
 
     {
       x: 70,
-      y: 735,
+      y: 740,
       baseLine: "middle",
       text: "参加者达到1000人，按时开奖",
-      fontSize: 25,
+      fontSize: 22,
       color: gray,
       zIndex: 200
     },
@@ -82,7 +82,7 @@ let posterConfig = {
       textAlign: "center",
       baseLine: "middle",
       text: "长按识别小程序码",
-      fontSize: 25,
+      fontSize: 18,
       color: gray,
       zIndex: 200
     }
@@ -142,6 +142,15 @@ Page({
           true
         );
         posterConfig.images[2].url = res.download_url;
+        if (data.lottery.lottery_type === CONST.LOTTERY_TYPE_MONEY) {
+          posterConfig.texts[2].text = `红包方案：${data.lottery.total}`;
+        } else {
+          posterConfig.texts[2].text = `奖品：${data.lottery.product_name}`;
+        }
+        posterConfig.texts[3].text = `赞助商：${data.lottery.sponsor ||
+          DEFAULT_SPONSOR}`;
+        posterConfig.texts[4].text = `参加者达到${data.lottery.open_people_num}人，择吉时时开奖`;
+
         that.onCreatePoster();
       } catch (e) {
         console.log(e);

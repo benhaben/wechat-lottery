@@ -1,6 +1,6 @@
 <view class="h-flex flex-col container flex-col">
-  <view class="flex-grow-1 height-per100 weight-per100 h-flex flex-align-center">
-    <image mode="widthFix" class="weight-per100 height-per100" src="{{url}}"/>
+  <view class="flex-grow-1 height-per100 weight-per100 h-flex flex-center">
+    <image mode="widthFix"  src="{{url}}"/>
   </view>
 
   <poster class="poster" id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">

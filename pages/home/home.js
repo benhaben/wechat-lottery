@@ -1,7 +1,12 @@
 import dao from "../../utils/dao";
 import { ROUTE, CONST } from "../../utils/constants";
 import { countDown, throttle } from "../../utils/function";
-import { PAGE_SIZE, ROUTE_DATA, WECHAT_SCENE } from "../../utils/uiConstants";
+import {
+  DEFAULT_SPONSOR,
+  PAGE_SIZE,
+  ROUTE_DATA,
+  WECHAT_SCENE
+} from "../../utils/uiConstants";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
@@ -14,7 +19,6 @@ Page({
     page_size: PAGE_SIZE, // 注意这个是让下拉的时候保持至少有当前的数量
     lotteries: [],
     showSharePopup: false,
-    overlay: true,
     actions: [
       {
         name: "分享",
@@ -149,6 +153,9 @@ Page({
     wx.navigateTo({
       url: `${ROUTE.SHARE_PIC_HOME}`
     });
+    this.setData({
+      showSharePopup: false
+    });
   },
   onShare: function(e) {
     this.setData({
@@ -158,13 +165,12 @@ Page({
   },
   onShareAppMessage: function() {
     this.setData({
-      overlay: false,
       showSharePopup: false
     });
 
     // TODO：自定义更好看的图片
     return {
-      title: `${app.getNickname()}邀请你参与【好运码头】赞助的免费抽奖活动`,
+      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】赞助的免费抽奖活动`,
       path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,
       // imageUrl:this.data.url,
       success: function(res) {

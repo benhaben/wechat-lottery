@@ -98,7 +98,7 @@
 </view>
 
 
-<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup" overlay="{{overlay}}">
+<van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup" overlay="{{showSharePopup}}">
 
   <view class="popup">
     <view class="popup-item">
