@@ -5,132 +5,110 @@ import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
 import { saveToAlbum } from "../../utils/uiFunction";
 import { ROUTE_DATA } from "../../utils/uiConstants";
+import { genSceneOfAttendPage } from "../../utils/validateFn";
 
-const red = "rgb(222,26,24)";
+const red = "#C42731";
+const white = "#fff";
+const black = "#323233";
+const gray = "#8a8a8a";
+
 const app = getApp();
+
 let posterConfig = {
-  width: 750,
-  height: 1334,
-  backgroundColor: "#fff",
+  width: 660,
+  height: 1150,
+  backgroundColor: "#C42731",
   debug: false,
   pixelRatio: 3,
   blocks: [
     {
-      width: 690,
-      height: 808,
-      x: 30,
-      y: 183,
-      borderWidth: 2,
-      borderColor: "#f0c2a0",
-      borderRadius: 20
-    },
-    {
-      width: 634,
-      height: 74,
-      x: 59,
-      y: 770,
-      backgroundColor: "#fff",
-      opacity: 0.5,
-      zIndex: 100
+      width: 610,
+      height: 785,
+      x: 25,
+      y: 290,
+      backgroundColor: "#fff"
     }
   ],
   texts: [
     {
-      x: 113,
-      y: 61,
+      x: 330,
+      y: 180,
+      textAlign: "center",
       baseLine: "middle",
       text: app.getNickname(),
       fontSize: 32,
-      color: "#8d8d8d"
+      color: white
     },
     {
-      x: 30,
-      y: 113,
-      baseLine: "top",
-      text: "发现一个免费红包，快来抢啊",
-      fontSize: 38,
-      color: red
-    },
-    {
-      x: 60,
-      y: 810,
-      fontSize: 28,
+      x: 330,
+      y: 240,
+      textAlign: "center",
       baseLine: "middle",
-      text: "参加抽奖人数",
-      color: "#8d8d8d",
+      text: "邀请你来参加免费抽奖",
+      fontSize: 30,
+      color: white
+    },
+    {
+      x: 70,
+      y: 665,
+      baseLine: "middle",
+      text: "奖金金额：9.9元/100",
+      fontSize: 28,
+      color: red,
       zIndex: 200
     },
     {
-      x: 59,
-      y: 895,
+      x: 70,
+      y: 700,
+      fontSize: 25,
       baseLine: "middle",
-      text: "奖金金额：",
-      fontSize: 28,
-      color: red
+      text: "麦辣鸡腿堡发起",
+      color: gray,
+      zIndex: 200
+    },
+
+    {
+      x: 70,
+      y: 735,
+      baseLine: "middle",
+      text: "参加者达到1000人，按时开奖",
+      fontSize: 25,
+      color: gray,
+      zIndex: 200
     },
     {
-      x: 522,
-      y: 895,
+      x: 330,
+      y: 1020,
+      textAlign: "center",
       baseLine: "middle",
-      text: "9.9元/100",
-      fontSize: 28,
-      color: red
-    },
-    {
-      x: 59,
-      y: 945,
-      baseLine: "middle",
-      text: "开奖时间：",
-      fontSize: 28,
-      color: "#929292"
-    },
-    {
-      x: 440,
-      y: 945,
-      baseLine: "middle",
-      text: "2019-09-10",
-      fontSize: 28,
-      color: "#929292"
-    },
-    {
-      x: 360,
-      y: 1065,
-      baseLine: "top",
       text: "长按识别小程序码",
-      fontSize: 38,
-      color: "#080808"
-    },
-    {
-      x: 360,
-      y: 1123,
-      baseLine: "top",
-      text: "天天免费抽奖",
-      fontSize: 28,
-      color: "#929292"
+      fontSize: 25,
+      color: gray,
+      zIndex: 200
     }
   ],
   images: [
     {
-      width: 62,
-      height: 62,
-      x: 30,
-      y: 30,
-      borderRadius: 62,
+      width: 110,
+      height: 110,
+      x: 270,
+      y: 40,
+      borderRadius: 110,
       url: app.getAvatar()
     },
     {
-      width: 634,
-      height: 634,
-      x: 59,
-      y: 210,
+      width: 520,
+      height: 312,
+      x: 70,
+      y: 330,
       url:
-        "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCzPPGDITeALdRc.png"
+        "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCf5g4bPTIvXW66.png"
     },
     {
-      width: 220,
-      height: 220,
-      x: 92,
-      y: 1020,
+      width: 200,
+      height: 200,
+      x: 230,
+      y: 780,
       url: ""
     }
   ]
@@ -148,51 +126,26 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
-
-    // wx.BaaS.getWXACode("wxacodeunlimit", {
-    //   scene: "A",
-    //   page: "pages/attend_lottery/attend_lottery",
-    //   width: 250
-    // })
-    //   .then(res => {
-    //     console.log("wxacodeunlimit" + res);
-    //   })
-    //   .catch(err => {
-    //     console.log("wxacodeunlimit" + err);
-    //   });
-
     const eventChannel = that.getOpenerEventChannel();
-    eventChannel.on(ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_SHARE_PIC, function(
+    eventChannel.on(ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_SHARE_PIC, async function(
       data
     ) {
-      // posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
-      // posterConfig.texts[6].text = `${formatTime(Date.parse(data.open_date))}`;
-      //
-      // posterConfig.texts[4].text = `${data.total}`;
-      // posterConfig.images[2].url = posterConfig.images[1].url;
-      // that.onCreatePoster();
-
-      wx.BaaS.getWXACode(
-        "wxacode",
-        {
-          path: `${ROUTE.ATTEND_LOTTERY}?id=${data.lottery_id}`
-        },
-        true,
-        "wxacode"
-      )
-        .then(res => {
-          posterConfig.texts[2].text = ` 参加抽奖人数：${data.attend_num}人`;
-          posterConfig.texts[6].text = `${formatTime(
-            Date.parse(data.open_date)
-          )}`;
-
-          posterConfig.texts[4].text = `${data.total}`;
-          posterConfig.images[2].url = res.download_url;
-          that.onCreatePoster();
-        })
-        .catch(err => {
-          console.log("wxacode" + err);
-        });
+      try {
+        let user_id = app.getUserId(); //14
+        let scene = genSceneOfAttendPage(user_id, data.lottery_id);
+        let res = await wx.BaaS.getWXACode(
+          "wxacodeunlimit",
+          {
+            scene,
+            page: `${ROUTE.ATTEND_LOTTERY.substring(1)}`
+          },
+          true
+        );
+        posterConfig.images[2].url = res.download_url;
+        that.onCreatePoster();
+      } catch (e) {
+        console.log(e);
+      }
     });
   },
 

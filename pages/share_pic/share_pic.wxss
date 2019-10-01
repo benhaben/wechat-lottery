@@ -1,3 +1,6 @@
 poster{
   left: -9999rpx;
 }
+.container{
+  height: 100%;
+}

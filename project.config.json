@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -67,8 +67,8 @@
 				},
 				{
 					"id": 3,
-					"name": "pages/user_balance_approve/user_balance_approve",
-					"pathName": "pages/user_balance_approve/user_balance_approve",
+					"name": "pages/share_pic/share_pic",
+					"pathName": "pages/share_pic/share_pic",
 					"query": "inviter_uid =1",
 					"scene": 1007
 				},

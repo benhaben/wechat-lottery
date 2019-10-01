@@ -4,6 +4,7 @@ import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { countDown, formatDate } from "../../utils/function";
 import { ROUTE_DATA, WECHAT_SCENE } from "../../utils/uiConstants";
+import { deSceneOfAttendPage } from "../../utils/validateFn";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -50,31 +51,34 @@ Page({
   onLoad: async function(options) {
     let { scene, id, inviter_uid } = options;
 
-    // 假设扫码过来的 query 在 onLoad 可以拿到
-    if (inviter_uid && id) {
-      let ret = await dao.addInviter(inviter_uid);
-      console.log(ret);
-      // 从分享会话进入
-      app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
-    } else if (scene) {
-      let sceneStr = decodeURIComponent(scene);
-      inviter_uid = sceneStr.substring(0, 14);
-      id = sceneStr.substring(14, 38);
-      let ret = await dao.addInviter(inviter_uid);
-      console.log(ret);
-      // 从分享海报进入
-      app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
-    } else {
-      // 默认进入
-      app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
-    }
-
-    if (!id) {
-      return;
-    }
-
     // 获取数据
     try {
+      // 假设扫码过来的 query 在 onLoad 可以拿到
+      if (inviter_uid && id) {
+        let ret = await dao.addInviter(inviter_uid);
+        console.log(ret);
+        // 从分享会话进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
+      } else if (scene) {
+        debugger;
+        let deRet = deSceneOfAttendPage(scene);
+        inviter_uid = deRet.inviter_uid;
+        let prefix_id = deRet.lottery_id;
+        let fullIdRes = await dao.queryLottery(1, 0, prefix_id);
+        id = fullIdRes.data.objects[0].id;
+        let ret = await dao.addInviter(inviter_uid);
+        console.log(ret);
+        // 从分享海报进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
+      } else {
+        // 默认进入
+        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
+      }
+
+      if (!id) {
+        return;
+      }
+
       await app.getUserInfo(app.getUserId());
       this.setData({
         selfLuckyNum: app.getLuckyNum(),

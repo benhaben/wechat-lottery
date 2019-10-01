@@ -3,8 +3,8 @@
 .container{
   height: 100%;
 }
-.share-pic-home{
-}
-.btn {
-  width: 300rpx;
+
+
+poster{
+  left: -9999rpx;
 }

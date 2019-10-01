@@ -1,13 +1,15 @@
-<view >
-<image mode="widthFix" class="weight-per100 height-per100" src="{{url}}"/>
+<view class="h-flex flex-col container flex-col">
+  <view class="flex-grow-1 height-per100 weight-per100 h-flex flex-align-center">
+    <image mode="widthFix" class="weight-per100 height-per100" src="{{url}}"/>
+  </view>
+
+  <poster class="poster" id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+  </poster>
+
+  <view class=" height120">
+    <van-button type="primary" size="large" icon="photo" bindtap="onSaveToAlbum">保存到相册</van-button>
+  </view>
 </view>
 
-<poster class="poster" id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess"  bind:fail="onPosterFail">
-</poster>
-
-<view class="album" wx:if="{{url}}">
-  <van-button type="danger" size="large" class="album__btn" bindtap="onSaveToAlbum">保存到相册</van-button>
-</view>
-
-<van-dialog id="van-dialog" />
-<van-toast id="van-toast" />
+<van-dialog id="van-dialog"/>
+<van-toast id="van-toast"/>

@@ -162,9 +162,11 @@ Page({
       showSharePopup: false
     });
 
+    // TODO：自定义更好看的图片
     return {
-      title: `${app.getNickname()}邀请你参与【好运码头】赞助的红包抽奖活动`,
+      title: `${app.getNickname()}邀请你参与【好运码头】赞助的免费抽奖活动`,
       path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,
+      // imageUrl:this.data.url,
       success: function(res) {
         console.log("成功", res);
       }
