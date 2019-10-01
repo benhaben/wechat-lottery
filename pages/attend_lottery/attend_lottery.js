@@ -48,26 +48,32 @@ Page({
    */
   onLoad: async function(options) {
     let that = this;
-    let lottery_id = options.id;
-    // let lottery_id = "5d7612d71db94f5d2e68fd74";
+    let { id, inviter_uid } = options;
+    // let id = "5d7612d71db94f5d2e68fd74";
 
-    if (!lottery_id) {
+    if (!id) {
       return;
     }
+
+    if (inviter_uid) {
+      let ret = await dao.addInviter(inviter_uid);
+      console.log(ret);
+    }
+
     // 获取数据
     try {
       await app.getUserInfo(app.getUserId());
       this.setData({
         selfLuckyNum: app.getLuckyNum(),
         auth: app.hasAuth(),
-        lottery_id
+        lottery_id: id
       });
 
       let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
-        lottery_id,
+        id,
         app.getUserId()
       );
-      let attendeesPromise = dao.getLotteryAttendees(lottery_id);
+      let attendeesPromise = dao.getLotteryAttendees(id);
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
@@ -75,7 +81,7 @@ Page({
 
       let lottery, hasAttended;
       if (retRecord.data.objects.length === 0) {
-        let ret = await dao.getLotteryById(lottery_id);
+        let ret = await dao.getLotteryById(id);
         lottery = ret.data;
         hasAttended = false;
       } else {
