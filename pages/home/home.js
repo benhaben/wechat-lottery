@@ -89,7 +89,7 @@ Page({
         app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
       } else if (scene) {
         let sceneStr = decodeURIComponent(scene);
-        inviter_uid = sceneStr.substring(0, 8);
+        inviter_uid = sceneStr.substring(0, 14);
         let ret = await dao.addInviter(inviter_uid);
         console.log(ret);
         // 从分享海报进入
