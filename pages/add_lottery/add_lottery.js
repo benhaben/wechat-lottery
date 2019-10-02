@@ -35,6 +35,7 @@ Page({
     desc_initiator: app.getDesc(),
     ad_checked: app.getAdsData().length > 0,
     pic_data: app.getAdsData(),
+    time_checked: false,
     auth: false,
     loading: false
   },
@@ -157,6 +158,12 @@ Page({
   onInputDesc: function(e) {
     this.data.desc_initiator = e.detail.value;
   },
+  onTimeChange: function(event) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({
+      time_checked: event.detail
+    });
+  },
   onDescChange: function(event) {
     // 需要手动对 checked 状态进行更新
     if (event.detail) {
@@ -246,7 +253,7 @@ Page({
         lucky_num_per: Number(this.data.lucky_num_per),
         plan_index: this.data.plan_index,
         plan: this.data.plans[this.data.plan_index],
-        open_people_num: this.data.open_people_num,
+        open_people_num: this.data.time_checked ? 0 : this.data.open_people_num,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
         nickname: app.getNickname()

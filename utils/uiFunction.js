@@ -25,7 +25,7 @@ export async function saveToAlbum(url) {
   }
 }
 
-export const MobileAdpater = () => {
+const MobileAdpater = () => {
   const systemInfo = wx.getSystemInfoSync();
   const deviceModel = systemInfo.model;
   const MOBILE_REG = {

@@ -28,14 +28,19 @@
     </view>
   </view>
 
-  <view class="container__plan">
+  <view  class="margin30-bottom">
     <van-cell-group>
       <van-cell title="选择红包派发方案" value="{{plans[plan_index]}}" bind:click="onPlanSelect" use-label-slot="true" is-link
                 arrow-direction="down">
         <view class="container__plan-label" slot="label">每个福袋有{{lucky_num_per}}运气值</view>
       </van-cell>
-      <van-cell title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关"/>
+      <van-cell wx:if="{{!time_checked}}" title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关"/>
 
+      <van-switch-cell checked="{{ time_checked }}"
+                       label="选择定时开奖，开奖人数将失效"
+                       title="定时开奖"
+                       bind:change="onTimeChange">
+      </van-switch-cell>
     </van-cell-group>
 
     <van-popup show="{{ show_plan }}" position="bottom" bind:close="onClosePlan">
@@ -43,8 +48,9 @@
     </van-popup>
   </view>
 
-  <van-cell-group class="container__desc">
-    <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
+  <van-cell-group >
+    <van-switch-cell checked="{{ desc_checked }}"
+                     bind:change="onDescChange">
       <view class="container__desc-title" slot="title">发起人简介</view>
     </van-switch-cell>
     <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"
