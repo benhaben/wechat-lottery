@@ -138,8 +138,8 @@ Page({
           open_data_str: formatDate(Date.parse(lottery.open_date))
         },
         selfLuckyNum: app.getLuckyNum(),
-        weight: retRecord.data.objects[0].weight,
-        costLuckNum: retRecord.data.objects[0].weight / 2,
+        weight: hasAttended ? retRecord.data.objects[0].weight : 0,
+        costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0,
         hasAttended,
         admin
       });
@@ -206,6 +206,14 @@ Page({
         lottery_id: this.data.lottery.id
       });
 
+      // 更新一下抽奖人数和头像
+      let attendees = await dao.getLotteryAttendees(this.data.lottery.id);
+      this.data.lottery.attend_num = attendees.data.meta.total_count;
+      this.data.lottery.attend_avatar_list = attendees.data.objects.map(
+        item => item.avatar_cache
+      );
+
+      this.setData(this.data);
       // 参与抽奖会减少运气值，这边重新获取运气值
       await app.getUserInfo();
       app.sendAttendLotteryEvent(this.data.lottery.id, this.data.lottery_type);

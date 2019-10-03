@@ -1,93 +1,93 @@
 <view>
-  <textarea 
-  wx:if="{{isEdit && !isReadOnly}}" 
-  class='input_view bg-white' 
-  maxlength='500' 
-  auto-height='true' 
-  bindinput='_inputCon'
-  value='{{firstCon}}' 
-  placeholder='{{placeholder}}'
-  focus='{{focusList[0].focus}}' 
-  bindblur="_outBlur"
-  data-index='0'/>
-  <view 
-  wx:if="{{ ((isReadOnly && firstCon) || (!isEdit)) }}"
-  bindtap='_focusView' 
-  class='input_view text-gray bg-white' 
-  data-index='0'>
-    <text>{{firstCon ||  placeholder}}</text>
+  <textarea
+    wx:if="{{isEdit && !isReadOnly}}"
+    class='input_view bg-white'
+    maxlength='500'
+    auto-height='true'
+    bindinput='_inputCon'
+    value='{{firstCon}}'
+    placeholder='{{placeholder}}'
+    focus='{{focusList[0].focus}}'
+    bindblur="_outBlur"
+    data-index='0'/>
+  <view
+    wx:if="{{ ((isReadOnly && firstCon) || (!isEdit)) }}"
+    bindtap='_focusView'
+    class='input_view text-gray bg-white'
+    data-index='0'>
+    <text>{{firstCon || placeholder}}</text>
   </view>
   <view wx:for="{{dataList}}" wx:key="{{index}}">
-     <view>
-      <view 
-      class='img_view' 
-      wx:if="{{item.type === 1}}" 
+    <view>
+      <view
+        class='img_view'
+        wx:if="{{item.type === 1}}"
       >
-        <image 
-          wx:if="{{progressList[index] === 100 || isReadOnly}}" 
+        <image
+          wx:if="{{progressList[index] === 100 || isReadOnly}}"
           src='{{item.img}}'
           mode='widthFix'
         />
-        <van-progress 
-          wx:else 
-          inactive 
-          percentage="{{progressList[index]}}" 
+        <van-progress
+          wx:else
+          inactive
+          percentage="{{progressList[index]}}"
         />
-        <x-icon 
-          wx:if="{{!isReadOnly}}" 
-          position='close_img' 
-          slot="leftIcon" 
-          color='danger' 
-          bind:click="_deletedImg" 
+        <x-icon
+          wx:if="{{!isReadOnly}}"
+          position='close_img'
+          slot="leftIcon"
+          color='danger'
+          bind:click="_deletedImg"
           bindData="{{index}}"
           type='clear'>
         </x-icon>
       </view>
 
-       <view 
-      class='cpy_view'
-      wx:if="{{item.type === 2}}" 
+      <view
+        class='cpy_view'
+        wx:if="{{item.type === 2}}"
       >
-        <copy-area 
-        bindinput="_onCopyInput"
-        bindblur="_onCopyBlur"
-        title="{{item.cpy.title}}"
-        content="{{item.cpy.content}}"
-        isReadOnly="{{isReadOnly}}"
-        data-index='{{index}}'
+        <copy-area
+          bindinput="_onCopyInput"
+          bindblur="_onCopyBlur"
+          title="{{item.cpy.title}}"
+          content="{{item.cpy.content}}"
+          isReadOnly="{{isReadOnly}}"
+          data-index='{{index}}'
         />
-         <x-icon 
-          wx:if="{{!isReadOnly}}" 
-          position='close_img_cpy' 
-          slot="leftIcon" 
-          color='danger' 
-          bind:click="_deletedImg" 
+        <x-icon
+          wx:if="{{!isReadOnly}}"
+          position='close_img_cpy'
+          slot="leftIcon"
+          color='danger'
+          bind:click="_deletedImg"
           bindData="{{index}}"
           type='clear'>
         </x-icon>
-    </view>
+      </view>
 
     </view>
 
     <view>
-      <textarea 
-        wx:if="{{isEdit && !isReadOnly}}" 
-        class='input_view bg-white' 
-        maxlength='500' 
+      <textarea
+        wx:if="{{isEdit && !isReadOnly}}"
+        class='input_view bg-white'
+        maxlength='500'
         auto-height='true'
-        bindinput='_inputCon' 
-        value='{{item.info}}' 
+        bindinput='_inputCon'
+        value='{{item.info}}'
         focus='{{focusList[index+1].focus}}'
-        bindblur="_outBlur" 
+        bindblur="_outBlur"
         data-index='{{index+1}}'
       />
-      <view 
-        wx:else 
-        bindtap='_focusView' 
+      <view
+        wx:elif="{{!isReadOnly}}"
+        bindtap='_focusView'
         class='input_view text-gray bg-white'
         data-index='{{index+1}}'
       >
-      <text>{{item.info}}</text>
+        <text>{{item.info}}</text>
       </view>
     </view>
   </view>
@@ -96,19 +96,19 @@
 
 <view wx:if="{{!isReadOnly}}">
   <view class='copy-img'>
-    <view 
-      class='circle_center_view img-s-4 bg-white hx-btn p-relative'                  bindtap='_addCopy'>
+    <view
+      class='circle_center_view img-s-4 bg-white hx-btn p-relative' bindtap='_addCopy'>
       <x-icon slot="leftIcon" type='share'></x-icon>
     </view>
   </view>
   <view class='add-img'>
-    <view 
-      class='circle_center_view img-s-4 bg-white hx-btn p-relative'                  bindtap='_addImg'>
+    <view
+      class='circle_center_view img-s-4 bg-white hx-btn p-relative' bindtap='_addImg'>
       <x-icon slot="leftIcon" type='add-img'></x-icon>
     </view>
   </view>
   <view class='save'>
-    <view class='circle_center_view img-s-4 bg-white hx-btn p-relative'               bindtap='_saveRichText'>
+    <view class='circle_center_view img-s-4 bg-white hx-btn p-relative' bindtap='_saveRichText'>
       <x-icon slot="leftIcon" type='save'></x-icon>
     </view>
   </view>

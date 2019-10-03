@@ -23,6 +23,7 @@ view{
 .h6{font-size: 30rpx;}
 .info-text{font-size: 25rpx;color: #8a8a8a;}
 .height80{height: 80rpx;}
+.line-height80{line-height: 80rpx;}
 .height120{height: 120rpx;}
 .height150{height: 150rpx;}
 .height180{height: 180rpx;}
@@ -34,13 +35,20 @@ view{
 .height450{height: 450rpx;}
 .width600{width: 600rpx;}
 .width650{width: 650rpx;}
+.width690{width: 690rpx;}
 .padding30{padding: 30rpx;}
+.padding30-0{padding: 30rpx 0rpx;}
+.padding15{padding: 15rpx;}
+
 .padding15-30{padding: 15rpx 30rpx;}
 .padding10-30{padding: 10rpx 30rpx;}
+.padding15-top{padding-top: 15rpx;}
+.padding15-bottom{padding-bottom: 15rpx;}
 .margin15-30{margin: 15rpx 30rpx}
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
+.margin64-bottom{margin-bottom: 100rpx;}
 .margin15{margin: 15rpx;}
 .margin15-bottom{margin-bottom: 15rpx;}
 .margin30-top{margin-top: 30rpx;}
@@ -68,8 +76,6 @@ view{
 .flex-align-start {align-items: flex-start;}
 .flex-align-end {align-items: flex-end;}
 .flex-center{
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -83,6 +89,8 @@ view{
 .bg-base {background-color: #f0f0f0;}
 .bg-gray {background-color: #8a8a8a;}
 .bg-red {background-color: #EB132D;}
+.bg-dark-gray{background-color: #575757}
+.color-dark-gray{color: #575757}
 .color-gray{color:#8a8a8a;}
 .color-red{color: #EB132D;}
 .color-white{color: white;}

@@ -1,58 +1,47 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
-<import src="../../templates/wave_circle_button/wave_circle_button.wxml"/>
 
-<view class="height280 h-flex flex-center">
-<template is="wave_circle_button" data="{{...lottery}}"></template>
+<view class="margin30-bottom">
+  <template is="big_list_item" data="{{...lottery}}"></template>
 </view>
-<template is="big_list_item" data="{{...lottery}}"></template>
 
+<view class="blockquote" wx:if="{{lottery.desc_initiator}}">
+  <text>{{lottery.desc_initiator}}</text>
+</view>
 
+<view class="h-flex bg-white flex-col margin30-bottom padding30-0"
+      wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
+  <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
+</view>
 
-<view>
-  <view class="h-flex bg-white flex-col margin30-bottom padding30" wx:if="{{lottery.desc_initiator}}">
-      <view class="text-center h6 margin15-bottom">
-        发起人简介：
-      </view>
-    <view class="h-flex flex-row flex-wrap flex-justify-content-center text-center">
-      <text>{{lottery.desc_initiator}}</text>
+<view wx:if="{{lottery.status == 2 && !hasAttended && lottery.selfLuckyNum >1}}"
+      class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
+  <view class="info-text">拖动滑条，改变中奖权重</view>
+  <van-slider
+    step="1"
+    value="{{ costLuckNum }}"
+    bind:drag="onWeightDrag"
+    use-button-slot
+    active-color="#ee0a24">
+    <view class="silder-btn" slot="button">
+      {{ costLuckNum }}
     </view>
-  </view>
-
-  <view class="h-flex bg-white flex-col margin30-bottom padding30" wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
-    <view class="text-center h6 margin15-bottom">
-      图文介绍：
-    </view>
-    <view class="">
-      <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
-    </view>
-  </view>
-
-  <view wx:if="{{lottery.status == 2 && !hasAttended}}"
-        class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
-    <view>拖动滑条增加中奖权重</view>
-    <van-slider
-      step="1"
-      value="{{ costLuckNum }}"
-      bind:drag="onWeightDrag"
-      use-button-slot
-      active-color="#ee0a24">
-      <view class="silder-btn" slot="button">
-        {{ costLuckNum }}
-      </view>
-    </van-slider>
-    <view class=" h-flex flex-justify-content-between">
-      <view>中奖权重：</view>
-      <view>{{weight}}</view>
-    </view>
-    <view class="text-right info-text">一个运气值，增加两个权重</view>
-  </view>
-  <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
-    <view>中奖权重 ：</view>
+  </van-slider>
+  <view class=" h-flex flex-justify-content-between">
+    <view>中奖权重：</view>
     <view>{{weight}}</view>
   </view>
+  <view class="text-right info-text">一个运气值，增加两个权重</view>
+</view>
+<view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
+  <view>中奖权重 ：</view>
+  <view class="color-gray">{{weight}}</view>
+</view>
 
-  <form report-submit bindsubmit="onAttend" class="action" wx:if="{{lottery.status===2}}">
-    <view class="action__row">
+<form report-submit bindsubmit="onAttend" class="h-flex flex-col flex-align-center bg-white margin30-bottom"
+      wx:if="{{lottery.status===2}}">
+  <view class="h-flex flex-center margin30">
+    <view class=" wave solid danger">
+      <view class="circle"></view>
       <view wx:if="{{!auth}}">
         <button
           class="action__btn circle-border-radius"
@@ -64,7 +53,6 @@
           <text wx:else>参与抽奖</text>
         </button>
       </view>
-
       <button wx:else :loading="attendBtnLoading"
               form-type="submit"
               class="action__btn circle-border-radius"
@@ -74,39 +62,38 @@
         <text wx:else>参与抽奖</text>
       </button>
     </view>
-    <view class="action__row">
-      <view class="action__num" bindtap="onGoToAttendees">
-        已有 {{lottery.attend_num}} 人参与，查看全部
-        <van-icon class="icon" name="arrow"/>
-      </view>
-    </view>
-    <view class="action__row">
-      <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
-             src="{{item}}"></image>
-    </view>
-  </form>
-
-  <!--  <view class="add-lottery" bindtap="goToAddLottery">-->
-  <!--    我要发抽奖-->
-  <!--    <van-icon class="icon" name="arrow"/>-->
-  <!--  </view>-->
-
-  <view class="share" wx:if="{{lottery.status===2}}">
-    <button class="share__btn" bindtap="onShare">分享</button>
-    <view class="share__tips">
-      <!--      每邀请一个朋友参与，就可能获得更多运气值和奖励-->
+  </view>
+  <view class="h-flex flex-center margin30-bottom">
+    <view class="action__num" bindtap="onGoToAttendees">
+      已有 {{lottery.attend_num}} 人参与，查看全部
+      <van-icon class="icon" name="arrow"/>
     </view>
   </view>
-
-  <view class="height150 h-flex flex-justify-content-around" wx:if="{{lottery.status===1 && admin}}">
-    <view>
-      <van-button class="bottom__btn" size="normal" bind:click="onReject">驳回</van-button>
-    </view>
-    <view>
-      <van-button class="bottom__btn" size="normal" bind:click="onApprove" type="primary">通过</van-button>
-    </view>
+  <view class="h-flex flex-row weight-per100 flex-center margin30-bottom">
+    <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
+           src="{{item}}"></image>
   </view>
+</form>
 
+<!--  <view class="add-lottery" bindtap="goToAddLottery">-->
+<!--    我要发抽奖-->
+<!--    <van-icon class="icon" name="arrow"/>-->
+<!--  </view>-->
+
+<view class="h-flex flex-col flex-center bg-white padding30" wx:if="{{lottery.status===2}}">
+  <button class="height80 line-height80 width690 bg-dark-gray color-white" bindtap="onShare">分享</button>
+  <view class="info-text text-center padding15-top">
+    邀请一个新朋友参与，就能获得运气值
+  </view>
+</view>
+
+<view class="height150 h-flex flex-justify-content-around" wx:if="{{lottery.status===1 && admin}}">
+  <view>
+    <van-button class="bottom__btn" size="normal" bind:click="onReject">驳回</van-button>
+  </view>
+  <view>
+    <van-button class="bottom__btn" size="normal" bind:click="onApprove" type="primary">通过</van-button>
+  </view>
 </view>
 
 

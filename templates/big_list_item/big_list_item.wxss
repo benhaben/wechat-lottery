@@ -4,7 +4,7 @@
   flex-direction: row;
   align-items: center;
   background-color: white;
-  padding: 15rpx 15rpx;
+  padding: 2rpx;
 }
 
 .info__row_left {

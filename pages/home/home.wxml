@@ -1,33 +1,32 @@
-<view class="home">
-  <view class="bar h-flex flex-row flex-align-center flex-justify-content-between">
+<view class="margin64-bottom">
+  <view class="height80 margin15-30 border-bottom h-flex flex-row flex-align-center flex-justify-content-between">
     <view class="h-flex flex-row flex-align-center">
-      <van-icon class="bar__lucky-like color-red" size="60rpx" name="like"/>
-      <view class="bar__lucky-num ">
+      <van-icon class="bar__lucky-like color-red" size="40rpx" name="like"/>
+      <view class="margin15 ">
         {{lucky_num}} 运气值
       </view>
     </view>
 
-    <view class="bar__sign" bindtap="onGotoSign">
+    <view class="color-gray" bindtap="onGotoSign">
       去签到
-      <van-icon class="link-arrow-vertical-align" name="arrow"/>
+      <van-icon class="link-text-arrow" name="arrow"/>
     </view>
   </view>
 
 
-  <view class="list-bar h-flex flex-align-center flex-justify-content-between">
-    <view class="list-bar__title">每日推荐</view>
+  <view class="height80 margin15-30 color-gray h-flex flex-align-center flex-justify-content-between">
+    <view class="h3 color-red">每日推荐</view>
     <view class="share" bindtap="onShare">每日集好运 | 分享</view>
   </view>
 
 
-  <view class="container">
-    <lottery-item class="margin30-bottom" bindtap="onLotteryItem" wx:for="{{lotteries}}" wx:key="{{index}}"
-                  lottery="{{item}}"></lottery-item>
+  <view class="margin30-bottom" wx:for="{{lotteries}}" wx:key="{{index}}">
+    <lottery-item bindtap="onLotteryItem" lottery="{{item}}"></lottery-item>
   </view>
 
-  <view class="bottom h-flex flex-col flex-align-center">
+  <view class="h-flex flex-col flex-align-center">
     <form report-submit name="deposit" bindsubmit="onMore">
-      <button class="bottom__btn color-white bg-red"  form-type="submit">
+      <button class="bottom__btn color-white bg-red" form-type="submit">
         点击加载更多抽奖
       </button>
       <view class="bottom__info"></view>

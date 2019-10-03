@@ -1,7 +1,7 @@
 /* components/copy-area/copy-area.wxss */
 
 .container-copy{
-  border: 5rpx gray solid;
+  border: 5rpx lightgray solid;
   color: gray;
 }
 

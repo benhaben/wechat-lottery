@@ -132,7 +132,7 @@ Page({
     ) {
       try {
         let user_id = app.getUserId(); //14
-        let scene = genSceneOfAttendPage(user_id, data.lottery_id);
+        let scene = genSceneOfAttendPage(user_id, data.lottery.id);
         let res = await wx.BaaS.getWXACode(
           "wxacodeunlimit",
           {
@@ -149,8 +149,11 @@ Page({
         }
         posterConfig.texts[3].text = `赞助商：${data.lottery.sponsor ||
           DEFAULT_SPONSOR}`;
-        posterConfig.texts[4].text = `参加者达到${data.lottery.open_people_num}人，择吉时时开奖`;
-
+        if (data.lottery.open_people_num === 0) {
+          posterConfig.texts[4].text = `不限人数，择吉时开奖`;
+        } else {
+          posterConfig.texts[4].text = `参加者达到${data.lottery.open_people_num}人，择吉时开奖`;
+        }
         that.onCreatePoster();
       } catch (e) {
         console.log(e);
