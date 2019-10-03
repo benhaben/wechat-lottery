@@ -51,7 +51,7 @@
   </view>
 
   <view wx:if="{{create && status === 0 }}"
-        class="bg-white margin30-bottom height250 padding15-30 h-flex flex-col flex-justify-content-between">
+        class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
     <view>增加开奖人数，单位（万人）</view>
     <van-slider
       min="10"
@@ -68,7 +68,7 @@
       <view>{{total_prize}} 元</view>
     </view>
   </view>
-  <view wx:else class="bg-white h-flex flex-justify-content-between padding15-30 margin30-bottom">
+  <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
     <view>推广费用</view>
     <view>{{total_prize}} 元</view>
   </view>

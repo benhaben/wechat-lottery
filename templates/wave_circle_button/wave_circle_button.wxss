@@ -1,0 +1,57 @@
+.wave {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  text-align: center;
+  line-height: 200rpx;
+}
+
+.wave .circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+
+
+/* 波动效果 */
+.wave.solid .circle{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.wave.solid .circle:first-child {
+  animation: circle-opacity 3s infinite;
+}
+
+.wave.solid.danger {
+  color: red;
+}
+
+.wave.solid.danger .circle{
+  background: red;
+}
+
+
+@keyframes circle-opacity{
+  0%{
+    opacity: 1;
+    transform: scale(0);
+  }
+  50%  {
+    opacity: 0.2;
+    transform: scale(1.12);
+  }
+  100%  {
+    opacity: 1;
+    transform: scale(0);
+  }
+}
+
+.action__btn1{
+  position: absolute;
+  line-height: 200rpx;
+  height: 200rpx;
+  width: 200rpx;
+}

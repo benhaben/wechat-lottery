@@ -1,0 +1,13 @@
+<template name="wave_circle_button">
+  <view class="wave solid danger">
+    <view class="circle"></view>
+    <button
+      class="content action__btn1 circle-border-radius"
+      type="warn"
+      open-type="getUserInfo"
+      form-type="submit"
+      bindgetuserinfo="userInfoHandler">
+      参与抽奖
+    </button>
+  </view>
+</template>

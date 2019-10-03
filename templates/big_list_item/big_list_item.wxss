@@ -3,9 +3,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 60rpx;
   background-color: white;
-  padding: 10rpx 20rpx;
+  padding: 15rpx 15rpx;
 }
 
 .info__row_left {

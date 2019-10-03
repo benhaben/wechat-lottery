@@ -41,6 +41,8 @@ view{
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
+.margin15{margin: 15rpx;}
+.margin15-bottom{margin-bottom: 15rpx;}
 .margin30-top{margin-top: 30rpx;}
 .border-red{border: 1rpx solid #EB132D}
 .border-gray{border: 1rpx solid gray; border-radius: 10rpx}
@@ -194,4 +196,18 @@ view{
   color: #EB132D;
   height: 50rpx;
   width: 50rpx;
+}
+
+.silder-btn{
+  width: 26px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: center;
+  background-color: #ee0a24;
+  border-radius: 100px;
+}
+
+van-slider{
+  margin: 20rpx;
 }

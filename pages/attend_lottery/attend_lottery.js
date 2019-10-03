@@ -37,10 +37,11 @@ Page({
       pic_data: null,
       attend_num: 0,
       attend_avatar_list: [],
-      attendBtnLoading: false,
-      selfLuckyNum: 0
+      attendBtnLoading: false
     },
     hasAttended: true,
+    costLuckNum: 0,
+    selfLuckyNum: 0,
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
     auth: false,
     admin: false, // 管理员可以审批
@@ -83,7 +84,6 @@ Page({
 
       await app.getUserInfo(app.getUserId());
       this.setData({
-        selfLuckyNum: app.getLuckyNum(),
         auth: app.hasAuth()
       });
 
@@ -104,9 +104,8 @@ Page({
         hasAttended = false;
       } else {
         lottery = retRecord.data.objects[0].lottery;
-        // 运气值发生了改变
         let user = retRecord.data.objects[0].user;
-        app.setUserInfo(user);
+        app.setUserInfo(user); // 顺便更新一下
         hasAttended = true;
       }
 
@@ -138,6 +137,9 @@ Page({
           countdownStr: countDown(lottery.open_date),
           open_data_str: formatDate(Date.parse(lottery.open_date))
         },
+        selfLuckyNum: app.getLuckyNum(),
+        weight: retRecord.data.objects[0].weight,
+        costLuckNum: retRecord.data.objects[0].weight / 2,
         hasAttended,
         admin
       });
@@ -146,20 +148,25 @@ Page({
     }
   },
 
-  /**
-   * 100个运气值去参与100个抽奖，总权重是100，去参与一个抽奖，总权重是199。这是鼓励用户在一个抽奖里多消耗运气值
-   * @param e
-   */
-  onAddWeight: function(e) {
-    // 要留一个参与现在的抽奖
-    if (this.data.hasAttended || this.data.selfLuckyNum <= 1) {
-      return;
-    }
+  onWeightDrag(event) {
+    // 滑块是10~100之间 ~ 运气值消耗0到最大
 
-    let weight = this.data.weight + CONST.ONE_LUCKY_NUM_WEIGHT;
-    let selfLuckyNum = this.data.selfLuckyNum - 1;
-    this.setData({ weight, selfLuckyNum });
+    let costLuckNum = Math.floor(
+      (event.detail.value / 100) * this.data.selfLuckyNum
+    );
+    // let selfLuckyNum = this.data.selfLuckyNum - costLuckNum;
+    let weight = costLuckNum * 2;
+    console.log(
+      `event.detail.value : ${event.detail.value} - weight : ${weight}`
+    );
+
+    this.setData({
+      // selfLuckyNum: selfLuckyNum,
+      costLuckNum,
+      weight
+    });
   },
+
   goToAddLottery: function(e) {
     wx.navigateTo({
       url: `${ROUTE.ADD_LOTTERY}`
@@ -199,6 +206,8 @@ Page({
         lottery_id: this.data.lottery.id
       });
 
+      // 参与抽奖会减少运气值，这边重新获取运气值
+      await app.getUserInfo();
       app.sendAttendLotteryEvent(this.data.lottery.id, this.data.lottery_type);
       if (res) {
         this.setData({ attendBtnLoading: false, hasAttended: true });

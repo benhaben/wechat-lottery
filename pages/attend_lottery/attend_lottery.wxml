@@ -1,21 +1,25 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
+<import src="../../templates/wave_circle_button/wave_circle_button.wxml"/>
+
+<view class="height280 h-flex flex-center">
+<template is="wave_circle_button" data="{{...lottery}}"></template>
+</view>
 <template is="big_list_item" data="{{...lottery}}"></template>
 
 
+
 <view>
-  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{lottery.desc_initiator}}">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
+  <view class="h-flex bg-white flex-col margin30-bottom padding30" wx:if="{{lottery.desc_initiator}}">
+      <view class="text-center h6 margin15-bottom">
         发起人简介：
       </view>
-    </view>
-    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
+    <view class="h-flex flex-row flex-wrap flex-justify-content-center text-center">
       <text>{{lottery.desc_initiator}}</text>
     </view>
   </view>
 
-  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
-    <view class="container__tag_bar">
+  <view class="h-flex bg-white flex-col margin30-bottom padding30" wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
+    <view class="text-center h6 margin15-bottom">
       图文介绍：
     </view>
     <view class="">
@@ -23,21 +27,28 @@
     </view>
   </view>
 
-  <view class="margin30-bottom bg-white height150 h-flex flex-col padding15-30 flex-justify-content-around">
-    <view wx:if="{{lottery.status==2}}" class="h-flex flex-row flex-justify-content-between flex-align-center bg-white">
-      <view>中奖权重 ：{{weight}}</view>
-      <van-icon name="add" size="60rpx" bind:click="onAddWeight"/>
-    </view>
-
-    <view wx:esif class="  h-flex flex-row flex-justify-content-between flex-align-center bg-white">
-      <view>中奖权重 ：</view>
+  <view wx:if="{{lottery.status == 2 && !hasAttended}}"
+        class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
+    <view>拖动滑条增加中奖权重</view>
+    <van-slider
+      step="1"
+      value="{{ costLuckNum }}"
+      bind:drag="onWeightDrag"
+      use-button-slot
+      active-color="#ee0a24">
+      <view class="silder-btn" slot="button">
+        {{ costLuckNum }}
+      </view>
+    </van-slider>
+    <view class=" h-flex flex-justify-content-between">
+      <view>中奖权重：</view>
       <view>{{weight}}</view>
     </view>
-
-    <view class="h-flex info-text flex-row flex-justify-content-between flex-align-center bg-white">
-      <view class="text-left">运气值：{{lottery.selfLuckyNum}}</view>
-      <view class="text-right">一个运气值，增加两个权重</view>
-    </view>
+    <view class="text-right info-text">一个运气值，增加两个权重</view>
+  </view>
+  <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
+    <view>中奖权重 ：</view>
+    <view>{{weight}}</view>
   </view>
 
   <form report-submit bindsubmit="onAttend" class="action" wx:if="{{lottery.status===2}}">
@@ -58,7 +69,7 @@
               form-type="submit"
               class="action__btn circle-border-radius"
               type="warn"
-              >
+      >
         <text wx:if="{{hasAttended}}">待开奖</text>
         <text wx:else>参与抽奖</text>
       </button>
@@ -70,19 +81,20 @@
       </view>
     </view>
     <view class="action__row">
-      <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>
+      <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
+             src="{{item}}"></image>
     </view>
   </form>
 
-<!--  <view class="add-lottery" bindtap="goToAddLottery">-->
-<!--    我要发抽奖-->
-<!--    <van-icon class="icon" name="arrow"/>-->
-<!--  </view>-->
+  <!--  <view class="add-lottery" bindtap="goToAddLottery">-->
+  <!--    我要发抽奖-->
+  <!--    <van-icon class="icon" name="arrow"/>-->
+  <!--  </view>-->
 
   <view class="share" wx:if="{{lottery.status===2}}">
     <button class="share__btn" bindtap="onShare">分享</button>
     <view class="share__tips">
-<!--      每邀请一个朋友参与，就可能获得更多运气值和奖励-->
+      <!--      每邀请一个朋友参与，就可能获得更多运气值和奖励-->
     </view>
   </view>
 
@@ -102,11 +114,11 @@
 
   <view class="popup">
     <view class="popup-item">
-      <van-button  class="popup-item-btn" icon="share" open-type="share" type="danger"  hairline ></van-button >
+      <van-button class="popup-item-btn" icon="share" open-type="share" type="danger" hairline></van-button>
       <view>分享</view>
     </view>
     <view class="popup-item">
-      <van-button  class="popup-item-btn"  icon="photo-o"  type="danger" bindtap="genPic" hairline ></van-button >
+      <van-button class="popup-item-btn" icon="photo-o" type="danger" bindtap="genPic" hairline></van-button>
       <view>生成图片</view>
     </view>
   </view>
