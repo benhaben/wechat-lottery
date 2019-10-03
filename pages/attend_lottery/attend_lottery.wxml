@@ -13,7 +13,7 @@
   <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
 </view>
 
-<view wx:if="{{lottery.status == 2 && !hasAttended && lottery.selfLuckyNum >1}}"
+<view wx:if="{{lottery.status == 2 && !hasAttended && lottery.selfLuckyNum > 1}}"
       class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
   <view class="info-text">拖动滑条，改变中奖权重</view>
   <van-slider
@@ -111,3 +111,4 @@
   </view>
 
 </van-popup>
+<van-toast id="van-toast" />

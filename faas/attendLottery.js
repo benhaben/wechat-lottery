@@ -26,6 +26,7 @@ export default async function attendLottery(event, callback) {
     let cost = weight / CONST.ONE_LUCKY_NUM_WEIGHT;
     let userRes = await USER_TABLE.get(user_id);
     let user = userRes.data;
+    console.log(`user : ${JSON.stringify(user)}`);
 
     //TODO: 没有事务，感觉不保险；参数配置在云端
     let reason;
@@ -36,6 +37,7 @@ export default async function attendLottery(event, callback) {
       reason = `参与抽奖，减少${CONST.ATTEND_LOTTERY_COST}运气值，增加权重减少${cost}运气值`;
       cost = CONST.ATTEND_LOTTERY_COST + cost;
     }
+    console.log(`cost : ${cost}`);
 
     if (user.lucky_num < cost) {
       throw new Error(ERR_TYPE.OUT_OF_LUCKY_NUM);
@@ -61,8 +63,8 @@ export default async function attendLottery(event, callback) {
       .set({
         user_id,
         user: userUpdate,
-        nickname: user.data.nickname,
-        avatar_cache: user.data.avatar,
+        nickname: user.nickname,
+        avatar_cache: user.avatar,
         lottery,
         weight
       })

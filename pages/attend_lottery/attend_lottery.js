@@ -41,7 +41,7 @@ Page({
     },
     hasAttended: true,
     costLuckNum: 0,
-    selfLuckyNum: 0,
+    selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
     auth: false,
     admin: false, // 管理员可以审批
@@ -154,14 +154,12 @@ Page({
     let costLuckNum = Math.floor(
       (event.detail.value / 100) * this.data.selfLuckyNum
     );
-    // let selfLuckyNum = this.data.selfLuckyNum - costLuckNum;
     let weight = costLuckNum * 2;
     console.log(
       `event.detail.value : ${event.detail.value} - weight : ${weight}`
     );
 
     this.setData({
-      // selfLuckyNum: selfLuckyNum,
       costLuckNum,
       weight
     });
@@ -182,6 +180,11 @@ Page({
     }
 
     if (this.data.hasAttended) {
+      return;
+    }
+
+    if (this.data.selfLuckyNum < 1) {
+      Toast.fail("运气值不足");
       return;
     }
 
@@ -214,7 +217,7 @@ Page({
       );
 
       this.setData(this.data);
-      // 参与抽奖会减少运气值，这边重新获取运气值
+      // 参与抽奖会减少运气值，这边重新获取运气值，不要要重置 selfLuckyNum，因为当前页面不能操作了
       await app.getUserInfo();
       app.sendAttendLotteryEvent(this.data.lottery.id, this.data.lottery_type);
       if (res) {
