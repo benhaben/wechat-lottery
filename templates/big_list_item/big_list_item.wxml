@@ -75,14 +75,21 @@
     </view>
   </view>
 
-  <view class="info__row_right">
+  <view wx:if="{{open_people_num>0}}" class="info__row_right">
     <view class="info__row_value">
       {{open_people_num}} 人
     </view>
     <view class="info__row_title">
       开奖人数：
     </view>
-
+  </view>
+  <view wx:else class="info__row_right">
+    <view class="info__row_value">
+      不限
+    </view>
+    <view class="info__row_title">
+      开奖人数：
+    </view>
   </view>
 </view>
 
