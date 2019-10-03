@@ -18,10 +18,20 @@ export async function saveToAlbum(url) {
   }
 
   async function save(url) {
-    let file = await wxPromise.downloadFile({ url });
-    return wxPromise.saveImageToPhotosAlbum({
-      filePath: file.tempFilePath
-    });
+    if (url.indexOf("http") !== -1) {
+      debugger;
+
+      let file = await wxPromise.downloadFile({ url });
+      return wxPromise.saveImageToPhotosAlbum({
+        filePath: file.tempFilePath
+      });
+    } else {
+      debugger;
+
+      return wxPromise.saveImageToPhotosAlbum({
+        filePath: url
+      });
+    }
   }
 }
 

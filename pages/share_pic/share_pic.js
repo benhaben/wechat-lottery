@@ -141,6 +141,7 @@ Page({
           },
           true
         );
+        posterConfig.images[1].url = data.lottery.url;
         posterConfig.images[2].url = res.download_url;
         if (data.lottery.lottery_type === CONST.LOTTERY_TYPE_MONEY) {
           posterConfig.texts[2].text = `红包方案：${data.lottery.total}`;
