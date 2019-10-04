@@ -29,6 +29,13 @@ Page({
       }
     ]
   },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: throttle(async function() {
+    await this.loadMore();
+  }),
+
   onPullDownRefresh: throttle(async function() {
     // 上拉刷新
     try {
@@ -131,14 +138,9 @@ Page({
       url: ROUTE.USER_LUCKY
     });
   },
-  onMore: async function(event) {
-    const formId = event.detail.formId;
-    if (formId) {
-      wx.BaaS.wxReportTicket(formId);
-      console.log(`event.detail.formId - ${event.detail.formId}`);
-    }
+  onMore: throttle(async function(event) {
     await this.loadMore();
-  },
+  }),
   onCloseSharePopup() {
     let that = this;
     this.setData({

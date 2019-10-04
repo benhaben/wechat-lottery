@@ -24,13 +24,10 @@
     <lottery-item bindtap="onLotteryItem" lottery="{{item}}"></lottery-item>
   </view>
 
-  <view class="h-flex flex-col flex-align-center">
-    <form report-submit name="deposit" bindsubmit="onMore">
-      <button class="bottom__btn color-white bg-red" form-type="submit">
-        点击加载更多抽奖
-      </button>
-      <view class="bottom__info"></view>
-    </form>
+  <view class="bottom h-flex flex-col flex-align-center" bindtap="onMore">
+    <view class="bottom__info">
+      点击加载更多
+    </view>
   </view>
 </view>
 
