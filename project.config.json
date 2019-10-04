@@ -42,7 +42,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 8,
 			"list": [
 				{
 					"id": 0,
@@ -102,9 +102,9 @@
 				},
 				{
 					"id": 8,
-					"name": "pages/user_all_lotteries/user_all_lotteries",
-					"pathName": "pages/user_all_lotteries/user_all_lotteries",
-					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"name": "pages/add_product_lottery/add_product_lottery",
+					"pathName": "pages/add_product_lottery/add_product_lottery",
+					"query": "",
 					"scene": null
 				}
 			]

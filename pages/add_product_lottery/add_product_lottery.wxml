@@ -1,6 +1,6 @@
 <view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button wx:if="{{create}}" class="container__select-image" type="danger" size="small" icon="add-o"
+    <van-button wx:if="{{create || status === -1}}" class="container__select-image" type="danger" size="small" icon="add-o"
                 bindtap="selectImage" plain
                 round>选择图片
     </van-button>

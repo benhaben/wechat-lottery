@@ -1,4 +1,5 @@
 import Big from "./big";
+import { CONST } from "./constants";
 
 export function formatNumber(n) {
   n = n.toString();
@@ -67,6 +68,30 @@ export function openDateISOString() {
   return tomorrow_date.toISOString();
 }
 
+export function randomMoneyUrl() {
+  return CONST.DEFAULT_MONEY_URL[
+    randomNum(0, CONST.DEFAULT_MONEY_URL.length - 1)
+  ];
+}
+
+export function randomProductUrl() {
+  return CONST.DEFAULT_URL[randomNum(0, CONST.DEFAULT_URL.length - 1)];
+}
+
+//生成从minNum到maxNum的随机数
+export function randomNum(minNum, maxNum) {
+  switch (arguments.length) {
+    case 1:
+      return parseInt(Math.random() * minNum + 1, 10);
+      break;
+    case 2:
+      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+      break;
+    default:
+      return 0;
+      break;
+  }
+}
 export const toFixed1 = num => {
   return new Big(num).toFixed(1);
 };

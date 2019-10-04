@@ -3,7 +3,11 @@ import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
-import { toFixed1, openDateISOString } from "../../utils/function";
+import {
+  toFixed1,
+  openDateISOString,
+  randomProductUrl
+} from "../../utils/function";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
@@ -26,7 +30,7 @@ Page({
     sponsor: null,
     product_name: null,
     product_num: null,
-    url: CONST.DEFAULT_URL,
+    url: randomProductUrl(),
     open_people_num:
       CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
     slide_open_people_num:
@@ -48,7 +52,6 @@ Page({
     try {
       let that = this;
       let lottery_id = options.id;
-      // let lottery_id = "5d7612d71db94f5d2e68fd74";
 
       if (lottery_id) {
         // 修改

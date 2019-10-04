@@ -14,7 +14,7 @@ Page({
   data: {
     // 抽奖信息
     lottery: {
-      url: CONST.DEFAULT_URL,
+      url: "",
       id: "",
       hash: "",
       total: "",

@@ -21,7 +21,7 @@ Page({
    */
   data: {
     lottery: {
-      url: CONST.DEFAULT_URL,
+      url: "",
       id: "",
       hash: "",
       total: "",

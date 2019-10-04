@@ -2,7 +2,11 @@ import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
-import { toFixed1, openDateISOString } from "../../utils/function";
+import {
+  toFixed1,
+  openDateISOString,
+  randomMoneyUrl
+} from "../../utils/function";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
@@ -16,7 +20,7 @@ Page({
   data: {
     create: true,
     id: null,
-    url: CONST.DEFAULT_URL,
+    url: randomMoneyUrl(),
     total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT), //默认第一个 9.9
     lucky_num: toFixed1(
       new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT).times(
