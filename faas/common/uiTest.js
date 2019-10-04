@@ -25,7 +25,7 @@ const seed = () => {
   let hongbaos = [];
   let fudais = [];
 
-  for (let i = 3; i < LOOP_NUM; i++) {
+  for (let i = 0; i < LOOP_NUM; i++) {
     if (i % 2 == 0) {
       //奇数行代码
       hongbaos.push(i);

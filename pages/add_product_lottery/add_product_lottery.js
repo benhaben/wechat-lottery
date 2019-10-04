@@ -3,7 +3,7 @@ import wxPromise from "../../utils/wxPromise.js";
 import Dialog from "../../lib/van/dialog/dialog";
 import { ROUTE, CONST, TABLE_ID } from "../../utils/constants";
 import Big from "../../utils/big";
-import { toFixed1, openDateTimeStamp } from "../../utils/function";
+import { toFixed1, openDateISOString } from "../../utils/function";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
@@ -236,7 +236,7 @@ Page({
       // （创建抽奖，创建订单）-> 支付，
       let lottery = await dao.createLottery({
         url: this.data.url,
-        open_date: openDateTimeStamp(),
+        open_date: openDateISOString(),
         pic_data: this.data.pic_data,
         open_people_num:
           this.data.open_people_num * CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,

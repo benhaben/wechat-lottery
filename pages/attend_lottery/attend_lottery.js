@@ -63,7 +63,6 @@ Page({
         // 从分享会话进入
         app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
       } else if (scene) {
-        debugger;
         let deRet = deSceneOfAttendPage(scene);
         inviter_uid = deRet.inviter_uid;
         let prefix_id = deRet.prefix_lottery_id;
@@ -279,7 +278,7 @@ Page({
       title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery.id
-      }&nickname=${app.getNickname()}`,
+      }&inviter_uid=${app.getUserId()}`,
       success: function(res) {
         console.log("成功", res);
       }

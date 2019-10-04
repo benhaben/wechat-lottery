@@ -1,5 +1,5 @@
 import { ERR_TYPE, TABLE_ID } from "../utils/constants";
-import { openDateTimeStamp } from "../utils/function";
+import { openDateISOString } from "../utils/function";
 import {
   getAttendeesCount,
   getOpenedLottery,
@@ -14,13 +14,11 @@ export default async function checkLotteryStatus(event, callback) {
     // 获取
     let ret = await getOpenedLottery();
     let openedLotteries = ret.data.objects;
-    console.log(`openedLotteries: ${JSON.stringify(openedLotteries)}`);
+    console.log(`openedLotteries total_count: ${ret.data.meta.total_count}`);
     if (openedLotteries) {
       for (let lotteryIndex in openedLotteries) {
         console.log(
-          `openedLotteries[lotteryIndex] - ${JSON.stringify(
-            openedLotteries[lotteryIndex]
-          )}`
+          `openedLotteries[lotteryIndex] - ${openedLotteries[lotteryIndex].id}`
         );
         let lottery = openedLotteries[lotteryIndex];
         let count = await getAttendeesCount(lottery.id);
@@ -30,7 +28,7 @@ export default async function checkLotteryStatus(event, callback) {
         let time_distance = time_end - time_now;
 
         if (count < lottery.open_people_num && time_distance <= 0) {
-          let time = openDateTimeStamp();
+          let time = openDateISOString();
           console.log(
             `人数不够，时间已经到了，顺延24小时 - lottery.id: ${lottery.id}, time: ${time}`
           );
@@ -42,6 +40,8 @@ export default async function checkLotteryStatus(event, callback) {
           console.log(
             `openedLotteries[updateRes] - ${JSON.stringify(updateRes)}`
           );
+        } else if (lottery.open_people_num === 0) {
+          console.log("定时开奖，不需要顺延");
         }
       }
       callback(null, "success");

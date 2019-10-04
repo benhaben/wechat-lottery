@@ -41,8 +41,7 @@ export default async function checkLotteryStatusOpen(event, callback) {
           // 定时开奖
           // 1. 时间到达了就开奖，不管人数。
           // 2. 但是时间并不能精确的触发，所以只能看是否等待超过24小时了，大于24小时就开奖
-          const ONE_DAY = 60 * 60 * 24;
-          if (time_distance >= ONE_DAY) {
+          if (time_distance <= 0) {
             console.log(`定时开奖`);
 
             await openLottery(lottery, config);
@@ -120,22 +119,13 @@ async function openLottery(lottery, config) {
     );
     congratulations = `恭喜您！已经抽中${lottery.product_name}`;
 
-    let send_message_products_promise = sendMessage(
-      user_ids_products,
-      lottery,
-      congratulations
-    );
-
-    // 没有中奖的也发出通知
-    let send_message_not_win_promise = sendNotGetMessage(
-      user_ids_products,
-      lottery
-    );
-
-    await Promise.all([
-      send_message_products_promise,
-      send_message_not_win_promise
-    ]);
+    if (user_ids_products && user_ids_products.length > 0) {
+      await sendMessage(user_ids_products, lottery, congratulations);
+      // 没有中奖的也发出通知
+      await sendNotGetMessage(user_ids_products, lottery);
+    } else {
+      console.log("------实物开奖没有找到中奖者，异常情况log记录------");
+    }
   } else {
     // 红包抽奖，随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新幸运儿的 balance 或者运气值
 
@@ -143,8 +133,9 @@ async function openLottery(lottery, config) {
     let seed_hongbao = SEED.LUCKY_SEED_HONGBAO.slice(0, index_hongbao);
 
     // 每个人中奖的金额，是总奖金额除以 HONHBAO_RATIO，使用 MONEY_UNIT 是因为乘以 MONEY_UNIT 保存为integer
-    let price_per =
-      (lottery.total_prize / CONST.MONEY_UNIT / HONGBAO_NUM) * CONST.MONEY_UNIT;
+    let price_per = Math.floor(
+      (lottery.total_prize / CONST.MONEY_UNIT / HONGBAO_NUM) * CONST.MONEY_UNIT
+    );
 
     console.log(
       `开奖红包 - price_per: ${price_per} - seed_hongbao: ${seed_hongbao} `
@@ -157,12 +148,14 @@ async function openLottery(lottery, config) {
       CONST.GET_HONGBAO,
       price_per
     );
-    congratulations = `恭喜您！已经抽中红包${price_per / CONST.MONEY_UNIT}元！`;
-    let send_message_hongbao_promise = sendMessage(
-      user_ids_hongbao,
-      lottery,
-      congratulations
-    );
+
+    if (user_ids_hongbao && user_ids_hongbao.length > 0) {
+      congratulations = `恭喜您！已经抽中红包${price_per /
+        CONST.MONEY_UNIT}元！`;
+      await sendMessage(user_ids_hongbao, lottery, congratulations);
+    } else {
+      console.log("----------红包开奖没有找到中奖者，异常情况记录------");
+    }
 
     let seed_fudai = SEED.LUCKY_SEED_FUDAI.slice(0, FUDAI_NUM);
 
@@ -177,24 +170,24 @@ async function openLottery(lottery, config) {
       CONST.GET_FUDAI,
       lottery.lucky_num_per
     );
-    congratulations = `恭喜您！已经抽中福袋，运气值${lottery.lucky_num_per}个！`;
-    let send_message_fudai_promise = sendMessage(
-      user_ids_fudai,
-      lottery,
-      congratulations
-    );
+    if (user_ids_fudai && user_ids_fudai.length > 0) {
+      congratulations = `恭喜您！已经抽中福袋，运气值${lottery.lucky_num_per}个！`;
+      if (user_ids_fudai && user_ids_fudai.length)
+        await sendMessage(user_ids_fudai, lottery, congratulations);
+    } else {
+      console.log("----------福袋开奖没有找到中奖者，异常情况记录------");
+    }
 
-    // 没有中奖的也发出通知
-    let send_message_not_win_promise = sendNotGetMessage(
-      [...user_ids_hongbao, ...user_ids_fudai],
-      lottery
-    );
-
-    await Promise.all([
-      send_message_hongbao_promise,
-      send_message_fudai_promise,
-      send_message_not_win_promise
-    ]);
+    if (
+      user_ids_fudai &&
+      user_ids_fudai.length > 0 &&
+      user_ids_hongbao &&
+      user_ids_hongbao.length > 0
+    ) {
+      // 没有中奖的也发出通知
+      let wins = [...user_ids_hongbao, ...user_ids_fudai];
+      await sendNotGetMessage(wins, lottery);
+    }
   }
 }
 
@@ -289,7 +282,9 @@ async function sendNotGetMessage(user_ids_win, lottery) {
   );
 
   let query_user_ids_not_in = new BaaS.Query();
-  query_user_ids_not_in.notIn("user_id", user_ids_win);
+  if (user_ids_win && user_ids_win.length > 0) {
+    query_user_ids_not_in.notIn("user_id", user_ids_win);
+  }
   query_user_ids_not_in.compare(
     "lottery",
     "=",
@@ -308,6 +303,10 @@ async function sendNotGetMessage(user_ids_win, lottery) {
   console.log(
     `sendNotGetMessage user_ids_not_in : ${JSON.stringify(user_ids_not_in)}`
   );
+
+  if (user_ids_not_in && user_ids_not_in.length <= 0) {
+    return;
+  }
   let sponsor = lottery.sponsor || lottery.nickname;
 
   let data_not_win = {
@@ -340,8 +339,11 @@ async function sendNotGetMessage(user_ids_win, lottery) {
 }
 
 async function sendMessage(user_ids_win, lottery, congratulations) {
-  console.log(`sendMessage userIds : ${JSON.stringify(user_ids_win)}`);
+  console.log(`sendMessage user_ids_win : ${JSON.stringify(user_ids_win)}`);
 
+  if (user_ids_win && user_ids_win.length <= 0) {
+    return;
+  }
   let sponsor = lottery.sponsor || lottery.nickname;
   let data = {
     recipient_type: "user_list",

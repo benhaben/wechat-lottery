@@ -57,7 +57,7 @@ export const countDown = function(open_date) {
   }
 };
 
-export function openDateTimeStamp() {
+export function openDateISOString() {
   // https://blog.csdn.net/ufo00001/article/details/72834437
   var timestamp = Date.parse(new Date());
   timestamp = timestamp / 1000;
