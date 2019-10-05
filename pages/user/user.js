@@ -77,7 +77,9 @@ Page({
     }
   },
   onShow() {
-    this.getTabBar().init();
+    if (this.getTabBar() != null) {
+      this.getTabBar().init();
+    }
   },
   onAuth() {},
   showLoginPopup() {

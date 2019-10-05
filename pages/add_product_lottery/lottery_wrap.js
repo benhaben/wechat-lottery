@@ -3,7 +3,9 @@ Page({
   onLoad: function() {},
 
   onShow() {
-    this.getTabBar().init();
+    if (this.getTabBar() != null) {
+      this.getTabBar().init();
+    }
   },
   onUnload: function() {},
   onReady: function() {}

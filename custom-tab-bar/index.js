@@ -31,11 +31,11 @@ Component({
   },
   created() {
     let that = this;
+  },
+  attached() {
     this.setData({
       isIPhoneX: mobileAdapter.isIPhoneX()
     });
-  },
-  attached() {
     // 当组件挂载到页面时，才会执行初始化
     let that = this;
   },

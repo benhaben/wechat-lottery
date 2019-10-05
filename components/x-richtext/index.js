@@ -63,7 +63,9 @@ Component({
   },
   observers: {
     initList: function() {
-      this.data.dataList = [];
+      this.setData({
+        dataList: []
+      });
       this._initRichText();
     }
   },
