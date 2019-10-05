@@ -8,7 +8,7 @@
 }
 
 .info__row_left {
-  flex-basis: 50%;
+  flex-basis: 60%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -20,7 +20,7 @@
 }
 
 .info__row_right {
-  flex-basis: 50%;
+  flex-basis: 40%;
   display: flex;
   flex-direction: row-reverse;
 }

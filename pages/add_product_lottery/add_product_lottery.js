@@ -11,6 +11,7 @@ import {
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
+import { vAddUpdateLotteryParam } from "../../utils/validateFn";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -25,8 +26,6 @@ Page({
     create: true,
     status: 0,
     id: null,
-    error_product_name: true,
-    error_product_num: true,
     sponsor: null,
     product_name: null,
     product_num: null,
@@ -37,10 +36,10 @@ Page({
       CONST.DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
     total_prize:
       CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT, //一万人一块钱
-    desc_checked: !!app.getDesc(),
-    desc_initiator: app.getDesc(),
-    ad_checked: app.getAdsData().length > 0,
-    pic_data: app.getAdsData(),
+    desc_checked: false,
+    desc_initiator: null,
+    ad_checked: false,
+    pic_data: null,
     auth: false,
     loading: false
   },
@@ -57,12 +56,11 @@ Page({
         // 修改
         let ret = await dao.getLotteryById(lottery_id);
         let lottery = ret.data;
+        debugger;
         that.setData({
           create: false,
           product_name: lottery.product_name,
-          error_product_name: !lottery.product_name,
           product_num: lottery.product_num,
-          error_product_num: !lottery.product_num,
           sponsor: lottery.sponsor,
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
@@ -83,6 +81,9 @@ Page({
         this.setData({
           create: true,
           auth: app.hasAuth(),
+          desc_checked: !!app.getDesc(),
+          desc_initiator: app.getDesc(),
+          ad_checked: app.getAdsData().length > 0,
           pic_data: app.getAdsData()
         });
       }
@@ -109,15 +110,13 @@ Page({
 
   onProductNameChange(event) {
     this.setData({
-      product_name: event.detail,
-      error_product_name: false
+      product_name: event.detail
     });
   },
 
   onProductNumChange(event) {
     this.setData({
-      product_num: event.detail,
-      error_product_num: false
+      product_num: event.detail
     });
   },
   addDetails: function(event) {
@@ -222,14 +221,8 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
-      if (!(this.data.product_name && this.data.product_num)) {
-        Toast.fail("请输入奖品名称和数目");
-        this.setData({
-          error_product_name: !this.data.product_name,
-          error_product_num: !this.data.product_num
-        });
-        return;
-      }
+      vAddUpdateLotteryParam(this.data);
+
       this.setData({
         loading: true
       });
@@ -260,6 +253,8 @@ Page({
 
       wx.navigateBack();
     } catch (err) {
+      // TODO: 判断异常类型，可以显示的才Toast
+      Toast.fail(err.message);
       console.log(err);
       this.setData({
         loading: false
@@ -306,17 +301,12 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
-      if (!(this.data.product_name && this.data.product_num)) {
-        Toast.fail("请输入奖品名称和数目");
-        this.setData({
-          error_product_name: !this.data.product_name,
-          error_product_num: !this.data.product_num
-        });
-        return;
-      }
+      vAddUpdateLotteryParam(this.data);
+
       this.setData({ loading: true });
       // 只能修改宣传信息
       let lottery = await dao.updateLottery({
+        url: this.data.url,
         id: this.data.id,
         product_num: this.data.product_num,
         product_name: this.data.product_name,
@@ -329,8 +319,10 @@ Page({
       Toast.success("更新成功");
       wx.navigateBack();
     } catch (err) {
+      // TODO: 判断异常类型，可以显示的才Toast
+      Toast.fail(err.message);
+      console.log(err);
       this.setData({ loading: false });
-      Toast.fail("更新失败");
     }
   },
   userInfoHandler(data) {

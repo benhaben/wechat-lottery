@@ -17,7 +17,7 @@
       <view wx:if="{{lottery_type===1}}" class="info-row">
         <view class="info__row_left">
           <view class="info__row_title">
-            奖品名称：
+            名称：
           </view>
           <view class="info__row_value">
             {{product_name}}

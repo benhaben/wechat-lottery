@@ -8,7 +8,7 @@ import {
   ROUTE_DATA,
   WECHAT_SCENE
 } from "../../utils/uiConstants";
-import { deSceneOfAttendPage } from "../../utils/validateFn";
+import { deSceneOfAttendPage } from "../../utils/uiFunction";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";

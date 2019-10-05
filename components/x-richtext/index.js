@@ -340,7 +340,7 @@ Component({
         if (item.img) {
           list.push({
             type: 1,
-            info: item.file.path
+            info: (item.file && item.file.path) || item.img //新上传的才有file对象
           });
         } else {
           if (item && item.cpy && item.cpy.content) {

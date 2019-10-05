@@ -1,4 +1,3 @@
-import Toast from "../lib/van/toast/toast";
 import wxPromise from "./wxPromise.js";
 
 const { regeneratorRuntime } = global;
@@ -19,8 +18,6 @@ export async function saveToAlbum(url) {
 
   async function save(url) {
     if (url.indexOf("http") !== -1) {
-      debugger;
-
       let file = await wxPromise.downloadFile({ url });
       return wxPromise.saveImageToPhotosAlbum({
         filePath: file.tempFilePath
@@ -61,3 +58,25 @@ export const getStatusBarHeight = () => {
     return 20;
   }
 };
+
+/**
+ *  scene总共就32个字符，user_id 14个，lottery_id 只能用剩下的18个
+ * @param user_id
+ * @param lottery_id
+ * @returns {string}
+ */
+export function genSceneOfAttendPage(user_id, lottery_id) {
+  let _lottery_id = lottery_id.substr(0, 18);
+  let scene = `${user_id}${_lottery_id}`;
+  return scene;
+}
+
+export function deSceneOfAttendPage(scene) {
+  let sceneStr = decodeURIComponent(scene);
+  let inviter_uid = sceneStr.substring(0, 14);
+  let prefix_lottery_id = sceneStr.substring(14, 32);
+  return {
+    inviter_uid,
+    prefix_lottery_id
+  };
+}

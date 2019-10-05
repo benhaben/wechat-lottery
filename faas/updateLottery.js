@@ -26,6 +26,7 @@ export default async function updateLottery(event, callback) {
 
     let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
     lotteryRecord.set({
+      url: lotteryUpdate.url,
       product_num: lotteryUpdate.product_num,
       product_name: lotteryUpdate.product_name,
       sponsor: lotteryUpdate.sponsor,

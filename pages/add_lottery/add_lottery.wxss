@@ -80,7 +80,6 @@
 
 .container__desc-textarea{
   height: 100rpx;
-  width: 100%;
   background: lightgray;
   padding: 30rpx;
 }

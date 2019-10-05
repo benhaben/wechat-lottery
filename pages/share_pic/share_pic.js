@@ -3,9 +3,8 @@ import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE } from "../../utils/constants";
 import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
-import { saveToAlbum } from "../../utils/uiFunction";
+import { genSceneOfAttendPage, saveToAlbum } from "../../utils/uiFunction";
 import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
-import { genSceneOfAttendPage } from "../../utils/validateFn";
 
 const red = "#C42731";
 const white = "#fff";

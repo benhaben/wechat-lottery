@@ -24,14 +24,8 @@
         wx:if="{{item.type === 1}}"
       >
         <image
-          wx:if="{{progressList[index] === 100 || isReadOnly}}"
           src='{{item.img}}'
           mode='widthFix'
-        />
-        <van-progress
-          wx:else
-          inactive
-          percentage="{{progressList[index]}}"
         />
         <x-icon
           wx:if="{{!isReadOnly}}"
@@ -82,7 +76,7 @@
         data-index='{{index+1}}'
       />
       <view
-        wx:elif="{{!isReadOnly}}"
+        wx:if="{{item.info}}"
         bindtap='_focusView'
         class='input_view text-gray bg-white'
         data-index='{{index+1}}'

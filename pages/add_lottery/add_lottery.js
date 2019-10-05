@@ -319,6 +319,7 @@ Page({
       this.setData({ loading: true });
       // 只能修改宣传信息
       let lottery = await dao.updateLottery({
+        url: this.data.url,
         id: this.data.id,
         pic_data: this.data.pic_data,
         desc_initiator: this.data.desc_initiator
