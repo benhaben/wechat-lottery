@@ -15,7 +15,7 @@
     <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
   </view>
 
-  <view wx:if="{{lottery.status == 2 && !hasAttended && lottery.selfLuckyNum > 1}}"
+  <view wx:if="{{lottery.status == 2 && !hasAttended && selfLuckyNum > 1}}"
         class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
     <view class="info-text">拖动滑条，改变中奖权重</view>
     <van-slider
@@ -82,7 +82,7 @@
   <!--    <van-icon class="icon" name="arrow"/>-->
   <!--  </view>-->
 
-  <view class="h-flex flex-col flex-center bg-white padding30" wx:if="{{lottery.status===2}}">
+  <view class="h-flex flex-col flex-center bg-white padding30 margin64-bottom" wx:if="{{lottery.status===2}}">
     <button class="height80 line-height80 width690 bg-dark-gray color-white" bindtap="onShare">分享</button>
     <view class="info-text text-center padding15-top">
       邀请一个新朋友参与，就能获得运气值

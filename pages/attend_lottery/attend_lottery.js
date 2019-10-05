@@ -315,5 +315,12 @@ Page({
     } catch (e) {
       console.log(e);
     }
+  },
+  onShow() {
+    debugger;
+    if (this.getTabBar()) {
+      debugger;
+      this.getTabBar().hide();
+    }
   }
 });
