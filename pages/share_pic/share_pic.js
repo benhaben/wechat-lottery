@@ -77,7 +77,7 @@ let posterConfig = {
     },
     {
       x: 330,
-      y: 1020,
+      y: 1040,
       textAlign: "center",
       baseLine: "middle",
       text: "长按识别小程序码",
@@ -104,10 +104,10 @@ let posterConfig = {
         "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCf5g4bPTIvXW66.png"
     },
     {
-      width: 200,
-      height: 200,
-      x: 230,
-      y: 780,
+      width: 240,
+      height: 240,
+      x: 210,
+      y: 770,
       url: ""
     }
   ]
