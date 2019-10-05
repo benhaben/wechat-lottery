@@ -1,12 +1,14 @@
-<view>
+<view >
   <view class="margin30 text-center info-text">
     请填写个人简介，不超过100个字。
   </view>
-  <textarea class="bg-white padding30 height250"
-            maxlength="500"
+  <view class="bg-white h-flex flex-justify-content-center">
+  <textarea class="bg-white padding30 weight-per90"
+            maxlength="1000"
             bindinput='onInputDesc'
             value="{{desc}}"
          />
+  </view>
 </view>
 
 

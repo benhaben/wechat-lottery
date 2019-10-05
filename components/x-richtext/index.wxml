@@ -76,7 +76,7 @@
         data-index='{{index+1}}'
       />
       <view
-        wx:if="{{item.info}}"
+        wx:if="{{(item.info && !isEdit) || isReadOnly}}"
         bindtap='_focusView'
         class='input_view text-gray bg-white'
         data-index='{{index+1}}'

@@ -1,6 +1,7 @@
 <view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button wx:if="{{create || status === -1}}" class="container__select-image" type="danger" size="small" icon="add-o"
+    <van-button wx:if="{{create || status === -1}}" class="container__select-image" type="danger" size="small"
+                icon="add-o"
                 bindtap="selectImage" plain
                 round>选择图片
     </van-button>
@@ -78,9 +79,19 @@
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
       <view class="container__desc-title" slot="title">发起人简介</view>
     </van-switch-cell>
-    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"
-              value="{{desc_initiator}}">
-    </textarea>
+
+    <view wx:if="{{desc_checked}}" class="bg-light-gray h-flex flex-justify-content-center">
+      <textarea class="bg-light-gray padding30 weight-per90"
+                maxlength="1000"
+                bindinput='onInputDesc'
+                placeholder="请输入发起人简介"
+                value="{{desc_initiator}}"
+      />
+    </view>
+
+    <!--    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"-->
+    <!--              value="{{desc_initiator}}">-->
+    <!--    </textarea>-->
   </van-cell-group>
 
   <view class="container__ad">

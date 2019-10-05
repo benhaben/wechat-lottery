@@ -15,7 +15,7 @@ Component({
       },
       {
         icon: "point-gift-o",
-        text: "发起实物抽奖",
+        text: "发起",
         url: "/pages/add_product_lottery/lottery_wrap"
       },
       {

@@ -15,6 +15,7 @@ view{
 }
 .height-per100{  height: 100%;}
 .weight-per100{ width: 100%; }
+.weight-per90{ width: 95%; }
 .h1{font-size: 55rpx;}
 .h2{font-size: 50rpx;}
 .h3{font-size: 45rpx;}
@@ -88,6 +89,7 @@ view{
 .bg-white{background-color: white;}
 .bg-base {background-color: #f0f0f0;}
 .bg-gray {background-color: #8a8a8a;}
+.bg-light-gray {background-color: lightgray;}
 .bg-red {background-color: #EB132D;}
 .bg-dark-gray{background-color: #575757}
 .color-dark-gray{color: #575757}
