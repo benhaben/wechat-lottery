@@ -11,7 +11,7 @@
   <van-tab title="待审核">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class=""
         wx:for="{{waitApprovalList}}"
         wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
         <template is="simple_list_item" data="{{...item}}"></template>
@@ -26,7 +26,7 @@
   <van-tab title="已通过">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class=""
         wx:for="{{approvalList}}"
         wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
         <template is="simple_list_item" data="{{...item}}"></template>
@@ -41,7 +41,7 @@
   <van-tab title="已驳回">
     <view>
       <view
-        class="bg-white height250 margin30-bottom h-flex flex-align-center padding15-30 flex-justify-content-between"
+        class=""
         wx:for="{{rejectList}}"
         wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
         <template is="simple_list_item" data="{{...item}}"></template>
@@ -55,7 +55,7 @@
   </van-tab>
 </van-tabs>
 <view wx:else>
-  <view class="bg-white height250 margin30-bottom h-flex flex-col flex-center" wx:for="{{queryList}}"
+  <view class="" wx:for="{{queryList}}"
         wx:key="{{index}}" data-id="{{item.id}}" bindtap="onTap">
     <template is="simple_list_item" data="{{...item}}"></template>
   </view>

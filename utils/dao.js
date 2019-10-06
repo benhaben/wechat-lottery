@@ -245,6 +245,7 @@ export default {
       "user_id",
       "lottery"
     ])
+      .setQuery(query)
       .expand(["lottery"])
       .limit(limit)
       .offset(offset)

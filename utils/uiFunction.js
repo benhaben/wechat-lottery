@@ -23,8 +23,6 @@ export async function saveToAlbum(url) {
         filePath: file.tempFilePath
       });
     } else {
-      debugger;
-
       return wxPromise.saveImageToPhotosAlbum({
         filePath: url
       });

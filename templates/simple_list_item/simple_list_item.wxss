@@ -1,0 +1,32 @@
+.box {
+  position: relative;
+}
+.box .box-con{
+  width: 85px;
+  height: 88px;
+  overflow: hidden;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+}
+.box .box-text {
+  color: white;
+  text-align: center;
+  -webkit-transform: rotate(45deg);
+  position: relative;
+  padding: 2px 0;
+  left: 5px;
+  top: 15px;
+  width: 100px;
+}
+.box .box-text:before, .box-text:after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+}
+.box .box-text:before {
+  left: 0;
+}
+.box .box-text:after {
+  right: 0;
+}

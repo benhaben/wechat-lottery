@@ -56,7 +56,6 @@ Page({
         // 修改
         let ret = await dao.getLotteryById(lottery_id);
         let lottery = ret.data;
-        debugger;
         that.setData({
           create: false,
           product_name: lottery.product_name,

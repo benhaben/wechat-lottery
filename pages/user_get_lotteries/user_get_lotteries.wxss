@@ -1,1 +1,2 @@
 /* pages/user_get_lotteries/user_get_lotteries.wxss */
+@import "../../templates/simple_list_item/simple_list_item.wxss";

@@ -43,7 +43,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
@@ -96,15 +96,15 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/user_approve/user_approve",
-					"pathName": "pages/user_approve/user_approve",
+					"name": "pages/user_send_lotteries/user_send_lotteries",
+					"pathName": "pages/user_send_lotteries/user_send_lotteries",
 					"query": "id=5d7dc7bf9db6e805adc5ebfe",
 					"scene": null
 				},
 				{
 					"id": 8,
-					"name": "pages/add_product_lottery/add_product_lottery",
-					"pathName": "pages/add_product_lottery/add_product_lottery",
+					"name": "pages/user_all_lotteries/user_all_lotteries",
+					"pathName": "pages/user_all_lotteries/user_all_lotteries",
 					"query": "",
 					"scene": null
 				}

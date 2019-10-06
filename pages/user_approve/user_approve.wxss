@@ -1,1 +1,3 @@
 /* pages/user_approve/user_approve.wxss */
+
+@import "../../templates/simple_list_item/simple_list_item.wxss";

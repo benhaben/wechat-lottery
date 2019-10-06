@@ -1,22 +1,31 @@
 <template name="simple_list_item">
-  <view class="left flex-basis40">
-    <image mode="aspectFit" class="height220 width220" src="{{url}}"></image>
+  <view class="box margin30-bottom">
+    <view class="bg-white  h-flex flex-align-center padding15-30 flex-justify-content-between">
+      <view class="left flex-basis40">
+        <image mode="aspectFit" class="height220 width220" src="{{url}}"></image>
+      </view>
+
+      <view class="right info-text flex-basis60">
+        <view class="box-con">
+          <view class="box-text bg-red" wx:if="{{lottery_type==0}}">红包抽奖</view>
+          <view class="box-text bg-dark-gray" wx:else>实物抽奖</view>
+        </view>
+
+        <view>编号：{{hash}}</view>
+        <view wx:if="{{lottery_type===0}}">总奖：{{total}}</view>
+        <view wx:else>奖品：{{product_name}}{{product_num}}个</view>
+
+        <view wx:if="{{status===0}}">状态：等待支付</view>
+        <view wx:elif="{{status===1}}">状态：等待审批</view>
+        <view wx:elif="{{status===2}}">状态：等待开奖</view>
+        <view wx:elif="{{status===-1}}">状态：审批驳回</view>
+        <view wx:else>状态：已经开奖</view>
+
+        <view wx:if="{{status===2}}">倒计时：{{countdownStr}}</view>
+      </view>
+    </view>
+
+
   </view>
-  <view class="right h6 flex-basis60">
-    <view wx:if="{{lottery_type===0}}">红包抽奖</view>
-    <view wx:else>实物抽奖</view>
 
-    <view>编号：{{hash}}</view>
-
-    <view wx:if="{{lottery_type===0}}">总奖：{{total}}</view>
-    <view wx:else>奖品：【{{product_name}}】{{product_num}}个</view>
-
-    <view wx:if="{{status===0}}">状态：等待支付</view>
-    <view wx:elif="{{status===1}}">状态：等待审批</view>
-    <view wx:elif="{{status===2}}">状态：等待开奖</view>
-    <view wx:elif="{{status===-1}}">状态：审批驳回</view>
-    <view wx:else>状态：已经开奖</view>
-
-    <view wx:if="{{status===2}}">倒计时：{{countdownStr}}</view>
-  </view>
 </template>
