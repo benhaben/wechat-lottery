@@ -43,7 +43,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -75,9 +75,9 @@
 				},
 				{
 					"id": 4,
-					"name": "pages/win_lottery/win_lottery",
-					"pathName": "pages/win_lottery/win_lottery",
-					"query": "id=5d901b1a5e6a270b906f2b47",
+					"name": "pages/lottery_finished/lottery_finished",
+					"pathName": "pages/lottery_finished/lottery_finished",
+					"query": "id=5d99339f39e6de12f2510639",
 					"scene": 1014
 				},
 				{

@@ -330,6 +330,30 @@ export default {
   },
 
   /**
+   * 用户是否参加了改抽奖
+   * @param id
+   * @param user_id
+   * @returns {Promise<*|NodePath<Node>|number|bigint>}
+   */
+  async hasAttended(id = "", user_id = "") {
+    if (!id || !user_id) {
+      throw TypeError("id or user invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    query.compare("user", "=", USER_TABLE.getWithoutData(user_id));
+    let retRes = await USER_LOTTERY_RECORD_TABLE.setQuery(query)
+      .select(["id"])
+      .limit(1)
+      .find();
+    let ret = false;
+    if (retRes.data.objects.length === 1) {
+      ret = true;
+    }
+    return ret;
+  },
+
+  /**
    * 查询实物中奖者
    * @param id
    * @returns {Promise<*|NodePath<Node>|number|bigint>}

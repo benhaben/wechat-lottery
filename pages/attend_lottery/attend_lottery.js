@@ -2,7 +2,12 @@
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
-import { countDown, formatDate } from "../../utils/function";
+import {
+  countDown,
+  debounce,
+  formatDate,
+  throttle
+} from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   ROUTE_DATA,
@@ -43,6 +48,8 @@ Page({
     costLuckNum: 0,
     selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
+    weight_rate: "暂无排名",
+    weight_loading: false,
     auth: false,
     admin: false, // 管理员可以审批
     showSharePopup: false
@@ -56,6 +63,7 @@ Page({
 
     // 获取数据
     try {
+      console.log(`options : ${JSON.stringify(options)}`);
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
         let ret = await dao.addInviter(inviter_uid);
@@ -127,7 +135,8 @@ Page({
           desc_initiator: lottery.desc_initiator,
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
-          fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+          hongbao_num: CONST.HONGBAO_NUM,
+          fudai_num: CONST.FUDAI_NUM,
           status: lottery.status,
           attend_num: attendees.data.meta.total_count,
           attend_avatar_list: attendees.data.objects.map(
@@ -160,9 +169,24 @@ Page({
 
     this.setData({
       costLuckNum,
-      weight
+      weight,
+      weight_loading: true
     });
+
+    let id = this.data.lottery.id;
+    this.getWeightRate(weight, id);
   },
+  getWeightRate: debounce(async function(weight, id) {
+    let that = this;
+    console.log(`getWeightRate - weight: ${weight}，id: ${id}`);
+
+    setTimeout(() => {
+      that.setData({
+        weight_loading: false,
+        weight_rate: "100名以内"
+      });
+    }, 1500);
+  }),
 
   goToAddLottery: function(e) {
     wx.navigateTo({

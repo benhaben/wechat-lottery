@@ -72,9 +72,10 @@
     "copy-area": "/components/copy-area/copy-area",
     "van-progress": "lib/van/progress/index",
     "poster": "/components/poster-gen-canvas/poster/index",
-    "lottery-item": "/components/lottery-item/lottery-item",
     "van-action-sheet": "lib/van/action-sheet/index",
-    "van-slider": "lib/van/slider/index"
+    "van-slider": "lib/van/slider/index",
+    "van-tag": "lib/van/tag/index",
+    "van-loading":"lib/van/loading/index"
   },
   "sitemapLocation": "sitemap.json"
 }

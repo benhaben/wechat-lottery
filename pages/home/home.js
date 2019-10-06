@@ -1,6 +1,6 @@
 import dao from "../../utils/dao";
 import { ROUTE, CONST } from "../../utils/constants";
-import { countDown, throttle } from "../../utils/function";
+import { countDown, throttle, toFixed3 } from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   PAGE_SIZE,
@@ -36,6 +36,28 @@ Page({
     await this.loadMore();
   }),
 
+  async adjustLotteryInfo(lotteries) {
+    let add = await Promise.all(
+      lotteries.data.objects.map(async lottery => {
+        lottery.hash = lottery.id.substr(0, 10);
+        lottery.hongbao_num = CONST.HONGBAO_NUM;
+        lottery.fudai_num = CONST.FUDAI_NUM;
+        lottery.countdownStr = countDown(lottery.open_date);
+        lottery.hasAttended = await dao.hasAttended(
+          lottery.id,
+          app.getUserId()
+        );
+        return lottery;
+      })
+    );
+
+    // 红包放在前面
+    add.sort((a, b) => {
+      return a.lottery_type - b.lottery_type;
+    });
+    return add;
+  },
+
   onPullDownRefresh: throttle(async function() {
     // 上拉刷新
     try {
@@ -44,13 +66,7 @@ Page({
         return;
       }
 
-      let add = lotteries.data.objects.map(lottery => {
-        lottery.hash = lottery.id.substr(0, 10);
-        lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
-        lottery.countdownStr = countDown(lottery.open_date);
-        lottery.fudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
-        return lottery;
-      });
+      let add = await this.adjustLotteryInfo(lotteries);
       this.setData({
         lotteries: add,
         offset: add.length,
@@ -69,13 +85,8 @@ Page({
       return;
     }
 
-    let add = lotteries.data.objects.map(lottery => {
-      lottery.hash = lottery.id.substr(0, 10);
-      lottery.total = `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`;
-      lottery.countdownStr = countDown(lottery.open_date);
-      lottery.fudai_num = CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index];
-      return lottery;
-    });
+    let add = await this.adjustLotteryInfo(lotteries);
+
     this.setData({
       lotteries: this.data.lotteries.concat(add),
       offset: this.data.offset + add.length,
@@ -129,10 +140,9 @@ Page({
       this.getTabBar().init();
     }
   },
-  onLotteryItem: throttle(function(event) {
-    console.log(event);
+  _onTap: throttle(function(event) {
     wx.navigateTo({
-      url: `${ROUTE.ATTEND_LOTTERY}?id=${event.detail}`
+      url: `${ROUTE.ATTEND_LOTTERY}?id=${event.currentTarget.dataset.id}`
     });
   }),
   onGotoSign: function() {

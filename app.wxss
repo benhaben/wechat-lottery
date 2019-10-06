@@ -221,3 +221,9 @@ view{
 van-slider{
   margin: 20rpx;
 }
+
+.sep{
+  width: 720rpx;
+  height: 1rpx;
+  background-color: black;
+}

@@ -1,2 +1,0 @@
-<import src="../../templates/big_list_item/big_list_item.wxml" />
-<template is="big_list_item" data="{{...lottery}}"></template>

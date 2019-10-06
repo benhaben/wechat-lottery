@@ -24,3 +24,8 @@
   display: flex;
   flex-direction: row-reverse;
 }
+
+van-tag van-icon{
+  vertical-align: -3rpx;
+  margin-right: 5rpx;
+}

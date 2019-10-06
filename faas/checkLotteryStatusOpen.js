@@ -1,5 +1,5 @@
 import { ERR_TYPE, CONFIG_ID, CONST } from "../utils/constants";
-import { formatDate } from "../utils/function";
+import { formatDate, openDateISOString } from "../utils/function";
 import {
   getOpenedLottery,
   getAttendeesCount,
@@ -7,9 +7,7 @@ import {
   LOTTERY_TABLE,
   USER_LOTTERY_RECORD_TABLE,
   SEED,
-  OPEN_LOTTERY_TEMPLATE_ID,
-  HONGBAO_NUM,
-  FUDAI_NUM
+  OPEN_LOTTERY_TEMPLATE_ID
 } from "./common";
 
 export default async function checkLotteryStatusOpen(event, callback) {
@@ -65,10 +63,18 @@ export default async function checkLotteryStatusOpen(event, callback) {
 
             await openLottery(lottery, config);
           } else if (count < lottery.open_people_num && time_distance <= 0) {
-            // 已经有另一个触发器处理，频率比这个触发器高，这个触发器只能在吉时触发
-            // 延期触发器频率更高是因为防止倒计时过期，那个界面处理了，显示正在开奖
+            console.log(`按人数开奖 - 需要延期`);
+            let time = openDateISOString();
             console.log(
-              `按人数开奖 - 需要延期 - count < lottery.open_people_num && time_distance <= 0`
+              `人数不够，时间已经到了，顺延24小时 - lottery.id: ${lottery.id}, time: ${time}`
+            );
+
+            // 人数不够，时间已经到了，顺延24小时。
+            let lotteryUpdate = LOTTERY_TABLE.getWithoutData(lottery.id);
+            lotteryUpdate.set("open_date", time);
+            let updateRes = await lotteryUpdate.update();
+            console.log(
+              `openedLotteries[updateRes] - ${JSON.stringify(updateRes)}`
             );
           } else {
             // count < lottery.open_people_num && time_distance > 0
@@ -129,12 +135,13 @@ async function openLottery(lottery, config) {
   } else {
     // 红包抽奖，随机抽出幸运儿，更新到 userLotteryTable lottery_result，更新幸运儿的 balance 或者运气值
 
-    let index_hongbao = HONGBAO_NUM;
+    let index_hongbao = CONST.HONGBAO_NUM;
     let seed_hongbao = SEED.LUCKY_SEED_HONGBAO.slice(0, index_hongbao);
 
     // 每个人中奖的金额，是总奖金额除以 HONHBAO_RATIO，使用 MONEY_UNIT 是因为乘以 MONEY_UNIT 保存为integer
     let price_per = Math.floor(
-      (lottery.total_prize / CONST.MONEY_UNIT / HONGBAO_NUM) * CONST.MONEY_UNIT
+      (lottery.total_prize / CONST.MONEY_UNIT / CONST.HONGBAO_NUM) *
+        CONST.MONEY_UNIT
     );
 
     console.log(

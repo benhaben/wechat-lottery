@@ -1,7 +1,7 @@
 .blockquote{
   display:block;
   background: #FFF6E6;
-  padding: 15px 20px 15px 45px;
+  padding: 15px 35px 15px 35px;
   margin: 0 0 20px;
   position: relative;
   color:#A19480;

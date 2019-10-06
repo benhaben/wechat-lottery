@@ -17,12 +17,11 @@
 
   <view wx:if="{{lottery.status == 2 && !hasAttended && selfLuckyNum > 1}}"
         class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
-    <view class="info-text">拖动滑条，改变中奖权重</view>
+    <view class="info-text">拖动滑条，改变中奖权重（权重越大，中奖的可能性越大）</view>
     <van-slider
-      step="1"
+      step="10"
       min="0"
       max="90"
-      value="{{ costLuckNum }}"
       bind:drag="onWeightDrag"
       use-button-slot
       active-color="#ee0a24">
@@ -30,11 +29,14 @@
         {{ costLuckNum }}
       </view>
     </van-slider>
-    <view class=" h-flex flex-justify-content-between">
+    <view class=" h-flex flex-justify-content-between flex-align-center">
       <view>中奖权重：</view>
       <view>{{weight}}</view>
     </view>
-    <view class="text-right info-text">一个运气值，增加两个权重</view>
+    <view class=" h-flex flex-justify-content-between">
+      <view class="text-left info-text">即时排位：<text wx:if="{{!weight_loading}}">{{weight_rate}}</text><van-loading wx:else type="spinner" size="20rpx"/></view>
+      <view class="text-right info-text">一个运气值，增加两个权重</view>
+    </view>
   </view>
   <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
     <view>中奖权重 ：</view>

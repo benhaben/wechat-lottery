@@ -1,3 +1,5 @@
+<import src="../../templates/big_list_item/big_list_item.wxml"/>
+
 <view class="margin64-bottom">
   <view class="height80 margin15-30 border-bottom h-flex flex-row flex-align-center flex-justify-content-between">
     <view class="h-flex flex-row flex-align-center">
@@ -15,14 +17,16 @@
 
 
   <view class="height80 margin15-30 color-gray h-flex flex-align-center flex-justify-content-between">
-    <view class="h3 color-red">每日推荐</view>
+    <view class="h4 color-red">每日推荐</view>
     <view class="share" bindtap="onShare">每日集好运 | 分享</view>
   </view>
 
 
   <view class="margin30-bottom" wx:for="{{lotteries}}" wx:key="{{index}}">
-    <lottery-item bindtap="onLotteryItem" lottery="{{item}}"></lottery-item>
+    <template is="big_list_item" data="{{...item}}"></template>
   </view>
+
+
 
   <view class="bottom h-flex flex-col flex-align-center" bindtap="onMore">
     <view class="bottom__info">

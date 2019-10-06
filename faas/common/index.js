@@ -6,9 +6,6 @@ import { CONFIG_ID, CONST, TABLE_ID } from "../../utils/constants";
 
 // 本来红包和福袋根据发起人的不同，会有不同的比例（plans_lottery_package），现在统一改成 100
 // 1. 因为ugc红包被去掉了，没有发起人奖励了，现在福袋的作用就是让参加抽奖的人中奖率提高，中了福袋可以增加权重
-// 2. 复杂的套餐配置在产品上就是浪费时间，只要有这个东西就可以了，没有必要设计细微的差别，不是打游戏
-export const HONGBAO_NUM = 100;
-export const FUDAI_NUM = 100;
 const MAX_GET_OPENED_LOTTERIES = 100;
 export const ADMIN_GROUP_ID = 5074;
 export const APPROVE_TEMPLATE_ID =

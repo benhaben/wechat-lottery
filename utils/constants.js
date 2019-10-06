@@ -139,5 +139,7 @@ export const CONST = {
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
   LUCKY_RATIO_FUDAI_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值
   LUCKY_RATIO_INVITATION: 100, // 邀请朋友增加此数值运气值
-  LUCKY_RATIO_INVITATION_OPEN: 10 // 线人发起抽奖，你获得运气值 = 抽奖金额 * 该值
+  LUCKY_RATIO_INVITATION_OPEN: 10, // 线人发起抽奖，你获得运气值 = 抽奖金额 * 该值
+  HONGBAO_NUM: 100, // 红包数目
+  FUDAI_NUM: 100 // 福袋数目
 };
