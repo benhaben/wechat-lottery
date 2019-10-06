@@ -43,13 +43,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 7,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/attend_lottery/attend_lottery",
 					"pathName": "pages/attend_lottery/attend_lottery",
-					"query": "id=5d956c29ead632372e483b15&inviter_uid=94581109019031",
+					"query": "id=5d997ff339e6de1dbd511824&inviter_uid=94581109019031",
 					"scene": 1001
 				},
 				{

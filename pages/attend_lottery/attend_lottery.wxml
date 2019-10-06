@@ -20,6 +20,8 @@
     <view class="info-text">拖动滑条，改变中奖权重</view>
     <van-slider
       step="1"
+      min="0"
+      max="90"
       value="{{ costLuckNum }}"
       bind:drag="onWeightDrag"
       use-button-slot
