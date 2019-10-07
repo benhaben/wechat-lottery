@@ -19,7 +19,6 @@ Page({
       id: "",
       hash: "",
       total: "",
-      lucky_num: 0,
       lucky_num_per: 0,
       countdownStr: "",
       open_people_num: 0,
@@ -39,8 +38,6 @@ Page({
     showSharePopup: false,
     balance: 0,
     showAd: false,
-    plans_lottery_package: 0,
-    plans_lucky_package: 0,
     hongbao_image_list: [],
     fudai_image_list: []
   },
@@ -104,7 +101,6 @@ Page({
           fudai_num: CONST.FUDAI_NUM,
           product_name: lottery.product_name,
           product_num: lottery.product_num,
-          lucky_num: lottery.lucky_num,
           lucky_num_per: lottery.lucky_num_per,
           open_people_num: lottery.open_people_num,
           avatar: lottery.avatar,
@@ -113,9 +109,6 @@ Page({
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
           open_data_str: formatDate(Date.parse(lottery.open_date)),
-          plans_lottery_package:
-            CONST.PLANS_LOTTERY_PACKAGE[lottery.plan_index],
-          plans_lucky_package: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
           lottery_type: lottery.lottery_type,
           status: lottery.status
         },
@@ -126,7 +119,7 @@ Page({
             : 0,
         get_lucky_num:
           result.lottery_result === 1 || result.lottery_result === 2
-            ? result.lucky_num
+            ? result.lucky_num_per
             : 0,
         lottery_result: result.lottery_result,
         attend_num: attendees.data.meta.total_count,

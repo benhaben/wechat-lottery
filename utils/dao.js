@@ -224,7 +224,7 @@ export default {
     return LOTTERY_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 
@@ -249,7 +249,7 @@ export default {
       .expand(["lottery"])
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 
@@ -276,7 +276,7 @@ export default {
       .expand(["lottery"])
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 
@@ -291,7 +291,7 @@ export default {
     return LOTTERY_TABLE.setQuery(orQuery)
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
   async queryWithdraw(limit = PAGE_SIZE, offset = 0, queryString) {
@@ -301,7 +301,7 @@ export default {
     return WITHDRAW_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
   async getLotteryById(id = "") {
@@ -481,7 +481,7 @@ export default {
       .select(["created_at", "reason", "lucky_num"])
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 
@@ -497,7 +497,7 @@ export default {
       .select(["created_at", "reason", "balance"])
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 
@@ -514,7 +514,7 @@ export default {
       .select(["created_at", "avatar", "nickname"])
       .limit(limit)
       .offset(offset)
-      .orderBy("-created_at")
+      .orderBy("-updated_at")
       .find();
   },
 

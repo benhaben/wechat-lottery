@@ -6,7 +6,7 @@
 
   <view class="h-flex flex-justify-content-around switch margin30-top margin30-bottom">
     <view class="switch__item bg-red color-white" bindtap="showAdFalse">开奖结果</view>
-    <view class="switch__item bg-gray color-white" bindtap="showAd">发起人广告</view>
+    <view class="switch__item bg-gray color-white" bindtap="showAd">图文介绍</view>
   </view>
 
   <view wx:if="{{!showAd}}" class="bg-base">
@@ -32,12 +32,14 @@
           <van-icon name="point-gift" size="35rpx"></van-icon>
           <view>去查看</view>
         </view>
-        <view wx:if="{{lottery.lottery_type == 0}}" class="win-switch__item border-gray color-gray bg-base" bindtap="onGoHome">
-          <van-icon name="wap-home" size="35rpx" color="#EB132D" />
+        <view wx:if="{{lottery.lottery_type == 0}}" class="win-switch__item border-gray color-gray bg-base"
+              bindtap="onGoHome">
+          <van-icon name="wap-home" size="35rpx" color="#EB132D"/>
           <view>再抽一次</view>
         </view>
-        <view wx:if="{{lottery.lottery_type == 1}}" class="win-switch__item border-gray color-gray bg-base" bindtap="onGetAddress">
-          <van-icon name="wap-home" size="35rpx" color="#EB132D" />
+        <view wx:if="{{lottery.lottery_type == 1}}" class="win-switch__item border-gray color-gray bg-base"
+              bindtap="onGetAddress">
+          <van-icon name="wap-home" size="35rpx" color="#EB132D"/>
           <view>填写地址</view>
         </view>
       </view>
@@ -47,19 +49,28 @@
       </view>
 
       <view class="h4">中奖者名单:</view>
-      <view wx:if="{{lottery.lottery_type == 0}}" class="h-flex flex-col flex-align-center" >
-        <view class="win-details">
-          <view class="win-peoples-title bg-base">奖品：好运红包<text class="color-red">{{get_balance}}</text>元</view>
+      <view wx:if="{{lottery.lottery_type == 0}}" class="h-flex flex-col flex-align-center">
+
+        <view class="win-details" wx:if="{{hongbao_image_list && hongbao_image_list.length>0}}">
+          <view class="win-peoples-title bg-base">奖品：好运红包
+            <text class="color-red">{{get_balance}}</text>
+            元
+          </view>
           <view class="avatar-list">
-            <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
+            <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}"
+                   src="{{item}}"></image>
           </view>
           <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoHongbao">
             查看全部
             <van-icon class="link-arrow-vertical-align" name="arrow"/>
           </view>
         </view>
-        <view class="win-details">
-          <view class="win-peoples-title bg-base">奖品：好运福袋<text class="color-red">{{lottery.lucky_num_per}}</text>个运气值 X<text class="color-red">{{lottery.plans_lucky_package}}名</text>
+
+        <view class="win-details" wx:if="{{fudai_image_list && fudai_image_list.length>0}}">
+          <view class="win-peoples-title bg-base">奖品：好运福袋
+            <text class="color-red">{{lottery.lucky_num_per}}</text>
+            个运气值 X
+            <text class="color-red">{{lottery.fudai_num}}名</text>
           </view>
           <view class="avatar-list">
             <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
@@ -74,13 +85,14 @@
 
       <view wx:elif="{{lottery.lottery_type == 1}}" class="h-flex flex-col flex-align-center"
       >
-        <view class="win-details">
+        <view class="win-details" wx:if="{{products_image_list && products_image_list.length>0}}">
           <view class="win-peoples-title bg-base">奖品：好运奖品
             <text class="color-red">{{lottery.product_name}}</text>
           </view>
         </view>
         <view class="avatar-list">
-          <image class="big-avatar margin30-right" wx:for="{{products_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
+          <image class="big-avatar margin30-right" wx:for="{{products_image_list}}" wx:key="{{index}}"
+                 src="{{item}}"></image>
         </view>
         <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoProducts">
           查看全部

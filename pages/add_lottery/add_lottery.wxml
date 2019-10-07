@@ -1,6 +1,7 @@
 <view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button wx:if="{{create}}" class="container__select-image" type="danger" size="small" icon="add-o" bindtap="selectImage" plain
+    <van-button wx:if="{{create}}" class="container__select-image" type="danger" size="small" icon="add-o"
+                bindtap="selectImage" plain
                 round>选择图片
     </van-button>
     <view wx:else class="container__hash">
@@ -13,74 +14,85 @@
     </view>
   </view>
 
-  <view class="container__select-prize">
-    <view class="container__total-prize">
-      <view class="container__total-prize-title">总奖金额</view>
-      <view class="container__total-prize-num">{{total_prize}} 元</view>
-    </view>
+  <view class="margin30-bottom">
+    <van-cell-group>
+      <van-cell wx:if="{{!create}}" title="金额(元)" value="{{total_prize}}"/>
+      <van-field wx:else
+                 value="{{ total_prize }}"
+                 label="金额(元)"
+                 placeholder="请输入金额"
+                 type="digit"
+                 clearable
+                 bind:change="onPrizeChange"
+                 input-align="right"
+                 maxlength="10"
+      />
+      <van-cell wx:if="{{!create && !time_checked}}" title="开奖人数" value="{{open_people_num}}人"/>
+      <van-field
+        wx:if="{{create && !time_checked}}"
+        value="{{ open_people_num }}"
+        label="开奖人数"
+        placeholder="请输入开奖人数"
+        clearable
+        type="number"
+        bind:change="onPeopleNumChange"
+        input-align="right"
+        error="{{error_product_num}}"
+        maxlength="10"
+      />
+      <van-cell title="每个福袋运气值" value="{{lucky_num_per}}"/>
+      <van-cell title="红包个数" value="{{hongbao_num}}"/>
+      <van-cell title="福袋个数" value="{{fudai_num}}"/>
 
-    <view class="container__lucky-num">发起奖励：{{lucky_num}} 运气值</view>
-    <view class="container__prize-list">
-      <view wx:for="{{prize_list}}" wx:key="{{index}}" bindtap='onSelectPrize' data-index='{{index}}'
-            class="prize-list-item" style="background:{{prize_colors_switch[prize_colors[index]]}}">
-        {{item}}
-      </view>
-    </view>
+    </van-cell-group>
   </view>
 
-  <view  class="margin30-bottom">
-    <van-cell-group>
-      <van-cell title="选择红包派发方案" value="{{plans[plan_index]}}" bind:click="onPlanSelect" use-label-slot="true" is-link
-                arrow-direction="down">
-        <view class="container__plan-label" slot="label">每个福袋有{{lucky_num_per}}运气值</view>
-      </van-cell>
-      <van-cell wx:if="{{!time_checked}}" title="最低开奖人数" value="{{open_people_num}} 人" label="开奖人数和总奖金额相关"/>
 
-      <van-switch-cell checked="{{ time_checked }}"
-                       label="选择定时开奖，开奖人数将失效"
-                       title="定时开奖"
-                       bind:change="onTimeChange">
+  <view class="margin30-bottom">
+    <van-cell-group>
+      <van-switch-cell
+        disabled="{{!create}}"
+        checked="{{ time_checked }}"
+        label="选择定时开奖，开奖人数将失效"
+        title="定时开奖"
+        bind:change="onTimeChange">
       </van-switch-cell>
     </van-cell-group>
-
-    <van-popup show="{{ show_plan }}" position="bottom" bind:close="onClosePlan">
-      <van-picker columns="{{ plans }}" default-index="0" bind:change="onPlanChange"/>
-    </van-popup>
   </view>
 
-  <van-cell-group >
+
+  <van-cell-group>
     <van-switch-cell checked="{{ desc_checked }}"
                      bind:change="onDescChange">
-      <view class="container__desc-title" slot="title">发起人简介</view>
+      <view class="container__desc-title" slot="title">发起人的话</view>
     </van-switch-cell>
 
     <view wx:if="{{desc_checked}}" class="bg-light-gray h-flex flex-justify-content-center">
       <textarea class="bg-light-gray padding30 weight-per90"
                 maxlength="1000"
                 bindinput='onInputDesc'
-                placeholder="请输入发起人简介"
+                placeholder="发起人的话"
                 value="{{desc_initiator}}"
       />
     </view>
-<!--    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"-->
-<!--              value="{{desc_initiator}}">-->
-<!--    </textarea>-->
   </van-cell-group>
 
   <view class="container__ad">
     <van-cell-group class="container__ad-group">
-      <van-switch-cell checked="{{ ad_checked || pic_data.length>0 }}" bind:change="onAdChange">
-        <view class="container__ad-title" slot="title">发起人广告</view>
+      <van-switch-cell checked="{{ ad_checked}}" bind:change="onAdChange">
+        <view class="container__ad-title" slot="title">图文介绍</view>
       </van-switch-cell>
     </van-cell-group>
 
-    <view class="container__ad-button" wx:if="{{ad_checked  }}">
+    <view class="container__ad-button" wx:if="{{ad_checked}}">
       <van-button type="danger" size="small" icon="add-o" bindtap="addDetails" plain round>
-        <text wx:if="{{pic_data && pic_data.length > 0}}">修改</text><text wx:else>添加</text>图文介绍/一键复制
+        <text wx:if="{{pic_data && pic_data.length > 0}}">修改</text>
+        <text wx:else>添加</text>
+        图文介绍/一键复制
       </van-button>
     </view>
     <view class="container__ad-rich">
-      <x-richtext wx:if="{{ad_checked && pic_data && pic_data.length > 0 }}" isReadOnly initList="{{pic_data}}"/>
+      <x-richtext wx:if="{{ad_checked}}" isReadOnly initList="{{pic_data}}"/>
     </view>
   </view>
 
@@ -120,7 +132,8 @@
     </button>
   </form>
 
-  <form class="bottom" report-submit name="add_lottery" bindsubmit="onUpdate" wx:if="{{!create && (status === -1 || status === 1)}}">
+  <form class="bottom" report-submit name="add_lottery" bindsubmit="onUpdate"
+        wx:if="{{!create && (status === -1 || status === 1)}}">
     <view class="bottom__info">更新抽奖需要再次审批</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"

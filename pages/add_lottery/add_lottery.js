@@ -5,11 +5,14 @@ import Big from "../../utils/big";
 import {
   toFixed1,
   openDateISOString,
-  randomMoneyUrl
+  randomMoneyUrl,
+  toFixed3,
+  debounce
 } from "../../utils/function";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
+import { vAddUpdateMoneyLotteryParam } from "../../utils/validateFn";
 
 const { regeneratorRuntime } = global;
 
@@ -21,23 +24,14 @@ Page({
     create: true,
     id: null,
     url: randomMoneyUrl(),
-    total_prize: toFixed1(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT), //默认第一个 9.9
-    lucky_num: toFixed1(
-      new Big(CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT).times(
-        CONST.LUCKY_RATIO_OPEN
-      )
-    ), // 开奖奖励的运气值，触发器使用
-    prize_list: CONST.LOTTERY_PRIZE_LIST.map(item => item / CONST.MONEY_UNIT),
-    prize_colors: CONST.PRIZE_COLORS,
-    prize_colors_switch: ["lightgray", "red"], // 可以换成切换class
-    plan_index: 0,
-    plans: CONST.PLANS,
-    lucky_num_per: (CONST.LOTTERY_PRIZE_LIST[0] / CONST.MONEY_UNIT) * 10, // 每个人的奖励运气值
-    show_plan: false,
+    total_prize: 1.8, //默认第一个 9.9
+    lucky_num_per: 18, // 每个人的奖励运气值
     open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
+    hongbao_num: CONST.HONGBAO_NUM,
+    fudai_num: CONST.FUDAI_NUM,
     desc_checked: !!app.getDesc(),
     desc_initiator: app.getDesc(),
-    ad_checked: app.getAdsData().length > 0,
+    ad_checked: app.getAdsData() && app.getAdsData().length > 0,
     pic_data: app.getAdsData(),
     time_checked: false,
     auth: false,
@@ -57,83 +51,29 @@ Page({
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
-          total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
-          lucky_num: lottery.lucky_num,
+          total_prize: toFixed1(lottery.total_prize / CONST.MONEY_UNIT),
           open_people_num: lottery.open_people_num,
-          plan_index: lottery.plan_index,
+          time_checked: lottery.open_people_num === 0,
           lucky_num_per: lottery.lucky_num_per,
           desc_checked: !!lottery.desc_initiator,
           desc_initiator: lottery.desc_initiator,
-          ad_checked: lottery.pic_data && lottery.pic_data > 0,
+          ad_checked: lottery.pic_data && lottery.pic_data.length > 0,
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
-          status: lottery.status
+          status: lottery.status,
+          auth: app.hasAuth()
         });
       } else {
         // 增加
         this.setData({
-          create: true,
           auth: app.hasAuth(),
+          create: true,
           pic_data: app.getAdsData()
         });
       }
     } catch (e) {
       console.log(e);
     }
-  },
-  onPlanSelect: function() {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    this.setData({
-      show_plan: true
-    });
-  },
-  onClosePlan: function() {
-    this.setData({
-      show_plan: false
-    });
-  },
-  onPlanChange: function(event) {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    const { picker, value, index } = event.detail;
-    console.log(`当前值：${value}, 当前索引：${index}`);
-
-    this.setData({
-      plan_index: index
-    });
-  },
-  onSelectPrize: function(e) {
-    if (this.data.id) {
-      Dialog.alert({
-        message: "只能修改宣传信息，不能修改抽奖金额相关信息。"
-      });
-      return;
-    }
-    var index = e.currentTarget.dataset.index;
-    for (let i in this.data.prize_colors) {
-      this.data.prize_colors[i] = 0;
-    }
-    this.data.prize_colors[index] = 1;
-    this.data.total_prize = toFixed1(
-      CONST.LOTTERY_PRIZE_LIST[index] / CONST.MONEY_UNIT
-    );
-    this.data.lucky_num = toFixed1(
-      new Big(this.data.total_prize).times(CONST.LUCKY_RATIO_OPEN)
-    );
-    this.data.open_people_num = CONST.LOTTERY_NUM_PEOPLE[index];
-    this.data.lucky_num_per =
-      this.data.total_prize * CONST.LUCKY_RATIO_FUDAI_PACKAGE;
-
-    this.setData(this.data);
   },
   addDetails: function(event) {
     let that = this;
@@ -235,6 +175,29 @@ Page({
       console.debug(err);
     }
   },
+  onPrizeChange: debounce(function(event) {
+    let that = this;
+    let value = event.detail;
+    console.log(value);
+    if (value) {
+      that.setData({
+        total_prize: toFixed1(value),
+        lucky_num_per: toFixed1(value) * CONST.LUCKY_RATIO_FUDAI_PACKAGE
+      });
+    } else {
+      that.setData({
+        total_prize: null,
+        lucky_num_per: null
+      });
+    }
+  }),
+  onPeopleNumChange: debounce(function(event) {
+    let value = event.detail;
+    console.log(value);
+    this.setData({
+      open_people_num: parseInt(value)
+    });
+  }),
   onConfirm: async function(event) {
     try {
       const formId = event.detail.formId;
@@ -242,6 +205,8 @@ Page({
         wx.BaaS.wxReportTicket(formId);
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
+
+      vAddUpdateMoneyLotteryParam(this.data);
 
       this.setData({
         loading: true
@@ -252,11 +217,8 @@ Page({
         url: this.data.url,
         open_date: openDateISOString(),
         pic_data: this.data.pic_data,
-        total_prize: Number(this.data.total_prize) * CONST.MONEY_UNIT,
-        lucky_num: Number(this.data.lucky_num),
+        total_prize: Number(this.data.total_prize * CONST.MONEY_UNIT),
         lucky_num_per: Number(this.data.lucky_num_per),
-        plan_index: this.data.plan_index,
-        plan: this.data.plans[this.data.plan_index],
         open_people_num: this.data.time_checked ? 0 : this.data.open_people_num,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
@@ -271,6 +233,7 @@ Page({
 
       wx.navigateBack();
     } catch (err) {
+      Toast.fail(err.message);
       this.setData({
         loading: false
       });
@@ -298,7 +261,7 @@ Page({
         wx.BaaS.wxReportTicket(formId);
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
-      let totalCost = new Big(this.data.total_prize).div(CONST.MONEY_UNIT);
+      let totalCost = new Big(this.data.total_prize);
       await this.pay(this.data, totalCost);
       this.setData({
         loading: false

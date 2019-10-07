@@ -3,7 +3,7 @@
 
 <van-cell-group class="container__desc">
   <van-switch-cell checked="{{ showAd }}" bind:change="onShowAd">
-    <view class="container__desc-title" slot="title">发起人简介</view>
+    <view class="container__desc-title" slot="title">发起人的话</view>
   </van-switch-cell>
 </van-cell-group>
 

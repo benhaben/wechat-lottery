@@ -75,7 +75,8 @@ Page({
           ad_checked: lottery.pic_data && lottery.pic_data.length > 0,
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
-          status: lottery.status
+          status: lottery.status,
+          auth: app.hasAuth()
         });
       } else {
         // 增加

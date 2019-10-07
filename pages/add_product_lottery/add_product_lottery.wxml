@@ -77,14 +77,14 @@
 
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
-      <view class="container__desc-title" slot="title">发起人简介</view>
+      <view class="container__desc-title" slot="title">发起人的话</view>
     </van-switch-cell>
 
     <view wx:if="{{desc_checked}}" class="bg-light-gray h-flex flex-justify-content-center">
       <textarea class="bg-light-gray padding30 weight-per90"
                 maxlength="1000"
                 bindinput='onInputDesc'
-                placeholder="请输入发起人简介"
+                placeholder="发起人的话"
                 value="{{desc_initiator}}"
       />
     </view>
@@ -97,7 +97,7 @@
   <view class="container__ad">
     <van-cell-group class="container__ad-group">
       <van-switch-cell checked="{{ ad_checked || pic_data.length>0 }}" bind:change="onAdChange">
-        <view class="container__ad-title" slot="title">发起人广告</view>
+        <view class="container__ad-title" slot="title">图文介绍</view>
       </van-switch-cell>
     </van-cell-group>
 

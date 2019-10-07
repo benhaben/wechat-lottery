@@ -27,8 +27,6 @@ export default async function createLottery(event, callback) {
   // status默认是0，不接受客户端值
 
   try {
-    lottery.lucky_num_open =
-      lottery.lucky_num * (CONST.LUCKY_RATIO_SUCCESS / CONST.LUCKY_RATIO_OPEN);
     lottery.created_by = user_id;
     const createObject = LOTTERY_TABLE.create();
     let ret = await createObject.set(lottery).save();
