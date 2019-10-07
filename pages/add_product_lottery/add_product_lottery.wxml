@@ -121,7 +121,6 @@
             class="bottom__btn color-white bg-red"
             size="large"
             open-type="getUserInfo"
-            form-type="submit"
             bindgetuserinfo="userInfoHandler">发起抽奖
     </button>
 
@@ -140,7 +139,6 @@
             class="bottom__btn color-white bg-red"
             size="large"
             open-type="getUserInfo"
-            form-type="submit"
             bindgetuserinfo="userInfoHandler">支付
     </button>
 
@@ -159,7 +157,6 @@
             class="bottom__btn color-white bg-red"
             size="large"
             open-type="getUserInfo"
-            form-type="submit"
             bindgetuserinfo="userInfoHandler">更新抽奖
     </button>
 

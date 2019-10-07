@@ -257,7 +257,6 @@ Page({
       // TODO: 判断异常类型，可以显示的才Toast
       Toast.fail(err.message);
       console.log(err);
-      wx.navigateBack();
       this.setData({
         loading: false
       });

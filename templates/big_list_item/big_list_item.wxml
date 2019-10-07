@@ -28,7 +28,7 @@
 
       <view class="h-flex flex-align-center">
         <van-tag class="margin30-right" wx:if="{{hasAttended}}" size="medium" type="success">
-          <van-icon name="success"/>
+          <van-icon class="btn-vertical-align" name="success"/>
           已参与
         </van-tag>
 

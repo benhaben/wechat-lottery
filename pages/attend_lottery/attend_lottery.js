@@ -50,7 +50,7 @@ Page({
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
     weight_rate: "暂无排名",
     weight_loading: false,
-    auth: false,
+    is_authorized: false,
     admin: false, // 管理员可以审批
     showSharePopup: false
   },
@@ -60,7 +60,12 @@ Page({
    */
   onLoad: async function(options) {
     let { scene, id, inviter_uid } = options;
-
+    const eventChannel = this.getOpenerEventChannel();
+    if (eventChannel) {
+      this.setData({
+        eventChannel: eventChannel
+      });
+    }
     // 获取数据
     try {
       console.log(`options : ${JSON.stringify(options)}`);
@@ -91,7 +96,7 @@ Page({
 
       await app.getUserInfo(app.getUserId());
       this.setData({
-        auth: app.hasAuth()
+        is_authorized: app.hasAuth()
       });
 
       let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
@@ -193,23 +198,21 @@ Page({
   },
   onAttend: async function(event) {
     // 调用云函数
-
-    const formId = event.detail.formId;
-    if (formId) {
-      wx.BaaS.wxReportTicket(formId);
-      console.log(`event.detail.formId - ${event.detail.formId}`);
-    }
-
-    if (this.data.hasAttended) {
-      return;
-    }
-
-    if (this.data.selfLuckyNum < 1) {
-      Toast.fail("运气值不足");
-      return;
-    }
-
     try {
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
+
+      if (this.data.hasAttended) {
+        return;
+      }
+
+      if (this.data.selfLuckyNum < 1) {
+        Toast.fail("运气值不足");
+        return;
+      }
       this.setData({ attendBtnLoading: true });
 
       // main(
@@ -230,19 +233,26 @@ Page({
         lottery_id: this.data.lottery.id
       });
 
-      // 更新一下抽奖人数和头像
-      let attendees = await dao.getLotteryAttendees(this.data.lottery.id);
-      this.data.lottery.attend_num = attendees.data.meta.total_count;
-      this.data.lottery.attend_avatar_list = attendees.data.objects.map(
-        item => item.avatar_cache
-      );
-
-      this.setData(this.data);
-      // 参与抽奖会减少运气值，这边重新获取运气值，不要要重置 selfLuckyNum，因为当前页面不能操作了
-      await app.getUserInfo();
-      app.sendAttendLotteryEvent(this.data.lottery.id, this.data.lottery_type);
       if (res) {
+        // 更新一下抽奖人数和头像
+        let attendees = await dao.getLotteryAttendees(this.data.lottery.id);
+        this.data.lottery.attend_num = attendees.data.meta.total_count;
+        this.data.lottery.attend_avatar_list = attendees.data.objects.map(
+          item => item.avatar_cache
+        );
+
+        this.setData(this.data);
+        // 参与抽奖会减少运气值，这边重新获取运气值，不要要重置 selfLuckyNum，因为当前页面不能操作了
+        await app.getUserInfo();
+        app.sendAttendLotteryEvent(
+          this.data.lottery.id,
+          this.data.lottery_type
+        );
         this.setData({ attendBtnLoading: false, hasAttended: true });
+        this.data.eventChannel.emit(
+          ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_HOME,
+          this.data.lottery.id
+        );
       } else {
         this.setData({ attendBtnLoading: false });
       }
@@ -255,12 +265,13 @@ Page({
   //TODO: 可以做一个共享的behavior
   userInfoHandler(data) {
     let that = this;
+
     wx.BaaS.auth.loginWithWechat(data).then(
       async user => {
         // user 包含用户完整信息，详见下方描述
         await app.getUserInfo(user.get("id"));
         that.setData({
-          auth: app.hasAuth()
+          is_authorized: app.hasAuth()
         });
       },
       err => {
