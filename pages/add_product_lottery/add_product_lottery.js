@@ -58,12 +58,14 @@ Page({
         let lottery = ret.data;
         that.setData({
           create: false,
+          total_prize: toFixed1(lottery.total_prize / CONST.MONEY_UNIT),
           product_name: lottery.product_name,
           product_num: lottery.product_num,
           sponsor: lottery.sponsor,
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
+          open_people_num_read: lottery.open_people_num,
           open_people_num:
             lottery.open_people_num / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
           slide_open_people_num:
@@ -246,7 +248,7 @@ Page({
       });
 
       // 用户可能取消支付，产生一个未支付订单 TODO: totalCost
-      await this.pay(lottery, 0.01);
+      await this.pay(lottery, totalCost);
 
       this.setData({ loading: false });
 
@@ -255,15 +257,17 @@ Page({
       // TODO: 判断异常类型，可以显示的才Toast
       Toast.fail(err.message);
       console.log(err);
+      wx.navigateBack();
       this.setData({
         loading: false
       });
     }
   },
   async pay(lottery, cost) {
+    let sponsor = lottery.sponsor || app.getNickname();
     const params = {
-      totalCost: 0.01,
-      merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
+      totalCost: cost,
+      merchandiseDescription: `${sponsor}发起的抽奖：${lottery.id}`,
       merchandiseSchemaID: TABLE_ID.LOTTERY,
       merchandiseRecordID: lottery.id,
       merchandiseSnapshot: lottery
@@ -281,7 +285,9 @@ Page({
         wx.BaaS.wxReportTicket(formId);
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
-      await this.pay(this.data, 0.01);
+
+      let totalCost = new Big(this.data.total_prize);
+      await this.pay(this.data, totalCost);
       this.setData({
         loading: false
       });
@@ -336,9 +342,5 @@ Page({
       },
       err => {}
     );
-  },
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {}
+  }
 });

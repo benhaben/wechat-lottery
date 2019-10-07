@@ -329,6 +329,29 @@ export default {
       .find();
   },
 
+  async getWeightRate(id = "", weight = 0) {
+    if (!id) {
+      throw TypeError("id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    query.compare("weight", ">=", weight);
+
+    let count = await USER_LOTTERY_RECORD_TABLE.setQuery(query).count();
+
+    if (count <= 50) {
+      return "50名内";
+    } else if (count <= 100) {
+      return "100名内";
+    } else if (count <= 200) {
+      return "200名内";
+    } else if (count <= 500) {
+      return "500名内";
+    } else {
+      return "大于500名";
+    }
+  },
+
   /**
    * 用户是否参加了改抽奖
    * @param id
@@ -429,6 +452,22 @@ export default {
     }
     return ret;
   },
+  async hasTodayCheckin(user_id) {
+    let ret = false;
+    try {
+      let date = formatDate(Date.now());
+      let query = new wx.BaaS.Query();
+      query.compare("user_id", "=", user_id);
+      query.compare("date", "=", date);
+      let count = await DAILY_CHECKIN_TABLE.setQuery(query).count();
+      if (count > 0) {
+        ret = true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return ret;
+  },
 
   async getLuckyDetails(user_id, limit = PAGE_SIZE, offset = 0) {
     if (!user_id) {
@@ -510,6 +549,7 @@ export default {
     let query = new wx.BaaS.Query();
     return QUESTIONS_TABLE.select(["title", "content"])
       .setQuery(query)
+      .orderBy("index")
       .find();
   }
 };

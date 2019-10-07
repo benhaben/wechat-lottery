@@ -21,5 +21,9 @@ Page({
     this.setData({
       questions: questionsRes.data.objects
     });
+  },
+  handleContact(e) {
+    console.log(e.detail.path);
+    console.log(e.detail.query);
   }
 });

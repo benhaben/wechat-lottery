@@ -174,18 +174,16 @@ Page({
     });
 
     let id = this.data.lottery.id;
-    this.getWeightRate(weight, id);
+    this.getWeightRate(id, weight);
   },
-  getWeightRate: debounce(async function(weight, id) {
+  getWeightRate: debounce(async function(id, weight) {
     let that = this;
     console.log(`getWeightRate - weight: ${weight}，id: ${id}`);
-
-    setTimeout(() => {
-      that.setData({
-        weight_loading: false,
-        weight_rate: "100名以内"
-      });
-    }, 1500);
+    let weight_rate = await dao.getWeightRate(id, weight);
+    that.setData({
+      weight_loading: false,
+      weight_rate
+    });
   }),
 
   goToAddLottery: function(e) {

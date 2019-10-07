@@ -15,9 +15,10 @@
       loading="{{loading}}"
       size="large"
       form-type="submit"
-      class="bottom__btn color-red bg-red"
+      type="primary"
+      class="bottom__btn "
       plain
-    >签到
+    >{{btn_title}}
     </button>
   </form>
 </view>

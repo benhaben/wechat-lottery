@@ -3,6 +3,7 @@ import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import { formatDate, toFixed3 } from "../../utils/function";
 import { ROUTE_DATA } from "../../utils/uiConstants";
+import { getAddress } from "../../utils/uiFunction";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -99,7 +100,8 @@ Page({
           url: lottery.url,
           hash: lottery.id.substr(0, 10),
           total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
-          fudai_num: CONST.PLANS_LUCKY_PACKAGE[lottery.plan_index],
+          hongbao_num: CONST.HONGBAO_NUM,
+          fudai_num: CONST.FUDAI_NUM,
           product_name: lottery.product_name,
           product_num: lottery.product_num,
           lucky_num: lottery.lucky_num,
@@ -119,10 +121,13 @@ Page({
         },
         weight: result.weight,
         get_balance:
-          result.lottery_result === 1
+          result.lottery_result === 1 || result.lottery_result === 2
             ? toFixed3(result.balance / CONST.MONEY_UNIT)
             : 0,
-        get_lucky_num: result.lottery_result === 2 ? result.lucky_num : 0,
+        get_lucky_num:
+          result.lottery_result === 1 || result.lottery_result === 2
+            ? result.lucky_num
+            : 0,
         lottery_result: result.lottery_result,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
@@ -168,6 +173,9 @@ Page({
     wx.switchTab({
       url: `${ROUTE.HOME}`
     });
+  },
+  async onGetAddress() {
+    await getAddress(app.getUserId());
   },
   showAdFalse() {
     this.setData({

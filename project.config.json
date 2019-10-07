@@ -43,7 +43,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
@@ -77,7 +77,7 @@
 					"id": 4,
 					"name": "pages/lottery_finished/lottery_finished",
 					"pathName": "pages/lottery_finished/lottery_finished",
-					"query": "id=5d99339f39e6de12f2510639",
+					"query": "id=5d9765ce5721823e69518436",
 					"scene": 1014
 				},
 				{
@@ -96,9 +96,9 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/user_send_lotteries/user_send_lotteries",
-					"pathName": "pages/user_send_lotteries/user_send_lotteries",
-					"query": "id=5d7dc7bf9db6e805adc5ebfe",
+					"name": "pages/win_lottery/win_lottery",
+					"pathName": "pages/win_lottery/win_lottery",
+					"query": "id=5d9765ce5721823e69518436",
 					"scene": null
 				},
 				{

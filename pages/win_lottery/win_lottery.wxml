@@ -4,7 +4,7 @@
 
   <template is="big_list_item" data="{{...lottery}}"></template>
 
-  <view class="h-flex flex-justify-content-around switch margin30-bottom">
+  <view class="h-flex flex-justify-content-around switch margin30-top margin30-bottom">
     <view class="switch__item bg-red color-white" bindtap="showAdFalse">开奖结果</view>
     <view class="switch__item bg-gray color-white" bindtap="showAd">发起人广告</view>
   </view>
@@ -19,7 +19,7 @@
         <text class="color-red">{{get_balance}}</text>
         元
       </view>
-      <view wx:elif="{{lottery_result == 2}}" class="h3 margin30-bottom">奖品：好运福袋
+      <view wx:elif="{{lottery_result == 2}}" class="h3 margin30-bottom">奖品：运气值
         <text class="color-red">{{get_lucky_num}}</text>
         个
       </view>
@@ -32,10 +32,18 @@
           <van-icon name="point-gift" size="35rpx"></van-icon>
           <view>去查看</view>
         </view>
-        <view class="win-switch__item border-gray color-gray bg-base" bindtap="onGoHome">
+        <view wx:if="{{lottery.lottery_type == 0}}" class="win-switch__item border-gray color-gray bg-base" bindtap="onGoHome">
           <van-icon name="wap-home" size="35rpx" color="#EB132D" />
           <view>再抽一次</view>
         </view>
+        <view wx:if="{{lottery.lottery_type == 1}}" class="win-switch__item border-gray color-gray bg-base" bindtap="onGetAddress">
+          <van-icon name="wap-home" size="35rpx" color="#EB132D" />
+          <view>填写地址</view>
+        </view>
+      </view>
+
+      <view wx:if="{{lottery.lottery_type == 1}}" class="info-text margin30-bottom">
+        温馨提示：中奖后务必填写邮寄地址，也可以联系赞助方发货。
       </view>
 
       <view class="h4">中奖者名单:</view>
@@ -71,13 +79,13 @@
             <text class="color-red">{{lottery.product_name}}</text>
           </view>
         </view>
-      </view>
-      <view class="avatar-list">
-        <image class="big-avatar margin30-right" wx:for="{{products_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
-      </view>
-      <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoProducts">
-        查看全部
-        <van-icon class="link-arrow-vertical-align" name="arrow"/>
+        <view class="avatar-list">
+          <image class="big-avatar margin30-right" wx:for="{{products_image_list}}" wx:key="{{index}}" src="{{item}}"></image>
+        </view>
+        <view class="link-text-arrow margin30-bottom text-center" bindtap="onGotoProducts">
+          查看全部
+          <van-icon class="link-arrow-vertical-align" name="arrow"/>
+        </view>
       </view>
     </view>
 
@@ -102,24 +110,14 @@
   </view>
 
   <view class="ad" wx:else>
-    <view class="container__tag" wx:if="{{lottery.desc_initiator}}">
-      <view class="container__tag_bar">
-        <view class="container__tag_title">
-          发起人简介：
-        </view>
-      </view>
-      <view class="container__desc h-flex flex-row flex-wrap flex-justify-content-center">
-        <text>{{lottery.desc_initiator}}</text>
-      </view>
+
+    <view class="blockquote" wx:if="{{lottery.desc_initiator}}">
+      <text>{{lottery.desc_initiator}}</text>
     </view>
 
-    <view class="container__tag" wx:if="{{lottery.pic_data.length>0}}">
-      <view class="container__tag_bar">
-        发起人广告：
-      </view>
-      <view class="">
-        <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
-      </view>
+    <view class="h-flex bg-white flex-col margin30-bottom padding30-0"
+          wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
+      <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
     </view>
   </view>
 </navigation-bar>

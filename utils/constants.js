@@ -15,6 +15,7 @@ export const ROUTE = {
   USER_LUCKY_DETAILS: "/pages/user_lucky_details/user_lucky_details",
   USER_BALANCE: "/pages/user_balance/user_balance",
   USER_FANS: "/pages/user_fans/user_fans",
+  USER_QUESTION: "/pages/user_question/user_question",
   USER_ADS: "/pages/user_ads/user_ads",
   USER_DESC: "/pages/user_desc/user_desc",
   USER_BALANCE_DETAILS: "/pages/user_balance_details/user_balance_details",
@@ -101,8 +102,8 @@ export const CONST = {
   WITHDRAW_WAIT_APPROVE: 0, // 等待提现审核
   LOTTERY_TYPE_PRODUCT: 1,
   LOTTERY_TYPE_MONEY: 0,
-  PRODUCT_LOTTERY_PEOPLE_UNIT: 10000, // 开奖人数为5，则是5w人
-  PRODUCT_DEFAULT_OPEN_PEOPLE_NUM: 10000,
+  PRODUCT_LOTTERY_PEOPLE_UNIT: 1000, // 开奖人数为5，则是5千人
+  PRODUCT_DEFAULT_OPEN_PEOPLE_NUM: 1000,
   DEFAULT_OPEN_PEOPLE_NUM: 1000, // 默认的开奖人数
   MONEY_UNIT: 1000, // 余额用整数表示，需要除以1000
   WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1

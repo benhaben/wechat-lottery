@@ -1,6 +1,6 @@
 <view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button wx:if="{{create || status === -1}}" class="container__select-image" type="danger" size="small"
+    <van-button wx:if="{{create || status === -1 || status === 1}}" class="container__select-image" type="danger" size="small"
                 icon="add-o"
                 bindtap="selectImage" plain
                 round>选择图片
@@ -46,14 +46,14 @@
         input-align="right"
         error="{{error_product_num}}"
       />
-      <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num * 10000}}人"/>
+      <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num_read}}人"/>
 
     </van-cell-group>
   </view>
 
   <view wx:if="{{create && status === 0 }}"
         class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
-    <view>增加开奖人数，单位（万人）</view>
+    <view>增加开奖人数，单位（千人）</view>
     <van-slider
       min="10"
       value="{{ slide_open_people_num }}"
@@ -71,7 +71,7 @@
   </view>
   <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
     <view>推广费用</view>
-    <view>{{total_prize}} 元</view>
+    <view class="info-text">{{total_prize}} 元</view>
   </view>
 
 

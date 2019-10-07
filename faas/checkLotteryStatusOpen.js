@@ -164,7 +164,7 @@ async function openLottery(lottery, config) {
       console.log("----------红包开奖没有找到中奖者，异常情况记录------");
     }
 
-    let seed_fudai = SEED.LUCKY_SEED_FUDAI.slice(0, FUDAI_NUM);
+    let seed_fudai = SEED.LUCKY_SEED_FUDAI.slice(0, CONST.FUDAI_NUM);
 
     console.log(
       `开奖福袋 - lucky_num_per: ${lottery.lucky_num_per} - seed_fudai: ${seed_fudai}`

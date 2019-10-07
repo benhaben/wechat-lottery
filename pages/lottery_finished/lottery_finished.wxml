@@ -1,39 +1,38 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
 <template is="big_list_item" data="{{...lottery}}"></template>
 
+<van-cell-group class="container__desc">
+  <van-switch-cell checked="{{ showAd }}" bind:change="onShowAd">
+    <view class="container__desc-title" slot="title">发起人简介</view>
+  </van-switch-cell>
+</van-cell-group>
+
+<view wx:if="{{showAd}}">
+  <view class="blockquote" wx:if="{{lottery.desc_initiator}}">
+    <text>{{lottery.desc_initiator}}</text>
+  </view>
+
+  <view class="h-flex bg-white flex-col margin30-bottom padding30-0"
+        wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
+    <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
+  </view>
+</view>
 
 <view>
-  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{lottery.desc_initiator}}">
-    <view class="container__tag_bar">
-      <view class="container__tag_title">
-        发起人简介：
-      </view>
-    </view>
-    <view class="container__tag_items h-flex flex-row flex-wrap flex-justify-content-center">
-      <text>{{lottery.desc_initiator}}</text>
-    </view>
-  </view>
-
-  <view class="h-flex bg-white flex-col margin30-bottom" wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
-    <view class="container__tag_bar">
-      图文介绍：
-    </view>
-    <view class="">
-      <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
-    </view>
-  </view>
-
   <view wx:if="{{lottery.lottery_type === 1}}" class="margin30-bottom">
     <view class="info-text margin30 text-center">
       如果没有显示地址，可能是用户没有配置，请联系中奖者
     </view>
-    <van-cell-group>
-      <van-cell title="{{item.name}}"
-                value="{{address[item.key]}}"
-                wx:for="{{address_titles}}"
-                wx:key="index"
-      />
-    </van-cell-group>
+    <view class="margin30-bottom" wx:for="{{addresses}}" wx:key="{{index}}" wx:for-item="address">
+      <van-cell-group>
+        <van-cell
+          title="{{item.name}}"
+          value="{{address[item.key]}}"
+          wx:for="{{address_titles}}"
+          wx:key="index"
+        />
+      </van-cell-group>
+    </view>
   </view>
 
   <view class="h-flex flex-col flex-align-center height220 bg-white margin30-bottom">
@@ -48,25 +47,5 @@
       <van-icon class="link-arrow-vertical-align" name="arrow"/>
     </view>
   </view>
-
-  <!--  红包发起只有管理员，所以不需要界面-->
-  <!--  <view>-->
-
-  <!--    <view>-->
-  <!--    <view class="avatar-list">-->
-  <!--      <image class="big-avatar margin30-right" wx:for="{{hongbao_image_list}}" wx:key="{{index}}" src="{{item}}"></image>-->
-  <!--    </view>-->
-  <!--    </view>-->
-
-  <!--    <view class="avatar-list">-->
-  <!--      <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"-->
-  <!--             src="{{item}}"></image>-->
-  <!--    </view>-->
-
-  <!--    <view class="margin30-bottom">-->
-  <!--      <image class="margin30-right avatar" wx:for="{{attend_avatar_list}}" wx:key="{{index}}" src="{{item}}"></image>-->
-  <!--    </view>-->
-  <!--  </view>-->
-
 </view>
 

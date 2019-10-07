@@ -2,6 +2,7 @@ import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import { ADDRESS, PAGE_SIZE, ROUTE_DATA } from "../../utils/uiConstants";
 import wxPromise from "../../utils/wxPromise";
+import { getAddress } from "../../utils/uiFunction";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -39,6 +40,11 @@ Page({
       {
         title: ADDRESS,
         icon: "free-postage"
+      },
+      {
+        title: "联系我们",
+        icon: "smile-o",
+        url: ROUTE.USER_QUESTION
       }
     ]
   },
@@ -59,6 +65,7 @@ Page({
       url: app.getAvatar(),
       nickname: app.getNickname(),
       showLogin: !app.hasAuth(),
+      lucky_num: app.getLuckyNum(),
       admin,
       total,
       send_num,
@@ -126,21 +133,7 @@ Page({
       return;
     } else {
       if (ADDRESS === event.currentTarget.dataset.title) {
-        try {
-          let address;
-          let res = await wxPromise.getSetting();
-          if (!res.authSetting["scope.address"]) {
-            await wx.authorize({ scope: "scope.address" });
-            address = await wxPromise.chooseAddress();
-          } else {
-            address = await wxPromise.chooseAddress();
-          }
-          if (address) {
-            await dao.createOrUpdateAddress(address, app.getUserId());
-          }
-        } catch (e) {
-          console.log(e);
-        }
+        await getAddress(app.getUserId());
       } else {
         wx.navigateTo({
           url: event.currentTarget.dataset.url

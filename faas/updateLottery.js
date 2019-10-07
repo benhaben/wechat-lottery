@@ -7,8 +7,6 @@ import { CONST } from "../utils/constants";
  */
 
 export default async function updateLottery(event, callback) {
-  console.log(`event : ${JSON.stringify(event)}`);
-
   try {
     const { id } = event.data;
     let lotteryUpdate = event.data;
@@ -27,7 +25,7 @@ export default async function updateLottery(event, callback) {
     let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
     lotteryRecord.set({
       url: lotteryUpdate.url,
-      product_num: lotteryUpdate.product_num,
+      product_num: parseInt(lotteryUpdate.product_num),
       product_name: lotteryUpdate.product_name,
       sponsor: lotteryUpdate.sponsor,
       pic_data: lotteryUpdate.pic_data,

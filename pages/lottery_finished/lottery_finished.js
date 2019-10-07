@@ -1,6 +1,7 @@
 // pages/lottery_finished/lottery_finished.js
 import dao from "../../utils/dao";
 import { CONST, ROUTE } from "../../utils/constants";
+import { countDown, formatDate } from "../../utils/function";
 const { regeneratorRuntime } = global;
 const app = getApp();
 
@@ -16,7 +17,8 @@ Page({
       { key: "city_name", name: "市" },
       { key: "county_name", name: "县/区" },
       { key: "detail_info", name: "详细地址" }
-    ]
+    ],
+    showAd: false
   },
 
   /**
@@ -32,37 +34,53 @@ Page({
           console.log("没有开奖");
           return;
         }
-        let attendees, address;
+        let attendees, userWinnerAddresses;
         if (lottery.lottery_type === CONST.LOTTERY_TYPE_PRODUCT) {
+          // TODO: 多个中奖人地址需要支持
           let retRecordPromise = dao.getProductWinnerByLotteryId(lottery_id);
           let attendeesPromise = dao.getLotteryAttendees(lottery_id);
           attendees = await attendeesPromise;
           let retRecord = await retRecordPromise;
-          let userWinner = retRecord.data.objects[0].user;
-          address = await dao.getAddressByUserId(userWinner.id);
+          userWinnerAddresses = await Promise.all(
+            retRecord.data.objects.map(async item => {
+              let address = await dao.getAddressByUserId(
+                parseInt(item.user_id)
+              );
+              return address;
+            })
+          );
         } else if (lottery.lottery_type === CONST.LOTTERY_TYPE_MONEY) {
           let attendeesPromise = dao.getLotteryAttendees(lottery_id);
           attendees = await attendeesPromise;
         }
 
         this.setData({
-          address,
+          addresses: userWinnerAddresses,
           lottery: {
             id: lottery.id,
             hash: lottery.id.substr(0, 10),
             url: lottery.url,
-            lottery_type: lottery.lottery_type,
             total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
             lucky_num: lottery.lucky_num,
             open_people_num: lottery.open_people_num,
-            plan_index: lottery.plan_index,
-            lucky_num_per: lottery.lucky_num_per,
-            desc_checked: !!lottery.desc_initiator,
+            avatar: lottery.avatar,
+            nickname: lottery.nickname,
+            sponsor: lottery.sponsor,
+            product_name: lottery.product_name,
+            product_num: lottery.product_num,
+            lottery_type: lottery.lottery_type,
             desc_initiator: lottery.desc_initiator,
-            ad_checked: lottery.pic_data && lottery.pic_data > 0,
             pic_data: lottery.pic_data,
             open_date: lottery.open_date,
-            status: lottery.status
+            hongbao_num: CONST.HONGBAO_NUM,
+            fudai_num: CONST.FUDAI_NUM,
+            status: lottery.status,
+            attend_num: attendees.data.meta.total_count,
+            attend_avatar_list: attendees.data.objects.map(
+              item => item.avatar_cache
+            ),
+            countdownStr: countDown(lottery.open_date),
+            open_data_str: formatDate(Date.parse(lottery.open_date))
           },
           attend_num: attendees.data.meta.total_count,
           attend_avatar_list: attendees.data.objects.map(
@@ -73,6 +91,11 @@ Page({
     } catch (e) {
       console.log(e);
     }
+  },
+  onShowAd(event) {
+    this.setData({
+      showAd: event.detail
+    });
   },
   onGotoAttendees() {
     wx.navigateTo({

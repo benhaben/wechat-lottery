@@ -46,11 +46,13 @@ view{
 .padding15-top{padding-top: 15rpx;}
 .padding15-bottom{padding-bottom: 15rpx;}
 .margin15-30{margin: 15rpx 30rpx}
+.margin30-15{margin: 30rpx 15rpx}
 .margin30{margin: 30rpx}
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
 .margin64-bottom{margin-bottom: 100rpx;}
 .margin15{margin: 15rpx;}
+
 .margin15-bottom{margin-bottom: 15rpx;}
 .margin30-top{margin-top: 30rpx;}
 .border-red{border: 1rpx solid #EB132D}
@@ -180,6 +182,9 @@ view{
 }
 .link-arrow-vertical-align{
   color: gray;
+  vertical-align: -3rpx;
+}
+.btn-vertical-align{
   vertical-align: -3rpx;
 }
 

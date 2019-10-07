@@ -5,6 +5,8 @@ import { ROUTE } from "../../utils/constants";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
+const BTN_TITLE_CHECKED = "今天已签到";
+const BTN_TITLE_UNCHECKED = "签到";
 
 Page({
   /**
@@ -13,6 +15,8 @@ Page({
   data: {
     lucky_num: app.getLuckyNum(),
     loading: false,
+    btn_title: BTN_TITLE_UNCHECKED,
+    has_checkin: false,
     rules: [
       {
         title: "邀请朋友加入",
@@ -37,31 +41,45 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    app.getUserInfo();
+  onLoad: async function(options) {
+    try {
+      await app.getUserInfo();
+      let hasCheckin = await dao.hasTodayCheckin(app.getUserId());
+      this.setData({
+        has_checkin: hasCheckin,
+        btn_title: hasCheckin ? BTN_TITLE_CHECKED : BTN_TITLE_UNCHECKED
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   async onSign(event) {
-    const formId = event.detail.formId;
-    if (formId) {
-      wx.BaaS.wxReportTicket(formId);
-      console.log(`event.detail.formId - ${event.detail.formId}`);
-    }
-    this.setData({
-      loading: true
-    });
+    try {
+      const formId = event.detail.formId;
+      if (formId) {
+        wx.BaaS.wxReportTicket(formId);
+        console.log(`event.detail.formId - ${event.detail.formId}`);
+      }
 
-    let ret = await dao.dailyCheckin(app.getUserId());
+      if (this.data.has_checkin) {
+        Toast.success("已经签过到了");
+        return;
+      }
+      this.setData({
+        loading: true
+      });
 
-    console.log(ret);
-    this.setData({
-      loading: false
-    });
+      let ret = await dao.dailyCheckin(app.getUserId());
 
-    let that = this;
-    if (!ret) {
-      Toast.fail("已经签过到了");
-    } else {
+      console.log(ret);
+      this.setData({
+        loading: false,
+        btn_title: BTN_TITLE_CHECKED,
+        has_checkin: true
+      });
+
+      let that = this;
       // 触发器需要一段时间更新
       setTimeout(async () => {
         await app.getUserInfo();
@@ -69,6 +87,8 @@ Page({
           lucky_num: app.getLuckyNum()
         });
       }, 1000);
+    } catch (e) {
+      console.log(e);
     }
   },
   onGo(event) {

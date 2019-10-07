@@ -1,7 +1,7 @@
 /* pages/win_lottery/win_lottery.wxss */
 
 @import "../../templates/big_list_item/big_list_item.wxss";
-
+@import "../../templates/blockquote.wxss";
 
 
 .container__tag {

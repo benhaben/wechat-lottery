@@ -1,4 +1,5 @@
 import wxPromise from "./wxPromise.js";
+import dao from "./dao";
 
 const { regeneratorRuntime } = global;
 /**
@@ -77,4 +78,23 @@ export function deSceneOfAttendPage(scene) {
     inviter_uid,
     prefix_lottery_id
   };
+}
+
+export async function getAddress(user_id) {
+  try {
+    let address;
+    let res = await wxPromise.getSetting();
+    if (!res.authSetting["scope.address"]) {
+      await wx.authorize({ scope: "scope.address" });
+      address = await wxPromise.chooseAddress();
+    } else {
+      address = await wxPromise.chooseAddress();
+    }
+
+    if (address) {
+      await dao.createOrUpdateAddress(address, user_id);
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }

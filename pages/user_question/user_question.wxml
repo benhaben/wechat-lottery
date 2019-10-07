@@ -1,6 +1,14 @@
+<view class="color-gray bg-white padding30">
+  我们准备了一些常见问题，希望能帮助您更好的使用好运码头。如果有更多的问题，可以点击下方按钮给我们留言。
+</view>
+
+<button class="margin30 width220" type="primary" size="mini" open-type="contact" bindcontact="handleContact">联系客服
+  <van-icon class="btn-vertical-align" name="arrow"/>
+</button>
+
 <view class="bg-white padding30 margin30-bottom" wx:for="{{questions}}" wx:key="{{index}}">
-  <view class="h4">
-   {{item.title}}
+  <view class="h5">
+    {{item.title}}
   </view>
   <text>
     {{item.content}}

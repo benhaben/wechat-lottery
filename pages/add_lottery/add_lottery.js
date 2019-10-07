@@ -262,9 +262,10 @@ Page({
         avatar: app.getAvatar(),
         nickname: app.getNickname()
       });
+      let totalCost = this.data.total_prize;
 
       // 用户可能取消支付，产生一个未支付订单
-      await this.pay(lottery, 0.01);
+      await this.pay(lottery, totalCost);
 
       this.setData({ loading: false });
 
@@ -278,7 +279,7 @@ Page({
   async pay(lottery, cost) {
     const params = {
       // totalCost: add_lottery.total_prize,
-      totalCost: 0.01,
+      totalCost: cost,
       merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
       merchandiseSchemaID: TABLE_ID.LOTTERY,
       merchandiseRecordID: lottery.id,
@@ -297,13 +298,15 @@ Page({
         wx.BaaS.wxReportTicket(formId);
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
-      await this.pay(this.data, 0.01);
+      let totalCost = new Big(this.data.total_prize).div(CONST.MONEY_UNIT);
+      await this.pay(this.data, totalCost);
       this.setData({
         loading: false
       });
       wx.navigateBack();
     } catch (err) {
       console.log(err);
+      wx.navigateBack();
       this.setData({ loading: false });
       Toast.fail("支付失败");
     }
