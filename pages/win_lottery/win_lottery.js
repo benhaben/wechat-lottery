@@ -113,14 +113,10 @@ Page({
           status: lottery.status
         },
         weight: result.weight,
-        get_balance:
-          result.lottery_result == 1 || result.lottery_result == 2
-            ? toFixed3(result.balance / CONST.MONEY_UNIT)
-            : 0,
-        get_lucky_num:
-          result.lottery_result == 1 || result.lottery_result == 2
-            ? result.lucky_num
-            : 0,
+        get_balance: result.balance
+          ? toFixed3(result.balance / CONST.MONEY_UNIT)
+          : 0,
+        get_lucky_num: result.lucky_num ? result.lucky_num : 0,
         lottery_result: result.lottery_result,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
