@@ -7,6 +7,7 @@ export const ROUTE = {
   ADD_PRODUCT_LOTTERY: "/pages/add_product_lottery/add_product_lottery",
   LOTTERY_FINISHED: "/pages/lottery_finished/lottery_finished",
   ATTEND_LOTTERY: "/pages/attend_lottery/attend_lottery",
+  WIN_LOTTERY: "/pages/win_lottery/win_lottery",
   USER: "/pages/user/user",
   USER_LUCKY: "/pages/user_lucky/user_lucky",
   SHARE_PIC: "/pages/share_pic/share_pic",

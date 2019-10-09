@@ -50,7 +50,7 @@ Page({
   onTap(event) {
     let id = event.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `${ROUTE.ATTEND_LOTTERY}?id=${id}`
+      url: `${ROUTE.WIN_LOTTERY}?id=${id}`
     });
   }
 });

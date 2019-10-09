@@ -11,7 +11,7 @@
   </view>
 
   <view class="h-flex bg-white flex-col margin30-bottom padding30-0"
-        wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
+        wx:if="{{lottery.pic_data && lottery.pic_data.length>0}}">
     <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
   </view>
 
