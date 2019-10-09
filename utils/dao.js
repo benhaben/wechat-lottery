@@ -260,8 +260,10 @@ export default {
     queryFudai.compare("lottery_result", "=", CONST.GET_FUDAI);
     let queryHongbao = new wx.BaaS.Query();
     queryHongbao.compare("lottery_result", "=", CONST.GET_HONGBAO);
+    let queryProduct = new wx.BaaS.Query();
+    queryProduct.compare("lottery_result", "=", CONST.GET_PRODUCT);
 
-    let orQuery = wx.BaaS.Query.or(queryFudai, queryHongbao);
+    let orQuery = wx.BaaS.Query.or(queryFudai, queryHongbao, queryProduct);
     let andQuery = wx.BaaS.Query.and(query, orQuery);
 
     return USER_LOTTERY_RECORD_TABLE.select([
