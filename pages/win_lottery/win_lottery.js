@@ -117,6 +117,7 @@ Page({
         weight: result.weight,
         get_balance: new Big(lottery.total_prize)
           .div(CONST.MONEY_UNIT)
+          .div(CONST.HONGBAO_NUM)
           .toString(),
         get_lucky_num: lottery.lucky_num_per,
         lottery_result: result.lottery_result,
