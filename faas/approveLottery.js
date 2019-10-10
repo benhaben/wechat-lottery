@@ -47,6 +47,7 @@ export default async function approveLottery(event, callback) {
     let lotteryRecord = LOTTERY_TABLE.getWithoutData(id);
     lotteryRecord.set({ status: status });
     let ret = await lotteryRecord.update();
+    console.log(`lotteryRecord.update - ${JSON.stringify(ret)}`);
 
     // 驳回通知用户，到修改界面；成功，到参加抽奖页面
     let data;
@@ -115,8 +116,8 @@ export default async function approveLottery(event, callback) {
     console.log(
       `approveLottery - sendTemplateMessage data : ${JSON.stringify(data)}`
     );
-    BaaS.sendTemplateMessage(data);
-    callback(null, ret);
+    await BaaS.sendTemplateMessage(data);
+    callback(null, true);
   } catch (e) {
     console.log(e);
     callback(e);

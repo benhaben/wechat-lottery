@@ -40,12 +40,18 @@ export default async function verifyPayment(event, callback) {
     let resLottery = await LOTTERY_TABLE.get(lotteryId);
     let lottery = resLottery.data;
     if (lottery && lottery.total_prize === totalCost * CONST.MONEY_UNIT) {
+      console.log(
+        `支付金额和抽奖一致 total_prize: ${lottery.total_prize}, totalCost: ${totalCost}`
+      );
       let lotteryUpdate = LOTTERY_TABLE.getWithoutData(lotteryId);
       lotteryUpdate.set("status", CONST.WAIT_APPROVE);
       lotteryUpdate.set("transaction_no", transactionNo);
       let updateRes = await lotteryUpdate.update();
       callback(null, updateRes);
     } else {
+      console.log(
+        `支付金额和抽奖不一致 total_prize: ${lottery.total_prize}, totalCost: ${totalCost}`
+      );
       let want = lottery.total_prize / CONST.MONEY_UNIT;
       let err = {
         error: `支付金额和抽奖金额不一致：want - ${want} | actual - ${totalCost}`,
