@@ -41,7 +41,8 @@ Page({
     ad_checked: false,
     pic_data: null,
     auth: false,
-    loading: false
+    loading: false,
+    show_in_main: true
   },
 
   /**
@@ -76,6 +77,7 @@ Page({
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
           status: lottery.status,
+          show_in_main: lottery.show_in_main,
           auth: app.hasAuth()
         });
       } else {
@@ -174,6 +176,22 @@ Page({
       });
     }
   },
+  onShowInMainChange: function(event) {
+    let show = event.detail;
+    if (show) {
+      this.setData({
+        show_in_main: show,
+        total_prize:
+          (this.data.open_people_num * CONST.PRODUCT_LOTTERY_PEOPLE_UNIT) /
+          CONST.PRODUCT_LOTTERY_PEOPLE_UNIT
+      });
+    } else {
+      this.setData({
+        show_in_main: show,
+        total_prize: 0
+      });
+    }
+  },
   selectImage: async function(event) {
     try {
       let res = await wxPromise.chooseImage({
@@ -245,11 +263,15 @@ Page({
         product_num: this.data.product_num,
         lottery_type: 1,
         sponsor: this.data.sponsor,
-        total_prize: this.data.total_prize * CONST.MONEY_UNIT
+        total_prize: this.data.total_prize * CONST.MONEY_UNIT,
+        show_in_main: this.data.show_in_main
       });
 
-      // 用户可能取消支付，产生一个未支付订单 TODO: totalCost
-      await this.pay(lottery, totalCost);
+      // 不上首页不需要支付
+      if (this.data.show_in_main) {
+        // 用户可能取消支付，产生一个未支付订单
+        await this.pay(lottery, totalCost);
+      }
 
       this.setData({ loading: false });
 
@@ -286,6 +308,11 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
+      if (!this.data.show_in_main) {
+        console.log("不上首页不需要支付");
+        return;
+      }
+
       let totalCost = new Big(this.data.total_prize);
       await this.pay(this.data, totalCost);
       this.setData({
@@ -317,7 +344,8 @@ Page({
         product_name: this.data.product_name,
         sponsor: this.data.sponsor,
         pic_data: this.data.pic_data,
-        desc_initiator: this.data.desc_initiator
+        desc_initiator: this.data.desc_initiator,
+        show_in_main: this.data.show_in_main
       });
 
       this.setData({ loading: false });

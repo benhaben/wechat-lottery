@@ -107,6 +107,7 @@ export const CONST = {
   PRODUCT_DEFAULT_OPEN_PEOPLE_NUM: 1000,
   DEFAULT_OPEN_PEOPLE_NUM: 1000, // 默认的开奖人数
   MONEY_UNIT: 1000, // 余额用整数表示，需要除以1000
+  WAIT_PAY: 0, // 等待审批，抽奖意见支付过，状态为1
   WAIT_APPROVE: 1, // 等待审批，抽奖意见支付过，状态为1
   APPROVED: 2, // 审批通过，只能从1到2
   OPENED: 3, // 已经开奖

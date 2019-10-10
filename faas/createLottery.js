@@ -28,6 +28,17 @@ export default async function createLottery(event, callback) {
 
   try {
     lottery.created_by = user_id;
+
+    if (
+      lottery.lottery_type === CONST.LOTTERY_TYPE_PRODUCT &&
+      !lottery.show_in_main
+    ) {
+      console.log("！！实物抽奖不上首页，不需要支付！！");
+      lottery.status = CONST.WAIT_APPROVE;
+    } else {
+      // 需要等待verifyPayment把状态改成WAIT_APPROVE
+      lottery.status = CONST.WAIT_PAY;
+    }
     const createObject = LOTTERY_TABLE.create();
     let ret = await createObject.set(lottery).save();
     callback(null, ret);

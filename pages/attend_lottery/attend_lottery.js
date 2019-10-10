@@ -146,7 +146,8 @@ Page({
             item => item.avatar_cache
           ),
           countdownStr: countDown(lottery.open_date),
-          open_data_str: formatDate(Date.parse(lottery.open_date))
+          open_data_str: formatDate(Date.parse(lottery.open_date)),
+          show_in_main: lottery.show_in_main
         },
         selfLuckyNum: app.getLuckyNum(),
         weight: hasAttended ? retRecord.data.objects[0].weight : 0,

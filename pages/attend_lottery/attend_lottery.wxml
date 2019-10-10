@@ -6,6 +6,17 @@
     <template is="big_list_item" data="{{...lottery}}"></template>
   </view>
 
+  <view wx:if="{{lottery.status==1}}" class="margin30-bottom">
+    <van-cell-group>
+      <van-switch-cell
+        disable="{{true}}"
+        checked="{{ lottery.show_in_main }}"
+        title="推荐上首页"
+        >
+      </van-switch-cell>
+    </van-cell-group>
+  </view>
+
   <view class="blockquote" wx:if="{{lottery.desc_initiator}}">
     <text>{{lottery.desc_initiator}}</text>
   </view>

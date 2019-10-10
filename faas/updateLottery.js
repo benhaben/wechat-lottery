@@ -31,6 +31,7 @@ export default async function updateLottery(event, callback) {
       pic_data: lotteryUpdate.pic_data,
       tag_items: lotteryUpdate.tag_items,
       desc_initiator: lotteryUpdate.desc_initiator,
+      show_in_main: lotteryUpdate.show_in_main,
       status: CONST.WAIT_APPROVE
     });
     let ret = await lotteryRecord.update();

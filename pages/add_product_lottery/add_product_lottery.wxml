@@ -1,6 +1,7 @@
 <view class="container">
   <view class="container__image" style="background-image: url('{{url}}')">
-    <van-button wx:if="{{create || status === -1 || status === 1}}" class="container__select-image" type="danger" size="small"
+    <van-button wx:if="{{create || status === -1 || status === 1}}" class="container__select-image" type="danger"
+                size="small"
                 icon="add-o"
                 bindtap="selectImage" plain
                 round>选择图片
@@ -48,10 +49,17 @@
       />
       <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num_read}}人"/>
 
+<!--      审批的时候不能改-->
+      <van-switch-cell
+        disable="{{lottery.status==1}}"
+        checked="{{ show_in_main }}"
+        title="推荐上首页"
+        bind:change="onShowInMainChange">
+      </van-switch-cell>
     </van-cell-group>
   </view>
 
-  <view wx:if="{{create && status === 0 }}"
+  <view wx:if="{{create && status === 0 && show_in_main }}"
         class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
     <view>增加开奖人数，单位（千人）</view>
     <van-slider
@@ -88,11 +96,8 @@
                 value="{{desc_initiator}}"
       />
     </view>
-
-    <!--    <textarea wx:if="{{desc_checked}}" class="container__desc-textarea" bindinput='onInputDesc' placeholder="请输入发起人简介"-->
-    <!--              value="{{desc_initiator}}">-->
-    <!--    </textarea>-->
   </van-cell-group>
+
 
   <view class="container__ad">
     <van-cell-group class="container__ad-group">

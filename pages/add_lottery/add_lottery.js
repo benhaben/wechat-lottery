@@ -34,6 +34,7 @@ Page({
     ad_checked: app.getAdsData() && app.getAdsData().length > 0,
     pic_data: app.getAdsData(),
     time_checked: false,
+    show_in_main: true,
     auth: false,
     loading: false
   },
@@ -61,6 +62,7 @@ Page({
           pic_data: lottery.pic_data,
           open_date: lottery.open_date,
           status: lottery.status,
+          show_in_main: lottery.show_in_main,
           auth: app.hasAuth()
         });
       } else {
@@ -106,6 +108,11 @@ Page({
     // 需要手动对 checked 状态进行更新
     this.setData({
       time_checked: event.detail
+    });
+  },
+  onShowInMainChange: function(event) {
+    this.setData({
+      show_in_main: event.detail
     });
   },
   onDescChange: function(event) {
@@ -220,6 +227,7 @@ Page({
         total_prize: Number(this.data.total_prize * CONST.MONEY_UNIT),
         lucky_num_per: Number(this.data.lucky_num_per),
         open_people_num: this.data.time_checked ? 0 : this.data.open_people_num,
+        show_in_main: this.data.show_in_main,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
         nickname: app.getNickname()
@@ -287,6 +295,7 @@ Page({
       let lottery = await dao.updateLottery({
         url: this.data.url,
         id: this.data.id,
+        show_in_main: this.data.show_in_main,
         pic_data: this.data.pic_data,
         desc_initiator: this.data.desc_initiator
       });

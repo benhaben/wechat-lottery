@@ -191,9 +191,17 @@ export default {
    * @param status ： (0,没有支付）->（1，已经支付，等待审批）->（2，已经审批，抽奖中）->（3，已经开奖）
    * @returns {Promise<*|NodePath<Node>|number|bigint>}
    */
-  async getLottery(limit = PAGE_SIZE, offset = 0, status = 2) {
+  async getLottery(
+    limit = PAGE_SIZE,
+    offset = 0,
+    status = 2,
+    includeShowInMain = true
+  ) {
     let query = new wx.BaaS.Query();
     query.compare("status", "=", status);
+    if (!includeShowInMain) {
+      query.compare("show_in_main", "=", true);
+    }
     return LOTTERY_TABLE.setQuery(query)
       .limit(limit)
       .offset(offset)

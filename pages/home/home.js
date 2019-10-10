@@ -61,7 +61,12 @@ Page({
   onPullDownRefresh: throttle(async function() {
     // 上拉刷新
     try {
-      let lotteries = await dao.getLottery(this.data.page_size + PAGE_SIZE, 0);
+      let lotteries = await dao.getLottery(
+        this.data.page_size + PAGE_SIZE,
+        0,
+        CONST.APPROVED,
+        false
+      );
       if (lotteries.data.objects <= 0) {
         return;
       }
@@ -80,7 +85,12 @@ Page({
   }),
 
   loadMore: async function(event) {
-    let lotteries = await dao.getLottery(PAGE_SIZE, this.data.offset);
+    let lotteries = await dao.getLottery(
+      PAGE_SIZE,
+      this.data.offset,
+      CONST.APPROVED,
+      false
+    );
     if (lotteries.data.objects <= 0) {
       return;
     }
