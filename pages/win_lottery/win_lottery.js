@@ -154,9 +154,21 @@ Page({
     });
   },
   onGoLottery() {
-    wx.navigateTo({
-      url: `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery.id}`
-    });
+    if (this.data.lottery.lottery_type == CONST.LOTTERY_TYPE_MONEY) {
+      if (this.data.lottery_result == CONST.GET_FUDAI) {
+        wx.navigateTo({
+          url: `${ROUTE.USER_LUCKY_DETAILS}`
+        });
+      } else {
+        wx.navigateTo({
+          url: `${ROUTE.USER_BALANCE_DETAILS}`
+        });
+      }
+    } else {
+      wx.navigateTo({
+        url: `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery.id}`
+      });
+    }
   },
   onGoHome() {
     wx.switchTab({
