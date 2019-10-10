@@ -2,8 +2,8 @@
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import { formatDate, toFixed3 } from "../../utils/function";
-import { ROUTE_DATA } from "../../utils/uiConstants";
 import { getAddress } from "../../utils/uiFunction";
+import Big from "../../utils/big";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -96,7 +96,9 @@ Page({
           id: lottery.id,
           url: lottery.url,
           hash: lottery.id.substr(0, 10),
-          total: `${lottery.total_prize / CONST.MONEY_UNIT}元`,
+          total: `${new Big(lottery.total_prize)
+            .div(CONST.MONEY_UNIT)
+            .toString()}元`,
           hongbao_num: CONST.HONGBAO_NUM,
           fudai_num: CONST.FUDAI_NUM,
           product_name: lottery.product_name,
@@ -113,10 +115,10 @@ Page({
           status: lottery.status
         },
         weight: result.weight,
-        get_balance: result.balance
-          ? toFixed3(result.balance / CONST.MONEY_UNIT)
-          : 0,
-        get_lucky_num: result.lucky_num ? result.lucky_num : 0,
+        get_balance: new Big(lottery.total_prize)
+          .div(CONST.MONEY_UNIT)
+          .toString(),
+        get_lucky_num: lottery.lucky_num_per,
         lottery_result: result.lottery_result,
         attend_num: attendees.data.meta.total_count,
         attend_avatar_list: attendees.data.objects.map(
