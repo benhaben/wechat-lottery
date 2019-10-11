@@ -96,6 +96,3 @@
   justify-content: center;
   align-items: center;
 }
-.container__ad-rich{
-  margin: 20rpx;
-}

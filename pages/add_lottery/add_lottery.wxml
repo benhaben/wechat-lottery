@@ -78,7 +78,7 @@
     </van-switch-cell>
 
     <view wx:if="{{desc_checked}}" class="bg-light-gray h-flex flex-justify-content-center">
-      <textarea class="bg-light-gray padding30 weight-per90"
+      <textarea class="bg-light-gray padding30 width-per90"
                 maxlength="1000"
                 bindinput='onInputDesc'
                 placeholder="发起人的话"
@@ -101,7 +101,7 @@
         图文介绍/一键复制
       </van-button>
     </view>
-    <view class="container__ad-rich">
+    <view class="padding30 bg-white">
       <x-richtext wx:if="{{ad_checked}}" isReadOnly initList="{{pic_data}}"/>
     </view>
   </view>

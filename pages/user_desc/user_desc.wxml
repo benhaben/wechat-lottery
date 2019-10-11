@@ -3,7 +3,7 @@
     请填写个人简介，不超过100个字。
   </view>
   <view class="bg-white h-flex flex-justify-content-center">
-  <textarea class="bg-white padding30 weight-per90"
+  <textarea class="bg-white padding30 width-per90"
             maxlength="1000"
             bindinput='onInputDesc'
             value="{{desc}}"

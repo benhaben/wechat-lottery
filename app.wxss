@@ -14,8 +14,8 @@ view{
   box-sizing: border-box;
 }
 .height-per100{  height: 100%;}
-.weight-per100{ width: 100%; }
-.weight-per90{ width: 95%; }
+.width-per100{ width: 100%; }
+.width-per90{ width: 95%; }
 .h1{font-size: 55rpx;}
 .h2{font-size: 50rpx;}
 .h3{font-size: 45rpx;}
@@ -25,6 +25,7 @@ view{
 .info-text{font-size: 25rpx;color: #8a8a8a;}
 .height80{height: 80rpx;}
 .line-height80{line-height: 80rpx;}
+.line-height40{line-height: 40rpx;}
 .height120{height: 120rpx;}
 .height150{height: 150rpx;}
 .height180{height: 180rpx;}

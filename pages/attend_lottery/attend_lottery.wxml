@@ -21,7 +21,7 @@
     <text>{{lottery.desc_initiator}}</text>
   </view>
 
-  <view class="h-flex bg-white flex-col margin30-bottom padding30-0"
+  <view class="h-flex bg-white flex-col margin30-bottom padding30"
         wx:if="{{lottery.pic_data && lottery.pic_data.length>0}}">
     <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
   </view>
@@ -97,7 +97,7 @@
         <van-icon class="icon" name="arrow"/>
       </view>
     </view>
-    <view class="h-flex flex-row weight-per100 flex-center margin30-bottom">
+    <view class="h-flex flex-row width-per100 flex-center margin30-bottom">
       <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
              src="{{item}}"></image>
     </view>

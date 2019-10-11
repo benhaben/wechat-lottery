@@ -1,8 +1,8 @@
 <view>
   <textarea
     wx:if="{{isEdit && !isReadOnly}}"
-    class='input_view bg-white'
-    maxlength='500'
+    class="bg-white line-height40 padding30-0 width-per90"
+    maxlength="1000"
     auto-height='true'
     bindinput='_inputCon'
     value='{{firstCon}}'
@@ -66,8 +66,8 @@
     <view>
       <textarea
         wx:if="{{isEdit && !isReadOnly}}"
-        class='input_view bg-white'
-        maxlength='500'
+        class="bg-white line-height40 padding30-0 width-per90"
+        maxlength="1000"
         auto-height='true'
         bindinput='_inputCon'
         value='{{item.info}}'

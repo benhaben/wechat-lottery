@@ -32,6 +32,6 @@
     </view>
   </view>
 
-  <van-button class="container-copy__btn" color="gray" type="default" size="small" bindtap="_onCopy" round>点此一键复制
+  <van-button class="container-copy__btn" color="#72624A" type="default" size="small" bindtap="_onCopy" round>点此一键复制
   </van-button>
 </view>

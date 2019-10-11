@@ -1,12 +1,13 @@
 /* components/copy-area/copy-area.wxss */
 
 .container-copy{
-  border: 5rpx lightgray solid;
+  border: 5rpx #E5E4E0 solid;
   color: gray;
 }
 
 .container-copy__title{
-  margin: 20rpx;
+  margin: 30rpx 0rpx 15rpx 0rpx;
+  color:#72644E;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +15,11 @@
 }
 
 .container-copy__content{
-  margin: 20rpx;
-  height: 100rpx;
+  margin: 15rpx;
+  height: 120rpx;
   width: 80%;
-  background: lightgray;
+  background: #F7F6F4;
+  color: #ACA5A0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,5 +27,5 @@
 }
 
 .container-copy__btn{
-  margin: 20rpx;
+  margin: 15rpx 0rpx 30rpx 0rpx;
 }

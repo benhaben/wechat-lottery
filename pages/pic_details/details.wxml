@@ -1,5 +1,5 @@
 <!--pages/details.wxml-->
-<view class="container-body">
+<view class="bg-white padding30 width-per100">
   <x-richtext bind:getDataList="onConfirm" initList="{{pic_data}}"/>
 </view>
 
