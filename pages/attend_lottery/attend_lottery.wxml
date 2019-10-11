@@ -12,7 +12,7 @@
         disable="{{true}}"
         checked="{{ lottery.show_in_main }}"
         title="推荐上首页"
-        >
+      >
       </van-switch-cell>
     </van-cell-group>
   </view>
@@ -45,7 +45,10 @@
       <view>{{weight}}</view>
     </view>
     <view class=" h-flex flex-justify-content-between">
-      <view class="text-left info-text">即时排位：<text wx:if="{{!weight_loading}}">{{weight_rate}}</text><van-loading wx:else type="spinner" size="20rpx"/></view>
+      <view class="text-left info-text">即时排位：
+        <text wx:if="{{!weight_loading}}">{{weight_rate}}</text>
+        <van-loading wx:else type="spinner" size="20rpx"/>
+      </view>
       <view class="text-right info-text">一个运气值，增加两个权重</view>
     </view>
   </view>
@@ -54,12 +57,21 @@
     <view class="color-gray">{{weight}}</view>
   </view>
 
-  <form report-submit bindsubmit="onAttend" class="h-flex flex-col flex-align-center bg-white margin30-bottom"
-        wx:if="{{lottery.status===2}}">
+  <form wx:if="{{lottery.status===2||lottery.status===3}}" report-submit bindsubmit="onAttend"
+        class="h-flex flex-col flex-align-center bg-white margin30-bottom"
+  >
     <view class="h-flex flex-center margin30">
-      <view class=" wave solid danger">
+      <view class="wave solid danger">
         <view class="circle"></view>
-        <view wx:if="{{!is_authorized}}">
+        <view wx:if="{{lottery.status===3}}">
+            <button
+              class="action__btn circle-border-radius"
+              type="warn"
+            >
+              <text>已完成</text>
+            </button>
+        </view>
+        <view wx:elif="{{!is_authorized}}">
           <button
             class="action__btn circle-border-radius"
             type="warn"
@@ -91,19 +103,14 @@
     </view>
   </form>
 
-  <!--  <view class="add-lottery" bindtap="goToAddLottery">-->
-  <!--    我要发抽奖-->
-  <!--    <van-icon class="icon" name="arrow"/>-->
-  <!--  </view>-->
-
-  <view class="h-flex flex-col flex-center bg-white padding30" wx:if="{{lottery.status===2}}">
+  <view class="h-flex flex-col flex-center bg-white padding30">
     <button class="height80 line-height80 width690 bg-dark-gray color-white" bindtap="onShare">分享</button>
     <view class="info-text text-center padding15-top">
       邀请一个新朋友参与，就能获得运气值
     </view>
   </view>
 
-  <view class="height150 h-flex flex-justify-content-around" wx:if="{{lottery.status===1 && admin}}">
+  <view wx:if="{{lottery.status===1 && admin}}" class="height150 h-flex flex-justify-content-around">
     <view>
       <van-button class="bottom__btn" size="normal" bind:click="onReject">驳回</van-button>
     </view>
