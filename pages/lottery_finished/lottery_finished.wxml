@@ -1,4 +1,6 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
+
+<view class="h4 color-red text-center bg-white margin30-bottom padding30">已经结束</view>
 <template is="big_list_item" data="{{...lottery}}"></template>
 
 <van-cell-group class="container__desc">
