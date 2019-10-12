@@ -26,6 +26,7 @@ Page({
    */
   data: {
     lottery: {
+      lottery_type: CONST.LOTTERY_TYPE_PRODUCT,
       url: "",
       id: "",
       hash: "",
@@ -67,6 +68,11 @@ Page({
     }
     // 获取数据
     try {
+      Toast.loading({
+        mask: true,
+        message: "加载中...",
+        duration: 1000
+      });
       console.log(`options : ${JSON.stringify(options)}`);
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
@@ -90,7 +96,7 @@ Page({
       }
 
       if (!id) {
-        return;
+        throw new Error("没有id");
       }
 
       await app.getUserInfo(app.getUserId());

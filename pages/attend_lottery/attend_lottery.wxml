@@ -134,5 +134,5 @@
     </view>
 
   </van-popup>
-  <van-toast id="van-toast"/>
 </navigation-bar>
+<van-toast id="van-toast"/>
