@@ -11,7 +11,7 @@
     bindblur="_outBlur"
     data-index='0'/>
   <view
-    wx:if="{{ ((isReadOnly && firstCon) || (!isEdit)) }}"
+    wx:if="{{ ((isReadOnly && firstCon ) || (!isReadOnly && !isEdit)) }}"
     bindtap='_focusView'
     class='input_view text-gray bg-white'
     data-index='0'>
@@ -76,7 +76,7 @@
         data-index='{{index+1}}'
       />
       <view
-        wx:if="{{(item.info && !isEdit) || isReadOnly}}"
+        wx:if="{{ !isEdit ||(isReadOnly && item.info)}}"
         bindtap='_focusView'
         class='input_view text-gray bg-white'
         data-index='{{index+1}}'
