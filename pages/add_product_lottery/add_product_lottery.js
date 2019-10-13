@@ -88,7 +88,7 @@ Page({
         console.log(`SystemInfoUtil.platform : ${SystemInfoUtil.platform}`);
 
         if (
-          SystemInfoUtil.platform == SystemInfoUtil.IOS
+          SystemInfoUtil.platform == SystemInfoUtil.ANDROID
           // && SystemInfoUtil.wxSDKVersion == 244
         ) {
           this.setData({

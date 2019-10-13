@@ -67,7 +67,7 @@ export default async function approveLottery(event, callback) {
       let dateStr = `${formatDate(Date.now())}`;
       data = {
         recipient_type: "user_list",
-        user_list: [user_id],
+        user_list: [lottery.created_by],
         template_id: TEMPLATE_ID,
         submission_type: "form_id",
         page: `${route}?id=${lottery.id}`,
@@ -92,7 +92,7 @@ export default async function approveLottery(event, callback) {
       let dateStr = `${formatDate(Date.now())}`;
       data = {
         recipient_type: "user_list",
-        user_list: [user_id],
+        user_list: [lottery.created_by],
         template_id: TEMPLATE_ID,
         submission_type: "form_id",
         page: `${route}?id=${lottery.id}`,
