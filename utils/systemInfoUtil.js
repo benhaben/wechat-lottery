@@ -14,6 +14,7 @@ export default class SystemInfoUtil {
 
   static init() {
     let res = wx.getSystemInfoSync();
+    console.log(`res.platform: ${res.platform}`);
     if (res.platform == "devtools") {
       SystemInfoUtil.platform = SystemInfoUtil.PC;
     } else if (res.platform == "ios") {

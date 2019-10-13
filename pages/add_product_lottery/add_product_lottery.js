@@ -43,7 +43,8 @@ Page({
     pic_data: null,
     auth: false,
     loading: false,
-    show_in_main: true,
+    show_in_main: false,
+    time_checked: false,
     iOS: false
   },
 
@@ -69,6 +70,7 @@ Page({
           hash: lottery.id.substr(0, 10),
           url: lottery.url,
           open_people_num_read: lottery.open_people_num,
+          time_checked: lottery.open_people_num == 0,
           open_people_num:
             lottery.open_people_num / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
           slide_open_people_num:
@@ -89,7 +91,7 @@ Page({
         ) {
           this.setData({
             iOS: true,
-            show_in_main: false
+            show_in_main: false //iOS不支持
           });
         } else {
           this.setData({
@@ -178,6 +180,12 @@ Page({
         desc_initiator: null
       });
     }
+  },
+  onTimeChange: function(event) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({
+      time_checked: event.detail
+    });
   },
   onAdChange: function(event) {
     // 需要手动对 checked 状态进行更新
@@ -270,8 +278,9 @@ Page({
         url: this.data.url,
         open_date: openDateISOString(),
         pic_data: this.data.pic_data,
-        open_people_num:
-          this.data.open_people_num * CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
+        open_people_num: this.data.time_checked
+          ? 0
+          : this.data.open_people_num * CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
         desc_initiator: this.data.desc_initiator,
         avatar: app.getAvatar(),
         nickname: app.getNickname(),

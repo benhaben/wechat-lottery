@@ -47,7 +47,7 @@
         input-align="right"
         error="{{error_product_num}}"
       />
-      <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num_read}}人"/>
+      <van-cell wx:if="{{!create && !time_checked}}" title="开奖人数" value="{{open_people_num_read}}人"/>
 
       <!--      审批的时候不能改-->
       <van-switch-cell
@@ -60,7 +60,20 @@
     </van-cell-group>
   </view>
 
-    <view wx:if="{{create && status === 0}}"
+  <view class="margin30-bottom">
+    <van-cell-group>
+      <van-switch-cell
+        disabled="{{!create}}"
+        checked="{{ time_checked }}"
+        label="选择定时开奖，开奖人数将失效"
+        title="定时开奖"
+        bind:change="onTimeChange">
+      </van-switch-cell>
+    </van-cell-group>
+  </view>
+
+  <view wx:if="{{!time_checked}}">
+    <view wx:if="{{create && status === 0  }}"
           class="bg-white margin30-bottom {{iOS? 'height180' : 'height250'}} padding30 h-flex flex-col flex-justify-content-between">
       <view class="h5">增加开奖人数，单位（千人）</view>
       <van-slider
@@ -80,8 +93,9 @@
     </view>
     <view wx:else class="h5 bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
       <view>推广费用</view>
-      <view class="info-text">{{show_in_main ? total_prize : 0}} 元</view>
+      <view>{{show_in_main ? total_prize : 0}} 元</view>
     </view>
+  </view>
 
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">
