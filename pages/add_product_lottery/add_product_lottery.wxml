@@ -49,39 +49,41 @@
       />
       <van-cell wx:if="{{!create}}" title="开奖人数" value="{{open_people_num_read}}人"/>
 
-<!--      审批的时候不能改-->
+      <!--      审批的时候不能改-->
       <van-switch-cell
-        disable="{{lottery.status==1}}"
-        checked="{{ show_in_main }}"
+        disable="{{lottery.status==1 || iOS}}"
+        checked="{{ show_in_main && !iOS }}"
         title="推荐上首页"
+        label="iOS不支持上首页"
         bind:change="onShowInMainChange">
       </van-switch-cell>
     </van-cell-group>
   </view>
 
-  <view wx:if="{{create && status === 0 && show_in_main }}"
-        class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
-    <view>增加开奖人数，单位（千人）</view>
-    <van-slider
-      min="10"
-      value="{{ slide_open_people_num }}"
-      bind:drag="onOpenPeopleDrag"
-      use-button-slot
-      active-color="#ee0a24">
-      <view class="silder-btn" slot="button">
-        {{ open_people_num }}
+  <view wx:if="{{!iOS}}">
+    <view wx:if="{{create && status === 0 && show_in_main }}"
+          class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
+      <view>增加开奖人数，单位（千人）</view>
+      <van-slider
+        min="10"
+        value="{{ slide_open_people_num }}"
+        bind:drag="onOpenPeopleDrag"
+        use-button-slot
+        active-color="#ee0a24">
+        <view class="silder-btn" slot="button">
+          {{ open_people_num }}
+        </view>
+      </van-slider>
+      <view class=" h-flex flex-justify-content-between">
+        <view>推广费用</view>
+        <view>{{total_prize}} 元</view>
       </view>
-    </van-slider>
-    <view class=" h-flex flex-justify-content-between">
+    </view>
+    <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
       <view>推广费用</view>
-      <view>{{total_prize}} 元</view>
+      <view class="info-text">{{total_prize}} 元</view>
     </view>
   </view>
-  <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
-    <view>推广费用</view>
-    <view class="info-text">{{total_prize}} 元</view>
-  </view>
-
 
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">

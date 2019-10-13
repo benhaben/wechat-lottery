@@ -1,5 +1,3 @@
-import { toFixed3 } from "./utils/function";
-
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 import store from "./utils/store.js";
 import {
@@ -7,6 +5,7 @@ import {
   WECHAT_SCENE,
   ATTEND_LOTTERY_EVENT
 } from "./utils/uiConstants";
+import SystemInfoUtil from "./utils/systemInfoUtil";
 
 App({
   onLaunch: function() {
@@ -24,6 +23,7 @@ App({
         that.globalData.systemInfo = res;
       }
     });
+    SystemInfoUtil.init();
   },
   hasAuth: function() {
     let user = store.getUserInfo();

@@ -58,6 +58,10 @@ Page({
         wx.navigateTo({
           url: `${ROUTE.LOTTERY_FINISHED}?id=${id}`
         });
+      } else if (status == CONST.APPROVED) {
+        wx.navigateTo({
+          url: `${ROUTE.ATTEND_LOTTERY}?id=${id}`
+        });
       } else {
         wx.navigateTo({
           url: `${ROUTE.ADD_PRODUCT_LOTTERY}?id=${id}`
@@ -67,6 +71,10 @@ Page({
       if (status == CONST.OPENED) {
         wx.navigateTo({
           url: `${ROUTE.LOTTERY_FINISHED}?id=${id}`
+        });
+      } else if (status == CONST.APPROVED) {
+        wx.navigateTo({
+          url: `${ROUTE.ATTEND_LOTTERY}?id=${id}`
         });
       } else {
         wx.navigateTo({
