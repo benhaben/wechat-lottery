@@ -85,6 +85,8 @@ Page({
           auth: app.hasAuth()
         });
       } else {
+        console.log(`SystemInfoUtil.platform : ${SystemInfoUtil.platform}`);
+
         if (
           SystemInfoUtil.platform == SystemInfoUtil.IOS
           // && SystemInfoUtil.wxSDKVersion == 244
@@ -289,7 +291,7 @@ Page({
         lottery_type: 1,
         sponsor: this.data.sponsor,
         total_prize: this.data.total_prize * CONST.MONEY_UNIT,
-        show_in_main: this.data.show_in_main
+        show_in_main: this.data.show_in_main && !this.data.iOS
       });
 
       // 不上首页不需要支付
@@ -369,8 +371,7 @@ Page({
         product_name: this.data.product_name,
         sponsor: this.data.sponsor,
         pic_data: this.data.pic_data,
-        desc_initiator: this.data.desc_initiator,
-        show_in_main: this.data.show_in_main
+        desc_initiator: this.data.desc_initiator
       });
 
       this.setData({ loading: false });
