@@ -54,16 +54,15 @@
         disable="{{lottery.status==1 || iOS}}"
         checked="{{ show_in_main && !iOS }}"
         title="推荐上首页"
-        label="iOS不支持上首页"
+        label="上首页需要付费"
         bind:change="onShowInMainChange">
       </van-switch-cell>
     </van-cell-group>
   </view>
 
-  <view wx:if="{{!iOS}}">
-    <view wx:if="{{create && status === 0 && show_in_main }}"
-          class="bg-white margin30-bottom height250 padding30 h-flex flex-col flex-justify-content-between">
-      <view>增加开奖人数，单位（千人）</view>
+    <view wx:if="{{create && status === 0}}"
+          class="bg-white margin30-bottom {{iOS? 'height180' : 'height250'}} padding30 h-flex flex-col flex-justify-content-between">
+      <view class="h5">增加开奖人数，单位（千人）</view>
       <van-slider
         min="10"
         value="{{ slide_open_people_num }}"
@@ -74,16 +73,15 @@
           {{ open_people_num }}
         </view>
       </van-slider>
-      <view class=" h-flex flex-justify-content-between">
+      <view wx:if="{{!iOS}}" class=" h-flex flex-justify-content-between">
         <view>推广费用</view>
-        <view>{{total_prize}} 元</view>
+        <view>{{show_in_main ? total_prize : 0}} 元</view>
       </view>
     </view>
-    <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
+    <view wx:else class="h5 bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
       <view>推广费用</view>
-      <view class="info-text">{{total_prize}} 元</view>
+      <view class="info-text">{{show_in_main ? total_prize : 0}} 元</view>
     </view>
-  </view>
 
   <van-cell-group class="container__desc">
     <van-switch-cell checked="{{ desc_checked }}" bind:change="onDescChange">

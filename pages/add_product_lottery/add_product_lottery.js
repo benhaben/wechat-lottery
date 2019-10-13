@@ -283,9 +283,8 @@ Page({
         show_in_main: this.data.show_in_main
       });
 
-      debugger;
       // 不上首页不需要支付
-      if (this.data.show_in_main) {
+      if (this.data.show_in_main && !this.data.iOS) {
         // 用户可能取消支付，产生一个未支付订单
         await this.pay(lottery, totalCost);
       }

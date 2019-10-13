@@ -13,20 +13,17 @@ export default class SystemInfoUtil {
   static wxSDKVersion;
 
   static init() {
-    wx.getSystemInfo({
-      success: function(res) {
-        if (res.platform == "devtools") {
-          SystemInfoUtil.platform = SystemInfoUtil.PC;
-        } else if (res.platform == "ios") {
-          SystemInfoUtil.platform = SystemInfoUtil.IOS;
-        } else if (res.platform == "android") {
-          SystemInfoUtil.platform = SystemInfoUtil.ANDROID;
-        }
+    let res = wx.getSystemInfoSync();
+    if (res.platform == "devtools") {
+      SystemInfoUtil.platform = SystemInfoUtil.PC;
+    } else if (res.platform == "ios") {
+      SystemInfoUtil.platform = SystemInfoUtil.IOS;
+    } else if (res.platform == "android") {
+      SystemInfoUtil.platform = SystemInfoUtil.ANDROID;
+    }
 
-        let version = res.SDKVersion;
-        version = version.replace(/\./g, "");
-        SystemInfoUtil.wxSDKVersion = version;
-      }
-    });
+    let version = res.SDKVersion;
+    version = version.replace(/\./g, "");
+    SystemInfoUtil.wxSDKVersion = version;
   }
 }
