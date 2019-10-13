@@ -31,6 +31,7 @@ export const ERR_TYPE = {
   INSUFFICIENT_AUTHORITY: "Insufficient authority",
   APPROVE_LOTTERY_STATUS_ERROR: "status 状态错误；状态只能从1到2或者从1到-1",
   NOT_PAID: "抽奖未支付",
+  INVALID_PARAM: "参数不对",
   APPROVED: "抽奖已经审批通过",
   WITHDRAW_NOT_INTEGER: "提现值不是整数",
   WITHDRAW_NOT_IN_RANGE: "提现值不在范围内",

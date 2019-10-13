@@ -1,4 +1,4 @@
-import { CONST } from "../utils/constants";
+import { CONST, ERR_TYPE } from "../utils/constants";
 import { LOTTERY_TABLE } from "./common";
 
 /**
@@ -19,16 +19,14 @@ export default async function createLottery(event, callback) {
   //TODO : 验证参数
   // open_date 需要是明天，不接受客户端值，在服务端生成
   // total_prize 需要是规定数值
-  // 开奖运气值需要是规定算法算出的值 total_prize * 100
-  // 福袋运气值需要是规定算法算出的值 total_prize * 10
-  // plan_index 在范围内
-  // plan 和 plan_index对应
   // open_people_num 在规定返回内
   // status默认是0，不接受客户端值
 
   try {
     lottery.created_by = user_id;
-
+    if (lottery.open_people_num < 0 || lottery.total_prize < 0) {
+      throw new Error(ERR_TYPE.INVALID_PARAM);
+    }
     if (
       lottery.lottery_type === CONST.LOTTERY_TYPE_PRODUCT &&
       !lottery.show_in_main
@@ -39,6 +37,7 @@ export default async function createLottery(event, callback) {
       // 需要等待verifyPayment把状态改成WAIT_APPROVE
       lottery.status = CONST.WAIT_PAY;
     }
+
     const createObject = LOTTERY_TABLE.create();
     let ret = await createObject.set(lottery).save();
     callback(null, ret);

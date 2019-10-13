@@ -50,13 +50,14 @@
       <van-cell wx:if="{{!create && !time_checked}}" title="开奖人数" value="{{open_people_num_read}}人"/>
 
       <!--      审批的时候不能改-->
-      <van-switch-cell
-        disable="{{lottery.status==1 || iOS}}"
-        checked="{{ show_in_main}}"
-        title="推荐上首页"
-        label="上首页需要付费"
-        bind:change="onShowInMainChange">
-      </van-switch-cell>
+      <view class="margin30-top" wx:if="{{create && !iOS}}">
+        <van-switch-cell
+          checked="{{show_in_main}}"
+          title="推荐上首页"
+          label="上首页需要付费"
+          bind:change="onShowInMainChange">
+        </van-switch-cell>
+      </view>
     </van-cell-group>
   </view>
 

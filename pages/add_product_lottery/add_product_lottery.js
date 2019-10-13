@@ -88,7 +88,7 @@ Page({
         console.log(`SystemInfoUtil.platform : ${SystemInfoUtil.platform}`);
 
         if (
-          SystemInfoUtil.platform == SystemInfoUtil.ANDROID
+          SystemInfoUtil.platform == SystemInfoUtil.IOS
           // && SystemInfoUtil.wxSDKVersion == 244
         ) {
           this.setData({
@@ -101,6 +101,7 @@ Page({
           });
         }
 
+        debugger;
         // 增加
         this.setData({
           create: true,
