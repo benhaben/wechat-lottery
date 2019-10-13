@@ -33,10 +33,10 @@
         </van-tag>
 
         <view class="info-text">
-          <view wx:if="{{status == 2 && lottery_type == 0 && open_people_num == 0}}">
+          <view wx:if="{{status == 2 && open_people_num == 0}}">
             预计{{countdownStr}}后自动开奖
           </view>
-          <view wx:if="{{status == 2 && lottery_type == 0 && open_people_num>0}}">
+          <view wx:elif="{{status == 2 && lottery_type == 0 && open_people_num>0}}">
             预计{{countdownStr}}后，满{{open_people_num}}人自动开奖
           </view>
           <view wx:elif="{{status == 2 && lottery_type == 1}}">
