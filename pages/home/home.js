@@ -1,6 +1,11 @@
 import dao from "../../utils/dao";
 import { ROUTE, CONST } from "../../utils/constants";
-import { countDown, throttle, toFixed3 } from "../../utils/function";
+import {
+  countDown,
+  randomProductUrl,
+  throttle,
+  toFixed3
+} from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   PAGE_SIZE,
@@ -212,6 +217,7 @@ Page({
       title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】赞助的免费抽奖活动`,
       path: `${ROUTE.HOME}?inviter_uid=${app.getUserId()}`,
       // imageUrl:this.data.url,
+      imageUrl: CONST.HOME_SHARE_IMAGE,
       success: function(res) {
         console.log("成功", res);
       }

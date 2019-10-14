@@ -136,3 +136,6 @@
   </van-popup>
 </navigation-bar>
 <van-toast id="van-toast"/>
+
+<poster  class="poster" id="poster" hideLoading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+</poster>

@@ -28,7 +28,6 @@ export function vAddUpdateLotteryParam(data) {
 }
 
 export function vAddUpdateMoneyLotteryParam(data) {
-  debugger;
   if (!data.total_prize || data.total_prize < 0.1) {
     throw new Error("请输入金额");
   }

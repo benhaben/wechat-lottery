@@ -1,3 +1,11 @@
+## 上传图片大小
+
+background-size: 750rpx 400rpx;
+15：8
+165: 88
+5:4 -> 15:12
+
+
 ## 云函数开发环境搭建
 
 https://doc.minapp.com/cloud-function/cli.html

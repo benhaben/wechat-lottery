@@ -133,6 +133,8 @@ export const CONST = {
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOqbc4iJMfwI2I.png",
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOquZGoPOXC9x6.png"
   ],
+  HOME_SHARE_IMAGE:
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iJgw3ghv9QBEKet.png",
   LUCKY_RATIO_SUCCESS: 1000, // 开奖运气值增加=金额*该值
   LUCKY_RATIO_FUDAI_PACKAGE: 10, // 每个福袋运气值 = 开奖金额 * 该值
   LUCKY_RATIO_INVITATION: 100, // 邀请朋友增加此数值运气值

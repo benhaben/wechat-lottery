@@ -195,9 +195,12 @@ const main = {
   downloadResource({ images = [], pixelRatio = 1 }) {
     const drawList = [];
     this.drawArr = [];
-    images.forEach((image, index) =>
-      drawList.push(this._downloadImageAndInfo(image, index, pixelRatio))
-    );
+    images.forEach((image, index) => {
+      const { url } = image;
+      if (url) {
+        drawList.push(this._downloadImageAndInfo(image, index, pixelRatio));
+      }
+    });
     return Promise.all(drawList);
   },
   initCanvas(w, h, debug) {
@@ -434,7 +437,9 @@ const helper = {
           });
           resolve();
         })
-        .catch(err => reject(err));
+        .catch(err => {
+          reject(err);
+        });
     });
   },
   /**

@@ -1,4 +1,5 @@
 // pages/attend_lottery/attend_lottery.js
+import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
@@ -13,12 +14,71 @@ import {
   ROUTE_DATA,
   WECHAT_SCENE
 } from "../../utils/uiConstants";
-import { deSceneOfAttendPage } from "../../utils/uiFunction";
+import { deSceneOfAttendPage, getTitleAndRule } from "../../utils/uiFunction";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
 const { regeneratorRuntime } = global;
 const app = getApp();
+
+const red = "#D55B51";
+const gray = "#8a8a8a";
+const black = "#323233";
+const white = "#fff";
+const pixelRatio = 3;
+let posterConfig = {
+  width: 660,
+  height: 528,
+  debug: false,
+  pixelRatio: pixelRatio,
+  blocks: [
+    {
+      width: 660,
+      height: 528,
+      borderWidth: 30,
+      backgroundColor: white,
+      borderColor: red,
+      x: 0,
+      y: 0,
+      zIndex: 100
+    }
+  ],
+  texts: [
+    {
+      x: 68,
+      y: 400,
+      width: 460 * pixelRatio,
+      textAlign: "left",
+      baseLine: "middle",
+      text: "长按识别小程序码",
+      fontSize: 36,
+      color: black,
+      zIndex: 200
+    },
+    {
+      x: 68,
+      y: 448,
+      width: 460 * pixelRatio,
+      textAlign: "left",
+      baseLine: "middle",
+      text: "长按识别小程序码",
+      fontSize: 24,
+      color: gray,
+      zIndex: 200
+    }
+  ],
+  images: [
+    {
+      width: 520,
+      height: 312,
+      borderRadius: 10,
+      x: 68,
+      y: 56,
+      url: "",
+      zIndex: 200
+    }
+  ]
+};
 
 Page({
   /**
@@ -73,6 +133,7 @@ Page({
         message: "加载中...",
         duration: 1000
       });
+
       console.log(`options : ${JSON.stringify(options)}`);
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
@@ -161,6 +222,7 @@ Page({
         hasAttended,
         admin
       });
+      this.onCreatePoster();
     } catch (e) {
       console.log(e);
     }
@@ -309,19 +371,6 @@ Page({
     });
     this.setData({ showSharePopup: false });
   },
-  onShareAppMessage: function() {
-    this.setData({ showSharePopup: false });
-
-    return {
-      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
-      path: `${ROUTE.ATTEND_LOTTERY}?id=${
-        this.data.lottery.id
-      }&inviter_uid=${app.getUserId()}`,
-      success: function(res) {
-        console.log("成功", res);
-      }
-    };
-  },
   async onApprove() {
     try {
       // await main(
@@ -353,5 +402,52 @@ Page({
     } catch (e) {
       console.log(e);
     }
+  },
+  onShareAppMessage: function() {
+    this.setData({ showSharePopup: false });
+
+    return {
+      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
+      path: `${ROUTE.ATTEND_LOTTERY}?id=${
+        this.data.lottery.id
+      }&inviter_uid=${app.getUserId()}`,
+      imageUrl: this.data.share_url,
+      success: function(res) {
+        console.log("成功", res);
+      }
+    };
+  },
+  onPosterSuccess(e) {
+    const { detail } = e;
+    console.log(detail);
+    this.setData({
+      share_url: detail
+    });
+  },
+  onPosterFail(err) {
+    console.error(err);
+  },
+
+  /**
+   * 异步生成海报
+   */
+  onCreatePoster() {
+    let { lottery } = this.data;
+    posterConfig.images[0].url = lottery.url;
+
+    let { title, rule } = getTitleAndRule(lottery);
+    posterConfig.texts[0].text = title;
+    posterConfig.texts[1].text = rule;
+
+    this.setData(
+      {
+        posterConfig: posterConfig
+      },
+      () => {
+        Poster.create(true); // 入参：true为抹掉重新生成
+      }
+    );
   }
 });
+
+// "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iHJdbfP0wsLHZvg.jpg"

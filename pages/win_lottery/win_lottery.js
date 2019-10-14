@@ -18,7 +18,6 @@ Page({
       url: "",
       id: "",
       hash: "",
-      total: "",
       lucky_num_per: 0,
       countdownStr: "",
       open_people_num: 0,
@@ -96,9 +95,6 @@ Page({
           id: lottery.id,
           url: lottery.url,
           hash: lottery.id.substr(0, 10),
-          total: `${new Big(lottery.total_prize)
-            .div(CONST.MONEY_UNIT)
-            .toString()}元`,
           hongbao_num: CONST.HONGBAO_NUM,
           fudai_num: CONST.FUDAI_NUM,
           product_name: lottery.product_name,

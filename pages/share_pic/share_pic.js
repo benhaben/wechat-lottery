@@ -3,10 +3,14 @@ import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE } from "../../utils/constants";
 import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
-import { genSceneOfAttendPage, saveToAlbum } from "../../utils/uiFunction";
+import {
+  genSceneOfAttendPage,
+  getTitleAndRule,
+  saveToAlbum
+} from "../../utils/uiFunction";
 import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
 
-const red = "#C42731";
+const red = "#D55B51";
 const white = "#fff";
 const black = "#323233";
 const gray = "#8a8a8a";
@@ -142,32 +146,17 @@ Page({
         );
         posterConfig.images[1].url = data.lottery.url;
         posterConfig.images[2].url = res.download_url;
-        if (data.lottery.lottery_type === CONST.LOTTERY_TYPE_MONEY) {
-          posterConfig.texts[2].text = `红包方案：${data.lottery.total}`;
-        } else {
-          posterConfig.texts[2].text = `奖品：${data.lottery.product_name}`;
-        }
+        let { title, rule } = getTitleAndRule(data.lottery);
+        posterConfig.texts[2].text = title;
+        posterConfig.texts[4].text = rule;
         posterConfig.texts[3].text = `赞助商：${data.lottery.sponsor ||
           DEFAULT_SPONSOR}`;
-        if (data.lottery.open_people_num === 0) {
-          posterConfig.texts[4].text = `不限人数，择吉时开奖`;
-        } else {
-          posterConfig.texts[4].text = `参加者达到${data.lottery.open_people_num}人，择吉时开奖`;
-        }
         that.onCreatePoster();
       } catch (e) {
         console.log(e);
       }
     });
   },
-
-  onPosterSuccess(e) {
-    const { detail } = e;
-    this.setData({
-      url: detail
-    });
-  },
-
   async onSaveToAlbum(e) {
     try {
       await saveToAlbum(this.data.url);
@@ -175,6 +164,12 @@ Page({
     } catch (e) {
       console.log(e);
     }
+  },
+  onPosterSuccess(e) {
+    const { detail } = e;
+    this.setData({
+      url: detail
+    });
   },
   onPosterFail(err) {
     console.error(err);

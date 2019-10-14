@@ -101,7 +101,6 @@ Page({
           });
         }
 
-        debugger;
         // 增加
         this.setData({
           create: true,

@@ -1,5 +1,6 @@
 import wxPromise from "./wxPromise.js";
 import dao from "./dao";
+import { CONST } from "./constants";
 
 const { regeneratorRuntime } = global;
 /**
@@ -97,4 +98,37 @@ export async function getAddress(user_id) {
   } catch (e) {
     console.log(e);
   }
+}
+
+/**
+ * 根据奖品类型和奖品状态反应不同的值
+ * TODO: big_list_item 中界面的判断用此段代码代替，在界面中判断很麻烦
+ * @param lottery
+ * @returns {{txt2: *, txt1: *}}
+ */
+export function getTitleAndRule(lottery) {
+  let title, rule;
+  if (lottery.lottery_type == CONST.LOTTERY_TYPE_PRODUCT) {
+    title = `奖品： ${lottery.product_name} X ${lottery.product_num} 个`;
+  } else {
+    title = `小红包 X ${lottery.hongbao_num}，小福袋 X ${lottery.fudai_num}`;
+  }
+
+  if (lottery.status == CONST.APPROVED && lottery.open_people_num == 0) {
+    rule = `预计${lottery.countdownStr}后自动开奖`;
+  } else if (
+    lottery.status == CONST.APPROVED &&
+    lottery.lottery_type == CONST.LOTTERY_TYPE_MONEY &&
+    lottery.open_people_num == 0
+  ) {
+    rule = ` 预计${lottery.countdownStr}后，满${lottery.open_people_num}人自动开奖`;
+  } else if (
+    lottery.status == CONST.APPROVED &&
+    lottery.lottery_type == CONST.LOTTERY_TYPE_PRODUCT
+  ) {
+    rule = `满${lottery.open_people_num}人，择吉时开奖`;
+  } else {
+    rule = "已经开奖";
+  }
+  return { title, rule };
 }
