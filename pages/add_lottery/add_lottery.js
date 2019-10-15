@@ -235,7 +235,7 @@ Page({
       let totalCost = this.data.total_prize;
 
       // 用户可能取消支付，产生一个未支付订单
-      await this.pay(lottery, totalCost);
+      // await this.pay(lottery, totalCost);
 
       this.setData({ loading: false });
 

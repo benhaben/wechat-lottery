@@ -341,7 +341,7 @@ Page({
       }
 
       let totalCost = new Big(this.data.total_prize);
-      await this.pay(this.data, totalCost);
+      // await this.pay(this.data, totalCost);
       this.setData({
         loading: false
       });
