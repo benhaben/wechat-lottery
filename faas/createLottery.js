@@ -40,6 +40,7 @@ export default async function createLottery(event, callback) {
 
     // 改成免费版本
     lottery.status = CONST.WAIT_APPROVE;
+    console.log("免费版本，不需要支付");
 
     const createObject = LOTTERY_TABLE.create();
     let ret = await createObject.set(lottery).save();

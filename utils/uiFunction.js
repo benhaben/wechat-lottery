@@ -1,6 +1,6 @@
 import wxPromise from "./wxPromise.js";
 import dao from "./dao";
-import { CONST } from "./constants";
+import { CONST, TABLE_ID } from "./constants";
 
 const { regeneratorRuntime } = global;
 /**
@@ -131,4 +131,19 @@ export function getTitleAndRule(lottery) {
     rule = "已经开奖";
   }
   return { title, rule };
+}
+
+/**
+ * 支付抽奖
+ */
+export async function payLottery(lottery, cost, sponsor) {
+  const params = {
+    totalCost: cost,
+    merchandiseDescription: `${sponsor}发起的抽奖：${lottery.id}`,
+    merchandiseSchemaID: TABLE_ID.LOTTERY,
+    merchandiseRecordID: lottery.id,
+    merchandiseSnapshot: lottery
+  };
+
+  return wx.BaaS.pay(params);
 }

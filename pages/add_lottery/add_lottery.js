@@ -13,6 +13,7 @@ import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
 import { vAddUpdateMoneyLotteryParam } from "../../utils/validateFn";
+import { payLottery } from "../../utils/uiFunction";
 
 const { regeneratorRuntime } = global;
 
@@ -248,16 +249,8 @@ Page({
     }
   },
   async pay(lottery, cost) {
-    const params = {
-      // totalCost: add_lottery.total_prize,
-      totalCost: cost,
-      merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
-      merchandiseSchemaID: TABLE_ID.LOTTERY,
-      merchandiseRecordID: lottery.id,
-      merchandiseSnapshot: lottery
-    };
-
-    return wx.BaaS.pay(params);
+    let sponsor = lottery.sponsor || app.getNickname();
+    return payLottery(lottery, cost, sponsor);
   },
   onPay: async function(event) {
     try {

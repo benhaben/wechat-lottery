@@ -54,7 +54,6 @@
         <van-switch-cell
           checked="{{show_in_main}}"
           title="推荐上首页"
-          label="上首页需要付费"
           bind:change="onShowInMainChange">
         </van-switch-cell>
       </view>
@@ -66,7 +65,7 @@
       <van-switch-cell
         disabled="{{!create}}"
         checked="{{ time_checked }}"
-        label="选择定时开奖，开奖人数将失效"
+        label="开奖人数无效"
         title="定时开奖"
         bind:change="onTimeChange">
       </van-switch-cell>
@@ -78,7 +77,7 @@
           class="bg-white margin30-bottom {{iOS? 'height180' : 'height250'}} padding30 h-flex flex-col flex-justify-content-between">
       <view class="h5">增加开奖人数，单位（千人）</view>
       <van-slider
-        min="10"
+        min="1"
         value="{{ slide_open_people_num }}"
         bind:drag="onOpenPeopleDrag"
         use-button-slot
@@ -87,15 +86,15 @@
           {{ open_people_num }}
         </view>
       </van-slider>
-      <view wx:if="{{!iOS}}" class=" h-flex flex-justify-content-between">
-        <view>推广费用</view>
-        <view>{{show_in_main ? total_prize : 0}} 元</view>
-      </view>
+<!--      <view wx:if="{{!iOS}}" class=" h-flex flex-justify-content-between">-->
+<!--        <view>推广费用</view>-->
+<!--        <view>{{show_in_main ? total_prize : 0}} 元</view>-->
+<!--      </view>-->
     </view>
-    <view wx:else class="h5 bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
-      <view>推广费用</view>
-      <view>{{show_in_main ? total_prize : 0}} 元</view>
-    </view>
+<!--    <view wx:else class="h5 bg-white h-flex flex-justify-content-between padding30 margin30-bottom">-->
+<!--      <view>推广费用</view>-->
+<!--      <view>{{show_in_main ? total_prize : 0}} 元</view>-->
+<!--    </view>-->
   </view>
 
   <van-cell-group class="container__desc">

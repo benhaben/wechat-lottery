@@ -13,6 +13,7 @@ import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
 import { vAddUpdateLotteryParam } from "../../utils/validateFn";
 import SystemInfoUtil from "../../utils/systemInfoUtil";
+import { payLottery } from "../../utils/uiFunction";
 
 const { regeneratorRuntime } = global;
 const app = getApp();
@@ -297,7 +298,7 @@ Page({
       // 不上首页不需要支付
       if (this.data.show_in_main && !this.data.iOS) {
         // 用户可能取消支付，产生一个未支付订单
-        await this.pay(lottery, totalCost);
+        // await this.pay(lottery, totalCost);
       }
 
       this.setData({ loading: false });
@@ -314,15 +315,7 @@ Page({
   },
   async pay(lottery, cost) {
     let sponsor = lottery.sponsor || app.getNickname();
-    const params = {
-      totalCost: cost,
-      merchandiseDescription: `${sponsor}发起的抽奖：${lottery.id}`,
-      merchandiseSchemaID: TABLE_ID.LOTTERY,
-      merchandiseRecordID: lottery.id,
-      merchandiseSnapshot: lottery
-    };
-
-    return wx.BaaS.pay(params);
+    return payLottery(lottery, cost, sponsor);
   },
   onPay: async function(event) {
     try {
@@ -341,7 +334,7 @@ Page({
       }
 
       let totalCost = new Big(this.data.total_prize);
-      // await this.pay(this.data, totalCost);
+      await this.pay(this.data, totalCost);
       this.setData({
         loading: false
       });
