@@ -41,7 +41,9 @@ const MobileAdpater = () => {
 
   return {
     isIPhoneX: () => {
-      return MOBILE_REG["iPhone X"].test(deviceModel);
+      let isIPhoneX = MOBILE_REG["iPhone X"].test(deviceModel);
+      console.log(`isIPhoneX: ${isIPhoneX}`);
+      return isIPhoneX;
     }
   };
 };

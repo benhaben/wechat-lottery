@@ -11,12 +11,6 @@
   font-size: 30rpx;
 }
 
-.action__num{
-  font-size: 25rpx;
-}
-.action__avatar{
-  margin: 6rpx;
-}
 
 .add-lottery{
   height: 80rpx;

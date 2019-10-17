@@ -98,7 +98,7 @@
       </view>
     </view>
     <view class="h-flex flex-row width-per100 flex-center margin30-bottom">
-      <image class="action__avatar avatar" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
+      <image class="avatar margin30-right" wx:for="{{lottery.attend_avatar_list}}" wx:key="{{index}}"
              src="{{item}}"></image>
     </view>
   </form>

@@ -41,7 +41,6 @@ view{
 .padding30{padding: 30rpx;}
 .padding30-0{padding: 30rpx 0rpx;}
 .padding15{padding: 15rpx;}
-
 .padding15-30{padding: 15rpx 30rpx;}
 .padding10-30{padding: 10rpx 30rpx;}
 .padding15-top{padding-top: 15rpx;}
@@ -53,7 +52,6 @@ view{
 .margin30-bottom{margin-bottom: 30rpx;}
 .margin64-bottom{margin-bottom: 100rpx;}
 .margin15{margin: 15rpx;}
-
 .margin15-bottom{margin-bottom: 15rpx;}
 .margin30-top{margin-top: 30rpx;}
 .border-red{border: 1rpx solid #EB132D}
@@ -66,29 +64,20 @@ view{
 .h-flex{display: flex;}
 .flex-basis40{flex-basis: 40%;}
 .flex-basis60{flex-basis: 60%;}
-.h-block{display: block;}
 .p-relative{position: relative;}
-.p-absolute{position: absolute;}
-.p-fixed{position: fixed;}
 .flex-row{flex-direction: row;}
 .flex-row-reverse{flex-direction: row-reverse}
 .flex-wrap{flex-wrap: wrap;}
-.flex-no-wrap{flex-wrap: nowrap;}
 .flex-grow-1{flex-grow: 1;}
 .flex-col{flex-direction: column;}
 .flex-align-center{align-items: center;}
-.flex-align-start {align-items: flex-start;}
-.flex-align-end {align-items: flex-end;}
 .flex-center{
   justify-content: center;
   align-items: center;
 }
 .flex-justify-content-center{justify-content: center;}
-.flex-justify-content-end{justify-content: flex-end;}
-.flex-justify-content-start{justify-content: flex-start;}
 .flex-justify-content-between{justify-content: space-between;}
 .flex-justify-content-around{justify-content: space-around;}
-.flex-justify-content-evenly{justify-content: space-evenly;}
 .bg-white{background-color: white;}
 .bg-base {background-color: #f0f0f0;}
 .bg-gray {background-color: #8a8a8a;}
@@ -106,16 +95,6 @@ view{
 
 .circle-border-radius{border-radius: 50%;}
 
-.text-hidden{
-  display: -webkit-box;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp:1;
-  overflow: hidden;
-  text-overflow:ellipsis;
-}
-
-
 .container__image {
   display: flex;
   flex-direction: row;
@@ -125,8 +104,6 @@ view{
   background-size: 750rpx 400rpx;
   background-repeat: no-repeat;
 }
-
-
 
 .bottom{
   margin: 30rpx 30rpx 120rpx 30rpx;
@@ -188,11 +165,6 @@ view{
 .btn-vertical-align{
   vertical-align: -3rpx;
 }
-
-.isIPXActives {
-  padding-bottom: 68rpx;
-}
-
 
 .container__hash {
   height: 70rpx;

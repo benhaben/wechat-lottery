@@ -175,8 +175,6 @@ Page({
         app.getUserId()
       );
       let attendeesPromise = dao.getLotteryAttendees(id);
-      let isAdminPromise = dao.isAdmin();
-      let wxCodePromise = this.getWxCode();
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
@@ -193,17 +191,11 @@ Page({
         app.setUserInfo(user); // 顺便更新一下
         hasAttended = true;
       }
-      let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
-
-      let admin = await isAdminPromise;
-      let wxCode = await wxCodePromise;
-      let image_path = await imagePathPromise;
 
       this.setData({
         lottery: {
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
-          image_path,
           total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
           open_people_num: lottery.open_people_num,
           avatar: lottery.avatar,
@@ -225,15 +217,24 @@ Page({
           countdownStr: countDown(lottery.open_date),
           open_data_str: formatDate(Date.parse(lottery.open_date)),
           show_in_main: lottery.show_in_main,
-          wxCode: wxCode,
           hasAttended
         },
         selfLuckyNum: app.getLuckyNum(),
         weight: hasAttended ? retRecord.data.objects[0].weight : 0,
-        costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0,
-        admin
+        costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0
       });
-      this.onCreatePoster();
+      let that = this;
+      //加快加载速度
+      setTimeout(async () => {
+        let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
+        let isAdminPromise = dao.isAdmin();
+        let wxCodePromise = that.getWxCode();
+        that.data.admin = await isAdminPromise;
+        that.data.lottery.wxCode = await wxCodePromise;
+        that.data.lottery.image_path = await imagePathPromise;
+        that.setData(that.data);
+        that.onCreatePoster();
+      });
       wx.hideLoading();
     } catch (e) {
       wx.hideLoading();
@@ -459,7 +460,7 @@ Page({
       path: `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery.id
       }&inviter_uid=${app.getUserId()}`,
-      imageUrl: this.data.share_url,
+      imageUrl: this.share_url,
       success: function(res) {
         console.log("成功", res);
       }
@@ -468,9 +469,7 @@ Page({
   onPosterSuccess(e) {
     const { detail } = e;
     console.log(detail);
-    this.setData({
-      share_url: detail
-    });
+    this.share_url = detail;
   },
   onPosterFail(err) {
     console.error(err);

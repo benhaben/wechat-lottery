@@ -20,8 +20,6 @@ const app = getApp();
 Page({
   data: {
     lucky_num: app.getLuckyNum(),
-    offset: 0, // 加载更多的时候偏移量
-    page_size: PAGE_SIZE, // 注意这个是让下拉的时候保持至少有当前的数量
     lotteries: [],
     showSharePopup: false,
     actions: [
@@ -77,10 +75,10 @@ Page({
       }
 
       let add = await this.adjustLotteryInfo(lotteries);
+      this.offset = add.length;
+      this.page_size = add.length;
       this.setData({
-        lotteries: add,
-        offset: add.length,
-        page_size: add.length
+        lotteries: add
       });
       wx.stopPullDownRefresh();
     } catch (e) {
@@ -92,7 +90,7 @@ Page({
   loadMore: async function(event) {
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
-      this.data.offset,
+      this.offset,
       CONST.APPROVED,
       false
     );
@@ -101,15 +99,16 @@ Page({
     }
 
     let add = await this.adjustLotteryInfo(lotteries);
-
+    this.offset = this.offset + add.length;
+    this.page_size = this.data.page_size + add.length;
     this.setData({
-      lotteries: this.data.lotteries.concat(add),
-      offset: this.data.offset + add.length,
-      page_size: this.data.page_size + add.length
+      lotteries: this.data.lotteries.concat(add)
     });
   },
   onLoad: async function(options) {
     try {
+      this.offset = 0;
+      this.page_size = PAGE_SIZE;
       // 知晓云云函数调试比较麻烦，只能在前端模拟一下
       // await main({}, (err, msg) => {
       //   debugger;

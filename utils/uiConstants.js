@@ -12,4 +12,5 @@ export const ATTEND_LOTTERY_EVENT = "attend_lottery_event";
 export const DEFAULT_SPONSOR = "好运码头";
 export const ADDRESS = "收货地址";
 
-export const PAGE_SIZE = 8;
+// 不要再改大了，请求大于8个图片界面显示不了
+export const PAGE_SIZE = 6;
