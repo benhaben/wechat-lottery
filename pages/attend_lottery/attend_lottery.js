@@ -100,9 +100,9 @@ Page({
       pic_data: null,
       attend_num: 0,
       attend_avatar_list: [],
-      attendBtnLoading: false
+      attendBtnLoading: false,
+      hasAttended: true
     },
-    hasAttended: true,
     costLuckNum: 0,
     selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
@@ -284,7 +284,7 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
-      if (this.data.hasAttended) {
+      if (this.data.lottery.hasAttended) {
         return;
       }
 
@@ -327,7 +327,9 @@ Page({
           this.data.lottery.id,
           this.data.lottery.lottery_type
         );
-        this.setData({ attendBtnLoading: false, hasAttended: true });
+        this.data.attendBtnLoading = false;
+        this.data.lottery.hasAttended = true;
+        this.setData(this.data);
         this.data.eventChannel.emit(
           ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_HOME,
           this.data.lottery.id
