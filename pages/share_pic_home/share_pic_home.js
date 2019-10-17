@@ -10,7 +10,7 @@ let posterConfig = {
   height: 700,
   backgroundColor: "#fff",
   debug: false,
-  pixelRatio: 3,
+  pixelRatio: 1,
   blocks: [
     {
       width: 580,

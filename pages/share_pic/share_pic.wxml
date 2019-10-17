@@ -3,7 +3,7 @@
     <image mode="widthFix"  src="{{url}}"/>
   </view>
 
-  <poster class="poster" id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+  <poster class="poster" id="poster" hideLoading="{{true}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
   </poster>
 
   <view class="height120">

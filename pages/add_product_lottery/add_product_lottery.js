@@ -88,19 +88,19 @@ Page({
       } else {
         console.log(`SystemInfoUtil.platform : ${SystemInfoUtil.platform}`);
 
-        if (
-          SystemInfoUtil.platform == SystemInfoUtil.IOS
-          // && SystemInfoUtil.wxSDKVersion == 244
-        ) {
-          this.setData({
-            iOS: true,
-            show_in_main: false //iOS不支持
-          });
-        } else {
-          this.setData({
-            iOS: false
-          });
-        }
+        // if (
+        //   SystemInfoUtil.platform == SystemInfoUtil.IOS
+        //   // && SystemInfoUtil.wxSDKVersion == 244
+        // ) {
+        //   this.setData({
+        //     iOS: true,
+        //     show_in_main: false //iOS不支持
+        //   });
+        // } else {
+        //   this.setData({
+        //     iOS: false
+        //   });
+        // }
 
         // 增加
         this.setData({

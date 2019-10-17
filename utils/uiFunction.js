@@ -147,3 +147,38 @@ export async function payLottery(lottery, cost, sponsor) {
 
   return wx.BaaS.pay(params);
 }
+
+export function base64ToFile(base64data, cb) {
+  return new Promise((resolve, reject) => {
+    const fsm = wx.getFileSystemManager();
+    const FILE_BASE_NAME = "tmp_base64src"; //自定义文件名
+    const [, format, bodyData] =
+      /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
+    if (!format) {
+      return new Error("ERROR_BASE64SRC_PARSE");
+    }
+    const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+    const buffer = wx.base64ToArrayBuffer(bodyData);
+    fsm.writeFile({
+      filePath,
+      data: buffer,
+      encoding: "binary",
+      success() {
+        resolve(filePath);
+      },
+      fail() {
+        reject(new Error("ERROR_BASE64SRC_WRITE"));
+      }
+    });
+  });
+}
+
+export async function getRemoteUrlLocalPath(url) {
+  try {
+    let image_info = await wxPromise.getImageInfo({ src: url });
+    return image_info.path;
+  } catch (e) {
+    console.log(e);
+  }
+  return null;
+}

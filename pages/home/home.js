@@ -122,18 +122,12 @@ Page({
       if (inviter_uid) {
         let ret = await dao.addInviter(inviter_uid);
         console.log(ret);
-        // 从分享会话进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
       } else if (scene) {
         let sceneStr = decodeURIComponent(scene);
         inviter_uid = sceneStr.substring(0, 14);
         let ret = await dao.addInviter(inviter_uid);
         console.log(ret);
-        // 从分享海报进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
       } else {
-        // 默认进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
       }
 
       let user_id = app.getUserId();
@@ -157,6 +151,7 @@ Page({
   },
   _onTap: throttle(function(event) {
     let that = this;
+    //TODO: 可以试用store或者全局变量
     wx.navigateTo({
       url: `${ROUTE.ATTEND_LOTTERY}?id=${event.currentTarget.dataset.id}`,
       events: {
@@ -173,6 +168,13 @@ Page({
           }
         }
       }
+      // success: function(res) {
+      //   // 通过eventChannel向被打开页面传送数据
+      //   res.eventChannel.emit(
+      //     ROUTE_DATA.FROM_HOME_TO_ATTEND_LOTTERY,
+      //     that.data
+      //   );
+      // }
     });
   }),
   onGotoSign: function() {

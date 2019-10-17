@@ -1,9 +1,9 @@
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 import store from "./utils/store.js";
 import {
-  WECHAT_REPORT_ANALYTICS_MAP,
   WECHAT_SCENE,
-  ATTEND_LOTTERY_EVENT
+  ATTEND_LOTTERY_EVENT,
+  ANA_USER_SOURCE
 } from "./utils/uiConstants";
 import SystemInfoUtil from "./utils/systemInfoUtil";
 
@@ -96,29 +96,10 @@ App({
       lotteryID
     };
   },
-  /**
-   * 事件上报
-   * @param {String} eventName
-   * @param {String} key
-   * @param {String} value
-   */
-  wxReportAnalytics(eventName, key, value = "1") {
-    wx.reportAnalytics(eventName, {
-      key: value
-    });
-  },
   sendAttendLotteryEvent(id, lottery_type) {
     wx.reportAnalytics(ATTEND_LOTTERY_EVENT, {
-      lottery_type: lottery_type,
+      lottery_type: parseInt(lottery_type),
       id: id
-    });
-  },
-  sendReportAnalytics(scene) {
-    let actions =
-      WECHAT_REPORT_ANALYTICS_MAP[scene] ||
-      WECHAT_REPORT_ANALYTICS_MAP[WECHAT_SCENE.FROM_DEFAULT];
-    actions.map(item => {
-      this.wxReportAnalytics(...item);
     });
   },
   onShow: function(options) {

@@ -450,6 +450,7 @@ const helper = {
     return new Promise((resolve, reject) => {
       if (
         /^http/.test(imageUrl) &&
+        !/^http:\/\/tmp/.test(imageUrl) &&
         !new RegExp(wx.env.USER_DATA_PATH).test(imageUrl)
       ) {
         wx.downloadFile({

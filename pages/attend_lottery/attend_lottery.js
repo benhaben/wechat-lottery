@@ -3,18 +3,16 @@ import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
+import { countDown, debounce, formatDate } from "../../utils/function";
+import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
 import {
-  countDown,
-  debounce,
-  formatDate,
-  throttle
-} from "../../utils/function";
-import {
-  DEFAULT_SPONSOR,
-  ROUTE_DATA,
-  WECHAT_SCENE
-} from "../../utils/uiConstants";
-import { deSceneOfAttendPage, getTitleAndRule } from "../../utils/uiFunction";
+  base64ToFile,
+  deSceneOfAttendPage,
+  genSceneOfAttendPage,
+  getRemoteUrlLocalPath,
+  getTitleAndRule
+} from "../../utils/uiFunction";
+import wxPromise from "../../utils/wxPromise";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -25,7 +23,7 @@ const red = "#D55B51";
 const gray = "#8a8a8a";
 const black = "#323233";
 const white = "#fff";
-const pixelRatio = 3;
+const pixelRatio = 1;
 let posterConfig = {
   width: 660,
   height: 528,
@@ -112,35 +110,34 @@ Page({
     weight_loading: false,
     is_authorized: false,
     admin: false, // 管理员可以审批
-    showSharePopup: false
+    showSharePopup: false,
+    home: {} //首页的数据
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function(options) {
-    let { scene, id, inviter_uid } = options;
-    const eventChannel = this.getOpenerEventChannel();
-    if (eventChannel) {
-      this.setData({
-        eventChannel: eventChannel
-      });
-    }
-    // 获取数据
     try {
-      Toast.loading({
-        mask: true,
-        message: "加载中...",
-        duration: 1000
-      });
-
       console.log(`options : ${JSON.stringify(options)}`);
+      let { scene, id, inviter_uid } = options;
+
+      let that = this;
+      const eventChannel = this.getOpenerEventChannel();
+      if (eventChannel) {
+        this.setData({
+          eventChannel: eventChannel
+        });
+
+        // eventChannel.on(ROUTE_DATA.FROM_HOME_TO_ATTEND_LOTTERY, function(data) {
+        //   that.setData({ home: data });
+        // });
+      }
+
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
+        await dao.addInviter(inviter_uid);
         // 从分享会话进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
       } else if (scene) {
         let deRet = deSceneOfAttendPage(scene);
         inviter_uid = deRet.inviter_uid;
@@ -149,16 +146,24 @@ Page({
         id = fullIdRes.data.objects[0].id;
         let ret = await dao.addInviter(inviter_uid);
         console.log(ret);
-        // 从分享海报进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
       } else {
-        // 默认进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
       }
 
       if (!id) {
         throw new Error("没有id");
+      } else {
+        await this.load(id);
       }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async load(id) {
+    // 获取数据
+    try {
+      wx.showLoading({
+        title: "正在加载"
+      });
 
       await app.getUserInfo(app.getUserId());
       this.setData({
@@ -170,6 +175,8 @@ Page({
         app.getUserId()
       );
       let attendeesPromise = dao.getLotteryAttendees(id);
+      let isAdminPromise = dao.isAdmin();
+      let wxCodePromise = this.getWxCode();
 
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
@@ -186,14 +193,17 @@ Page({
         app.setUserInfo(user); // 顺便更新一下
         hasAttended = true;
       }
+      let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
 
-      let admin = await dao.isAdmin();
+      let admin = await isAdminPromise;
+      let wxCode = await wxCodePromise;
+      let image_path = await imagePathPromise;
 
       this.setData({
         lottery: {
           id: lottery.id,
           hash: lottery.id.substr(0, 10),
-          url: lottery.url,
+          image_path,
           total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
           open_people_num: lottery.open_people_num,
           avatar: lottery.avatar,
@@ -214,20 +224,22 @@ Page({
           ),
           countdownStr: countDown(lottery.open_date),
           open_data_str: formatDate(Date.parse(lottery.open_date)),
-          show_in_main: lottery.show_in_main
+          show_in_main: lottery.show_in_main,
+          wxCode: wxCode,
+          hasAttended
         },
         selfLuckyNum: app.getLuckyNum(),
         weight: hasAttended ? retRecord.data.objects[0].weight : 0,
         costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0,
-        hasAttended,
         admin
       });
       this.onCreatePoster();
+      wx.hideLoading();
     } catch (e) {
+      wx.hideLoading();
       console.log(e);
     }
   },
-
   onWeightDrag(event) {
     // 滑块是10~100之间 ~ 运气值消耗0到最大
 
@@ -313,7 +325,7 @@ Page({
         await app.getUserInfo();
         app.sendAttendLotteryEvent(
           this.data.lottery.id,
-          this.data.lottery_type
+          this.data.lottery.lottery_type
         );
         this.setData({ attendBtnLoading: false, hasAttended: true });
         this.data.eventChannel.emit(
@@ -356,6 +368,25 @@ Page({
   },
   onShare: function(e) {
     this.setData({ showSharePopup: true });
+  },
+  getWxCode: async function() {
+    let download_url;
+    try {
+      let user_id = app.getUserId(); //14
+      let scene = genSceneOfAttendPage(user_id, this.data.lottery.id);
+      let res = await wx.BaaS.getWXACode(
+        "wxacodeunlimit",
+        {
+          scene,
+          page: `${ROUTE.ATTEND_LOTTERY.substring(1)}`
+        },
+        false
+      );
+      download_url = await base64ToFile(res.image);
+    } catch (e) {
+      console.log(e);
+    }
+    return download_url;
   },
   genPic: function(e) {
     let that = this;
@@ -403,6 +434,21 @@ Page({
       console.log(e);
     }
   },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  // onReachBottom: throttle(async function() {
+  //   let lotteries = this.data.home.lotteries;
+  //   for (let i = 0; i < lotteries.length; i++) {
+  //     if (lotteries[i].id === this.data.lottery.id) {
+  //       let next = i + 1;
+  //       if (next < lotteries.length) {
+  //         await this.load(lotteries[next].id);
+  //       } else {
+  //       }
+  //     }
+  //   }
+  // }),
   onShareAppMessage: function() {
     this.setData({ showSharePopup: false });
 
@@ -433,7 +479,7 @@ Page({
    */
   onCreatePoster() {
     let { lottery } = this.data;
-    posterConfig.images[0].url = lottery.url;
+    posterConfig.images[0].url = lottery.image_path;
 
     let { title, rule } = getTitleAndRule(lottery);
     posterConfig.texts[0].text = title;
