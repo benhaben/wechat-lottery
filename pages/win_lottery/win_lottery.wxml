@@ -69,8 +69,7 @@
         <view class="win-details" wx:if="{{fudai_image_list && fudai_image_list.length>0}}">
           <view class="win-peoples-title bg-base">奖品：好运福袋
             <text class="color-red">{{lottery.lucky_num_per}}</text>
-            个运气值 X
-            <text class="color-red">{{lottery.fudai_num}}名</text>
+            个运气值
           </view>
           <view class="avatar-list">
             <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
