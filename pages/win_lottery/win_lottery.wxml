@@ -127,7 +127,7 @@
       <text>{{lottery.desc_initiator}}</text>
     </view>
 
-    <view class="h-flex bg-white flex-col margin30-bottom padding30-0"
+    <view class="bg-white margin30-bottom padding30"
           wx:if="{{lottery.pic_data && lottery.pic_data.length}}">
       <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
     </view>

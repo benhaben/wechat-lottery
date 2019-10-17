@@ -428,7 +428,7 @@ export default {
   async getAttendeesByResult(
     id = "",
     reslut = CONST.GET_HONGBAO,
-    limit = 8,
+    limit = 6,
     offset = 0
   ) {
     if (!id) {

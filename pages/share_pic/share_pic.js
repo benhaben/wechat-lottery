@@ -129,7 +129,6 @@ Page({
     ) {
       try {
         posterConfig.images[1].url = data.lottery.image_path;
-        debugger;
         posterConfig.images[2].url = data.lottery.wxCode;
         let { title, rule } = getTitleAndRule(data.lottery);
         posterConfig.texts[2].text = title;
