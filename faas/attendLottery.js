@@ -78,7 +78,7 @@ export default async function attendLottery(event, callback) {
       `createUserLotteryRet : ${JSON.stringify(createUserLotteryRet)}`
     );
 
-    callback(null, true);
+    callback(null, createUserLotteryRet);
   } catch (e) {
     callback(e);
   }
