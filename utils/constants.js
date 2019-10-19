@@ -121,8 +121,7 @@ export const CONST = {
   HONHBAO_RATIO: 100, // 开奖金额总是除以 100，但是发出去多少看PLANS_LOTTERY_PACKAGE，剩下的是平台盈利
   ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
   DEFAULT_URL: [
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iLjqLLuRn9FanM6.png",
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iLjqLv5bPWw2twG.png"
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iCf5gwsXZOPr2uG.png"
   ],
   DEFAULT_MONEY_URL: [
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOpGejZ7rKJQI3.png",

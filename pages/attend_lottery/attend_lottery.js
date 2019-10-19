@@ -4,7 +4,11 @@ import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { countDown, debounce, formatDate } from "../../utils/function";
-import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
+import {
+  DEFAULT_SPONSOR,
+  PAGE_SIZE,
+  ROUTE_DATA
+} from "../../utils/uiConstants";
 import {
   base64ToFile,
   deSceneOfAttendPage,
@@ -218,7 +222,7 @@ Page({
           open_data_str: formatDate(Date.parse(lottery.open_date)),
           show_in_main: lottery.show_in_main,
           hasAttended,
-          attend_id: retRecord.data.objects[0].id
+          attend_id: hasAttended ? retRecord.data.objects[0].id : null
         },
         selfLuckyNum: app.getLuckyNum(),
         old_weight: hasAttended ? retRecord.data.objects[0].weight : 0,
@@ -231,8 +235,9 @@ Page({
         let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
         let isAdminPromise = dao.isAdmin();
         let wxCodePromise = that.getWxCode();
-        let id = that.data.lottery.id;
-
+        // let friendsPromise =  dao.getFriends(app.getUserId(), 1, 0);
+        // let friends = await friendsPromise;
+        // that.data.friends_count = friends.data.meta.total_count;
         that.data.admin = await isAdminPromise;
         that.data.lottery.wxCode = await wxCodePromise;
         that.data.lottery.image_path = await imagePathPromise;
