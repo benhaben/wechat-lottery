@@ -12,18 +12,19 @@ import { CONST, ERR_TYPE } from "../utils/constants";
  * @returns {Promise<void>}
  *
  */
+
+// let testData = {
+//   lottery_id: "5d83933a866d04242107d925",
+//   weight: 0,
+//   request: { user: { id: "81550584324453" } }
+// };
+
 export default async function attendLottery(event, callback) {
   const { lottery_id, weight } = event.data;
   const user_id = event.request.user.id;
 
-  // let testData = {
-  //   lottery_id: "5d83933a866d04242107d925",
-  //   weight: 0,
-  //   request: { user: { id: "81550584324453" } }
-  // };
-
   try {
-    let cost = weight / CONST.ONE_LUCKY_NUM_WEIGHT;
+    let cost = weight;
     let userRes = await USER_TABLE.get(user_id);
     let user = userRes.data;
     console.log(`user : ${JSON.stringify(user)}`);
@@ -45,10 +46,11 @@ export default async function attendLottery(event, callback) {
 
     let userUpdate = USER_TABLE.getWithoutData(user_id);
     userUpdate.incrementBy("lucky_num", -cost);
-    await userUpdate.update();
+    let userUpdateRet = await userUpdate.update();
+    console.log(`userUpdateRet : ${JSON.stringify(userUpdateRet)}`);
 
     const createBalanceRecord = BALANCE_LUCKY_RECORD_TABLE.create();
-    await createBalanceRecord
+    let createBalanceRecordRet = await createBalanceRecord
       .set({
         reason,
         lucky_num: -cost,
@@ -56,10 +58,13 @@ export default async function attendLottery(event, callback) {
         lottery_id: lottery_id
       })
       .save();
+    console.log(
+      `createBalanceRecordRet : ${JSON.stringify(createBalanceRecordRet)}`
+    );
 
     let lottery = LOTTERY_TABLE.getWithoutData(lottery_id);
-    const createObject = USER_LOTTERY_RECORD_TABLE.create();
-    let ret = await createObject
+    const createUserLotteryObject = USER_LOTTERY_RECORD_TABLE.create();
+    let createUserLotteryRet = await createUserLotteryObject
       .set({
         user_id,
         user: userUpdate,
@@ -69,7 +74,11 @@ export default async function attendLottery(event, callback) {
         weight
       })
       .save();
-    callback(null, ret);
+    console.log(
+      `createUserLotteryRet : ${JSON.stringify(createUserLotteryRet)}`
+    );
+
+    callback(null, true);
   } catch (e) {
     callback(e);
   }

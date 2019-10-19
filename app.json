@@ -75,7 +75,8 @@
     "van-action-sheet": "lib/van/action-sheet/index",
     "van-slider": "lib/van/slider/index",
     "van-tag": "lib/van/tag/index",
-    "van-loading":"lib/van/loading/index"
+    "van-loading":"lib/van/loading/index",
+    "van-stepper": "lib/van/stepper/index"
   },
   "sitemapLocation": "sitemap.json"
 }

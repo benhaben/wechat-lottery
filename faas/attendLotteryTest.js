@@ -23,7 +23,7 @@ export default async function attendLottery(event, callback) {
   // };
 
   try {
-    let cost = weight / CONST.ONE_LUCKY_NUM_WEIGHT;
+    let cost = weight;
     let userRes = await USER_TABLE.get(user_id);
     let user = userRes.data;
 

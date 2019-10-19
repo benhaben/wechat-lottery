@@ -69,6 +69,7 @@ export const TABLE_ID = {
 export const CONFIG_ID = "5d7917899d8da5229c037105";
 
 export const FUNCTION_NAME = {
+  ADD_WEIGHT: "addWeight",
   ADD_INVITER: "addInviter",
   CREATE_WITHDRAW: "createWithdraw",
   APPROVE_WITHDRAW: "approveWithdraw",
@@ -119,11 +120,9 @@ export const CONST = {
   GET_HONGBAO: 1, // 获取红包获得者列表，user_lottery_record的lottery_result
   HONHBAO_RATIO: 100, // 开奖金额总是除以 100，但是发出去多少看PLANS_LOTTERY_PACKAGE，剩下的是平台盈利
   ATTEND_LOTTERY_COST: 1, // 参与抽奖消耗的运气值
-  ONE_LUCKY_NUM_WEIGHT: 2, // 一个运气值可以增加几个权重
-  GET_MORE_REDUCE_LUCKY_NUM: -10, // 获取更多抽奖消耗的运气值，暂时没用
   DEFAULT_URL: [
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOgsfu2HFutx16.png",
-    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOdGDewsFUU6Zt.png"
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iLjqLLuRn9FanM6.png",
+    "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iLjqLv5bPWw2twG.png"
   ],
   DEFAULT_MONEY_URL: [
     "https://cloud-minapp-29726.cloud.ifanrusercontent.com/1iGOpGejZ7rKJQI3.png",

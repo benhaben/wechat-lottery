@@ -26,30 +26,19 @@
     <x-richtext isReadOnly initList="{{lottery.pic_data}}"/>
   </view>
 
-  <view wx:if="{{lottery.status == 2 && !lottery.hasAttended && selfLuckyNum > 1}}"
-        class="bg-white margin30-bottom height280 padding30 h-flex flex-col flex-justify-content-between">
-    <view class="info-text">拖动滑条，改变中奖权重（权重越大，中奖的可能性越大）</view>
-    <van-slider
-      step="10"
-      min="0"
-      max="90"
-      bind:drag="onWeightDrag"
-      use-button-slot
-      active-color="#ee0a24">
-      <view class="silder-btn" slot="button">
-        {{ costLuckNum }}
-      </view>
-    </van-slider>
-    <view class=" h-flex flex-justify-content-between flex-align-center">
-      <view>中奖权重：</view>
-      <view>{{weight}}</view>
-    </view>
-    <view class=" h-flex flex-justify-content-between">
-      <view class="text-left info-text">即时排位：
+  <view wx:if="{{lottery.status == 2 && selfLuckyNum > 1 }}"
+        class="bg-white margin30-bottom height220 padding30 h-flex flex-col flex-justify-content-between">
+    <view>一个运气值，增加一个中奖权重</view>
+    <view class="h-flex flex-justify-content-between flex-align-center">
+      <view class="text-left">即时排位：
         <text wx:if="{{!weight_loading}}">{{weight_rate}}</text>
         <van-loading wx:else type="spinner" size="20rpx"/>
       </view>
-      <view class="text-right info-text">一个运气值，增加两个权重</view>
+      <van-stepper value="{{ weight }}" min="{{0}}" max="{{selfLuckyNum-1}}" integer="{{true}}" disable-input="{{lottery.hasAttended}}" show-minus="{{!lottery.hasAttended}}" input-width="58px" bind:change="onWeightChange" />
+    </view>
+    <view class=" h-flex flex-justify-content-between">
+      <view class="text-left info-text">当前运气值：{{selfLuckyNum}}</view>
+      <view class="text-right info-text">消耗的运气值：{{costLuckNum}}</view>
     </view>
   </view>
   <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">

@@ -103,10 +103,10 @@ Page({
       attendBtnLoading: false,
       hasAttended: true
     },
-    costLuckNum: 0,
+    costLuckNum: 0, // 消耗的运气值
     selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
-    weight_rate: "暂无排名",
+    weight_rate: "暂无",
     weight_loading: false,
     is_authorized: false,
     admin: false, // 管理员可以审批
@@ -217,11 +217,13 @@ Page({
           countdownStr: countDown(lottery.open_date),
           open_data_str: formatDate(Date.parse(lottery.open_date)),
           show_in_main: lottery.show_in_main,
-          hasAttended
+          hasAttended,
+          attend_id: retRecord.data.objects[0].id
         },
         selfLuckyNum: app.getLuckyNum(),
+        old_weight: hasAttended ? retRecord.data.objects[0].weight : 0,
         weight: hasAttended ? retRecord.data.objects[0].weight : 0,
-        costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0
+        costLuckNum: hasAttended ? retRecord.data.objects[0].weight : 0
       });
       let that = this;
       //加快加载速度
@@ -229,11 +231,17 @@ Page({
         let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
         let isAdminPromise = dao.isAdmin();
         let wxCodePromise = that.getWxCode();
+        let id = that.data.lottery.id;
+
         that.data.admin = await isAdminPromise;
         that.data.lottery.wxCode = await wxCodePromise;
         that.data.lottery.image_path = await imagePathPromise;
         that.setData(that.data);
         that.onCreatePoster();
+        if (hasAttended) {
+          let weight = that.data.weight;
+          that.getWeightRate(id, weight);
+        }
       });
       wx.hideLoading();
     } catch (e) {
@@ -241,25 +249,54 @@ Page({
       console.log(e);
     }
   },
-  onWeightDrag(event) {
+  onWeightChange(event) {
     // 滑块是10~100之间 ~ 运气值消耗0到最大
 
-    let costLuckNum = Math.floor(
-      (event.detail.value / 100) * this.data.selfLuckyNum
-    );
-    let weight = costLuckNum * 2;
-    console.log(
-      `event.detail.value : ${event.detail.value} - weight : ${weight}`
-    );
-
-    this.setData({
-      costLuckNum,
-      weight,
-      weight_loading: true
-    });
-
+    let costLuckNum = parseInt(event.detail);
+    let hasAttended = this.data.lottery.hasAttended;
+    let weight = costLuckNum;
+    let old_weight = this.data.old_weight;
     let id = this.data.lottery.id;
-    this.getWeightRate(id, weight);
+    let add = weight - old_weight;
+    if (hasAttended) {
+      // 减少没有作用
+      // 增加必须在现有运气值范围内，要保存一个老的权重值
+      // 直接发送增加的权重
+      if (add < 0) {
+        Toast.fail("不能减少权重");
+        this.setData({
+          weight: old_weight
+        });
+        return;
+      } else if (add > 0) {
+        let ret = dao.addWeight({
+          lottery_id: this.data.lottery.id,
+          attend_id: this.data.lottery.attend_id,
+          weight: add
+        });
+        if (ret) {
+          let selfLuckyNum = this.data.selfLuckyNum - add;
+
+          this.setData({
+            weight: old_weight + add,
+            old_weight: old_weight + add,
+            costLuckNum,
+            weight_loading: true,
+            selfLuckyNum
+          });
+          this.getWeightRate(id, this.data.weight);
+        }
+      }
+    } else {
+      console.log(`weight : ${weight}`);
+      this.setData({
+        costLuckNum,
+        weight,
+        weight_loading: true
+      });
+
+      this.getWeightRate(id, weight);
+    }
   },
   getWeightRate: debounce(async function(id, weight) {
     let that = this;
@@ -312,7 +349,6 @@ Page({
         weight: this.data.weight,
         lottery_id: this.data.lottery.id
       });
-
       if (res) {
         // 更新一下抽奖人数和头像
         let attendees = await dao.getLotteryAttendees(this.data.lottery.id);
@@ -320,20 +356,19 @@ Page({
         this.data.lottery.attend_avatar_list = attendees.data.objects.map(
           item => item.avatar_cache
         );
-
         this.setData(this.data);
-        // 参与抽奖会减少运气值，这边重新获取运气值，不要要重置 selfLuckyNum，因为当前页面不能操作了
         await app.getUserInfo();
-        app.sendAttendLotteryEvent(
-          this.data.lottery.id,
-          this.data.lottery.lottery_type
-        );
+        this.data.selfLuckyNum = app.getLuckyNum();
         this.data.attendBtnLoading = false;
         this.data.lottery.hasAttended = true;
         this.setData(this.data);
         this.data.eventChannel.emit(
           ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_HOME,
           this.data.lottery.id
+        );
+        app.sendAttendLotteryEvent(
+          this.data.lottery.id,
+          this.data.lottery.lottery_type
         );
       } else {
         this.setData({ attendBtnLoading: false });

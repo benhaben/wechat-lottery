@@ -27,6 +27,21 @@ export default {
     console.log(ret);
     return ret.data;
   },
+  /**
+   * 为了安全在服务端参与抽奖，减少运气值
+   * @param data
+   * @returns {Promise<*>}
+   */
+  async attendLottery(data) {
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
+    return ret.data;
+  },
+
+  async addWeight(data) {
+    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ADD_WEIGHT, data);
+    console.log(ret);
+    return ret.data;
+  },
 
   async getAddressByUserId(user_id) {
     console.log(`createOrUpdateAddress - user_id : ${user_id}`);
@@ -144,16 +159,6 @@ export default {
       FUNCTION_NAME.UPDATE_LOTTERY,
       lottery
     );
-    return ret.data.data;
-  },
-
-  /**
-   * 为了安全在服务端参与抽奖，减少运气值
-   * @param data
-   * @returns {Promise<*>}
-   */
-  async attendLottery(data) {
-    let ret = await wx.BaaS.invokeFunction(FUNCTION_NAME.ATTEND_LOTTERY, data);
     return ret.data.data;
   },
 
@@ -345,21 +350,11 @@ export default {
     }
     let query = new wx.BaaS.Query();
     query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
-    query.compare("weight", ">=", weight);
+    query.compare("weight", ">", weight);
 
     let count = await USER_LOTTERY_RECORD_TABLE.setQuery(query).count();
-
-    if (count <= 50) {
-      return "50名内";
-    } else if (count <= 100) {
-      return "100名内";
-    } else if (count <= 200) {
-      return "200名内";
-    } else if (count <= 500) {
-      return "500名内";
-    } else {
-      return "大于500名";
-    }
+    console.log(`count : ${count}`);
+    return `第${count + 1}名`;
   },
 
   /**
@@ -520,6 +515,7 @@ export default {
     }
     let query = new wx.BaaS.Query();
     query.compare("inviter_uid", "=", user_id);
+    query.compare("is_authorized", "=", true);
     return USER_TABLE.setQuery(query)
       .select(["created_at", "avatar", "nickname"])
       .limit(limit)
