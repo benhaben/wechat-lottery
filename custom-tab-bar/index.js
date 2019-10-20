@@ -1,12 +1,9 @@
 import { ROUTE } from "../utils/constants";
-import { mobileAdapter, getStatusBarHeight } from "../utils/uiFunction";
 
 Component({
   data: {
     active: 0,
     hide: false,
-    isIPhoneX: false,
-    statusBarHeight: 0,
     list: [
       {
         icon: "home-o",
@@ -32,11 +29,7 @@ Component({
   created() {
     let that = this;
   },
-  attached() {
-    this.setData({
-      isIPhoneX: mobileAdapter.isIPhoneX()
-    });
-  },
+  attached() {},
   methods: {
     onChange(event) {
       this.setData({

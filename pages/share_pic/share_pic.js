@@ -128,9 +128,11 @@ Page({
       data
     ) {
       try {
+        posterConfig.images[0].url = app.getAvatar();
         posterConfig.images[1].url = data.lottery.image_path;
         posterConfig.images[2].url = data.lottery.wxCode;
         let { title, rule } = getTitleAndRule(data.lottery);
+        posterConfig.texts[0].text = app.getNickname();
         posterConfig.texts[2].text = title;
         posterConfig.texts[4].text = rule;
         posterConfig.texts[3].text = `赞助商：${data.lottery.sponsor ||

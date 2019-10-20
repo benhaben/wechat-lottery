@@ -33,14 +33,12 @@ export async function saveToAlbum(url) {
 }
 
 const MobileAdpater = () => {
-  const systemInfo = wx.getSystemInfoSync();
-  const deviceModel = systemInfo.model;
   const MOBILE_REG = {
     "iPhone X": /iPhone X/
   };
 
   return {
-    isIPhoneX: () => {
+    isIPhoneX: deviceModel => {
       let isIPhoneX = MOBILE_REG["iPhone X"].test(deviceModel);
       console.log(`isIPhoneX: ${isIPhoneX}`);
       return isIPhoneX;

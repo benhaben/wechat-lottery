@@ -93,7 +93,22 @@
   </form>
 
   <view class="h-flex flex-col flex-center bg-white padding30">
-    <button class="height80 line-height80 width690 bg-dark-gray color-white" bindtap="onShare">分享</button>
+    <view wx:if="{{!is_authorized}}">
+      <button
+        class="height80 line-height80 width690"
+        type="primary"
+        open-type="getUserInfo"
+        bindgetuserinfo="userInfoHandler">
+        分享
+      </button>
+    </view>
+    <button wx:else
+            bindtap="onShare"
+            class="height80 line-height80 width690 bg-dark-gray color-white"
+            type="primary"
+    >
+      分享
+    </button>
     <view class="info-text text-center padding15-top">
       邀请一个新朋友参与，就能获得运气值
     </view>

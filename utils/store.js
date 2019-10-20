@@ -4,7 +4,7 @@ export default {
   setUserInfo(data) {
     wx.setStorageSync(USERINFO, data);
   },
-  getUserInfo(data) {
+  getUserInfo() {
     return wx.getStorageSync(USERINFO);
   }
 };

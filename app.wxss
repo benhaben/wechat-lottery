@@ -10,9 +10,7 @@ page{
   font-size: 28rpx;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
-view{
-  box-sizing: border-box;
-}
+
 .height-per100{  height: 100%;}
 .width-per100{ width: 100%; }
 .width-per90{ width: 95%; }
@@ -51,6 +49,7 @@ view{
 .margin30-right{margin-right: 30rpx;}
 .margin30-bottom{margin-bottom: 30rpx;}
 .margin64-bottom{margin-bottom: 100rpx;}
+.margin200-bottom{margin-bottom: 200rpx;}
 .margin15{margin: 15rpx;}
 .margin15-bottom{margin-bottom: 15rpx;}
 .margin30-top{margin-top: 30rpx;}
@@ -136,9 +135,6 @@ view{
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.popup-item-btn{
-  margin: 20rpx;
 }
 
 .avatar{

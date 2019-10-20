@@ -131,21 +131,16 @@ Page({
       console.log(`options : ${JSON.stringify(options)}`);
       let { scene, id, inviter_uid } = options;
 
-      let that = this;
       const eventChannel = this.getOpenerEventChannel();
       if (eventChannel) {
         this.setData({
           eventChannel: eventChannel
         });
-
-        // eventChannel.on(ROUTE_DATA.FROM_HOME_TO_ATTEND_LOTTERY, function(data) {
-        //   that.setData({ home: data });
-        // });
       }
-
+      let user_id = app.getUserId();
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
-        await dao.addInviter(inviter_uid);
+        if (user_id) await dao.addInviter(inviter_uid);
         // 从分享会话进入
       } else if (scene) {
         let deRet = deSceneOfAttendPage(scene);
@@ -153,14 +148,11 @@ Page({
         let prefix_id = deRet.prefix_lottery_id;
         let fullIdRes = await dao.queryLottery(1, 0, prefix_id);
         id = fullIdRes.data.objects[0].id;
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
+        if (user_id) await dao.addInviter(inviter_uid);
       } else {
       }
 
-      if (!id) {
-        throw new Error("没有id");
-      } else {
+      if (id) {
         await this.load(id);
       }
     } catch (e) {
@@ -174,23 +166,24 @@ Page({
         title: "正在加载"
       });
 
-      await app.getUserInfo(app.getUserId());
-      this.setData({
-        is_authorized: app.hasAuth()
-      });
-
-      let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
-        id,
-        app.getUserId()
-      );
+      let user_id = app.getUserId();
+      let retRecordPromise;
+      if (user_id) {
+        this.setData({
+          is_authorized: app.hasAuth()
+        });
+        retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
+          id,
+          app.getUserId()
+        );
+      }
       let attendeesPromise = dao.getLotteryAttendees(id);
-
       //并行获取数据，防止一个一个获取
       let attendees = await attendeesPromise;
       let retRecord = await retRecordPromise;
 
       let lottery, hasAttended;
-      if (retRecord.data.objects.length === 0) {
+      if (!user_id || retRecord.data.objects.length === 0) {
         let ret = await dao.getLotteryById(id);
         lottery = ret.data;
         hasAttended = false;
@@ -238,13 +231,13 @@ Page({
       //加快加载速度
       setTimeout(async () => {
         let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
-        let isAdminPromise = dao.isAdmin();
-        let wxCodePromise = that.getWxCode();
-        // let friendsPromise =  dao.getFriends(app.getUserId(), 1, 0);
-        // let friends = await friendsPromise;
-        // that.data.friends_count = friends.data.meta.total_count;
-        that.data.admin = await isAdminPromise;
-        that.data.lottery.wxCode = await wxCodePromise;
+        let user_id = app.getUserId();
+        if (user_id) {
+          let isAdminPromise = dao.isAdmin();
+          let wxCodePromise = that.getWxCode();
+          that.data.admin = await isAdminPromise;
+          that.data.lottery.wxCode = await wxCodePromise;
+        }
         that.data.lottery.image_path = await imagePathPromise;
         that.setData(that.data);
         that.onCreatePoster();
@@ -400,6 +393,7 @@ Page({
         that.setData({
           is_authorized: app.hasAuth()
         });
+        await this.load(that.data.lottery.id);
       },
       err => {
         // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
@@ -499,12 +493,20 @@ Page({
   // }),
   onShareAppMessage: function() {
     this.setData({ showSharePopup: false });
-
-    return {
-      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
-      path: `${ROUTE.ATTEND_LOTTERY}?id=${
+    let nickname = app.getNickname();
+    let title, path;
+    if (nickname) {
+      title = `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`;
+      path = `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery.id
-      }&inviter_uid=${app.getUserId()}`,
+      }&inviter_uid=${app.getUserId()}`;
+    } else {
+      title = `邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`;
+      path = `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery.id}`;
+    }
+    return {
+      title: title,
+      path: path,
       imageUrl: this.share_url,
       success: function(res) {
         console.log("成功", res);

@@ -1,17 +1,13 @@
 import dao from "../../utils/dao";
+import SystemInfoUtil from "../../utils/systemInfoUtil";
 import { ROUTE, CONST } from "../../utils/constants";
-import {
-  countDown,
-  randomProductUrl,
-  throttle,
-  toFixed3
-} from "../../utils/function";
+import { countDown, throttle } from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   PAGE_SIZE,
-  ROUTE_DATA,
-  WECHAT_SCENE
+  ROUTE_DATA
 } from "../../utils/uiConstants";
+import { mobileAdapter } from "../../utils/uiFunction";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
@@ -19,6 +15,10 @@ const app = getApp();
 
 Page({
   data: {
+    permission: {
+      showLogin: false
+    },
+    isIPhoneX: false,
     lucky_num: app.getLuckyNum(),
     lotteries: [],
     showSharePopup: false,
@@ -51,22 +51,22 @@ Page({
   },
   async adjustAttendLotteryInfo() {
     let lotteries = this.data.lotteries;
-    let add = await Promise.all(
-      lotteries.map(async lottery => {
-        lottery.hasAttended = await dao.hasAttended(
-          lottery.id,
-          app.getUserId()
-        );
-        console.log(
-          `lottery.id : ${lottery.id} - lottery.hasAttended : ${lottery.hasAttended}`
-        );
-        return lottery;
-      })
-    );
+    let user_id = app.getUserId();
+    if (user_id) {
+      let add = await Promise.all(
+        lotteries.map(async lottery => {
+          lottery.hasAttended = await dao.hasAttended(lottery.id, user_id);
+          console.log(
+            `lottery.id : ${lottery.id} - lottery.hasAttended : ${lottery.hasAttended}`
+          );
+          return lottery;
+        })
+      );
 
-    this.setData({
-      lotteries: add
-    });
+      this.setData({
+        lotteries: add
+      });
+    }
   },
 
   onPullDownRefresh: throttle(async function() {
@@ -90,8 +90,11 @@ Page({
       let that = this;
       setTimeout(async () => {
         await that.adjustAttendLotteryInfo();
-      });
+      }, 100);
 
+      this.setData({
+        lucky_num: app.getLuckyNum() || 0
+      });
       wx.stopPullDownRefresh();
     } catch (e) {
       console.log(e);
@@ -120,7 +123,28 @@ Page({
     let that = this;
     setTimeout(async () => {
       await that.adjustAttendLotteryInfo();
-    });
+    }, 100);
+  },
+  init(inviter_uid, scene) {
+    let that = this;
+    let user_id = app.getUserId();
+    setTimeout(async () => {
+      // 假设扫码过来的 query 在 onLoad 可以拿到
+      if (inviter_uid) {
+        if (user_id) await dao.addInviter(inviter_uid);
+      } else if (scene) {
+        let sceneStr = decodeURIComponent(scene);
+        inviter_uid = sceneStr.substring(0, 14);
+        if (user_id) await dao.addInviter(inviter_uid);
+      } else {
+      }
+      that.setData({
+        isIPhoneX: mobileAdapter.isIPhoneX(SystemInfoUtil.model)
+      });
+      that.setData({
+        lucky_num: app.getLuckyNum() || 0
+      });
+    }, 100);
   },
   onLoad: async function(options) {
     try {
@@ -137,25 +161,8 @@ Page({
       wx.showLoading({
         title: "正在加载"
       });
-      // 假设扫码过来的 query 在 onLoad 可以拿到
-      if (inviter_uid) {
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
-      } else if (scene) {
-        let sceneStr = decodeURIComponent(scene);
-        inviter_uid = sceneStr.substring(0, 14);
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
-      } else {
-      }
-
-      let user_id = app.getUserId();
-      if (user_id) {
-        await app.getUserInfo(app.getUserId());
-        this.setData({
-          lucky_num: app.getLuckyNum()
-        });
-      }
+      await app.getUserInfo();
+      this.init(inviter_uid, scene);
       await this.loadMore();
       wx.hideLoading();
     } catch (e) {
@@ -216,6 +223,9 @@ Page({
     }, 100);
   },
   genPic(e) {
+    if (this.showLoginPopup()) {
+      return;
+    }
     let that = this;
     wx.navigateTo({
       url: `${ROUTE.SHARE_PIC_HOME}`
@@ -245,5 +255,46 @@ Page({
         console.log("成功", res);
       }
     };
+  },
+  onClosePopup() {
+    // 临时设置成true
+    this.setData({
+      permission: {
+        showLogin: false
+      }
+    });
+  },
+  showLoginPopup() {
+    let showLogin = !app.hasAuth();
+    this.setData({
+      permission: {
+        showLogin: showLogin
+      }
+    });
+    return showLogin;
+  },
+  userInfoHandler(data) {
+    let that = this;
+    wx.showLoading({
+      title: "正在授权"
+    });
+
+    wx.BaaS.auth.loginWithWechat(data).then(
+      async user => {
+        // user 包含用户完整信息，详见下方描述
+        await app.getUserInfo(user.get("id"));
+        that.onPullDownRefresh();
+        that.setData({
+          permission: {
+            showLogin: false
+          }
+        });
+        wx.hideLoading();
+      },
+      err => {
+        wx.hideLoading();
+        // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
+      }
+    );
   }
 });

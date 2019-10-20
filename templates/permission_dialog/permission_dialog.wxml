@@ -1,0 +1,19 @@
+<template name="permission_dialog">
+  <van-popup show="{{ showLogin }}">
+    <form class="bottom" report-submit name="add_lottery"
+          class="height450 width650 text-center h-flex flex-col flex-center">
+      <view class="h3 margin30">您还未登陆</view>
+      <view class="info-text margin30-bottom">相关操作设计到用户信息，请登陆后再试</view>
+      <button
+        class="margin30-bottom width600"
+        type="primary"
+        size="normal"
+        open-type="getUserInfo"
+        bindgetuserinfo="userInfoHandler">立即登陆
+      </button>
+
+      <view class="margin30-bottom border-gray padding15-30" bindtap="onClosePopup">暂不登录</view>
+    </form>
+
+  </van-popup>
+</template>

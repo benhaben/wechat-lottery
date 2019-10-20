@@ -1,6 +1,8 @@
 // components/rich_text/rich_text.js
 import wxPromise from "../../utils/wxPromise.js";
 import Toast from "../../lib/van/toast/toast";
+import SystemInfoUtil from "../../utils/systemInfoUtil";
+
 const { regeneratorRuntime } = global;
 
 /**
@@ -78,7 +80,7 @@ Component({
     // 当组件挂载到页面时，才会执行初始化
     let that = this;
     that.setData({
-      width: app.globalData.systemInfo.windowWidth
+      width: SystemInfoUtil.width
     });
   },
   /**
