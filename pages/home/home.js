@@ -39,13 +39,20 @@ Page({
     await this.loadMore();
   }),
 
-  async adjustLotteryInfo(lotteries) {
+  adjustAttendLottery(lotteries) {
+    let add = lotteries.data.objects.map(lottery => {
+      lottery.hash = lottery.id.substr(0, 10);
+      lottery.hongbao_num = CONST.HONGBAO_NUM;
+      lottery.fudai_num = CONST.FUDAI_NUM;
+      lottery.countdownStr = countDown(lottery.open_date);
+      return lottery;
+    });
+    return add;
+  },
+  async adjustAttendLotteryInfo() {
+    let lotteries = this.data.lotteries;
     let add = await Promise.all(
-      lotteries.data.objects.map(async lottery => {
-        lottery.hash = lottery.id.substr(0, 10);
-        lottery.hongbao_num = CONST.HONGBAO_NUM;
-        lottery.fudai_num = CONST.FUDAI_NUM;
-        lottery.countdownStr = countDown(lottery.open_date);
+      lotteries.map(async lottery => {
         lottery.hasAttended = await dao.hasAttended(
           lottery.id,
           app.getUserId()
@@ -58,7 +65,9 @@ Page({
     add.sort((a, b) => {
       return a.lottery_type - b.lottery_type;
     });
-    return add;
+    this.setData({
+      lotteries: add
+    });
   },
 
   onPullDownRefresh: throttle(async function() {
@@ -73,13 +82,17 @@ Page({
       if (lotteries.data.objects <= 0) {
         return;
       }
-
-      let add = await this.adjustLotteryInfo(lotteries);
+      let add = this.adjustAttendLottery(lotteries);
       this.offset = add.length;
       this.page_size = add.length;
       this.setData({
         lotteries: add
       });
+      let that = this;
+      setTimeout(async () => {
+        await that.adjustAttendLotteryInfo();
+      });
+
       wx.stopPullDownRefresh();
     } catch (e) {
       console.log(e);
@@ -97,12 +110,17 @@ Page({
     if (lotteries.data.objects <= 0) {
       return;
     }
+    let add = this.adjustAttendLottery(lotteries);
 
-    let add = await this.adjustLotteryInfo(lotteries);
     this.offset = this.offset + add.length;
     this.page_size = this.data.page_size + add.length;
     this.setData({
       lotteries: this.data.lotteries.concat(add)
+    });
+
+    let that = this;
+    setTimeout(async () => {
+      await that.adjustAttendLotteryInfo();
     });
   },
   onLoad: async function(options) {
@@ -117,6 +135,9 @@ Page({
 
       let { scene, inviter_uid } = options;
 
+      wx.showLoading({
+        title: "正在加载"
+      });
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid) {
         let ret = await dao.addInviter(inviter_uid);
@@ -137,7 +158,9 @@ Page({
         });
       }
       await this.loadMore();
+      wx.hideLoading();
     } catch (e) {
+      wx.hideLoading();
       console.log(e);
     }
   },
