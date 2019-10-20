@@ -73,7 +73,6 @@
         type="primary"
         size="normal"
         open-type="getUserInfo"
-        form-type="submit"
         bindgetuserinfo="userInfoHandler">立即登陆
       </button>
 
