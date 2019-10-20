@@ -57,14 +57,13 @@ Page({
           lottery.id,
           app.getUserId()
         );
+        console.log(
+          `lottery.id : ${lottery.id} - lottery.hasAttended : ${lottery.hasAttended}`
+        );
         return lottery;
       })
     );
 
-    // 红包放在前面
-    add.sort((a, b) => {
-      return a.lottery_type - b.lottery_type;
-    });
     this.setData({
       lotteries: add
     });
@@ -74,7 +73,7 @@ Page({
     // 上拉刷新
     try {
       let lotteries = await dao.getLottery(
-        this.data.page_size + PAGE_SIZE,
+        this.page_size + PAGE_SIZE,
         0,
         CONST.APPROVED,
         false
@@ -101,6 +100,7 @@ Page({
   }),
 
   loadMore: async function(event) {
+    debugger;
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
       this.offset,
@@ -113,7 +113,7 @@ Page({
     let add = this.adjustAttendLottery(lotteries);
 
     this.offset = this.offset + add.length;
-    this.page_size = this.data.page_size + add.length;
+    this.page_size = this.page_size + add.length;
     this.setData({
       lotteries: this.data.lotteries.concat(add)
     });
