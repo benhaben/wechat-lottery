@@ -3,7 +3,12 @@ import Poster from "../../components/poster-gen-canvas/poster/poster";
 import { CONST, ROUTE } from "../../utils/constants";
 import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
-import { countDown, debounce, formatDate } from "../../utils/function";
+import {
+  countDown,
+  debounce,
+  formatDate,
+  randomProductUrl
+} from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   PAGE_SIZE,
@@ -89,7 +94,7 @@ Page({
   data: {
     lottery: {
       lottery_type: CONST.LOTTERY_TYPE_PRODUCT,
-      url: "",
+      url: randomProductUrl(),
       id: "",
       hash: "",
       total: "",

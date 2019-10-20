@@ -100,7 +100,6 @@ Page({
   }),
 
   loadMore: async function(event) {
-    debugger;
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
       this.offset,
