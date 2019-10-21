@@ -94,7 +94,7 @@ Page({
   data: {
     lottery: {
       lottery_type: CONST.LOTTERY_TYPE_PRODUCT,
-      url: randomProductUrl(),
+      url: "../../images/bg.png",
       id: "",
       hash: "",
       total: "",
@@ -130,127 +130,130 @@ Page({
     try {
       console.log(`options : ${JSON.stringify(options)}`);
       let { scene, id, inviter_uid } = options;
+      wx.showLoading({
+        title: "正在加载"
+      });
+
+      await app.silentLogin();
 
       const eventChannel = this.getOpenerEventChannel();
       if (eventChannel) {
-        this.setData({
-          eventChannel: eventChannel
-        });
+        this.eventChannel = eventChannel;
       }
-      let user_id = app.getUserId();
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
-        if (user_id) await dao.addInviter(inviter_uid);
         // 从分享会话进入
+        this.addInviter(inviter_uid);
       } else if (scene) {
         let deRet = deSceneOfAttendPage(scene);
         inviter_uid = deRet.inviter_uid;
         let prefix_id = deRet.prefix_lottery_id;
         let fullIdRes = await dao.queryLottery(1, 0, prefix_id);
         id = fullIdRes.data.objects[0].id;
-        if (user_id) await dao.addInviter(inviter_uid);
+        this.addInviter(inviter_uid);
       } else {
       }
-
       if (id) {
         await this.load(id);
       }
+      wx.hideLoading();
     } catch (e) {
+      wx.hideLoading();
       console.log(e);
     }
   },
+  addInviter(inviter_uid) {
+    let that = this;
+    setTimeout(async () => {
+      let user_id = app.getUserId();
+      if (user_id) {
+        await dao.addInviter(inviter_uid);
+      }
+    }, 100);
+  },
   async load(id) {
     // 获取数据
-    try {
-      wx.showLoading({
-        title: "正在加载"
-      });
 
-      let user_id = app.getUserId();
-      let retRecordPromise;
-      if (user_id) {
-        this.setData({
-          is_authorized: app.hasAuth()
-        });
-        retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
-          id,
-          app.getUserId()
-        );
-      }
-      let attendeesPromise = dao.getLotteryAttendees(id);
-      //并行获取数据，防止一个一个获取
-      let attendees = await attendeesPromise;
-      let retRecord = await retRecordPromise;
-
-      let lottery, hasAttended;
-      if (!user_id || retRecord.data.objects.length === 0) {
-        let ret = await dao.getLotteryById(id);
-        lottery = ret.data;
-        hasAttended = false;
-      } else {
-        lottery = retRecord.data.objects[0].lottery;
-        let user = retRecord.data.objects[0].user;
-        app.setUserInfo(user); // 顺便更新一下
-        hasAttended = true;
-      }
-
+    let user_id = app.getUserId();
+    let retRecordPromise;
+    if (user_id) {
       this.setData({
-        lottery: {
-          id: lottery.id,
-          hash: lottery.id.substr(0, 10),
-          total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
-          open_people_num: lottery.open_people_num,
-          avatar: lottery.avatar,
-          nickname: lottery.nickname,
-          sponsor: lottery.sponsor,
-          product_name: lottery.product_name,
-          product_num: lottery.product_num,
-          lottery_type: lottery.lottery_type,
-          desc_initiator: lottery.desc_initiator,
-          pic_data: lottery.pic_data,
-          open_date: lottery.open_date,
-          hongbao_num: CONST.HONGBAO_NUM,
-          fudai_num: CONST.FUDAI_NUM,
-          status: lottery.status,
-          attend_num: attendees.data.meta.total_count,
-          attend_avatar_list: attendees.data.objects.map(
-            item => item.avatar_cache
-          ),
-          countdownStr: countDown(lottery.open_date),
-          open_data_str: formatDate(Date.parse(lottery.open_date)),
-          show_in_main: lottery.show_in_main,
-          hasAttended,
-          attend_id: hasAttended ? retRecord.data.objects[0].id : null
-        },
-        selfLuckyNum: app.getLuckyNum(),
-        old_weight: hasAttended ? retRecord.data.objects[0].weight : 0,
-        weight: hasAttended ? retRecord.data.objects[0].weight : 0,
-        costLuckNum: hasAttended ? retRecord.data.objects[0].weight : 0
+        is_authorized: app.hasAuth()
       });
-      let that = this;
-      //加快加载速度
-      setTimeout(async () => {
-        let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
-        let user_id = app.getUserId();
-        if (user_id) {
-          let isAdminPromise = dao.isAdmin();
-          let wxCodePromise = that.getWxCode();
-          that.data.admin = await isAdminPromise;
-          that.data.lottery.wxCode = await wxCodePromise;
-        }
-        that.data.lottery.image_path = await imagePathPromise;
-        that.setData(that.data);
-        that.onCreatePoster();
-        if (hasAttended) {
-          let weight = that.data.weight;
-          that.getWeightRate(id, weight);
-        }
-      });
-      wx.hideLoading();
-    } catch (e) {
-      wx.hideLoading();
-      console.log(e);
+      retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
+        id,
+        app.getUserId()
+      );
     }
+    let attendeesPromise = dao.getLotteryAttendees(id);
+    //并行获取数据，防止一个一个获取
+    let attendees = await attendeesPromise;
+    let retRecord = await retRecordPromise;
+
+    let lottery, hasAttended;
+    if (!user_id || retRecord.data.objects.length === 0) {
+      let ret = await dao.getLotteryById(id);
+      lottery = ret.data;
+      hasAttended = false;
+    } else {
+      lottery = retRecord.data.objects[0].lottery;
+      let user = retRecord.data.objects[0].user;
+      app.setUserInfo(user); // 顺便更新一下
+      hasAttended = true;
+    }
+
+    this.setData({
+      lottery: {
+        id: lottery.id,
+        hash: lottery.id.substr(0, 10),
+        total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
+        open_people_num: lottery.open_people_num,
+        avatar: lottery.avatar,
+        nickname: lottery.nickname,
+        sponsor: lottery.sponsor,
+        product_name: lottery.product_name,
+        product_num: lottery.product_num,
+        lottery_type: lottery.lottery_type,
+        desc_initiator: lottery.desc_initiator,
+        pic_data: lottery.pic_data,
+        open_date: lottery.open_date,
+        hongbao_num: CONST.HONGBAO_NUM,
+        fudai_num: CONST.FUDAI_NUM,
+        status: lottery.status,
+        attend_num: attendees.data.meta.total_count,
+        attend_avatar_list: attendees.data.objects.map(
+          item => item.avatar_cache
+        ),
+        countdownStr: countDown(lottery.open_date),
+        open_data_str: formatDate(Date.parse(lottery.open_date)),
+        show_in_main: lottery.show_in_main,
+        hasAttended,
+        attend_id: hasAttended ? retRecord.data.objects[0].id : null
+      },
+      selfLuckyNum: app.getLuckyNum(),
+      old_weight: hasAttended ? retRecord.data.objects[0].weight : 0,
+      weight: hasAttended ? retRecord.data.objects[0].weight : 0,
+      costLuckNum: hasAttended ? retRecord.data.objects[0].weight : 0
+    });
+    let that = this;
+    //加快加载速度
+    setTimeout(async () => {
+      let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
+      let user_id = app.getUserId();
+      if (user_id) {
+        let isAdminPromise = dao.isAdmin();
+        let wxCodePromise = that.getWxCode();
+        that.data.admin = await isAdminPromise;
+        that.data.lottery.wxCode = await wxCodePromise;
+      }
+      that.data.lottery.image_path = await imagePathPromise;
+      that.setData(that.data);
+      that.onCreatePoster();
+      if (hasAttended) {
+        let weight = that.data.weight;
+        that.getWeightRate(id, weight);
+      }
+    });
   },
   onWeightChange(event) {
     // 滑块是10~100之间 ~ 运气值消耗0到最大

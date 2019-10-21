@@ -32,6 +32,33 @@ Page({
       }
     ]
   },
+
+  onLoad: async function(options) {
+    try {
+      this.offset = 0;
+      this.page_size = PAGE_SIZE;
+      // 知晓云云函数调试比较麻烦，只能在前端模拟一下
+      // await main({}, (err, msg) => {
+      //   debugger;
+      //   console.log(err);
+      // });
+
+      let { scene, inviter_uid } = options;
+
+      wx.showLoading({
+        title: "正在加载"
+      });
+      await app.silentLogin();
+      // 不需要立刻获取的数据和方法
+      this.init(inviter_uid, scene);
+      // 需要等待获取的数据
+      await this.loadMore();
+      wx.hideLoading();
+    } catch (e) {
+      wx.hideLoading();
+      console.log(e);
+    }
+  },
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -122,13 +149,18 @@ Page({
 
     let that = this;
     setTimeout(async () => {
+      // 异步了，不影响界面首次渲染，多获取几次数据没关系
+      // await app.getUserInfo();
       await that.adjustAttendLotteryInfo();
     }, 100);
   },
+
   init(inviter_uid, scene) {
     let that = this;
-    let user_id = app.getUserId();
     setTimeout(async () => {
+      // await app.getUserInfo();
+      let user_id = app.getUserId();
+
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid) {
         if (user_id) await dao.addInviter(inviter_uid);
@@ -145,30 +177,6 @@ Page({
         lucky_num: app.getLuckyNum() || 0
       });
     }, 100);
-  },
-  onLoad: async function(options) {
-    try {
-      this.offset = 0;
-      this.page_size = PAGE_SIZE;
-      // 知晓云云函数调试比较麻烦，只能在前端模拟一下
-      // await main({}, (err, msg) => {
-      //   debugger;
-      //   console.log(err);
-      // });
-
-      let { scene, inviter_uid } = options;
-
-      wx.showLoading({
-        title: "正在加载"
-      });
-      await app.getUserInfo();
-      this.init(inviter_uid, scene);
-      await this.loadMore();
-      wx.hideLoading();
-    } catch (e) {
-      wx.hideLoading();
-      console.log(e);
-    }
   },
   onUnload: function() {},
   onReady: function() {},

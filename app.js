@@ -96,23 +96,34 @@ App({
       id: id
     });
   },
-  onShow: function(options) {
+  silentLogin: function() {
+    let that = this;
+
+    return new Promise((resolve, reject) => {
+      // 由于此处登录是异步的，可能会有用户已经授权，但是本地数据已经清空了，导致进入页面是没有用户时的状态
+      // 由于小程序很多页面都可以进入，所以还不太知道在哪里调用这个方法更好
+      let user_id = this.getUserId();
+      if (!user_id) {
+        wx.BaaS.auth
+          .getCurrentUser()
+          .then(async user => {
+            that.setUserInfo(user);
+            resolve(true);
+          })
+          .catch(err => {
+            wx.BaaS.auth.loginWithWechat().then(async user => {
+              that.setUserInfo(user);
+              resolve(true);
+            });
+          });
+      } else {
+        resolve(true);
+      }
+    });
+  },
+  onShow: async function(options) {
     // 上报模版消息卡片点击事
     wx.BaaS.reportTemplateMsgAnalytics(options);
-    let user_id = this.getUserId();
-    if (!user_id) {
-      let self = this;
-      wx.BaaS.auth
-        .getCurrentUser()
-        .then(user => {
-          self.getUserInfo(user.get("id"));
-        })
-        .catch(err => {
-          wx.BaaS.auth.loginWithWechat().then(user => {
-            self.getUserInfo(user.get("id"));
-          });
-        });
-    }
   },
 
   globalData: {
