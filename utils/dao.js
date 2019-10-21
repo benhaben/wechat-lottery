@@ -344,17 +344,35 @@ export default {
       .find();
   },
 
-  async getWeightRate(id = "", weight = 0) {
+  async getWeightRate(self_id, id = "", weight = 0) {
     if (!id) {
       throw TypeError("id invalid");
     }
     let query = new wx.BaaS.Query();
     query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
-    query.compare("weight", ">", weight);
+    query.compare("weight", ">=", weight);
+    if (self_id) {
+      query.compare("user_id", "!=", self_id);
+    }
 
     let count = await USER_LOTTERY_RECORD_TABLE.setQuery(query).count();
     console.log(`count : ${count}`);
     return `第${count + 1}名`;
+  },
+
+  async getTopNWeight(id = "", n = 3) {
+    if (!id) {
+      throw TypeError("id invalid");
+    }
+    let query = new wx.BaaS.Query();
+    query.compare("lottery", "=", LOTTERY_TABLE.getWithoutData(id));
+    let res = await USER_LOTTERY_RECORD_TABLE.setQuery(query)
+      .select(["nickname", "weight", "avatar_cache"])
+      .limit(n)
+      .offset(0)
+      .orderBy("-weight")
+      .find();
+    return res.data.objects;
   },
 
   /**

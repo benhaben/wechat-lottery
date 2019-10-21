@@ -120,6 +120,7 @@ Page({
     is_authorized: false,
     admin: false, // 管理员可以审批
     showSharePopup: false,
+    show_top: false,
     home: {} //首页的数据
   },
 
@@ -252,10 +253,17 @@ Page({
       if (hasAttended) {
         let weight = that.data.weight;
         that.getWeightRate(id, weight);
+      } else {
+        that.getWeightRate(id, 0);
       }
     });
   },
-  onWeightChange(event) {
+  onShowTop: function(event) {
+    this.setData({
+      show_top: !this.data.show_top
+    });
+  },
+  onWeightChange: debounce(function(event) {
     // 滑块是10~100之间 ~ 运气值消耗0到最大
 
     let costLuckNum = parseInt(event.detail);
@@ -300,20 +308,22 @@ Page({
         weight,
         weight_loading: true
       });
-
       this.getWeightRate(id, weight);
     }
-  },
+  }),
   getWeightRate: debounce(async function(id, weight) {
     let that = this;
     console.log(`getWeightRate - weight: ${weight}，id: ${id}`);
-    let weight_rate = await dao.getWeightRate(id, weight);
+    let top3Promise = dao.getTopNWeight(id, 3);
+    let wrPromise = dao.getWeightRate(app.getUserId(), id, weight);
+    let weight_rate = await wrPromise;
+    let weight_top3 = await top3Promise;
     that.setData({
       weight_loading: false,
-      weight_rate
+      weight_rate,
+      weight_top3
     });
   }),
-
   goToAddLottery: function(e) {
     wx.navigateTo({
       url: `${ROUTE.ADD_LOTTERY}`
@@ -368,7 +378,7 @@ Page({
         this.data.attendBtnLoading = false;
         this.data.lottery.hasAttended = true;
         this.setData(this.data);
-        this.data.eventChannel.emit(
+        this.eventChannel.emit(
           ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_HOME,
           this.data.lottery.id
         );

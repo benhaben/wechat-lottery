@@ -27,18 +27,30 @@
   </view>
 
   <view wx:if="{{lottery.status == 2 && selfLuckyNum > 1 }}"
-        class="bg-white margin30-bottom height220 padding30 h-flex flex-col flex-justify-content-between">
-    <view>一个运气值，增加一个中奖权重</view>
-    <view class="h-flex flex-justify-content-between flex-align-center">
-      <view class="text-left">即时排位：
+        class="bg-white margin30-bottom padding30 h-flex flex-col flex-justify-content-between">
+    <view class="h6 margin15-bottom">消耗运气值，增加中奖概率</view>
+    <view class="h-flex flex-justify-content-between flex-align-center margin15-bottom">
+      <view class="text-left">
+        <text class="info-text">中奖概率：</text>
         <text wx:if="{{!weight_loading}}">{{weight_rate}}</text>
         <van-loading wx:else type="spinner" size="20rpx"/>
       </view>
-      <van-stepper value="{{ weight }}" min="{{0}}" max="{{selfLuckyNum-1}}" integer="{{true}}" disable-input="{{lottery.hasAttended}}" show-minus="{{!lottery.hasAttended}}" input-width="58px" bind:change="onWeightChange" />
+      <van-stepper value="{{ weight }}" min="{{0}}" max="{{selfLuckyNum-1}}" integer="{{true}}"
+                   show-minus="{{!lottery.hasAttended}}" input-width="58px" bind:change="onWeightChange"/>
     </view>
-    <view class=" h-flex flex-justify-content-between">
-      <view class="text-left info-text">当前运气值：{{selfLuckyNum}}</view>
-      <view class="text-right info-text">消耗的运气值：{{costLuckNum}}</view>
+    <view class="h-flex flex-justify-content-between flex-align-center margin15-bottom">
+      <view class="text-left"><text class="info-text">当前运气值：</text>{{selfLuckyNum}}</view>
+      <view bindtap="onShowTop">
+        <van-icon wx:if="{{show_top}}" size="20px" name="arrow-down" />
+        <van-icon wx:else size="20px" name="arrow" />
+      </view>
+    </view>
+    <view class="margin30-top" wx:if="{{show_top}}">
+      <view class="h-flex flex-justify-content-between padding10-30" wx:for="{{weight_top3}}" wx:key="{{index}}">
+        <image class="avatar margin30-right" src="{{item.avatar_cache}}"></image>
+        <view>{{item.nickname}}</view>
+        <view>{{item.weight}}</view>
+      </view>
     </view>
   </view>
   <view wx:else class="bg-white h-flex flex-justify-content-between padding30 margin30-bottom">
@@ -53,12 +65,12 @@
       <view class="wave solid danger">
         <view class="circle"></view>
         <view wx:if="{{lottery.status===3}}">
-            <button
-              class="action__btn circle-border-radius"
-              type="warn"
-            >
-              <text>已完成</text>
-            </button>
+          <button
+            class="action__btn circle-border-radius"
+            type="warn"
+          >
+            <text>已完成</text>
+          </button>
         </view>
         <view wx:elif="{{!is_authorized}}">
           <button
@@ -141,5 +153,6 @@
 </navigation-bar>
 <van-toast id="van-toast"/>
 
-<poster  class="poster" id="poster" hideLoading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+<poster class="poster" id="poster" hideLoading="{{true}}" preload="{{false}}" config="{{posterConfig}}"
+        bind:success="onPosterSuccess" bind:fail="onPosterFail">
 </poster>

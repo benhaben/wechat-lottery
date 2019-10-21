@@ -124,7 +124,7 @@ export function throttle(fn, gapTime) {
  *
  * @return {Function}     返回一个“去弹跳”了的函数
  */
-export function debounce(fn, delay = 1500) {
+export function debounce(fn, delay = 1000) {
   // 定时器，用来 setTimeout
   var timer;
 
