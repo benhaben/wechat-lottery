@@ -31,7 +31,7 @@ Page({
     sponsor: null,
     product_name: null,
     product_num: null,
-    url: randomProductUrl(),
+    url: "../../images/bg.png",
     open_people_num:
       CONST.PRODUCT_DEFAULT_OPEN_PEOPLE_NUM / CONST.PRODUCT_LOTTERY_PEOPLE_UNIT,
     slide_open_people_num:
