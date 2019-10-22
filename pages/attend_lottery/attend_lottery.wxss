@@ -4,6 +4,9 @@
 @import "../../templates/wave_circle_button/wave_circle_button.wxss";
 @import "../../templates/blockquote.wxss";
 
+.blockquote text{
+  line-height: 60rpx;
+}
 .action__btn{
   line-height: 200rpx;
   height: 200rpx;

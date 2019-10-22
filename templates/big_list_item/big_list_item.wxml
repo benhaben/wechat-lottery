@@ -3,14 +3,14 @@
   <view class="bg-white" data-id="{{id}}" bindtap="_onTap">
     <view class="container__image border-bottom"
           style="background-image: url('{{image_path||url}}');background-repeat:no-repeat;background-size: cover;">
-      <view class="container__hash">
-        <view class="container__hash-image-icon">
-          <van-icon size="35rpx" name="point-gift"/>
-        </view>
-        <view>
-          <text>{{hash}}</text>
-        </view>
-      </view>
+<!--      <view class="container__hash">-->
+<!--        <view class="container__hash-image-icon">-->
+<!--          <van-icon size="35rpx" name="point-gift"/>-->
+<!--        </view>-->
+<!--        <view>-->
+<!--          <text>{{hash}}</text>-->
+<!--        </view>-->
+<!--      </view>-->
     </view>
 
     <view class="padding30">
