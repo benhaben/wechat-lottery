@@ -94,7 +94,7 @@ Page({
   data: {
     lottery: {
       lottery_type: CONST.LOTTERY_TYPE_PRODUCT,
-      url: "../../images/bg.png",
+      url: CONST.DEFAULT_BG,
       id: "",
       hash: "",
       total: "",

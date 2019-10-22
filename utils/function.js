@@ -74,10 +74,6 @@ export function randomMoneyUrl() {
   ];
 }
 
-export function randomProductUrl() {
-  return CONST.DEFAULT_URL[randomNum(0, CONST.DEFAULT_URL.length - 1)];
-}
-
 //生成从minNum到maxNum的随机数
 export function randomNum(minNum, maxNum) {
   switch (arguments.length) {
