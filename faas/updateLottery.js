@@ -1,5 +1,5 @@
-import { LOTTERY_TABLE } from "./common";
-import { CONST } from "../utils/constants";
+import { LOTTERY_TABLE } from "./common/index";
+import { CONST } from "../miniprogram/utils/constants";
 /**
  * 修改抽奖，修改状态到 2
  * 1 -> 2 支付完成以后，还没有审批，可以修改

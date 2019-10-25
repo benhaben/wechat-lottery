@@ -1,7 +1,7 @@
-import { WITHDRAW_TABLE, USER_TABLE } from "./common";
-import { vWithdrawMoney } from "../utils/validateFn";
-import { CONST, SUCCESS_TYPE } from "../utils/constants";
-import { formatDate } from "../utils/function";
+import { WITHDRAW_TABLE, USER_TABLE } from "./common/index";
+import { vWithdrawMoney } from "../miniprogram/utils/validateFn";
+import { CONST, SUCCESS_TYPE } from "../miniprogram/utils/constants";
+import { formatDate } from "../miniprogram/utils/function";
 
 // {
 //   "money":20,

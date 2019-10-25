@@ -1,4 +1,4 @@
-import { inAdminGroup } from "./common";
+import { inAdminGroup } from "./common/index";
 
 /**
  * 判断是否是管理员

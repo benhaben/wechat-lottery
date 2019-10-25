@@ -1,5 +1,5 @@
-import { LOTTERY_TABLE } from "../utils/table";
-import { CONST } from "../utils/constants";
+import { LOTTERY_TABLE } from "../miniprogram/utils/table";
+import { CONST } from "../miniprogram/utils/constants";
 /**
  * 修改状态到2
  * 由于抽奖不是商品，只能支付一次，所以不需要格外产生订单了，只需要改表抽奖状态即可

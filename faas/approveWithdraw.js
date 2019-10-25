@@ -3,9 +3,14 @@ import {
   inAdminGroup,
   LOTTERY_TABLE,
   WITHDRAW_TABLE
-} from "./common";
-import { CONST, ERR_TYPE, ROUTE, WORD_LIST } from "../utils/constants";
-import { formatDate } from "../utils/function";
+} from "./common/index";
+import {
+  CONST,
+  ERR_TYPE,
+  ROUTE,
+  WORD_LIST
+} from "../miniprogram/utils/constants";
+import { formatDate } from "../miniprogram/utils/function";
 
 /**
  * 修改状态到1

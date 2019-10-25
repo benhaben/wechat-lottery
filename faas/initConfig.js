@@ -1,4 +1,4 @@
-import { TABLE_ID } from "../utils/constants";
+import { TABLE_ID } from "../miniprogram/utils/constants";
 
 exports.main = async function initConfig(event, callback) {
   try {

@@ -2,7 +2,7 @@
  * 服务端转用,BaaS不需要加wx.前缀
  */
 
-import { CONFIG_ID, CONST, TABLE_ID } from "../../utils/constants";
+import { CONFIG_ID, CONST, TABLE_ID } from "../../miniprogram/utils/constants";
 
 // 本来红包和福袋根据发起人的不同，会有不同的比例（plans_lottery_package），现在统一改成 100
 // 1. 因为ugc红包被去掉了，没有发起人奖励了，现在福袋的作用就是让参加抽奖的人中奖率提高，中了福袋可以增加权重

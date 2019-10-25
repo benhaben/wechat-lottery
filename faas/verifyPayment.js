@@ -1,6 +1,6 @@
 /** 校验并更新订单状态云函数 **/
-import { LOTTERY_TABLE, ERROR_TABLE } from "./common";
-import { CONST } from "../utils/constants";
+import { LOTTERY_TABLE, ERROR_TABLE } from "./common/index";
+import { CONST } from "../miniprogram/utils/constants";
 
 /**
  * 支付成功之后，由触发器自动调用 verifyPayment 云函数，校验实付金额是否跟该商品的价格一致，若一致则更新该订单为已支付状态。

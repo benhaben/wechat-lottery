@@ -1,5 +1,5 @@
-import { ERR_TYPE, CONFIG_ID, CONST } from "../utils/constants";
-import { formatDate, openDateISOString } from "../utils/function";
+import { ERR_TYPE, CONFIG_ID, CONST } from "../miniprogram/utils/constants";
+import { formatDate, openDateISOString } from "../miniprogram/utils/function";
 import {
   getOpenedLottery,
   getAttendeesCount,
@@ -8,7 +8,7 @@ import {
   USER_LOTTERY_RECORD_TABLE,
   SEED,
   OPEN_LOTTERY_TEMPLATE_ID
-} from "./common";
+} from "./common/index";
 
 export default async function checkLotteryStatusOpen(event, callback) {
   console.log(`event: ${JSON.stringify(event)}`);

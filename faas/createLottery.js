@@ -1,5 +1,5 @@
-import { CONST, ERR_TYPE } from "../utils/constants";
-import { LOTTERY_TABLE } from "./common";
+import { CONST, ERR_TYPE } from "../miniprogram/utils/constants";
+import { LOTTERY_TABLE } from "./common/index";
 
 /**
  * 创建抽奖和抽奖订单云函数

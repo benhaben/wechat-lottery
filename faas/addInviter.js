@@ -1,10 +1,10 @@
-import { CONFIG_KEY, ERR_TYPE } from "../utils/constants";
+import { CONFIG_KEY, ERR_TYPE } from "../miniprogram/utils/constants";
 import {
   BALANCE_LUCKY_RECORD_TABLE,
   getConfigByKey,
   RECORD_CREATE_REASON,
   USER_TABLE
-} from "./common";
+} from "./common/index";
 
 /**
  * 增加100运气值给inviter_uid
