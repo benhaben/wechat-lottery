@@ -118,15 +118,18 @@ Page({
         get_lucky_num: lottery.lucky_num_per,
         lottery_result: result.lottery_result,
         attend_num: attendees.data.meta.total_count,
-        attend_avatar_list: attendees.data.objects.map(
-          item => item.avatar_cache
-        ),
+        attend_avatar_list: attendees.data.objects
+          .map(item => item.avatar_cache)
+          .slice(0, 6),
         hongbao_image_list:
-          hongbaos && hongbaos.data.objects.map(item => item.avatar_cache),
+          hongbaos &&
+          hongbaos.data.objects.map(item => item.avatar_cache).slice(0, 6),
         fudai_image_list:
-          fudais && fudais.data.objects.map(item => item.avatar_cache),
+          fudais &&
+          fudais.data.objects.map(item => item.avatar_cache).slice(0, 6),
         products_image_list:
-          products && products.data.objects.map(item => item.avatar_cache)
+          products &&
+          products.data.objects.map(item => item.avatar_cache).slice(0, 6)
       });
     } catch (e) {
       console.log(e);
