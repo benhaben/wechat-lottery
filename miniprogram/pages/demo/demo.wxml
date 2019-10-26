@@ -1,0 +1,5 @@
+<view class="demo">
+  <text class="red">
+    hello
+  </text>
+</view>

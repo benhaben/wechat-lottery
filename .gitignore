@@ -5,5 +5,8 @@
 # NPM
 node_modules
 
+# Build
+dist
+
 # Other
 .DS_Store
