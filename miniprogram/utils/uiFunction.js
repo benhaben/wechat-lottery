@@ -1,6 +1,6 @@
 import wxPromise from "./wxPromise.js";
 import dao from "./dao";
-import { CONST } from "./constants";
+import { CONST, TABLE_ID } from "./constants";
 
 const { regeneratorRuntime } = global;
 /**
@@ -33,15 +33,15 @@ export async function saveToAlbum(url) {
 }
 
 const MobileAdpater = () => {
-  const systemInfo = wx.getSystemInfoSync();
-  const deviceModel = systemInfo.model;
   const MOBILE_REG = {
     "iPhone X": /iPhone X/
   };
 
   return {
-    isIPhoneX: () => {
-      return MOBILE_REG["iPhone X"].test(deviceModel);
+    isIPhoneX: deviceModel => {
+      let isIPhoneX = MOBILE_REG["iPhone X"].test(deviceModel);
+      console.log(`isIPhoneX: ${isIPhoneX}`);
+      return isIPhoneX;
     }
   };
 };
@@ -60,21 +60,23 @@ export const getStatusBarHeight = () => {
 };
 
 /**
- *  scene总共就32个字符，user_id 14个，lottery_id 只能用剩下的18个
+ *  scene总共就32个字符，user_id 14个，lottery_id 用剩下的15个，加一个&
  * @param user_id
  * @param lottery_id
  * @returns {string}
+ * 878299819790035 daaec523163b356e
  */
 export function genSceneOfAttendPage(user_id, lottery_id) {
-  let _lottery_id = lottery_id.substr(0, 18);
-  let scene = `${user_id}${_lottery_id}`;
+  let _lottery_id = lottery_id.substring(0, 15);
+  let scene = `${user_id}&${_lottery_id}`;
   return scene;
 }
 
 export function deSceneOfAttendPage(scene) {
   let sceneStr = decodeURIComponent(scene);
-  let inviter_uid = sceneStr.substring(0, 14);
-  let prefix_lottery_id = sceneStr.substring(14, 32);
+  let arr = sceneStr.split("&");
+  let inviter_uid = arr[0];
+  let prefix_lottery_id = arr[1];
   return {
     inviter_uid,
     prefix_lottery_id
@@ -131,4 +133,54 @@ export function getTitleAndRule(lottery) {
     rule = "已经开奖";
   }
   return { title, rule };
+}
+
+/**
+ * 支付抽奖
+ */
+export async function payLottery(lottery, cost, sponsor) {
+  const params = {
+    totalCost: cost,
+    merchandiseDescription: `${sponsor}发起的抽奖：${lottery.id}`,
+    merchandiseSchemaID: TABLE_ID.LOTTERY,
+    merchandiseRecordID: lottery.id,
+    merchandiseSnapshot: lottery
+  };
+
+  return wx.BaaS.pay(params);
+}
+
+export function base64ToFile(base64data, cb) {
+  return new Promise((resolve, reject) => {
+    const fsm = wx.getFileSystemManager();
+    const FILE_BASE_NAME = "tmp_base64src"; //自定义文件名
+    const [, format, bodyData] =
+      /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
+    if (!format) {
+      return new Error("ERROR_BASE64SRC_PARSE");
+    }
+    const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+    const buffer = wx.base64ToArrayBuffer(bodyData);
+    fsm.writeFile({
+      filePath,
+      data: buffer,
+      encoding: "binary",
+      success() {
+        resolve(filePath);
+      },
+      fail() {
+        reject(new Error("ERROR_BASE64SRC_WRITE"));
+      }
+    });
+  });
+}
+
+export async function getRemoteUrlLocalPath(url) {
+  try {
+    let image_info = await wxPromise.getImageInfo({ src: url });
+    return image_info.path;
+  } catch (e) {
+    console.log(e);
+  }
+  return null;
 }

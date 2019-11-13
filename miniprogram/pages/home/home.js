@@ -1,17 +1,13 @@
 import dao from "../../utils/dao";
+import SystemInfoUtil from "../../utils/systemInfoUtil";
 import { ROUTE, CONST } from "../../utils/constants";
-import {
-  countDown,
-  randomProductUrl,
-  throttle,
-  toFixed3
-} from "../../utils/function";
+import { countDown, throttle } from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
   PAGE_SIZE,
-  ROUTE_DATA,
-  WECHAT_SCENE
+  ROUTE_DATA
 } from "../../utils/uiConstants";
+import { mobileAdapter } from "../../utils/uiFunction";
 // import main from "../../faas/checkLotteryStatusOpenTest";
 
 const { regeneratorRuntime } = global;
@@ -19,9 +15,11 @@ const app = getApp();
 
 Page({
   data: {
+    permission: {
+      showLogin: false
+    },
+    isIPhoneX: false,
     lucky_num: app.getLuckyNum(),
-    offset: 0, // 加载更多的时候偏移量
-    page_size: PAGE_SIZE, // 注意这个是让下拉的时候保持至少有当前的数量
     lotteries: [],
     showSharePopup: false,
     actions: [
@@ -34,6 +32,33 @@ Page({
       }
     ]
   },
+
+  onLoad: async function(options) {
+    try {
+      this.offset = 0;
+      this.page_size = PAGE_SIZE;
+      // 知晓云云函数调试比较麻烦，只能在前端模拟一下
+      // await main({}, (err, msg) => {
+      //   debugger;
+      //   console.log(err);
+      // });
+
+      let { scene, inviter_uid } = options;
+
+      wx.showLoading({
+        title: "正在加载"
+      });
+      await app.silentLogin();
+      // 不需要立刻获取的数据和方法
+      this.init(inviter_uid, scene);
+      // 需要等待获取的数据
+      await this.loadMore();
+      wx.hideLoading();
+    } catch (e) {
+      wx.hideLoading();
+      console.log(e);
+    }
+  },
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -41,33 +66,41 @@ Page({
     await this.loadMore();
   }),
 
-  async adjustLotteryInfo(lotteries) {
-    let add = await Promise.all(
-      lotteries.data.objects.map(async lottery => {
-        lottery.hash = lottery.id.substr(0, 10);
-        lottery.hongbao_num = CONST.HONGBAO_NUM;
-        lottery.fudai_num = CONST.FUDAI_NUM;
-        lottery.countdownStr = countDown(lottery.open_date);
-        lottery.hasAttended = await dao.hasAttended(
-          lottery.id,
-          app.getUserId()
-        );
-        return lottery;
-      })
-    );
-
-    // 红包放在前面
-    add.sort((a, b) => {
-      return a.lottery_type - b.lottery_type;
+  adjustAttendLottery(lotteries) {
+    let add = lotteries.data.objects.map(lottery => {
+      lottery.hash = lottery.id.substr(0, 10);
+      lottery.hongbao_num = CONST.HONGBAO_NUM;
+      lottery.fudai_num = CONST.FUDAI_NUM;
+      lottery.countdownStr = countDown(lottery.open_date);
+      return lottery;
     });
     return add;
+  },
+  async adjustAttendLotteryInfo() {
+    let lotteries = this.data.lotteries;
+    let user_id = app.getUserId();
+    if (user_id) {
+      let add = await Promise.all(
+        lotteries.map(async lottery => {
+          lottery.hasAttended = await dao.hasAttended(lottery.id, user_id);
+          console.log(
+            `lottery.id : ${lottery.id} - lottery.hasAttended : ${lottery.hasAttended}`
+          );
+          return lottery;
+        })
+      );
+
+      this.setData({
+        lotteries: add
+      });
+    }
   },
 
   onPullDownRefresh: throttle(async function() {
     // 上拉刷新
     try {
       let lotteries = await dao.getLottery(
-        this.data.page_size + PAGE_SIZE,
+        this.page_size + PAGE_SIZE,
         0,
         CONST.APPROVED,
         false
@@ -75,12 +108,19 @@ Page({
       if (lotteries.data.objects <= 0) {
         return;
       }
-
-      let add = await this.adjustLotteryInfo(lotteries);
+      let add = this.adjustAttendLottery(lotteries);
+      this.offset = add.length;
+      this.page_size = add.length;
       this.setData({
-        lotteries: add,
-        offset: add.length,
-        page_size: add.length
+        lotteries: add
+      });
+      let that = this;
+      setTimeout(async () => {
+        await that.adjustAttendLotteryInfo();
+      }, 100);
+
+      this.setData({
+        lucky_num: app.getLuckyNum() || 0
       });
       wx.stopPullDownRefresh();
     } catch (e) {
@@ -92,61 +132,51 @@ Page({
   loadMore: async function(event) {
     let lotteries = await dao.getLottery(
       PAGE_SIZE,
-      this.data.offset,
+      this.offset,
       CONST.APPROVED,
       false
     );
     if (lotteries.data.objects <= 0) {
       return;
     }
+    let add = this.adjustAttendLottery(lotteries);
 
-    let add = await this.adjustLotteryInfo(lotteries);
-
+    this.offset = this.offset + add.length;
+    this.page_size = this.page_size + add.length;
     this.setData({
-      lotteries: this.data.lotteries.concat(add),
-      offset: this.data.offset + add.length,
-      page_size: this.data.page_size + add.length
+      lotteries: this.data.lotteries.concat(add)
     });
-  },
-  onLoad: async function(options) {
-    try {
-      // 知晓云云函数调试比较麻烦，只能在前端模拟一下
-      // await main({}, (err, msg) => {
-      //   debugger;
-      //   console.log(err);
-      // });
 
-      let { scene, inviter_uid } = options;
+    let that = this;
+    setTimeout(async () => {
+      // 异步了，不影响界面首次渲染，多获取几次数据没关系
+      // await app.getUserInfo();
+      await that.adjustAttendLotteryInfo();
+    }, 100);
+  },
+
+  init(inviter_uid, scene) {
+    let that = this;
+    setTimeout(async () => {
+      // await app.getUserInfo();
+      let user_id = app.getUserId();
 
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid) {
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
-        // 从分享会话进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
+        if (user_id) await dao.addInviter(inviter_uid);
       } else if (scene) {
         let sceneStr = decodeURIComponent(scene);
         inviter_uid = sceneStr.substring(0, 14);
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
-        // 从分享海报进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
+        if (user_id) await dao.addInviter(inviter_uid);
       } else {
-        // 默认进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
       }
-
-      let user_id = app.getUserId();
-      if (user_id) {
-        await app.getUserInfo(app.getUserId());
-        this.setData({
-          lucky_num: app.getLuckyNum()
-        });
-      }
-      await this.loadMore();
-    } catch (e) {
-      console.log(e);
-    }
+      that.setData({
+        isIPhoneX: mobileAdapter.isIPhoneX(SystemInfoUtil.model)
+      });
+      that.setData({
+        lucky_num: app.getLuckyNum() || 0
+      });
+    }, 100);
   },
   onUnload: function() {},
   onReady: function() {},
@@ -157,6 +187,7 @@ Page({
   },
   _onTap: throttle(function(event) {
     let that = this;
+    //TODO: 可以试用store或者全局变量
     wx.navigateTo({
       url: `${ROUTE.ATTEND_LOTTERY}?id=${event.currentTarget.dataset.id}`,
       events: {
@@ -173,6 +204,13 @@ Page({
           }
         }
       }
+      // success: function(res) {
+      //   // 通过eventChannel向被打开页面传送数据
+      //   res.eventChannel.emit(
+      //     ROUTE_DATA.FROM_HOME_TO_ATTEND_LOTTERY,
+      //     that.data
+      //   );
+      // }
     });
   }),
   onGotoSign: function() {
@@ -193,6 +231,9 @@ Page({
     }, 100);
   },
   genPic(e) {
+    if (this.showLoginPopup()) {
+      return;
+    }
     let that = this;
     wx.navigateTo({
       url: `${ROUTE.SHARE_PIC_HOME}`
@@ -222,5 +263,46 @@ Page({
         console.log("成功", res);
       }
     };
+  },
+  onClosePopup() {
+    // 临时设置成true
+    this.setData({
+      permission: {
+        showLogin: false
+      }
+    });
+  },
+  showLoginPopup() {
+    let showLogin = !app.hasAuth();
+    this.setData({
+      permission: {
+        showLogin: showLogin
+      }
+    });
+    return showLogin;
+  },
+  userInfoHandler(data) {
+    let that = this;
+    wx.showLoading({
+      title: "正在授权"
+    });
+
+    wx.BaaS.auth.loginWithWechat(data).then(
+      async user => {
+        // user 包含用户完整信息，详见下方描述
+        await app.getUserInfo(user.get("id"));
+        that.onPullDownRefresh();
+        that.setData({
+          permission: {
+            showLogin: false
+          }
+        });
+        wx.hideLoading();
+      },
+      err => {
+        wx.hideLoading();
+        // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
+      }
+    );
   }
 });

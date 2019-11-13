@@ -10,7 +10,7 @@ let posterConfig = {
   height: 700,
   backgroundColor: "#fff",
   debug: false,
-  pixelRatio: 3,
+  pixelRatio: 1,
   blocks: [
     {
       width: 580,
@@ -75,15 +75,13 @@ Page({
    */
   onLoad: async function(options) {
     try {
-      let res = await wx.BaaS.getWXACode(
-        "wxacodeunlimit",
-        {
-          scene: `${app.getUserId()}`,
-          page: `${ROUTE.HOME.substring(1)}`,
-          width: 250
-        },
-        true
-      );
+      let user_id = app.getUserId();
+      let data = {
+        scene: `${user_id}`,
+        page: `${ROUTE.HOME.substring(1)}`,
+        width: 250
+      };
+      let res = await wx.BaaS.getWXACode("wxacodeunlimit", data, true);
       posterConfig.images[0].url = res.download_url;
       this.onCreatePoster();
     } catch (e) {

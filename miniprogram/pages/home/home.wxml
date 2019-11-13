@@ -1,6 +1,6 @@
 <import src="../../templates/big_list_item/big_list_item.wxml"/>
 
-<view class="margin64-bottom">
+<view class="{{isIPhoneX ? 'margin200-bottom': 'margin64-bottom'}}">
   <view class="height80 margin15 border-bottom h-flex flex-row flex-align-center flex-justify-content-between">
     <view class="h-flex flex-row flex-align-center">
       <van-icon class="bar__lucky-like color-red" size="40rpx" name="like"/>
@@ -39,12 +39,14 @@
 <van-popup show="{{ showSharePopup }}" position="bottom" bind:close="onCloseSharePopup" overlay="{{showSharePopup}}">
   <view class="popup">
     <view class="popup-item">
-      <van-button class="popup-item-btn" icon="share" open-type="share" type="danger" hairline></van-button>
+      <van-button class="margin30" icon="share" open-type="share" type="danger" hairline></van-button>
       <view>分享</view>
     </view>
     <view class="popup-item">
-      <van-button class="popup-item-btn" icon="photo-o" type="danger" bindtap="genPic" hairline></van-button>
+      <van-button class="margin30" icon="photo-o" type="danger" bindtap="genPic" hairline></van-button>
       <view>下载分享图</view>
     </view>
   </view>
 </van-popup>
+<import src="../../templates/permission_dialog/permission_dialog.wxml"/>
+<template is="permission_dialog" data="{{...permission}}"></template>

@@ -16,7 +16,6 @@
   font-size: 30px;
   font-weight: bold;
   color: lightgray;
-
   /*Positioning*/
   position: absolute;
   left: 10px;

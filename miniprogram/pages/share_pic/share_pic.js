@@ -1,13 +1,7 @@
 // pages/share_pic/share_pic.js
 import Poster from "../../components/poster-gen-canvas/poster/poster";
-import { CONST, ROUTE } from "../../utils/constants";
-import { formatTime } from "../../utils/function";
 import Toast from "../../lib/van/toast/toast";
-import {
-  genSceneOfAttendPage,
-  getTitleAndRule,
-  saveToAlbum
-} from "../../utils/uiFunction";
+import { getTitleAndRule, saveToAlbum } from "../../utils/uiFunction";
 import { DEFAULT_SPONSOR, ROUTE_DATA } from "../../utils/uiConstants";
 
 const red = "#D55B51";
@@ -22,7 +16,7 @@ let posterConfig = {
   height: 1150,
   backgroundColor: "#C42731",
   debug: false,
-  pixelRatio: 3,
+  pixelRatio: 1,
   blocks: [
     {
       width: 610,
@@ -134,19 +128,11 @@ Page({
       data
     ) {
       try {
-        let user_id = app.getUserId(); //14
-        let scene = genSceneOfAttendPage(user_id, data.lottery.id);
-        let res = await wx.BaaS.getWXACode(
-          "wxacodeunlimit",
-          {
-            scene,
-            page: `${ROUTE.ATTEND_LOTTERY.substring(1)}`
-          },
-          true
-        );
-        posterConfig.images[1].url = data.lottery.url;
-        posterConfig.images[2].url = res.download_url;
+        posterConfig.images[0].url = app.getAvatar();
+        posterConfig.images[1].url = data.lottery.image_path;
+        posterConfig.images[2].url = data.lottery.wxCode;
         let { title, rule } = getTitleAndRule(data.lottery);
+        posterConfig.texts[0].text = app.getNickname();
         posterConfig.texts[2].text = title;
         posterConfig.texts[4].text = rule;
         posterConfig.texts[3].text = `赞助商：${data.lottery.sponsor ||
@@ -170,9 +156,11 @@ Page({
     this.setData({
       url: detail
     });
+    wx.hideLoading();
   },
   onPosterFail(err) {
     console.error(err);
+    wx.hideLoading();
   },
 
   /**
@@ -184,6 +172,9 @@ Page({
         posterConfig: posterConfig
       },
       () => {
+        wx.showLoading({
+          title: "正在生成"
+        });
         Poster.create(true); // 入参：true为抹掉重新生成
       }
     );

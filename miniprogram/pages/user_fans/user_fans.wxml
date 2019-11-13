@@ -6,7 +6,7 @@
   </view>
 </view>
 
-<view class="h3 margin30">我邀请的人：</view>
+<view class="h5 margin30">我邀请的人（数量：{{count}}）：</view>
 
 <view wx:for="{{friends}}" wx:key="{{index}}"
       class="h-flex flex-justify-content-between height80 flex-align-center bg-white border-bottom"

@@ -7,14 +7,21 @@ import {
   countDown,
   debounce,
   formatDate,
-  throttle
+  randomProductUrl
 } from "../../utils/function";
 import {
   DEFAULT_SPONSOR,
-  ROUTE_DATA,
-  WECHAT_SCENE
+  PAGE_SIZE,
+  ROUTE_DATA
 } from "../../utils/uiConstants";
-import { deSceneOfAttendPage, getTitleAndRule } from "../../utils/uiFunction";
+import {
+  base64ToFile,
+  deSceneOfAttendPage,
+  genSceneOfAttendPage,
+  getRemoteUrlLocalPath,
+  getTitleAndRule
+} from "../../utils/uiFunction";
+import wxPromise from "../../utils/wxPromise";
 
 // import main from "../../faas/attendLotteryTest";
 // import main from "../../faas/approveLotteryTest";
@@ -25,7 +32,7 @@ const red = "#D55B51";
 const gray = "#8a8a8a";
 const black = "#323233";
 const white = "#fff";
-const pixelRatio = 3;
+const pixelRatio = 1;
 let posterConfig = {
   width: 660,
   height: 528,
@@ -87,7 +94,7 @@ Page({
   data: {
     lottery: {
       lottery_type: CONST.LOTTERY_TYPE_PRODUCT,
-      url: "",
+      url: CONST.DEFAULT_BG,
       id: "",
       hash: "",
       total: "",
@@ -102,162 +109,221 @@ Page({
       pic_data: null,
       attend_num: 0,
       attend_avatar_list: [],
-      attendBtnLoading: false
+      attendBtnLoading: false,
+      hasAttended: true
     },
-    hasAttended: true,
-    costLuckNum: 0,
+    costLuckNum: 0, // 消耗的运气值
     selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
-    weight_rate: "暂无排名",
+    weight_rate: "暂无",
     weight_loading: false,
     is_authorized: false,
     admin: false, // 管理员可以审批
-    showSharePopup: false
+    showSharePopup: false,
+    show_top: false,
+    home: {} //首页的数据
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function(options) {
-    let { scene, id, inviter_uid } = options;
-    const eventChannel = this.getOpenerEventChannel();
-    if (eventChannel) {
-      this.setData({
-        eventChannel: eventChannel
-      });
-    }
-    // 获取数据
     try {
-      Toast.loading({
-        mask: true,
-        message: "加载中...",
-        duration: 1000
+      console.log(`options : ${JSON.stringify(options)}`);
+      let { scene, id, inviter_uid } = options;
+      wx.showLoading({
+        title: "正在加载"
       });
 
-      console.log(`options : ${JSON.stringify(options)}`);
+      await app.silentLogin();
+
+      const eventChannel = this.getOpenerEventChannel();
+      if (eventChannel) {
+        this.eventChannel = eventChannel;
+      }
       // 假设扫码过来的 query 在 onLoad 可以拿到
       if (inviter_uid && id) {
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
         // 从分享会话进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_CHAT);
+        this.addInviter(inviter_uid);
       } else if (scene) {
         let deRet = deSceneOfAttendPage(scene);
         inviter_uid = deRet.inviter_uid;
         let prefix_id = deRet.prefix_lottery_id;
         let fullIdRes = await dao.queryLottery(1, 0, prefix_id);
         id = fullIdRes.data.objects[0].id;
-        let ret = await dao.addInviter(inviter_uid);
-        console.log(ret);
-        // 从分享海报进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_POSTER);
+        this.addInviter(inviter_uid);
       } else {
-        // 默认进入
-        app.sendReportAnalytics(WECHAT_SCENE.FROM_DEFAULT);
       }
-
-      if (!id) {
-        throw new Error("没有id");
+      if (id) {
+        await this.load(id);
       }
-
-      await app.getUserInfo(app.getUserId());
-      this.setData({
-        is_authorized: app.hasAuth()
-      });
-
-      let retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
-        id,
-        app.getUserId()
-      );
-      let attendeesPromise = dao.getLotteryAttendees(id);
-
-      //并行获取数据，防止一个一个获取
-      let attendees = await attendeesPromise;
-      let retRecord = await retRecordPromise;
-
-      let lottery, hasAttended;
-      if (retRecord.data.objects.length === 0) {
-        let ret = await dao.getLotteryById(id);
-        lottery = ret.data;
-        hasAttended = false;
-      } else {
-        lottery = retRecord.data.objects[0].lottery;
-        let user = retRecord.data.objects[0].user;
-        app.setUserInfo(user); // 顺便更新一下
-        hasAttended = true;
-      }
-
-      let admin = await dao.isAdmin();
-
-      this.setData({
-        lottery: {
-          id: lottery.id,
-          hash: lottery.id.substr(0, 10),
-          url: lottery.url,
-          total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
-          open_people_num: lottery.open_people_num,
-          avatar: lottery.avatar,
-          nickname: lottery.nickname,
-          sponsor: lottery.sponsor,
-          product_name: lottery.product_name,
-          product_num: lottery.product_num,
-          lottery_type: lottery.lottery_type,
-          desc_initiator: lottery.desc_initiator,
-          pic_data: lottery.pic_data,
-          open_date: lottery.open_date,
-          hongbao_num: CONST.HONGBAO_NUM,
-          fudai_num: CONST.FUDAI_NUM,
-          status: lottery.status,
-          attend_num: attendees.data.meta.total_count,
-          attend_avatar_list: attendees.data.objects.map(
-            item => item.avatar_cache
-          ),
-          countdownStr: countDown(lottery.open_date),
-          open_data_str: formatDate(Date.parse(lottery.open_date)),
-          show_in_main: lottery.show_in_main
-        },
-        selfLuckyNum: app.getLuckyNum(),
-        weight: hasAttended ? retRecord.data.objects[0].weight : 0,
-        costLuckNum: hasAttended ? retRecord.data.objects[0].weight / 2 : 0,
-        hasAttended,
-        admin
-      });
-      this.onCreatePoster();
+      wx.hideLoading();
     } catch (e) {
+      wx.hideLoading();
       console.log(e);
     }
   },
+  addInviter(inviter_uid) {
+    let that = this;
+    setTimeout(async () => {
+      let user_id = app.getUserId();
+      if (user_id) {
+        await dao.addInviter(inviter_uid);
+      }
+    }, 100);
+  },
+  async load(id) {
+    // 获取数据
 
-  onWeightDrag(event) {
-    // 滑块是10~100之间 ~ 运气值消耗0到最大
+    let user_id = app.getUserId();
+    let retRecordPromise;
+    if (user_id) {
+      this.setData({
+        is_authorized: app.hasAuth()
+      });
+      retRecordPromise = dao.getUserLotteryRecordByLotteryIdAndUserId(
+        id,
+        app.getUserId()
+      );
+    }
+    let attendeesPromise = dao.getLotteryAttendees(id);
+    //并行获取数据，防止一个一个获取
+    let attendees = await attendeesPromise;
+    let retRecord = await retRecordPromise;
 
-    let costLuckNum = Math.floor(
-      (event.detail.value / 100) * this.data.selfLuckyNum
-    );
-    let weight = costLuckNum * 2;
-    console.log(
-      `event.detail.value : ${event.detail.value} - weight : ${weight}`
-    );
+    let lottery, hasAttended;
+    if (!user_id || retRecord.data.objects.length === 0) {
+      let ret = await dao.getLotteryById(id);
+      lottery = ret.data;
+      hasAttended = false;
+    } else {
+      lottery = retRecord.data.objects[0].lottery;
+      let user = retRecord.data.objects[0].user;
+      app.setUserInfo(user); // 顺便更新一下
+      hasAttended = true;
+    }
 
     this.setData({
-      costLuckNum,
-      weight,
-      weight_loading: true
+      lottery: {
+        id: lottery.id,
+        hash: lottery.id.substr(0, 10),
+        total: `${lottery.total_prize / CONST.MONEY_UNIT}元/100人`,
+        open_people_num: lottery.open_people_num,
+        avatar: lottery.avatar,
+        nickname: lottery.nickname,
+        sponsor: lottery.sponsor,
+        product_name: lottery.product_name,
+        product_num: lottery.product_num,
+        lottery_type: lottery.lottery_type,
+        desc_initiator: lottery.desc_initiator,
+        pic_data: lottery.pic_data,
+        open_date: lottery.open_date,
+        hongbao_num: CONST.HONGBAO_NUM,
+        fudai_num: CONST.FUDAI_NUM,
+        status: lottery.status,
+        attend_num: attendees.data.meta.total_count,
+        attend_avatar_list: attendees.data.objects.map(
+          item => item.avatar_cache
+        ),
+        countdownStr: countDown(lottery.open_date),
+        open_data_str: formatDate(Date.parse(lottery.open_date)),
+        show_in_main: lottery.show_in_main,
+        hasAttended,
+        attend_id: hasAttended ? retRecord.data.objects[0].id : null
+      },
+      selfLuckyNum: app.getLuckyNum(),
+      old_weight: hasAttended ? retRecord.data.objects[0].weight : 0,
+      weight: hasAttended ? retRecord.data.objects[0].weight : 0,
+      costLuckNum: hasAttended ? retRecord.data.objects[0].weight : 0
     });
-
-    let id = this.data.lottery.id;
-    this.getWeightRate(id, weight);
+    let that = this;
+    //加快加载速度
+    setTimeout(async () => {
+      let imagePathPromise = getRemoteUrlLocalPath(lottery.url);
+      let user_id = app.getUserId();
+      if (user_id) {
+        let isAdminPromise = dao.isAdmin();
+        let wxCodePromise = that.getWxCode();
+        that.data.admin = await isAdminPromise;
+        that.data.lottery.wxCode = await wxCodePromise;
+      }
+      that.data.lottery.image_path = await imagePathPromise;
+      that.setData(that.data);
+      that.onCreatePoster();
+      if (hasAttended) {
+        let weight = that.data.weight;
+        that.getWeightRate(id, weight);
+      } else {
+        that.getWeightRate(id, 0);
+      }
+    });
   },
+  onShowTop: function(event) {
+    this.setData({
+      show_top: !this.data.show_top
+    });
+  },
+  onWeightChange: debounce(function(event) {
+    // 滑块是10~100之间 ~ 运气值消耗0到最大
+
+    let costLuckNum = parseInt(event.detail);
+    let hasAttended = this.data.lottery.hasAttended;
+    let weight = costLuckNum;
+    let old_weight = this.data.old_weight;
+    let id = this.data.lottery.id;
+    let add = weight - old_weight;
+    if (hasAttended) {
+      // 减少没有作用
+      // 增加必须在现有运气值范围内，要保存一个老的权重值
+      // 直接发送增加的权重
+      if (add < 0) {
+        Toast.fail("不能减少权重");
+        this.setData({
+          weight: old_weight
+        });
+        return;
+      } else if (add > 0) {
+        let ret = dao.addWeight({
+          lottery_id: this.data.lottery.id,
+          attend_id: this.data.lottery.attend_id,
+          weight: add
+        });
+        if (ret) {
+          let selfLuckyNum = this.data.selfLuckyNum - add;
+
+          this.setData({
+            weight: old_weight + add,
+            old_weight: old_weight + add,
+            costLuckNum,
+            weight_loading: true,
+            selfLuckyNum
+          });
+          this.getWeightRate(id, this.data.weight);
+        }
+      }
+    } else {
+      console.log(`weight : ${weight}`);
+      this.setData({
+        costLuckNum,
+        weight,
+        weight_loading: true
+      });
+      this.getWeightRate(id, weight);
+    }
+  }),
   getWeightRate: debounce(async function(id, weight) {
     let that = this;
     console.log(`getWeightRate - weight: ${weight}，id: ${id}`);
-    let weight_rate = await dao.getWeightRate(id, weight);
+    let top3Promise = dao.getTopNWeight(id, 3);
+    let wrPromise = dao.getWeightRate(app.getUserId(), id, weight);
+    let weight_rate = await wrPromise;
+    let weight_top3 = await top3Promise;
     that.setData({
       weight_loading: false,
-      weight_rate
+      weight_rate,
+      weight_top3
     });
   }),
-
   goToAddLottery: function(e) {
     wx.navigateTo({
       url: `${ROUTE.ADD_LOTTERY}`
@@ -272,7 +338,7 @@ Page({
         console.log(`event.detail.formId - ${event.detail.formId}`);
       }
 
-      if (this.data.hasAttended) {
+      if (this.data.lottery.hasAttended) {
         return;
       }
 
@@ -299,7 +365,6 @@ Page({
         weight: this.data.weight,
         lottery_id: this.data.lottery.id
       });
-
       if (res) {
         // 更新一下抽奖人数和头像
         let attendees = await dao.getLotteryAttendees(this.data.lottery.id);
@@ -307,18 +372,19 @@ Page({
         this.data.lottery.attend_avatar_list = attendees.data.objects.map(
           item => item.avatar_cache
         );
-
         this.setData(this.data);
-        // 参与抽奖会减少运气值，这边重新获取运气值，不要要重置 selfLuckyNum，因为当前页面不能操作了
         await app.getUserInfo();
-        app.sendAttendLotteryEvent(
-          this.data.lottery.id,
-          this.data.lottery_type
-        );
-        this.setData({ attendBtnLoading: false, hasAttended: true });
-        this.data.eventChannel.emit(
+        this.data.selfLuckyNum = app.getLuckyNum();
+        this.data.attendBtnLoading = false;
+        this.data.lottery.hasAttended = true;
+        this.setData(this.data);
+        this.eventChannel.emit(
           ROUTE_DATA.FROM_ATTEND_LOTTERY_TO_HOME,
           this.data.lottery.id
+        );
+        app.sendAttendLotteryEvent(
+          this.data.lottery.id,
+          this.data.lottery.lottery_type
         );
       } else {
         this.setData({ attendBtnLoading: false });
@@ -340,6 +406,7 @@ Page({
         that.setData({
           is_authorized: app.hasAuth()
         });
+        await this.load(that.data.lottery.id);
       },
       err => {
         // **err 有两种情况**：用户拒绝授权，HError 对象上会包含基本用户信息：id、openid、unionid；其他类型的错误，如网络断开、请求超时等，将返回 HError 对象（详情见下方注解）
@@ -356,6 +423,25 @@ Page({
   },
   onShare: function(e) {
     this.setData({ showSharePopup: true });
+  },
+  getWxCode: async function() {
+    let download_url;
+    try {
+      let user_id = app.getUserId(); //14
+      let scene = genSceneOfAttendPage(user_id, this.data.lottery.id);
+      let res = await wx.BaaS.getWXACode(
+        "wxacodeunlimit",
+        {
+          scene,
+          page: `${ROUTE.ATTEND_LOTTERY.substring(1)}`
+        },
+        false
+      );
+      download_url = await base64ToFile(res.image);
+    } catch (e) {
+      console.log(e);
+    }
+    return download_url;
   },
   genPic: function(e) {
     let that = this;
@@ -403,15 +489,38 @@ Page({
       console.log(e);
     }
   },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  // onReachBottom: throttle(async function() {
+  //   let lotteries = this.data.home.lotteries;
+  //   for (let i = 0; i < lotteries.length; i++) {
+  //     if (lotteries[i].id === this.data.lottery.id) {
+  //       let next = i + 1;
+  //       if (next < lotteries.length) {
+  //         await this.load(lotteries[next].id);
+  //       } else {
+  //       }
+  //     }
+  //   }
+  // }),
   onShareAppMessage: function() {
     this.setData({ showSharePopup: false });
-
-    return {
-      title: `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`,
-      path: `${ROUTE.ATTEND_LOTTERY}?id=${
+    let nickname = app.getNickname();
+    let title, path;
+    if (nickname) {
+      title = `${app.getNickname()}邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`;
+      path = `${ROUTE.ATTEND_LOTTERY}?id=${
         this.data.lottery.id
-      }&inviter_uid=${app.getUserId()}`,
-      imageUrl: this.data.share_url,
+      }&inviter_uid=${app.getUserId()}`;
+    } else {
+      title = `邀请你参与【${DEFAULT_SPONSOR}】发起的抽奖`;
+      path = `${ROUTE.ATTEND_LOTTERY}?id=${this.data.lottery.id}`;
+    }
+    return {
+      title: title,
+      path: path,
+      imageUrl: this.share_url,
       success: function(res) {
         console.log("成功", res);
       }
@@ -420,9 +529,7 @@ Page({
   onPosterSuccess(e) {
     const { detail } = e;
     console.log(detail);
-    this.setData({
-      share_url: detail
-    });
+    this.share_url = detail;
   },
   onPosterFail(err) {
     console.error(err);
@@ -433,7 +540,7 @@ Page({
    */
   onCreatePoster() {
     let { lottery } = this.data;
-    posterConfig.images[0].url = lottery.url;
+    posterConfig.images[0].url = lottery.image_path;
 
     let { title, rule } = getTitleAndRule(lottery);
     posterConfig.texts[0].text = title;

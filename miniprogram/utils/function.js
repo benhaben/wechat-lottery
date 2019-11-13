@@ -74,10 +74,6 @@ export function randomMoneyUrl() {
   ];
 }
 
-export function randomProductUrl() {
-  return CONST.DEFAULT_URL[randomNum(0, CONST.DEFAULT_URL.length - 1)];
-}
-
 //生成从minNum到maxNum的随机数
 export function randomNum(minNum, maxNum) {
   switch (arguments.length) {
@@ -124,7 +120,7 @@ export function throttle(fn, gapTime) {
  *
  * @return {Function}     返回一个“去弹跳”了的函数
  */
-export function debounce(fn, delay = 1500) {
+export function debounce(fn, delay = 1000) {
   // 定时器，用来 setTimeout
   var timer;
 

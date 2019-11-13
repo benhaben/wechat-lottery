@@ -80,4 +80,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  margin: 20rpx 20rpx;
 }

@@ -1,9 +1,9 @@
 global.regeneratorRuntime = require("./utils/regenerator/runtime-module");
 import store from "./utils/store.js";
 import {
-  WECHAT_REPORT_ANALYTICS_MAP,
   WECHAT_SCENE,
-  ATTEND_LOTTERY_EVENT
+  ATTEND_LOTTERY_EVENT,
+  ANA_USER_SOURCE
 } from "./utils/uiConstants";
 import SystemInfoUtil from "./utils/systemInfoUtil";
 
@@ -16,13 +16,6 @@ App({
 
     let clientID = this.globalData.clientId;
     wx.BaaS.init(clientID);
-
-    let that = this;
-    wx.getSystemInfo({
-      success: function(res) {
-        that.globalData.systemInfo = res;
-      }
-    });
     SystemInfoUtil.init();
   },
   hasAuth: function() {
@@ -44,10 +37,6 @@ App({
   getLuckyNum: function() {
     let user = store.getUserInfo();
     return user.lucky_num;
-  },
-  getTagItems: function() {
-    let user = store.getUserInfo();
-    return user.tag_items;
   },
   getDesc: function() {
     let user = store.getUserInfo();
@@ -77,12 +66,17 @@ App({
     if (!uid) {
       uid = this.getUserId();
     }
-    let MyUser = new wx.BaaS.User();
-    let res = await MyUser.get(uid);
-    var userInfo = res.data;
-    store.setUserInfo(userInfo);
+
+    let userInfo;
+    if (uid) {
+      let MyUser = new wx.BaaS.User();
+      let res = await MyUser.get(uid);
+      userInfo = res.data;
+      store.setUserInfo(userInfo);
+    }
     return userInfo;
   },
+
   saveInvitationInfo({ uid, lotteryID }) {
     wx.BaaS.storage.set("my_inviter_uid", uid);
     wx.BaaS.storage.set("invitation_lottery_id", lotteryID);
@@ -96,50 +90,43 @@ App({
       lotteryID
     };
   },
-  /**
-   * 事件上报
-   * @param {String} eventName
-   * @param {String} key
-   * @param {String} value
-   */
-  wxReportAnalytics(eventName, key, value = "1") {
-    wx.reportAnalytics(eventName, {
-      key: value
-    });
-  },
   sendAttendLotteryEvent(id, lottery_type) {
     wx.reportAnalytics(ATTEND_LOTTERY_EVENT, {
-      lottery_type: lottery_type,
+      lottery_type: parseInt(lottery_type),
       id: id
     });
   },
-  sendReportAnalytics(scene) {
-    let actions =
-      WECHAT_REPORT_ANALYTICS_MAP[scene] ||
-      WECHAT_REPORT_ANALYTICS_MAP[WECHAT_SCENE.FROM_DEFAULT];
-    actions.map(item => {
-      this.wxReportAnalytics(...item);
+  silentLogin: function() {
+    let that = this;
+
+    return new Promise((resolve, reject) => {
+      // 由于此处登录是异步的，可能会有用户已经授权，但是本地数据已经清空了，导致进入页面是没有用户时的状态
+      // 由于小程序很多页面都可以进入，所以还不太知道在哪里调用这个方法更好
+      let user_id = this.getUserId();
+      if (!user_id) {
+        wx.BaaS.auth
+          .getCurrentUser()
+          .then(async user => {
+            that.setUserInfo(user);
+            resolve(true);
+          })
+          .catch(err => {
+            wx.BaaS.auth.loginWithWechat().then(async user => {
+              that.setUserInfo(user);
+              resolve(true);
+            });
+          });
+      } else {
+        resolve(true);
+      }
     });
   },
-  onShow: function(options) {
+  onShow: async function(options) {
     // 上报模版消息卡片点击事
     wx.BaaS.reportTemplateMsgAnalytics(options);
-
-    var self = this;
-    wx.BaaS.auth
-      .getCurrentUser()
-      .then(user => {
-        self.getUserInfo(user.get("id"));
-      })
-      .catch(err => {
-        wx.BaaS.auth.loginWithWechat().then(user => {
-          self.getUserInfo(user.get("id"));
-        });
-      });
   },
 
   globalData: {
-    systemInfo: null,
     clientId: "637bcefdc238706ba166" // 从 BaaS 后台获取 ClientID
   }
 });

@@ -43,13 +43,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 9,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/attend_lottery/attend_lottery",
 					"pathName": "pages/attend_lottery/attend_lottery",
-					"query": "id=5da2d44f13334b1fd69ebde1&inviter_uid=94581109019031",
+					"query": "id=5daaeb94cb158e0737ddb6d7",
 					"scene": 1001
 				},
 				{
@@ -98,7 +98,7 @@
 					"id": 7,
 					"name": "pages/win_lottery/win_lottery",
 					"pathName": "pages/win_lottery/win_lottery",
-					"query": "id=5d9da8ad95e3e526b9e3c61d",
+					"query": "id=5da842390723470db6580aa0",
 					"scene": 1014
 				},
 				{
@@ -106,6 +106,13 @@
 					"name": "pages/user_all_lotteries/user_all_lotteries",
 					"pathName": "pages/user_all_lotteries/user_all_lotteries",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/win_lottery/win_lottery",
+					"pathName": "pages/win_lottery/win_lottery",
+					"query": "id=5daee98fdc91e30f44316075",
 					"scene": null
 				}
 			]

@@ -144,7 +144,7 @@ Page({
   userInfoHandler(data) {
     let that = this;
     wx.showLoading({
-      title: ""
+      title: "正在授权"
     });
 
     wx.BaaS.auth.loginWithWechat(data).then(

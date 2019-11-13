@@ -1,8 +1,11 @@
+var app = getApp();
+
 export default class SystemInfoUtil {
   static PC = "pc";
   static IOS = "ios";
   static ANDROID = "android";
-
+  static width;
+  static model;
   /**
    * 平台 ios,andorid,pc
    */
@@ -13,18 +16,25 @@ export default class SystemInfoUtil {
   static wxSDKVersion;
 
   static init() {
-    let res = wx.getSystemInfoSync();
-    console.log(`res.platform: ${res.platform}`);
-    if (res.platform == "devtools") {
-      SystemInfoUtil.platform = SystemInfoUtil.PC;
-    } else if (res.platform == "ios") {
-      SystemInfoUtil.platform = SystemInfoUtil.IOS;
-    } else if (res.platform == "android") {
-      SystemInfoUtil.platform = SystemInfoUtil.ANDROID;
-    }
+    try {
+      let res = wx.getSystemInfoSync();
+      SystemInfoUtil.width = res.windowWidth;
+      SystemInfoUtil.model = res.model;
+      console.log(`res.platform: ${res.platform}`);
+      if (res.platform == "devtools") {
+        SystemInfoUtil.platform = SystemInfoUtil.PC;
+      } else if (res.platform == "ios") {
+        SystemInfoUtil.platform = SystemInfoUtil.IOS;
+      } else if (res.platform == "android") {
+        SystemInfoUtil.platform = SystemInfoUtil.ANDROID;
+      }
 
-    let version = res.SDKVersion;
-    version = version.replace(/\./g, "");
-    SystemInfoUtil.wxSDKVersion = version;
+      let version = res.SDKVersion;
+      version = version.replace(/\./g, "");
+      SystemInfoUtil.wxSDKVersion = version;
+    } catch (e) {
+      // Do something when catch error
+      console.log(e);
+    }
   }
 }

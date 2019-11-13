@@ -13,9 +13,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url:
-      "https://media.ifanrusercontent.com/tavatar/a0/7c/a07ce8306349636cdf930c0f2562a90b82ab6778.jpg",
-    nickname: "麦老师",
+    count: 0,
+    url: "",
+    nickname: "",
     offset: 0, // 加载更多的时候偏移量
     friends: []
   },
@@ -43,17 +43,19 @@ Page({
       PAGE_SIZE,
       this.data.offset
     );
-    if (friends.data.objects <= 0) {
+    if (!(friends.data.objects && friends.data.objects.length > 0)) {
       return;
     }
 
+    let count = friends.data.meta.total_count;
     let add = friends.data.objects.map(friend => {
       friend.created_at = formatDate(friend.created_at * 1000);
       return friend;
     });
     this.setData({
       friends: this.data.friends.concat(add),
-      offset: this.data.offset + add.length
+      offset: this.data.offset + add.length,
+      count
     });
   }
 });

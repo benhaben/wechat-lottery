@@ -13,6 +13,7 @@ import dao from "../../utils/dao";
 import Toast from "../../lib/van/toast/toast";
 import { ROUTE_DATA } from "../../utils/uiConstants";
 import { vAddUpdateMoneyLotteryParam } from "../../utils/validateFn";
+import { payLottery } from "../../utils/uiFunction";
 
 const { regeneratorRuntime } = global;
 
@@ -235,7 +236,7 @@ Page({
       let totalCost = this.data.total_prize;
 
       // 用户可能取消支付，产生一个未支付订单
-      await this.pay(lottery, totalCost);
+      // await this.pay(lottery, totalCost);
 
       this.setData({ loading: false });
 
@@ -248,16 +249,8 @@ Page({
     }
   },
   async pay(lottery, cost) {
-    const params = {
-      // totalCost: add_lottery.total_prize,
-      totalCost: cost,
-      merchandiseDescription: `${lottery.nickname}发起的抽奖：${lottery.id}`,
-      merchandiseSchemaID: TABLE_ID.LOTTERY,
-      merchandiseRecordID: lottery.id,
-      merchandiseSnapshot: lottery
-    };
-
-    return wx.BaaS.pay(params);
+    let sponsor = lottery.sponsor || app.getNickname();
+    return payLottery(lottery, cost, sponsor);
   },
   onPay: async function(event) {
     try {
