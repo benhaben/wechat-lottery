@@ -9,7 +9,7 @@
       未登录
     </view>
     <view class="margin30 color-red" bindtap="onGotoSign">
-      {{lucky_num}} 运气值 | 签到
+      {{lucky_num}} 淘货点 | 签到
       <van-icon class="link-arrow-vertical-align" name="arrow"/>
     </view>
   </view>
@@ -21,7 +21,7 @@
     </view>
     <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onSendLotteries">
       <view class="stats__value">{{send_num}}</view>
-      <view class="stats__title">发起抽奖</view>
+      <view class="stats__title">发布淘货</view>
     </view>
     <view class="stats__area flex-grow-1 h-flex flex-col flex-center" bindtap="onGetLotteries">
       <view class="stats__value">{{get_num}}</view>
@@ -49,7 +49,7 @@
                 link-type="navigateTo"
                 url="/pages/user_approve/user_approve"
                 is-link/>
-      <van-cell title="管理员发起平台红包"
+      <van-cell title="管理员发起平台大福袋"
                 icon="point-gift-o"
                 link-type="navigateTo"
                 url="/pages/add_lottery/add_lottery"

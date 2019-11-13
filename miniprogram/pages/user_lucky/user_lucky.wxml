@@ -4,7 +4,7 @@
     <view class="color-red">{{lucky_num}}</view>
   </view>
   <view class="margin30" bindtap="onGotoLuckyDetails">
-    运气值明细
+    淘货点明细
     <van-icon class="link-arrow-vertical-align" name="arrow"/>
   </view>
 </view>

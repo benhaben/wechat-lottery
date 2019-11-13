@@ -135,19 +135,19 @@
   <!-- <button open-type="getUserInfo" bindgetuserinfo="userInfoHandler">用户授权</button> -->
 
   <form class="bottom" report-submit name="add_product_lottery" bindsubmit="onConfirm" wx:if="{{create}}">
-    <view class="bottom__info">发起抽奖后不可取消</view>
+    <view class="bottom__info">发布淘货后不可取消</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"
             size="large"
             open-type="getUserInfo"
-            bindgetuserinfo="userInfoHandler">发起抽奖
+            bindgetuserinfo="userInfoHandler">发布淘货
     </button>
 
     <button wx:else
             loading="{{loading}}"
             size="large"
             form-type="submit"
-            class="bottom__btn color-white bg-red">发起抽奖
+            class="bottom__btn color-white bg-red">发布淘货
     </button>
   </form>
 

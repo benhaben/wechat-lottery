@@ -26,7 +26,7 @@ Page({
     id: null,
     url: randomMoneyUrl(),
     total_prize: 1.8, //默认第一个 9.9
-    lucky_num_per: 18, // 每个人的奖励运气值
+    lucky_num_per: 18, // 每个人的奖励淘货点
     open_people_num: CONST.DEFAULT_OPEN_PEOPLE_NUM,
     hongbao_num: CONST.HONGBAO_NUM,
     fudai_num: CONST.FUDAI_NUM,

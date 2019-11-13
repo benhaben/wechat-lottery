@@ -5,7 +5,7 @@
     <view class="h-flex flex-row flex-align-center">
       <van-icon class="bar__lucky-like color-red" size="40rpx" name="like"/>
       <view class="margin15 ">
-        {{lucky_num}} 运气值
+        {{lucky_num}} 淘货点
       </view>
     </view>
 

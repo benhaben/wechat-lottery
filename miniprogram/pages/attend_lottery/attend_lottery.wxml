@@ -28,7 +28,7 @@
 
   <view wx:if="{{lottery.status == 2 && selfLuckyNum > 1 }}"
         class="bg-white margin30-bottom padding30 h-flex flex-col flex-justify-content-between">
-    <view class="h6 margin15-bottom">消耗运气值，增加中奖概率</view>
+    <view class="h6 margin15-bottom">消耗淘货点，增加中奖概率</view>
     <view class="h-flex flex-justify-content-between flex-align-center margin15-bottom">
       <view class="text-left">
         <text class="info-text">中奖概率：</text>
@@ -39,7 +39,7 @@
                    show-minus="{{!lottery.hasAttended}}" input-width="58px" bind:change="onWeightChange"/>
     </view>
     <view class="h-flex flex-justify-content-between flex-align-center margin15-bottom">
-      <view class="text-left"><text class="info-text">当前运气值：</text>{{selfLuckyNum}}</view>
+      <view class="text-left"><text class="info-text">当前淘货点：</text>{{selfLuckyNum}}</view>
       <view bindtap="onShowTop">
         <van-icon wx:if="{{show_top}}" size="20px" name="arrow-down" />
         <van-icon wx:else size="20px" name="arrow" />
@@ -122,7 +122,7 @@
       分享
     </button>
     <view class="info-text text-center padding15-top">
-      邀请一个新朋友参与，就能获得100运气值
+      邀请一个新朋友参与，就能获得100淘货点
     </view>
   </view>
 

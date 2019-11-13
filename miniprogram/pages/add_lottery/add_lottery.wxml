@@ -40,9 +40,9 @@
         error="{{error_product_num}}"
         maxlength="10"
       />
-      <van-cell title="每个福袋运气值" value="{{lucky_num_per}}"/>
-      <van-cell title="红包个数" value="{{hongbao_num}}"/>
-      <van-cell title="福袋个数" value="{{fudai_num}}"/>
+      <van-cell title="每个小福袋淘货点" value="{{lucky_num_per}}"/>
+      <van-cell title="大福袋个数" value="{{hongbao_num}}"/>
+      <van-cell title="小福袋个数" value="{{fudai_num}}"/>
 
     </van-cell-group>
   </view>
@@ -109,19 +109,19 @@
   <!-- <button open-type="getUserInfo" bindgetuserinfo="userInfoHandler">用户授权</button> -->
 
   <form class="bottom" report-submit name="add_lottery" bindsubmit="onConfirm" wx:if="{{create}}">
-    <view class="bottom__info">发起抽奖后不可取消</view>
+    <view class="bottom__info">发布淘货后不可取消</view>
     <button wx:if="{{!auth}}"
             class="bottom__btn color-white bg-red"
             size="large"
             open-type="getUserInfo"
-            bindgetuserinfo="userInfoHandler">发起抽奖
+            bindgetuserinfo="userInfoHandler">发布淘货
     </button>
 
     <button wx:else
             loading="{{loading}}"
             size="large"
             form-type="submit"
-            class="bottom__btn color-white bg-red">发起抽奖
+            class="bottom__btn color-white bg-red">发布淘货
     </button>
   </form>
 

@@ -112,8 +112,8 @@ Page({
       attendBtnLoading: false,
       hasAttended: true
     },
-    costLuckNum: 0, // 消耗的运气值
-    selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个运气值
+    costLuckNum: 0, // 消耗的淘货点
+    selfLuckyNum: 0, // 大于1才能抽奖，因为抽奖要消耗一个淘货点
     weight: 0, // 和抽奖无关，和个人相关，所以没放在lottery对象中
     weight_rate: "暂无",
     weight_loading: false,
@@ -264,7 +264,7 @@ Page({
     });
   },
   onWeightChange: debounce(function(event) {
-    // 滑块是10~100之间 ~ 运气值消耗0到最大
+    // 滑块是10~100之间 ~ 淘货点消耗0到最大
 
     let costLuckNum = parseInt(event.detail);
     let hasAttended = this.data.lottery.hasAttended;
@@ -274,7 +274,7 @@ Page({
     let add = weight - old_weight;
     if (hasAttended) {
       // 减少没有作用
-      // 增加必须在现有运气值范围内，要保存一个老的权重值
+      // 增加必须在现有淘货点范围内，要保存一个老的权重值
       // 直接发送增加的权重
       if (add < 0) {
         Toast.fail("不能减少权重");
@@ -343,7 +343,7 @@ Page({
       }
 
       if (this.data.selfLuckyNum < 1) {
-        Toast.fail("运气值不足");
+        Toast.fail("淘货点不足");
         return;
       }
       this.setData({ attendBtnLoading: true });

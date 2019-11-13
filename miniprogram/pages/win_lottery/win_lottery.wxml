@@ -15,11 +15,11 @@
         <text wx:if="{{lottery_result == 0}}" class="color-gray">很遗憾，这次没有中奖</text>
         <text wx:else class="color-red">恭喜，您已经中奖</text>
       </view>
-      <view wx:if="{{lottery_result == 1}}" class="h3 margin30-bottom">奖品：好运红包
+      <view wx:if="{{lottery_result == 1}}" class="h3 margin30-bottom">奖品：好运大福袋
         <text class="color-red">{{get_balance}}</text>
         元
       </view>
-      <view wx:elif="{{lottery_result == 2}}" class="h3 margin30-bottom">奖品：运气值
+      <view wx:elif="{{lottery_result == 2}}" class="h3 margin30-bottom">奖品：淘货点
         <text class="color-red">{{get_lucky_num}}</text>
         个
       </view>
@@ -52,7 +52,7 @@
       <view wx:if="{{lottery.lottery_type == 0}}" class="h-flex flex-col flex-align-center">
 
         <view class="win-details" wx:if="{{hongbao_image_list && hongbao_image_list.length>0}}">
-          <view class="win-peoples-title bg-base">奖品：好运红包
+          <view class="win-peoples-title bg-base">奖品：好运大福袋
             <text class="color-red">{{get_balance}}</text>
             元
           </view>
@@ -67,9 +67,9 @@
         </view>
 
         <view class="win-details" wx:if="{{fudai_image_list && fudai_image_list.length>0}}">
-          <view class="win-peoples-title bg-base">奖品：好运福袋
+          <view class="win-peoples-title bg-base">奖品：好运小福袋
             <text class="color-red">{{lottery.lucky_num_per}}</text>
-            个运气值
+            个淘货点
           </view>
           <view class="avatar-list">
             <image class="big-avatar margin30-right" wx:for="{{fudai_image_list}}" wx:key="{{index}}"
